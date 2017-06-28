@@ -1,0 +1,63 @@
+R -- !PORTF! -- R
+
+-Logging - DONE
+-Smart pointers - DONE  
+-Resource file - DONE
+-Resource manager - DONE 
+
+-PlatformSDL2 - DONE
+
+-U graphics - Treba da bude VideoDriver, renderer, shader program, textures, render commands, render batch 
+  - Init GLES - DONE
+  - Shader base class --- DONE
+  - Create basic shader -- DONE
+  - Draw VBO using shader -- DONE
+  - Research all the view-port and transformation stuff - DONE
+
+- Rename display to platform - DONE
+- Module controller class (StormEngine) - DONE - Or not needed 4 now ?
+- Make StormVideoDriver not singleton - DONE
+- Vertex struct (position, color) - DONE
+- Plane class - DONE
+
+-------------------------------------------- HERE --------------------------------------------
+
+- Basic renderer and render command classes - DONE
+- Coordinate space calculations (form -1 to 1 == from 0 1280, etc..) - DONE
+- Implement object pool in renderer - DONE
+- Go over code and fix shits (organize, code !IMPLEMENT PROPER DESTRUCTORS!, find TODO, comment stuff, etc..) - DONE
+- Basic Input handling - DONE
+- Some kind of basic main class for testing (With FPS regulation and input) - DONE
+- Texture coloring shader - DONE
+- Some kind of Texture manager - DONE
+- Main engine class that initialize all components - NEEDS SOME REWORK
+
+--- DO NOT CONTINUE UNTIL THIS IS COMPLETED ---
+***    Implement entity component system    ***
+   - Create base classes - DONE
+   - Create simple plane component - DONE - NEED MORE TESTING
+   - Create simple texture rendering component and system - DONE
+--- --------------------------------------- ---
+
+- Scene manager class
+- Test above stuff
+- Use object pool for vertex and index data in StormRenderCommand class and test it good.
+- In storm texture manager return default textur  e if requested one is not found
+- Rename all storm stuff to S stuff (StormShader to SShader || StormVideoDriver to SVideoDriver)
+- Go over all shit in utils directory, remove unused stuff, fix code styling, etc...
+- Draw dependency diagram and rework dependencies if needed.
+- Create benchmark
+- Component system: Create 2 vectors in scene. One will hold renderable systems and the other one will hold tickable systems. If system is both tickable and renderable, it will be in both vecotrs.
+- EXPERIMENT: Separate graphics and logic ticking threads
+- Rethink/Rework StormEngine class
+
+- Create sprite animation (animated texture) component 
+- Sort render stuff by Z coordinate
+
+---- LONG(medium) TERM ----
+- FPS and ticking rate is currently limited only by SDL's vsync system. Create custom system for limiting FPS(ticking rate)
+- Refactor storm object pool class
+- Test for memory leaks
+- Create scene object component dependency system (for example, texture component is depended on plane component)
+
+g++ -std=c++11 main.cpp src/*.cpp src/resources/*.cpp libs/easyloggingpp/*.cc src/platforms/*.cpp src/graphics/*.cpp src/utils/*.cpp -lSDL2 -lSDL2_image -lGLEW -lGL

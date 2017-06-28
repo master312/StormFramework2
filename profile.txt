@@ -1,0 +1,704 @@
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 2 byte(s) for 2.63% of 0.38 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]     31.6    0.01    0.11                 SSceneComStaticTexture::render(StormRenderer*) [1]
+                0.02    0.02 2876000/2876000     StormRenderCommand::setVertexData(StormVertex*, unsigned short) [5]
+                0.00    0.04 2876000/2876000     StormRenderer::queueCommand(StormRenderCommand*) [7]
+                0.02    0.00 2876000/2876000     StormRenderCommand::setDefaultIndices() [15]
+                0.00    0.02 2876000/2876000     StormRenderer::newCommand() [18]
+                0.00    0.00 2876000/2876000     StormRenderCommand::setTexture(StormTexture*) [52]
+-----------------------------------------------
+                0.04    0.07    2876/2876        StormEngine::renderTick() [3]
+[2]     28.9    0.04    0.07    2876         StormRenderer::flush() [2]
+                0.00    0.03    2876/2877        StormRenderer::clearQueue() [6]
+                0.01    0.01 2876000/2876000     StormRenderCommand::execute(StormRenderer*) [16]
+                0.01    0.00 2878876/5757753     bool __gnu_cxx::operator!=<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >(__gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > > const&, __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > > const&) [12]
+                0.01    0.00 2876000/5752000     __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >::operator++() [20]
+                0.00    0.00 2876000/5752000     __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >::operator*() const [49]
+                0.00    0.00    2876/5753        std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::begin() [56]
+                0.00    0.00    2876/5753        std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::end() [55]
+-----------------------------------------------
+                                                 <spontaneous>
+[3]     28.9    0.00    0.11                 StormEngine::renderTick() [3]
+                0.04    0.07    2876/2876        StormRenderer::flush() [2]
+-----------------------------------------------
+                                                 <spontaneous>
+[4]     13.2    0.05    0.00                 VectorT2<float>::VectorT2() [4]
+-----------------------------------------------
+                0.02    0.02 2876000/2876000     SSceneComStaticTexture::render(StormRenderer*) [1]
+[5]     10.5    0.02    0.02 2876000         StormRenderCommand::setVertexData(StormVertex*, unsigned short) [5]
+                0.02    0.00 11504000/11508004     StormVertex::StormVertex() [11]
+-----------------------------------------------
+                0.00    0.00       1/2877        StormRenderer::deinitialize() [32]
+                0.00    0.03    2876/2877        StormRenderer::flush() [2]
+[6]      9.2    0.00    0.04    2877         StormRenderer::clearQueue() [6]
+                0.00    0.02 2876000/2876000     StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::deleteObject(StormRenderCommand*) [14]
+                0.01    0.00 2878877/5757753     bool __gnu_cxx::operator!=<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >(__gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > > const&, __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > > const&) [12]
+                0.01    0.00 2876000/5752000     __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >::operator++() [20]
+                0.00    0.00 2876000/5752000     __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >::operator*() const [49]
+                0.00    0.00    2877/5753        std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::begin() [56]
+                0.00    0.00    2877/5753        std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::end() [55]
+                0.00    0.00    2877/2877        std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::clear() [62]
+-----------------------------------------------
+                0.00    0.04 2876000/2876000     SSceneComStaticTexture::render(StormRenderer*) [1]
+[7]      9.2    0.00    0.04 2876000         StormRenderer::queueCommand(StormRenderCommand*) [7]
+                0.01    0.03 2876000/2876000     std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::push_back(StormRenderCommand* const&) [8]
+-----------------------------------------------
+                0.01    0.03 2876000/2876000     StormRenderer::queueCommand(StormRenderCommand*) [7]
+[8]      9.2    0.01    0.03 2876000         std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::push_back(StormRenderCommand* const&) [8]
+                0.01    0.02 2875989/2876000     _ZNSt16allocator_traitsISaIP18StormRenderCommandEE9constructIS1_IRKS1_EEEvRS2_PT_DpOT0_ [10]
+                0.00    0.00      11/11          void std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_emplace_back_aux<StormRenderCommand* const&>(StormRenderCommand* const&) [36]
+-----------------------------------------------
+                                                 <spontaneous>
+[9]      7.9    0.03    0.00                 StormIntrusivePtr<StormTexture>::get() const [9]
+-----------------------------------------------
+                0.00    0.00      11/2876000     void std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_emplace_back_aux<StormRenderCommand* const&>(StormRenderCommand* const&) [36]
+                0.01    0.02 2875989/2876000     std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::push_back(StormRenderCommand* const&) [8]
+[10]     6.6    0.01    0.02 2876000         _ZNSt16allocator_traitsISaIP18StormRenderCommandEE9constructIS1_IRKS1_EEEvRS2_PT_DpOT0_ [10]
+                0.01    0.00 2876000/5752011     StormRenderCommand* const& std::forward<StormRenderCommand* const&>(std::remove_reference<StormRenderCommand* const&>::type&) [13]
+                0.00    0.01 2876000/2876000     _ZN9__gnu_cxx13new_allocatorIP18StormRenderCommandE9constructIS2_IRKS2_EEEvPT_DpOT0_ [28]
+-----------------------------------------------
+                0.00    0.00       4/11508004     __static_initialization_and_destruction_0(int, int) [38]
+                0.00    0.00    4000/11508004     SSceneComPlane::SSceneComPlane() [35]
+                0.02    0.00 11504000/11508004     StormRenderCommand::setVertexData(StormVertex*, unsigned short) [5]
+[11]     5.3    0.02    0.00 11508004         StormVertex::StormVertex() [11]
+-----------------------------------------------
+                0.01    0.00 2878876/5757753     StormRenderer::flush() [2]
+                0.01    0.00 2878877/5757753     StormRenderer::clearQueue() [6]
+[12]     5.3    0.02    0.00 5757753         bool __gnu_cxx::operator!=<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >(__gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > > const&, __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > > const&) [12]
+                0.00    0.00 11515506/11515506     __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >::base() const [48]
+-----------------------------------------------
+                0.00    0.00      11/5752011     void std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_emplace_back_aux<StormRenderCommand* const&>(StormRenderCommand* const&) [36]
+                0.01    0.00 2876000/5752011     _ZNSt16allocator_traitsISaIP18StormRenderCommandEE9constructIS1_IRKS1_EEEvRS2_PT_DpOT0_ [10]
+                0.01    0.00 2876000/5752011     _ZN9__gnu_cxx13new_allocatorIP18StormRenderCommandE9constructIS2_IRKS2_EEEvPT_DpOT0_ [28]
+[13]     5.3    0.02    0.00 5752011         StormRenderCommand* const& std::forward<StormRenderCommand* const&>(std::remove_reference<StormRenderCommand* const&>::type&) [13]
+-----------------------------------------------
+                0.00    0.02 2876000/2876000     StormRenderer::clearQueue() [6]
+[14]     5.3    0.00    0.02 2876000         StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::deleteObject(StormRenderCommand*) [14]
+                0.02    0.00 2876000/2876000     StormRenderCommand::~StormRenderCommand() [17]
+-----------------------------------------------
+                0.02    0.00 2876000/2876000     SSceneComStaticTexture::render(StormRenderer*) [1]
+[15]     5.3    0.02    0.00 2876000         StormRenderCommand::setDefaultIndices() [15]
+-----------------------------------------------
+                0.01    0.01 2876000/2876000     StormRenderer::flush() [2]
+[16]     5.3    0.01    0.01 2876000         StormRenderCommand::execute(StormRenderer*) [16]
+                0.01    0.00 2876000/2876000     StormRenderer::bindVertexData(StormVertex*, unsigned int) [21]
+                0.00    0.00 2876000/2876000     StormRenderer::bindTexture(StormTexture*) [50]
+                0.00    0.00 2876000/2876000     StormRenderer::bindIndexData(unsigned int*, unsigned int) [51]
+-----------------------------------------------
+                0.02    0.00 2876000/2876000     StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::deleteObject(StormRenderCommand*) [14]
+[17]     5.3    0.02    0.00 2876000         StormRenderCommand::~StormRenderCommand() [17]
+-----------------------------------------------
+                0.00    0.02 2876000/2876000     SSceneComStaticTexture::render(StormRenderer*) [1]
+[18]     3.9    0.00    0.02 2876000         StormRenderer::newCommand() [18]
+                0.01    0.01 2876000/2876000     StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::newObject() [19]
+-----------------------------------------------
+                0.01    0.01 2876000/2876000     StormRenderer::newCommand() [18]
+[19]     3.9    0.01    0.01 2876000         StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::newObject() [19]
+                0.01    0.00       5/5           StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::_AllocateNewNode() [29]
+                0.00    0.00 2876000/2876000     StormRenderCommand::StormRenderCommand() [53]
+-----------------------------------------------
+                0.01    0.00 2876000/5752000     StormRenderer::clearQueue() [6]
+                0.01    0.00 2876000/5752000     StormRenderer::flush() [2]
+[20]     2.6    0.01    0.00 5752000         __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >::operator++() [20]
+-----------------------------------------------
+                0.01    0.00 2876000/2876000     StormRenderCommand::execute(StormRenderer*) [16]
+[21]     2.6    0.01    0.00 2876000         StormRenderer::bindVertexData(StormVertex*, unsigned int) [21]
+-----------------------------------------------
+                                                 <spontaneous>
+[22]     2.6    0.01    0.00                 _GLOBAL__sub_I__ZN17StormInputManagerC2Ev [22]
+-----------------------------------------------
+                                                 <spontaneous>
+[23]     2.6    0.01    0.00                 SSceneComStaticTexture::getTexture() [23]
+-----------------------------------------------
+                                                 <spontaneous>
+[24]     2.6    0.01    0.00                 SSceneSystemStaticTexture::render(StormRenderer*) [24]
+-----------------------------------------------
+                                                 <spontaneous>
+[25]     2.6    0.01    0.00                 void std::_Bind<std::_Mem_fn<void (StormEngine::*)(float)> (StormEngine*, std::_Placeholder<1>)>::__call<void, float&&, 0ul, 1ul>(std::tuple<float&&>&&, std::_Index_tuple<0ul, 1ul>) [25]
+-----------------------------------------------
+                                                 <spontaneous>
+[26]     2.6    0.01    0.00                 std::_Rb_tree<el::Level, std::pair<el::Level const, std::shared_ptr<std::basic_fstream<char, std::char_traits<char> > > >, std::_Select1st<std::pair<el::Level const, std::shared_ptr<std::basic_fstream<char, std::char_traits<char> > > > >, std::less<el::Level>, std::allocator<std::pair<el::Level const, std::shared_ptr<std::basic_fstream<char, std::char_traits<char> > > > > >::_S_right(std::_Rb_tree_node_base*) [26]
+-----------------------------------------------
+                                                 <spontaneous>
+[27]     2.6    0.01    0.00                 float& std::__get_helper<0ul, float&&>(std::_Tuple_impl<0ul, float&&>&) [27]
+-----------------------------------------------
+                0.00    0.01 2876000/2876000     _ZNSt16allocator_traitsISaIP18StormRenderCommandEE9constructIS1_IRKS1_EEEvRS2_PT_DpOT0_ [10]
+[28]     2.6    0.00    0.01 2876000         _ZN9__gnu_cxx13new_allocatorIP18StormRenderCommandE9constructIS2_IRKS2_EEEvPT_DpOT0_ [28]
+                0.01    0.00 2876000/5752011     StormRenderCommand* const& std::forward<StormRenderCommand* const&>(std::remove_reference<StormRenderCommand* const&>::type&) [13]
+-----------------------------------------------
+                0.01    0.00       5/5           StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::newObject() [19]
+[29]     1.3    0.01    0.00       5         StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::_AllocateNewNode() [29]
+                0.00    0.00       5/6           StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::_Node::_Node(unsigned long) [93]
+-----------------------------------------------
+                                                 <spontaneous>
+[30]     1.3    0.01    0.00                 std::char_traits<char>::length(char const*) [30]
+-----------------------------------------------
+                                                 <spontaneous>
+[31]     1.3    0.01    0.00                 operator new(unsigned long, void*) [31]
+-----------------------------------------------
+                0.00    0.00       1/1           StormRenderer::~StormRenderer() [33]
+[32]     0.0    0.00    0.00       1         StormRenderer::deinitialize() [32]
+                0.00    0.00       1/2877        StormRenderer::clearQueue() [6]
+                0.00    0.00       1/2           MatrixT<float>::identity() [96]
+-----------------------------------------------
+                0.00    0.00       1/1           StormEngine::deinitializeComponents() [34]
+[33]     0.0    0.00    0.00       1         StormRenderer::~StormRenderer() [33]
+                0.00    0.00       1/1           StormRenderer::deinitialize() [32]
+                0.00    0.00       1/1           StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::~StormObjectPool() [110]
+                0.00    0.00       1/1           std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::~vector() [143]
+-----------------------------------------------
+                                                 <spontaneous>
+[34]     0.0    0.00    0.00                 StormEngine::deinitializeComponents() [34]
+                0.00    0.00       1/1           StormRenderer::~StormRenderer() [33]
+-----------------------------------------------
+                                                 <spontaneous>
+[35]     0.0    0.00    0.00                 SSceneComPlane::SSceneComPlane() [35]
+                0.00    0.00    4000/11508004     StormVertex::StormVertex() [11]
+-----------------------------------------------
+                0.00    0.00      11/11          std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::push_back(StormRenderCommand* const&) [8]
+[36]     0.0    0.00    0.00      11         void std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_emplace_back_aux<StormRenderCommand* const&>(StormRenderCommand* const&) [36]
+                0.00    0.00      11/2876000     _ZNSt16allocator_traitsISaIP18StormRenderCommandEE9constructIS1_IRKS1_EEEvRS2_PT_DpOT0_ [10]
+                0.00    0.00      11/5752011     StormRenderCommand* const& std::forward<StormRenderCommand* const&>(std::remove_reference<StormRenderCommand* const&>::type&) [13]
+                0.00    0.00      22/2900        std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_get_Tp_allocator() [57]
+                0.00    0.00      11/11          std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_check_len(unsigned long, char const*) const [78]
+                0.00    0.00      11/11          std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_allocate(unsigned long) [80]
+                0.00    0.00      11/55          std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::size() const [63]
+                0.00    0.00      11/11          StormRenderCommand** std::__uninitialized_move_if_noexcept_a<StormRenderCommand**, StormRenderCommand**, std::allocator<StormRenderCommand*> >(StormRenderCommand**, StormRenderCommand**, StormRenderCommand**, std::allocator<StormRenderCommand*>&) [88]
+                0.00    0.00      11/2889        void std::_Destroy<StormRenderCommand**, StormRenderCommand*>(StormRenderCommand**, StormRenderCommand**, std::allocator<StormRenderCommand*>&) [60]
+                0.00    0.00      11/12          std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_deallocate(StormRenderCommand**, unsigned long) [75]
+-----------------------------------------------
+                0.00    0.00       1/1           __libc_csu_init [39]
+[37]     0.0    0.00    0.00       1         _GLOBAL__sub_I__ZN2el4base9elStorageE [37]
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [38]
+-----------------------------------------------
+                0.00    0.00       1/1           _GLOBAL__sub_I__ZN2el4base9elStorageE [37]
+[38]     0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [38]
+                0.00    0.00       4/11508004     StormVertex::StormVertex() [11]
+                0.00    0.00       1/1           el::base::DefaultLogBuilder::DefaultLogBuilder() [112]
+                0.00    0.00       1/1           std::shared_ptr<el::LogBuilder>::shared_ptr<el::base::DefaultLogBuilder>(el::base::DefaultLogBuilder*) [121]
+                0.00    0.00       1/1           std::shared_ptr<el::base::Storage>::shared_ptr<el::base::Storage>(el::base::Storage*) [122]
+                0.00    0.00       1/1           el::base::debug::CrashHandler::CrashHandler(bool) [113]
+-----------------------------------------------
+                                                 <spontaneous>
+[39]     0.0    0.00    0.00                 __libc_csu_init [39]
+                0.00    0.00       1/1           _GLOBAL__sub_I__ZN2el4base9elStorageE [37]
+                0.00    0.00       1/1           _GLOBAL__sub_I__ZN13StormRendererC2Ev [97]
+                0.00    0.00       1/1           _GLOBAL__sub_I__vPool [98]
+-----------------------------------------------
+                0.00    0.00 11515506/11515506     bool __gnu_cxx::operator!=<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >(__gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > > const&, __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > > const&) [12]
+[48]     0.0    0.00    0.00 11515506         __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >::base() const [48]
+-----------------------------------------------
+                0.00    0.00 2876000/5752000     StormRenderer::clearQueue() [6]
+                0.00    0.00 2876000/5752000     StormRenderer::flush() [2]
+[49]     0.0    0.00    0.00 5752000         __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >::operator*() const [49]
+-----------------------------------------------
+                0.00    0.00 2876000/2876000     StormRenderCommand::execute(StormRenderer*) [16]
+[50]     0.0    0.00    0.00 2876000         StormRenderer::bindTexture(StormTexture*) [50]
+-----------------------------------------------
+                0.00    0.00 2876000/2876000     StormRenderCommand::execute(StormRenderer*) [16]
+[51]     0.0    0.00    0.00 2876000         StormRenderer::bindIndexData(unsigned int*, unsigned int) [51]
+-----------------------------------------------
+                0.00    0.00 2876000/2876000     SSceneComStaticTexture::render(StormRenderer*) [1]
+[52]     0.0    0.00    0.00 2876000         StormRenderCommand::setTexture(StormTexture*) [52]
+-----------------------------------------------
+                0.00    0.00 2876000/2876000     StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::newObject() [19]
+[53]     0.0    0.00    0.00 2876000         StormRenderCommand::StormRenderCommand() [53]
+-----------------------------------------------
+                0.00    0.00    5753/11506       std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::begin() [56]
+                0.00    0.00    5753/11506       std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::end() [55]
+[54]     0.0    0.00    0.00   11506         __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >::__normal_iterator(StormRenderCommand** const&) [54]
+-----------------------------------------------
+                0.00    0.00    2876/5753        StormRenderer::flush() [2]
+                0.00    0.00    2877/5753        StormRenderer::clearQueue() [6]
+[55]     0.0    0.00    0.00    5753         std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::end() [55]
+                0.00    0.00    5753/11506       __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >::__normal_iterator(StormRenderCommand** const&) [54]
+-----------------------------------------------
+                0.00    0.00    2876/5753        StormRenderer::flush() [2]
+                0.00    0.00    2877/5753        StormRenderer::clearQueue() [6]
+[56]     0.0    0.00    0.00    5753         std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::begin() [56]
+                0.00    0.00    5753/11506       __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >::__normal_iterator(StormRenderCommand** const&) [54]
+-----------------------------------------------
+                0.00    0.00       1/2900        std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::~vector() [143]
+                0.00    0.00      22/2900        void std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_emplace_back_aux<StormRenderCommand* const&>(StormRenderCommand* const&) [36]
+                0.00    0.00    2877/2900        std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_erase_at_end(StormRenderCommand**) [61]
+[57]     0.0    0.00    0.00    2900         std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_get_Tp_allocator() [57]
+-----------------------------------------------
+                0.00    0.00    2889/2889        void std::_Destroy<StormRenderCommand**>(StormRenderCommand**, StormRenderCommand**) [59]
+[58]     0.0    0.00    0.00    2889         void std::_Destroy_aux<true>::__destroy<StormRenderCommand**>(StormRenderCommand**, StormRenderCommand**) [58]
+-----------------------------------------------
+                0.00    0.00    2889/2889        void std::_Destroy<StormRenderCommand**, StormRenderCommand*>(StormRenderCommand**, StormRenderCommand**, std::allocator<StormRenderCommand*>&) [60]
+[59]     0.0    0.00    0.00    2889         void std::_Destroy<StormRenderCommand**>(StormRenderCommand**, StormRenderCommand**) [59]
+                0.00    0.00    2889/2889        void std::_Destroy_aux<true>::__destroy<StormRenderCommand**>(StormRenderCommand**, StormRenderCommand**) [58]
+-----------------------------------------------
+                0.00    0.00       1/2889        std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::~vector() [143]
+                0.00    0.00      11/2889        void std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_emplace_back_aux<StormRenderCommand* const&>(StormRenderCommand* const&) [36]
+                0.00    0.00    2877/2889        std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_erase_at_end(StormRenderCommand**) [61]
+[60]     0.0    0.00    0.00    2889         void std::_Destroy<StormRenderCommand**, StormRenderCommand*>(StormRenderCommand**, StormRenderCommand**, std::allocator<StormRenderCommand*>&) [60]
+                0.00    0.00    2889/2889        void std::_Destroy<StormRenderCommand**>(StormRenderCommand**, StormRenderCommand**) [59]
+-----------------------------------------------
+                0.00    0.00    2877/2877        std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::clear() [62]
+[61]     0.0    0.00    0.00    2877         std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_erase_at_end(StormRenderCommand**) [61]
+                0.00    0.00    2877/2900        std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_get_Tp_allocator() [57]
+                0.00    0.00    2877/2889        void std::_Destroy<StormRenderCommand**, StormRenderCommand*>(StormRenderCommand**, StormRenderCommand**, std::allocator<StormRenderCommand*>&) [60]
+-----------------------------------------------
+                0.00    0.00    2877/2877        StormRenderer::clearQueue() [6]
+[62]     0.0    0.00    0.00    2877         std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::clear() [62]
+                0.00    0.00    2877/2877        std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_erase_at_end(StormRenderCommand**) [61]
+-----------------------------------------------
+                0.00    0.00      11/55          void std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_emplace_back_aux<StormRenderCommand* const&>(StormRenderCommand* const&) [36]
+                0.00    0.00      44/55          std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_check_len(unsigned long, char const*) const [78]
+[63]     0.0    0.00    0.00      55         std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::size() const [63]
+-----------------------------------------------
+                0.00    0.00      11/33          __gnu_cxx::new_allocator<StormRenderCommand*>::allocate(unsigned long, void const*) [77]
+                0.00    0.00      22/33          std::allocator_traits<std::allocator<StormRenderCommand*> >::max_size(std::allocator<StormRenderCommand*> const&) [72]
+[64]     0.0    0.00    0.00      33         __gnu_cxx::new_allocator<StormRenderCommand*>::max_size() const [64]
+-----------------------------------------------
+                0.00    0.00      33/33          std::_Niter_base<StormRenderCommand**>::iterator_type std::__niter_base<StormRenderCommand**>(StormRenderCommand**) [66]
+[65]     0.0    0.00    0.00      33         std::_Iter_base<StormRenderCommand**, false>::_S_base(StormRenderCommand**) [65]
+-----------------------------------------------
+                0.00    0.00      33/33          StormRenderCommand** std::__copy_move_a2<true, StormRenderCommand**, StormRenderCommand**>(StormRenderCommand**, StormRenderCommand**, StormRenderCommand**) [85]
+[66]     0.0    0.00    0.00      33         std::_Niter_base<StormRenderCommand**>::iterator_type std::__niter_base<StormRenderCommand**>(StormRenderCommand**) [66]
+                0.00    0.00      33/33          std::_Iter_base<StormRenderCommand**, false>::_S_base(StormRenderCommand**) [65]
+-----------------------------------------------
+                0.00    0.00      22/22          std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::max_size() const [69]
+[67]     0.0    0.00    0.00      22         std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_get_Tp_allocator() const [67]
+-----------------------------------------------
+                0.00    0.00      22/22          std::_Iter_base<std::move_iterator<StormRenderCommand**>, true>::_S_base(std::move_iterator<StormRenderCommand**>) [70]
+[68]     0.0    0.00    0.00      22         std::move_iterator<StormRenderCommand**>::base() const [68]
+-----------------------------------------------
+                0.00    0.00      22/22          std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_check_len(unsigned long, char const*) const [78]
+[69]     0.0    0.00    0.00      22         std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::max_size() const [69]
+                0.00    0.00      22/22          std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_get_Tp_allocator() const [67]
+                0.00    0.00      22/22          std::allocator_traits<std::allocator<StormRenderCommand*> >::max_size(std::allocator<StormRenderCommand*> const&) [72]
+-----------------------------------------------
+                0.00    0.00      22/22          std::_Miter_base<std::move_iterator<StormRenderCommand**> >::iterator_type std::__miter_base<std::move_iterator<StormRenderCommand**> >(std::move_iterator<StormRenderCommand**>) [73]
+[70]     0.0    0.00    0.00      22         std::_Iter_base<std::move_iterator<StormRenderCommand**>, true>::_S_base(std::move_iterator<StormRenderCommand**>) [70]
+                0.00    0.00      22/22          std::move_iterator<StormRenderCommand**>::base() const [68]
+-----------------------------------------------
+                0.00    0.00      22/22          std::move_iterator<StormRenderCommand**> std::__make_move_if_noexcept_iterator<StormRenderCommand**, std::move_iterator<StormRenderCommand**> >(StormRenderCommand**) [74]
+[71]     0.0    0.00    0.00      22         std::move_iterator<StormRenderCommand**>::move_iterator(StormRenderCommand**) [71]
+-----------------------------------------------
+                0.00    0.00      22/22          std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::max_size() const [69]
+[72]     0.0    0.00    0.00      22         std::allocator_traits<std::allocator<StormRenderCommand*> >::max_size(std::allocator<StormRenderCommand*> const&) [72]
+                0.00    0.00      22/33          __gnu_cxx::new_allocator<StormRenderCommand*>::max_size() const [64]
+-----------------------------------------------
+                0.00    0.00      22/22          StormRenderCommand** std::copy<std::move_iterator<StormRenderCommand**>, StormRenderCommand**>(std::move_iterator<StormRenderCommand**>, std::move_iterator<StormRenderCommand**>, StormRenderCommand**) [89]
+[73]     0.0    0.00    0.00      22         std::_Miter_base<std::move_iterator<StormRenderCommand**> >::iterator_type std::__miter_base<std::move_iterator<StormRenderCommand**> >(std::move_iterator<StormRenderCommand**>) [73]
+                0.00    0.00      22/22          std::_Iter_base<std::move_iterator<StormRenderCommand**>, true>::_S_base(std::move_iterator<StormRenderCommand**>) [70]
+-----------------------------------------------
+                0.00    0.00      22/22          StormRenderCommand** std::__uninitialized_move_if_noexcept_a<StormRenderCommand**, StormRenderCommand**, std::allocator<StormRenderCommand*> >(StormRenderCommand**, StormRenderCommand**, StormRenderCommand**, std::allocator<StormRenderCommand*>&) [88]
+[74]     0.0    0.00    0.00      22         std::move_iterator<StormRenderCommand**> std::__make_move_if_noexcept_iterator<StormRenderCommand**, std::move_iterator<StormRenderCommand**> >(StormRenderCommand**) [74]
+                0.00    0.00      22/22          std::move_iterator<StormRenderCommand**>::move_iterator(StormRenderCommand**) [71]
+-----------------------------------------------
+                0.00    0.00       1/12          std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::~_Vector_base() [126]
+                0.00    0.00      11/12          void std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_emplace_back_aux<StormRenderCommand* const&>(StormRenderCommand* const&) [36]
+[75]     0.0    0.00    0.00      12         std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_deallocate(StormRenderCommand**, unsigned long) [75]
+                0.00    0.00      11/11          std::allocator_traits<std::allocator<StormRenderCommand*> >::deallocate(std::allocator<StormRenderCommand*>&, StormRenderCommand**, unsigned long) [81]
+-----------------------------------------------
+                0.00    0.00      11/11          std::allocator_traits<std::allocator<StormRenderCommand*> >::deallocate(std::allocator<StormRenderCommand*>&, StormRenderCommand**, unsigned long) [81]
+[76]     0.0    0.00    0.00      11         __gnu_cxx::new_allocator<StormRenderCommand*>::deallocate(StormRenderCommand**, unsigned long) [76]
+-----------------------------------------------
+                0.00    0.00      11/11          std::allocator_traits<std::allocator<StormRenderCommand*> >::allocate(std::allocator<StormRenderCommand*>&, unsigned long) [82]
+[77]     0.0    0.00    0.00      11         __gnu_cxx::new_allocator<StormRenderCommand*>::allocate(unsigned long, void const*) [77]
+                0.00    0.00      11/33          __gnu_cxx::new_allocator<StormRenderCommand*>::max_size() const [64]
+-----------------------------------------------
+                0.00    0.00      11/11          void std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_emplace_back_aux<StormRenderCommand* const&>(StormRenderCommand* const&) [36]
+[78]     0.0    0.00    0.00      11         std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_check_len(unsigned long, char const*) const [78]
+                0.00    0.00      44/55          std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::size() const [63]
+                0.00    0.00      22/22          std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::max_size() const [69]
+-----------------------------------------------
+                0.00    0.00      11/11          StormRenderCommand** std::__copy_move_a<true, StormRenderCommand**, StormRenderCommand**>(StormRenderCommand**, StormRenderCommand**, StormRenderCommand**) [84]
+[79]     0.0    0.00    0.00      11         StormRenderCommand** std::__copy_move<true, true, std::random_access_iterator_tag>::__copy_m<StormRenderCommand*>(StormRenderCommand* const*, StormRenderCommand* const*, StormRenderCommand**) [79]
+-----------------------------------------------
+                0.00    0.00      11/11          void std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_emplace_back_aux<StormRenderCommand* const&>(StormRenderCommand* const&) [36]
+[80]     0.0    0.00    0.00      11         std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_allocate(unsigned long) [80]
+                0.00    0.00      11/11          std::allocator_traits<std::allocator<StormRenderCommand*> >::allocate(std::allocator<StormRenderCommand*>&, unsigned long) [82]
+-----------------------------------------------
+                0.00    0.00      11/11          std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_deallocate(StormRenderCommand**, unsigned long) [75]
+[81]     0.0    0.00    0.00      11         std::allocator_traits<std::allocator<StormRenderCommand*> >::deallocate(std::allocator<StormRenderCommand*>&, StormRenderCommand**, unsigned long) [81]
+                0.00    0.00      11/11          __gnu_cxx::new_allocator<StormRenderCommand*>::deallocate(StormRenderCommand**, unsigned long) [76]
+-----------------------------------------------
+                0.00    0.00      11/11          std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_allocate(unsigned long) [80]
+[82]     0.0    0.00    0.00      11         std::allocator_traits<std::allocator<StormRenderCommand*> >::allocate(std::allocator<StormRenderCommand*>&, unsigned long) [82]
+                0.00    0.00      11/11          __gnu_cxx::new_allocator<StormRenderCommand*>::allocate(unsigned long, void const*) [77]
+-----------------------------------------------
+                0.00    0.00      11/11          StormRenderCommand** std::uninitialized_copy<std::move_iterator<StormRenderCommand**>, StormRenderCommand**>(std::move_iterator<StormRenderCommand**>, std::move_iterator<StormRenderCommand**>, StormRenderCommand**) [86]
+[83]     0.0    0.00    0.00      11         StormRenderCommand** std::__uninitialized_copy<true>::__uninit_copy<std::move_iterator<StormRenderCommand**>, StormRenderCommand**>(std::move_iterator<StormRenderCommand**>, std::move_iterator<StormRenderCommand**>, StormRenderCommand**) [83]
+                0.00    0.00      11/11          StormRenderCommand** std::copy<std::move_iterator<StormRenderCommand**>, StormRenderCommand**>(std::move_iterator<StormRenderCommand**>, std::move_iterator<StormRenderCommand**>, StormRenderCommand**) [89]
+-----------------------------------------------
+                0.00    0.00      11/11          StormRenderCommand** std::__copy_move_a2<true, StormRenderCommand**, StormRenderCommand**>(StormRenderCommand**, StormRenderCommand**, StormRenderCommand**) [85]
+[84]     0.0    0.00    0.00      11         StormRenderCommand** std::__copy_move_a<true, StormRenderCommand**, StormRenderCommand**>(StormRenderCommand**, StormRenderCommand**, StormRenderCommand**) [84]
+                0.00    0.00      11/11          StormRenderCommand** std::__copy_move<true, true, std::random_access_iterator_tag>::__copy_m<StormRenderCommand*>(StormRenderCommand* const*, StormRenderCommand* const*, StormRenderCommand**) [79]
+-----------------------------------------------
+                0.00    0.00      11/11          StormRenderCommand** std::copy<std::move_iterator<StormRenderCommand**>, StormRenderCommand**>(std::move_iterator<StormRenderCommand**>, std::move_iterator<StormRenderCommand**>, StormRenderCommand**) [89]
+[85]     0.0    0.00    0.00      11         StormRenderCommand** std::__copy_move_a2<true, StormRenderCommand**, StormRenderCommand**>(StormRenderCommand**, StormRenderCommand**, StormRenderCommand**) [85]
+                0.00    0.00      33/33          std::_Niter_base<StormRenderCommand**>::iterator_type std::__niter_base<StormRenderCommand**>(StormRenderCommand**) [66]
+                0.00    0.00      11/11          StormRenderCommand** std::__copy_move_a<true, StormRenderCommand**, StormRenderCommand**>(StormRenderCommand**, StormRenderCommand**, StormRenderCommand**) [84]
+-----------------------------------------------
+                0.00    0.00      11/11          StormRenderCommand** std::__uninitialized_copy_a<std::move_iterator<StormRenderCommand**>, StormRenderCommand**, StormRenderCommand*>(std::move_iterator<StormRenderCommand**>, std::move_iterator<StormRenderCommand**>, StormRenderCommand**, std::allocator<StormRenderCommand*>&) [87]
+[86]     0.0    0.00    0.00      11         StormRenderCommand** std::uninitialized_copy<std::move_iterator<StormRenderCommand**>, StormRenderCommand**>(std::move_iterator<StormRenderCommand**>, std::move_iterator<StormRenderCommand**>, StormRenderCommand**) [86]
+                0.00    0.00      11/11          StormRenderCommand** std::__uninitialized_copy<true>::__uninit_copy<std::move_iterator<StormRenderCommand**>, StormRenderCommand**>(std::move_iterator<StormRenderCommand**>, std::move_iterator<StormRenderCommand**>, StormRenderCommand**) [83]
+-----------------------------------------------
+                0.00    0.00      11/11          StormRenderCommand** std::__uninitialized_move_if_noexcept_a<StormRenderCommand**, StormRenderCommand**, std::allocator<StormRenderCommand*> >(StormRenderCommand**, StormRenderCommand**, StormRenderCommand**, std::allocator<StormRenderCommand*>&) [88]
+[87]     0.0    0.00    0.00      11         StormRenderCommand** std::__uninitialized_copy_a<std::move_iterator<StormRenderCommand**>, StormRenderCommand**, StormRenderCommand*>(std::move_iterator<StormRenderCommand**>, std::move_iterator<StormRenderCommand**>, StormRenderCommand**, std::allocator<StormRenderCommand*>&) [87]
+                0.00    0.00      11/11          StormRenderCommand** std::uninitialized_copy<std::move_iterator<StormRenderCommand**>, StormRenderCommand**>(std::move_iterator<StormRenderCommand**>, std::move_iterator<StormRenderCommand**>, StormRenderCommand**) [86]
+-----------------------------------------------
+                0.00    0.00      11/11          void std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_emplace_back_aux<StormRenderCommand* const&>(StormRenderCommand* const&) [36]
+[88]     0.0    0.00    0.00      11         StormRenderCommand** std::__uninitialized_move_if_noexcept_a<StormRenderCommand**, StormRenderCommand**, std::allocator<StormRenderCommand*> >(StormRenderCommand**, StormRenderCommand**, StormRenderCommand**, std::allocator<StormRenderCommand*>&) [88]
+                0.00    0.00      22/22          std::move_iterator<StormRenderCommand**> std::__make_move_if_noexcept_iterator<StormRenderCommand**, std::move_iterator<StormRenderCommand**> >(StormRenderCommand**) [74]
+                0.00    0.00      11/11          StormRenderCommand** std::__uninitialized_copy_a<std::move_iterator<StormRenderCommand**>, StormRenderCommand**, StormRenderCommand*>(std::move_iterator<StormRenderCommand**>, std::move_iterator<StormRenderCommand**>, StormRenderCommand**, std::allocator<StormRenderCommand*>&) [87]
+-----------------------------------------------
+                0.00    0.00      11/11          StormRenderCommand** std::__uninitialized_copy<true>::__uninit_copy<std::move_iterator<StormRenderCommand**>, StormRenderCommand**>(std::move_iterator<StormRenderCommand**>, std::move_iterator<StormRenderCommand**>, StormRenderCommand**) [83]
+[89]     0.0    0.00    0.00      11         StormRenderCommand** std::copy<std::move_iterator<StormRenderCommand**>, StormRenderCommand**>(std::move_iterator<StormRenderCommand**>, std::move_iterator<StormRenderCommand**>, StormRenderCommand**) [89]
+                0.00    0.00      22/22          std::_Miter_base<std::move_iterator<StormRenderCommand**> >::iterator_type std::__miter_base<std::move_iterator<StormRenderCommand**> >(std::move_iterator<StormRenderCommand**>) [73]
+                0.00    0.00      11/11          StormRenderCommand** std::__copy_move_a2<true, StormRenderCommand**, StormRenderCommand**>(StormRenderCommand**, StormRenderCommand**, StormRenderCommand**) [85]
+-----------------------------------------------
+                0.00    0.00       8/8           MatrixT<float>::identity() [96]
+[90]     0.0    0.00    0.00       8         VectorT4<float>::VectorT4(float const&, float const&, float const&, float const&) [90]
+-----------------------------------------------
+                0.00    0.00       1/7           StormObjectPool<StormVertex, DefaultMemoryAllocator>::_Node::~_Node() [107]
+                0.00    0.00       6/7           StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::_Node::~_Node() [94]
+[91]     0.0    0.00    0.00       7         DefaultMemoryAllocator::Deallocate(void*, unsigned long) [91]
+-----------------------------------------------
+                0.00    0.00       1/7           StormObjectPool<StormVertex, DefaultMemoryAllocator>::_Node::_Node(unsigned long) [106]
+                0.00    0.00       6/7           StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::_Node::_Node(unsigned long) [93]
+[92]     0.0    0.00    0.00       7         DefaultMemoryAllocator::Allocate(unsigned long) [92]
+-----------------------------------------------
+                0.00    0.00       1/6           StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::StormObjectPool(unsigned long, unsigned long) [109]
+                0.00    0.00       5/6           StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::_AllocateNewNode() [29]
+[93]     0.0    0.00    0.00       6         StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::_Node::_Node(unsigned long) [93]
+                0.00    0.00       6/7           DefaultMemoryAllocator::Allocate(unsigned long) [92]
+-----------------------------------------------
+                0.00    0.00       6/6           StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::~StormObjectPool() [110]
+[94]     0.0    0.00    0.00       6         StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::_Node::~_Node() [94]
+                0.00    0.00       6/7           DefaultMemoryAllocator::Deallocate(void*, unsigned long) [91]
+-----------------------------------------------
+                0.00    0.00       1/2           StormRenderer::setPerspective(float, float, float, float, float, float) [102]
+                0.00    0.00       1/2           StormRenderer::setShader(StormShader*) [104]
+[95]     0.0    0.00    0.00       2         StormRenderer::bindPerspectiveMatrix() [95]
+-----------------------------------------------
+                0.00    0.00       1/2           StormRenderer::StormRenderer() [105]
+                0.00    0.00       1/2           StormRenderer::deinitialize() [32]
+[96]     0.0    0.00    0.00       2         MatrixT<float>::identity() [96]
+                0.00    0.00       8/8           VectorT4<float>::VectorT4(float const&, float const&, float const&, float const&) [90]
+-----------------------------------------------
+                0.00    0.00       1/1           __libc_csu_init [39]
+[97]     0.0    0.00    0.00       1         _GLOBAL__sub_I__ZN13StormRendererC2Ev [97]
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [100]
+-----------------------------------------------
+                0.00    0.00       1/1           __libc_csu_init [39]
+[98]     0.0    0.00    0.00       1         _GLOBAL__sub_I__vPool [98]
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [99]
+-----------------------------------------------
+                0.00    0.00       1/1           _GLOBAL__sub_I__vPool [98]
+[99]     0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [99]
+                0.00    0.00       1/1           StormObjectPool<StormVertex, DefaultMemoryAllocator>::StormObjectPool(unsigned long, unsigned long) [108]
+-----------------------------------------------
+                0.00    0.00       1/1           _GLOBAL__sub_I__ZN13StormRendererC2Ev [97]
+[100]    0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [100]
+-----------------------------------------------
+                0.00    0.00       1/1           StormEngine::initializeComponents() [200]
+[101]    0.0    0.00    0.00       1         StormRenderer::initialize() [101]
+-----------------------------------------------
+                0.00    0.00       1/1           StormEngine::initializeComponents() [200]
+[102]    0.0    0.00    0.00       1         StormRenderer::setPerspective(float, float, float, float, float, float) [102]
+                0.00    0.00       1/1           MatrixT<float>::MatrixT(float, float, float, float, float, float, float, float, float, float, float, float, float, float, float, float) [115]
+                0.00    0.00       1/2           StormRenderer::bindPerspectiveMatrix() [95]
+-----------------------------------------------
+                0.00    0.00       1/1           StormRenderer::setShader(StormShader*) [104]
+[103]    0.0    0.00    0.00       1         StormRenderer::bindColorUniform() [103]
+-----------------------------------------------
+                0.00    0.00       1/1           StormEngine::initialize(StormPlatformType) [192]
+[104]    0.0    0.00    0.00       1         StormRenderer::setShader(StormShader*) [104]
+                0.00    0.00       1/2           StormRenderer::bindPerspectiveMatrix() [95]
+                0.00    0.00       1/1           StormRenderer::bindColorUniform() [103]
+-----------------------------------------------
+                0.00    0.00       1/1           StormEngine::initializeComponents() [200]
+[105]    0.0    0.00    0.00       1         StormRenderer::StormRenderer() [105]
+                0.00    0.00       1/1           MatrixT<float>::MatrixT() [116]
+                0.00    0.00       1/1           std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::vector() [142]
+                0.00    0.00       1/1           StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::StormObjectPool(unsigned long, unsigned long) [109]
+                0.00    0.00       1/1           Color::set(unsigned char, unsigned char, unsigned char, unsigned char) [114]
+                0.00    0.00       1/2           MatrixT<float>::identity() [96]
+-----------------------------------------------
+                0.00    0.00       1/1           StormObjectPool<StormVertex, DefaultMemoryAllocator>::StormObjectPool(unsigned long, unsigned long) [108]
+[106]    0.0    0.00    0.00       1         StormObjectPool<StormVertex, DefaultMemoryAllocator>::_Node::_Node(unsigned long) [106]
+                0.00    0.00       1/7           DefaultMemoryAllocator::Allocate(unsigned long) [92]
+-----------------------------------------------
+                0.00    0.00       1/1           StormObjectPool<StormVertex, DefaultMemoryAllocator>::~StormObjectPool() [245]
+[107]    0.0    0.00    0.00       1         StormObjectPool<StormVertex, DefaultMemoryAllocator>::_Node::~_Node() [107]
+                0.00    0.00       1/7           DefaultMemoryAllocator::Deallocate(void*, unsigned long) [91]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [99]
+[108]    0.0    0.00    0.00       1         StormObjectPool<StormVertex, DefaultMemoryAllocator>::StormObjectPool(unsigned long, unsigned long) [108]
+                0.00    0.00       1/1           StormObjectPool<StormVertex, DefaultMemoryAllocator>::_Node::_Node(unsigned long) [106]
+-----------------------------------------------
+                0.00    0.00       1/1           StormRenderer::StormRenderer() [105]
+[109]    0.0    0.00    0.00       1         StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::StormObjectPool(unsigned long, unsigned long) [109]
+                0.00    0.00       1/6           StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::_Node::_Node(unsigned long) [93]
+-----------------------------------------------
+                0.00    0.00       1/1           StormRenderer::~StormRenderer() [33]
+[110]    0.0    0.00    0.00       1         StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::~StormObjectPool() [110]
+                0.00    0.00       6/6           StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::_Node::~_Node() [94]
+-----------------------------------------------
+                0.00    0.00       1/1           el::base::DefaultLogBuilder::DefaultLogBuilder() [112]
+[111]    0.0    0.00    0.00       1         el::LogBuilder::LogBuilder() [111]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [38]
+[112]    0.0    0.00    0.00       1         el::base::DefaultLogBuilder::DefaultLogBuilder() [112]
+                0.00    0.00       1/1           el::LogBuilder::LogBuilder() [111]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [38]
+[113]    0.0    0.00    0.00       1         el::base::debug::CrashHandler::CrashHandler(bool) [113]
+-----------------------------------------------
+                0.00    0.00       1/1           StormRenderer::StormRenderer() [105]
+[114]    0.0    0.00    0.00       1         Color::set(unsigned char, unsigned char, unsigned char, unsigned char) [114]
+-----------------------------------------------
+                0.00    0.00       1/1           StormRenderer::setPerspective(float, float, float, float, float, float) [102]
+[115]    0.0    0.00    0.00       1         MatrixT<float>::MatrixT(float, float, float, float, float, float, float, float, float, float, float, float, float, float, float, float) [115]
+-----------------------------------------------
+                0.00    0.00       1/1           StormRenderer::StormRenderer() [105]
+[116]    0.0    0.00    0.00       1         MatrixT<float>::MatrixT() [116]
+-----------------------------------------------
+                0.00    0.00       1/1           std::allocator<StormRenderCommand*>::allocator() [119]
+[117]    0.0    0.00    0.00       1         __gnu_cxx::new_allocator<StormRenderCommand*>::new_allocator() [117]
+-----------------------------------------------
+                0.00    0.00       1/1           std::allocator<StormRenderCommand*>::~allocator() [120]
+[118]    0.0    0.00    0.00       1         __gnu_cxx::new_allocator<StormRenderCommand*>::~new_allocator() [118]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_Vector_impl::_Vector_impl() [123]
+[119]    0.0    0.00    0.00       1         std::allocator<StormRenderCommand*>::allocator() [119]
+                0.00    0.00       1/1           __gnu_cxx::new_allocator<StormRenderCommand*>::new_allocator() [117]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_Vector_impl::~_Vector_impl() [124]
+[120]    0.0    0.00    0.00       1         std::allocator<StormRenderCommand*>::~allocator() [120]
+                0.00    0.00       1/1           __gnu_cxx::new_allocator<StormRenderCommand*>::~new_allocator() [118]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [38]
+[121]    0.0    0.00    0.00       1         std::shared_ptr<el::LogBuilder>::shared_ptr<el::base::DefaultLogBuilder>(el::base::DefaultLogBuilder*) [121]
+                0.00    0.00       1/1           std::__shared_ptr<el::LogBuilder, (__gnu_cxx::_Lock_policy)2>::__shared_ptr<el::base::DefaultLogBuilder>(el::base::DefaultLogBuilder*) [127]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [38]
+[122]    0.0    0.00    0.00       1         std::shared_ptr<el::base::Storage>::shared_ptr<el::base::Storage>(el::base::Storage*) [122]
+                0.00    0.00       1/1           std::__shared_ptr<el::base::Storage, (__gnu_cxx::_Lock_policy)2>::__shared_ptr<el::base::Storage>(el::base::Storage*) [128]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_Vector_base() [125]
+[123]    0.0    0.00    0.00       1         std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_Vector_impl::_Vector_impl() [123]
+                0.00    0.00       1/1           std::allocator<StormRenderCommand*>::allocator() [119]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::~_Vector_base() [126]
+[124]    0.0    0.00    0.00       1         std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_Vector_impl::~_Vector_impl() [124]
+                0.00    0.00       1/1           std::allocator<StormRenderCommand*>::~allocator() [120]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::vector() [142]
+[125]    0.0    0.00    0.00       1         std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_Vector_base() [125]
+                0.00    0.00       1/1           std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_Vector_impl::_Vector_impl() [123]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::~vector() [143]
+[126]    0.0    0.00    0.00       1         std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::~_Vector_base() [126]
+                0.00    0.00       1/12          std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_deallocate(StormRenderCommand**, unsigned long) [75]
+                0.00    0.00       1/1           std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_Vector_impl::~_Vector_impl() [124]
+-----------------------------------------------
+                0.00    0.00       1/1           std::shared_ptr<el::LogBuilder>::shared_ptr<el::base::DefaultLogBuilder>(el::base::DefaultLogBuilder*) [121]
+[127]    0.0    0.00    0.00       1         std::__shared_ptr<el::LogBuilder, (__gnu_cxx::_Lock_policy)2>::__shared_ptr<el::base::DefaultLogBuilder>(el::base::DefaultLogBuilder*) [127]
+                0.00    0.00       1/1           std::__shared_count<(__gnu_cxx::_Lock_policy)2>::__shared_count<el::base::DefaultLogBuilder*>(el::base::DefaultLogBuilder*) [130]
+-----------------------------------------------
+                0.00    0.00       1/1           std::shared_ptr<el::base::Storage>::shared_ptr<el::base::Storage>(el::base::Storage*) [122]
+[128]    0.0    0.00    0.00       1         std::__shared_ptr<el::base::Storage, (__gnu_cxx::_Lock_policy)2>::__shared_ptr<el::base::Storage>(el::base::Storage*) [128]
+                0.00    0.00       1/1           std::__shared_count<(__gnu_cxx::_Lock_policy)2>::__shared_count<el::base::Storage*>(el::base::Storage*) [131]
+-----------------------------------------------
+                0.00    0.00       1/1           std::shared_ptr<el::base::Storage>::~shared_ptr() [1701]
+[129]    0.0    0.00    0.00       1         std::__shared_ptr<el::base::Storage, (__gnu_cxx::_Lock_policy)2>::~__shared_ptr() [129]
+-----------------------------------------------
+                0.00    0.00       1/1           std::__shared_ptr<el::LogBuilder, (__gnu_cxx::_Lock_policy)2>::__shared_ptr<el::base::DefaultLogBuilder>(el::base::DefaultLogBuilder*) [127]
+[130]    0.0    0.00    0.00       1         std::__shared_count<(__gnu_cxx::_Lock_policy)2>::__shared_count<el::base::DefaultLogBuilder*>(el::base::DefaultLogBuilder*) [130]
+                0.00    0.00       1/1           std::_Sp_counted_ptr<el::base::DefaultLogBuilder*, (__gnu_cxx::_Lock_policy)2>::_Sp_counted_ptr(el::base::DefaultLogBuilder*) [134]
+-----------------------------------------------
+                0.00    0.00       1/1           std::__shared_ptr<el::base::Storage, (__gnu_cxx::_Lock_policy)2>::__shared_ptr<el::base::Storage>(el::base::Storage*) [128]
+[131]    0.0    0.00    0.00       1         std::__shared_count<(__gnu_cxx::_Lock_policy)2>::__shared_count<el::base::Storage*>(el::base::Storage*) [131]
+                0.00    0.00       1/1           std::_Sp_counted_ptr<el::base::Storage*, (__gnu_cxx::_Lock_policy)2>::_Sp_counted_ptr(el::base::Storage*) [139]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Sp_counted_base<(__gnu_cxx::_Lock_policy)2>::_M_release() [1943]
+[132]    0.0    0.00    0.00       1         std::_Sp_counted_ptr<el::base::DefaultLogBuilder*, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [132]
+                0.00    0.00       1/1           std::_Sp_counted_ptr<el::base::DefaultLogBuilder*, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr() [135]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Sp_counted_base<(__gnu_cxx::_Lock_policy)2>::_M_release() [1943]
+[133]    0.0    0.00    0.00       1         std::_Sp_counted_ptr<el::base::DefaultLogBuilder*, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [133]
+-----------------------------------------------
+                0.00    0.00       1/1           std::__shared_count<(__gnu_cxx::_Lock_policy)2>::__shared_count<el::base::DefaultLogBuilder*>(el::base::DefaultLogBuilder*) [130]
+[134]    0.0    0.00    0.00       1         std::_Sp_counted_ptr<el::base::DefaultLogBuilder*, (__gnu_cxx::_Lock_policy)2>::_Sp_counted_ptr(el::base::DefaultLogBuilder*) [134]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Sp_counted_ptr<el::base::DefaultLogBuilder*, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [132]
+[135]    0.0    0.00    0.00       1         std::_Sp_counted_ptr<el::base::DefaultLogBuilder*, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr() [135]
+                0.00    0.00       1/1           std::_Sp_counted_ptr<el::base::DefaultLogBuilder*, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr() [136]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Sp_counted_ptr<el::base::DefaultLogBuilder*, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr() [135]
+[136]    0.0    0.00    0.00       1         std::_Sp_counted_ptr<el::base::DefaultLogBuilder*, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr() [136]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Sp_counted_base<(__gnu_cxx::_Lock_policy)2>::_M_release() [1943]
+[137]    0.0    0.00    0.00       1         std::_Sp_counted_ptr<el::base::Storage*, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [137]
+                0.00    0.00       1/1           std::_Sp_counted_ptr<el::base::Storage*, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr() [140]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Sp_counted_base<(__gnu_cxx::_Lock_policy)2>::_M_release() [1943]
+[138]    0.0    0.00    0.00       1         std::_Sp_counted_ptr<el::base::Storage*, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [138]
+-----------------------------------------------
+                0.00    0.00       1/1           std::__shared_count<(__gnu_cxx::_Lock_policy)2>::__shared_count<el::base::Storage*>(el::base::Storage*) [131]
+[139]    0.0    0.00    0.00       1         std::_Sp_counted_ptr<el::base::Storage*, (__gnu_cxx::_Lock_policy)2>::_Sp_counted_ptr(el::base::Storage*) [139]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Sp_counted_ptr<el::base::Storage*, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [137]
+[140]    0.0    0.00    0.00       1         std::_Sp_counted_ptr<el::base::Storage*, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr() [140]
+                0.00    0.00       1/1           std::_Sp_counted_ptr<el::base::Storage*, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr() [141]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Sp_counted_ptr<el::base::Storage*, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr() [140]
+[141]    0.0    0.00    0.00       1         std::_Sp_counted_ptr<el::base::Storage*, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr() [141]
+-----------------------------------------------
+                0.00    0.00       1/1           StormRenderer::StormRenderer() [105]
+[142]    0.0    0.00    0.00       1         std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::vector() [142]
+                0.00    0.00       1/1           std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_Vector_base() [125]
+-----------------------------------------------
+                0.00    0.00       1/1           StormRenderer::~StormRenderer() [33]
+[143]    0.0    0.00    0.00       1         std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::~vector() [143]
+                0.00    0.00       1/2900        std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_get_Tp_allocator() [57]
+                0.00    0.00       1/2889        void std::_Destroy<StormRenderCommand**, StormRenderCommand*>(StormRenderCommand**, StormRenderCommand**, std::allocator<StormRenderCommand*>&) [60]
+                0.00    0.00       1/1           std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::~_Vector_base() [126]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012-2015 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+  [97] _GLOBAL__sub_I__ZN13StormRendererC2Ev (StormRenderer.cpp) [111] el::LogBuilder::LogBuilder() [129] std::__shared_ptr<el::base::Storage, (__gnu_cxx::_Lock_policy)2>::~__shared_ptr()
+  [22] _GLOBAL__sub_I__ZN17StormInputManagerC2Ev (StormInputManager.cpp) [112] el::base::DefaultLogBuilder::DefaultLogBuilder() [71] std::move_iterator<StormRenderCommand**>::move_iterator(StormRenderCommand**)
+  [37] _GLOBAL__sub_I__ZN2el4base9elStorageE (main.cpp) [113] el::base::debug::CrashHandler::CrashHandler(bool) [130] std::__shared_count<(__gnu_cxx::_Lock_policy)2>::__shared_count<el::base::DefaultLogBuilder*>(el::base::DefaultLogBuilder*)
+  [98] _GLOBAL__sub_I__vPool (StormRenderCommand.cpp) [114] Color::set(unsigned char, unsigned char, unsigned char, unsigned char) [131] std::__shared_count<(__gnu_cxx::_Lock_policy)2>::__shared_count<el::base::Storage*>(el::base::Storage*)
+  [99] __static_initialization_and_destruction_0(int, int) (StormRenderCommand.cpp) [96] MatrixT<float>::identity() [132] std::_Sp_counted_ptr<el::base::DefaultLogBuilder*, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+ [100] __static_initialization_and_destruction_0(int, int) (StormRenderer.cpp) [115] MatrixT<float>::MatrixT(float, float, float, float, float, float, float, float, float, float, float, float, float, float, float, float) [133] std::_Sp_counted_ptr<el::base::DefaultLogBuilder*, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  [38] __static_initialization_and_destruction_0(int, int) (main.cpp) [116] MatrixT<float>::MatrixT() [134] std::_Sp_counted_ptr<el::base::DefaultLogBuilder*, (__gnu_cxx::_Lock_policy)2>::_Sp_counted_ptr(el::base::DefaultLogBuilder*)
+  [11] StormVertex::StormVertex() [4] VectorT2<float>::VectorT2() [135] std::_Sp_counted_ptr<el::base::DefaultLogBuilder*, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr()
+   [6] StormRenderer::clearQueue() [90] VectorT4<float>::VectorT4(float const&, float const&, float const&, float const&) [136] std::_Sp_counted_ptr<el::base::DefaultLogBuilder*, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr()
+ [101] StormRenderer::initialize() [76] __gnu_cxx::new_allocator<StormRenderCommand*>::deallocate(StormRenderCommand**, unsigned long) [137] std::_Sp_counted_ptr<el::base::Storage*, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  [18] StormRenderer::newCommand() [77] __gnu_cxx::new_allocator<StormRenderCommand*>::allocate(unsigned long, void const*) [138] std::_Sp_counted_ptr<el::base::Storage*, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  [50] StormRenderer::bindTexture(StormTexture*) [28] _ZN9__gnu_cxx13new_allocatorIP18StormRenderCommandE9constructIS2_IRKS2_EEEvPT_DpOT0_ [139] std::_Sp_counted_ptr<el::base::Storage*, (__gnu_cxx::_Lock_policy)2>::_Sp_counted_ptr(el::base::Storage*)
+  [32] StormRenderer::deinitialize() [117] __gnu_cxx::new_allocator<StormRenderCommand*>::new_allocator() [140] std::_Sp_counted_ptr<el::base::Storage*, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr()
+   [7] StormRenderer::queueCommand(StormRenderCommand*) [118] __gnu_cxx::new_allocator<StormRenderCommand*>::~new_allocator() [141] std::_Sp_counted_ptr<el::base::Storage*, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr()
+  [51] StormRenderer::bindIndexData(unsigned int*, unsigned int) [54] __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >::__normal_iterator(StormRenderCommand** const&) [81] std::allocator_traits<std::allocator<StormRenderCommand*> >::deallocate(std::allocator<StormRenderCommand*>&, StormRenderCommand**, unsigned long)
+  [21] StormRenderer::bindVertexData(StormVertex*, unsigned int) [20] __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >::operator++() [82] std::allocator_traits<std::allocator<StormRenderCommand*> >::allocate(std::allocator<StormRenderCommand*>&, unsigned long)
+ [102] StormRenderer::setPerspective(float, float, float, float, float, float) [12] bool __gnu_cxx::operator!=<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >(__gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > > const&, __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > > const&) [72] std::allocator_traits<std::allocator<StormRenderCommand*> >::max_size(std::allocator<StormRenderCommand*> const&)
+ [103] StormRenderer::bindColorUniform() [9] StormIntrusivePtr<StormTexture>::get() const [10] _ZNSt16allocator_traitsISaIP18StormRenderCommandEE9constructIS1_IRKS1_EEEvRS2_PT_DpOT0_
+  [95] StormRenderer::bindPerspectiveMatrix() [64] __gnu_cxx::new_allocator<StormRenderCommand*>::max_size() const [83] StormRenderCommand** std::__uninitialized_copy<true>::__uninit_copy<std::move_iterator<StormRenderCommand**>, StormRenderCommand**>(std::move_iterator<StormRenderCommand**>, std::move_iterator<StormRenderCommand**>, StormRenderCommand**)
+   [2] StormRenderer::flush() [48] __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >::base() const [25] void std::_Bind<std::_Mem_fn<void (StormEngine::*)(float)> (StormEngine*, std::_Placeholder<1>)>::__call<void, float&&, 0ul, 1ul>(std::tuple<float&&>&&, std::_Index_tuple<0ul, 1ul>)
+ [104] StormRenderer::setShader(StormShader*) [49] __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >::operator*() const [61] std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_erase_at_end(StormRenderCommand**)
+ [105] StormRenderer::StormRenderer() [67] std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_get_Tp_allocator() const [36] void std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_emplace_back_aux<StormRenderCommand* const&>(StormRenderCommand* const&)
+  [33] StormRenderer::~StormRenderer() [68] std::move_iterator<StormRenderCommand**>::base() const [55] std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::end()
+ [106] StormObjectPool<StormVertex, DefaultMemoryAllocator>::_Node::_Node(unsigned long) [78] std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_check_len(unsigned long, char const*) const [56] std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::begin()
+ [107] StormObjectPool<StormVertex, DefaultMemoryAllocator>::_Node::~_Node() [63] std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::size() const [62] std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::clear()
+ [108] StormObjectPool<StormVertex, DefaultMemoryAllocator>::StormObjectPool(unsigned long, unsigned long) [69] std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::max_size() const [8] std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::push_back(StormRenderCommand* const&)
+  [14] StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::deleteObject(StormRenderCommand*) [119] std::allocator<StormRenderCommand*>::allocator() [142] std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::vector()
+  [29] StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::_AllocateNewNode() [120] std::allocator<StormRenderCommand*>::~allocator() [143] std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::~vector()
+  [93] StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::_Node::_Node(unsigned long) [65] std::_Iter_base<StormRenderCommand**, false>::_S_base(StormRenderCommand**) [26] std::_Rb_tree<el::Level, std::pair<el::Level const, std::shared_ptr<std::basic_fstream<char, std::char_traits<char> > > >, std::_Select1st<std::pair<el::Level const, std::shared_ptr<std::basic_fstream<char, std::char_traits<char> > > > >, std::less<el::Level>, std::allocator<std::pair<el::Level const, std::shared_ptr<std::basic_fstream<char, std::char_traits<char> > > > > >::_S_right(std::_Rb_tree_node_base*)
+  [94] StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::_Node::~_Node() [70] std::_Iter_base<std::move_iterator<StormRenderCommand**>, true>::_S_base(std::move_iterator<StormRenderCommand**>) [27] float& std::__get_helper<0ul, float&&>(std::_Tuple_impl<0ul, float&&>&)
+  [19] StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::newObject() [121] std::shared_ptr<el::LogBuilder>::shared_ptr<el::base::DefaultLogBuilder>(el::base::DefaultLogBuilder*) [73] std::_Miter_base<std::move_iterator<StormRenderCommand**> >::iterator_type std::__miter_base<std::move_iterator<StormRenderCommand**> >(std::move_iterator<StormRenderCommand**>)
+ [109] StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::StormObjectPool(unsigned long, unsigned long) [122] std::shared_ptr<el::base::Storage>::shared_ptr<el::base::Storage>(el::base::Storage*) [66] std::_Niter_base<StormRenderCommand**>::iterator_type std::__niter_base<StormRenderCommand**>(StormRenderCommand**)
+ [110] StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::~StormObjectPool() [79] StormRenderCommand** std::__copy_move<true, true, std::random_access_iterator_tag>::__copy_m<StormRenderCommand*>(StormRenderCommand* const*, StormRenderCommand* const*, StormRenderCommand**) [84] StormRenderCommand** std::__copy_move_a<true, StormRenderCommand**, StormRenderCommand**>(StormRenderCommand**, StormRenderCommand**, StormRenderCommand**)
+  [52] StormRenderCommand::setTexture(StormTexture*) [30] std::char_traits<char>::length(char const*) [85] StormRenderCommand** std::__copy_move_a2<true, StormRenderCommand**, StormRenderCommand**>(StormRenderCommand**, StormRenderCommand**, StormRenderCommand**)
+   [5] StormRenderCommand::setVertexData(StormVertex*, unsigned short) [58] void std::_Destroy_aux<true>::__destroy<StormRenderCommand**>(StormRenderCommand**, StormRenderCommand**) [86] StormRenderCommand** std::uninitialized_copy<std::move_iterator<StormRenderCommand**>, StormRenderCommand**>(std::move_iterator<StormRenderCommand**>, std::move_iterator<StormRenderCommand**>, StormRenderCommand**)
+  [15] StormRenderCommand::setDefaultIndices() [80] std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_allocate(unsigned long) [87] StormRenderCommand** std::__uninitialized_copy_a<std::move_iterator<StormRenderCommand**>, StormRenderCommand**, StormRenderCommand*>(std::move_iterator<StormRenderCommand**>, std::move_iterator<StormRenderCommand**>, StormRenderCommand**, std::allocator<StormRenderCommand*>&)
+  [16] StormRenderCommand::execute(StormRenderer*) [123] std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_Vector_impl::_Vector_impl() [74] std::move_iterator<StormRenderCommand**> std::__make_move_if_noexcept_iterator<StormRenderCommand**, std::move_iterator<StormRenderCommand**> >(StormRenderCommand**)
+  [53] StormRenderCommand::StormRenderCommand() [124] std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_Vector_impl::~_Vector_impl() [88] StormRenderCommand** std::__uninitialized_move_if_noexcept_a<StormRenderCommand**, StormRenderCommand**, std::allocator<StormRenderCommand*> >(StormRenderCommand**, StormRenderCommand**, StormRenderCommand**, std::allocator<StormRenderCommand*>&)
+  [17] StormRenderCommand::~StormRenderCommand() [75] std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_deallocate(StormRenderCommand**, unsigned long) [89] StormRenderCommand** std::copy<std::move_iterator<StormRenderCommand**>, StormRenderCommand**>(std::move_iterator<StormRenderCommand**>, std::move_iterator<StormRenderCommand**>, StormRenderCommand**)
+  [91] DefaultMemoryAllocator::Deallocate(void*, unsigned long) [57] std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_get_Tp_allocator() [13] StormRenderCommand* const& std::forward<StormRenderCommand* const&>(std::remove_reference<StormRenderCommand* const&>::type&)
+  [92] DefaultMemoryAllocator::Allocate(unsigned long) [125] std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_Vector_base() [59] void std::_Destroy<StormRenderCommand**>(StormRenderCommand**, StormRenderCommand**)
+  [23] SSceneComStaticTexture::getTexture() [126] std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::~_Vector_base() [60] void std::_Destroy<StormRenderCommand**, StormRenderCommand*>(StormRenderCommand**, StormRenderCommand**, std::allocator<StormRenderCommand*>&)
+   [1] SSceneComStaticTexture::render(StormRenderer*) [127] std::__shared_ptr<el::LogBuilder, (__gnu_cxx::_Lock_policy)2>::__shared_ptr<el::base::DefaultLogBuilder>(el::base::DefaultLogBuilder*) [31] operator new(unsigned long, void*)
+  [24] SSceneSystemStaticTexture::render(StormRenderer*) [128] std::__shared_ptr<el::base::Storage, (__gnu_cxx::_Lock_policy)2>::__shared_ptr<el::base::Storage>(el::base::Storage*)
