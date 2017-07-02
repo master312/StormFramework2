@@ -11,10 +11,12 @@
 #include <QOpenGLFunctions>
 #include <QTimer>
 
+#include "../../src/StormEngine.h"
+#include "../../src/core/platforms/StormPlatformQt.h"
+
 class QEvent;
 class QKeyEvent;
 class QMouseEvent;
-class StormPlatformQt;
 
 class StormOpenGlWidget : public QOpenGLWidget, protected QOpenGLFunctions {
     Q_OBJECT

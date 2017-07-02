@@ -2,9 +2,6 @@
 #include <QKeyEvent>
 #include <QSurfaceFormat>
 
-#include "../../src/StormEngine.h"
-#include "../../src/core/platforms/StormPlatformQt.h"
-
 StormOpenGlWidget::StormOpenGlWidget(QWidget* parent /* = 0 */) : QOpenGLWidget(parent) {
     _Timer = new QTimer(this);
     _Timer->setInterval(10);
@@ -15,6 +12,8 @@ StormOpenGlWidget::StormOpenGlWidget(QWidget* parent /* = 0 */) : QOpenGLWidget(
     glFormat.setVersion(2, 1);
     glFormat.setProfile(QSurfaceFormat::CoreProfile);
     this->setFormat(glFormat);
+
+    grabKeyboard();
 }
 
 StormOpenGlWidget::~StormOpenGlWidget() {
@@ -32,6 +31,8 @@ void StormOpenGlWidget::initializeGL() {
 
     StormEngine::instance()->initialize(STORM_PLATFORM_QT);
     _StormPlatform = dynamic_cast<StormPlatformQt*>(StormEngine::instance()->getPlatform());
+
+    _Timer->start();
 }
 
 void StormOpenGlWidget::resizeGL(int width, int height) {
@@ -59,9 +60,17 @@ bool StormOpenGlWidget::event(QEvent* event) {
 }
 
 void StormOpenGlWidget::keyPressEvent(QKeyEvent* event) {
+    if (event->isAutoRepeat()) {
+        return;
+    }
+    _StormPlatform->getInputManager()->processKeyEvent(true, (StormKey)(event->nativeVirtualKey() & 0x0000ff));
 }
 
 void StormOpenGlWidget::keyReleaseEvent(QKeyEvent* event) {
+    if (event->isAutoRepeat()) {
+        return;
+    }
+    _StormPlatform->getInputManager()->processKeyEvent(false, (StormKey)(event->nativeVirtualKey() & 0x0000ff));
 }
 
 void StormOpenGlWidget::mousePressEvent(QMouseEvent* event) {

@@ -1,5 +1,6 @@
 #ifdef STORM_BUILD_PLATFORM_SDL2
 #include "StormPlatformSDL2.h"
+#include <SDL2/SDL_opengl.h>
 #include "../StormCommon.h"
 
 StormPlatformSDL2::StormPlatformSDL2() {
@@ -75,7 +76,7 @@ int StormPlatformSDL2::createWindow(StormWindowSettings settings) {
         SDL_GL_SetSwapInterval(0);
     }
 
-    LOG(INFO) << "SDL gl context created";
+    LOG(INFO) << "SDL gl context created. Version: " << glGetString(GL_VERSION);
 
     return 1;
 }

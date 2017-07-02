@@ -15,7 +15,7 @@ StormEngine::StormEngine() {
     _ComTextureManager = nullptr;
     _GameDataFilesystem = nullptr;
     _DefaultShader = nullptr;
-    
+
     _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.03", true);
     _ViewPerspectiveSize.set(1280, 768);
 }
@@ -68,11 +68,11 @@ void StormEngine::initialize(StormPlatformType platform) {
     }
 
     _DefaultShader = new StormShader();
-    if (_DefaultShader->compileFromSource(_GameDataFilesystem->getResourceByFilename("color.vs")->getBuffer(), 
+    if (_DefaultShader->compileFromSource(_GameDataFilesystem->getResourceByFilename("color.vs")->getBuffer(),
                                           _GameDataFilesystem->getResourceByFilename("color.fs")->getBuffer()) < 0) {
-        LOG(FATAL) << "Default shader could not be compiled";                                
+        LOG(FATAL) << "Default shader could not be compiled";
     }
-    
+
     _DefaultShader->linkShaders();
     _ComRenderer->setShader(_DefaultShader);
 
@@ -121,7 +121,7 @@ int StormEngine::initializeComponents() {
     _ComRenderer->setPerspective(0.0f, 0.0f, _ViewPerspectiveSize.x, _ViewPerspectiveSize.y);
 
     _ComTextureManager = new StormTextureManager(_GameDataFilesystem);
-    
+
     return 1;
 }
 
