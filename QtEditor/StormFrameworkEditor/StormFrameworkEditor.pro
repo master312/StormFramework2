@@ -24,6 +24,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
+QMAKE_CXXFLAGS_RELEASE -= -O
+
+
 LIBS += -lSDL2 -lSDL2_image -lGLEW -lGL -lGLU
 
 SOURCES += \
@@ -52,8 +55,8 @@ SOURCES += \
     ../../src/StormTextureManager.cpp \
     ../../libs/easyloggingpp/easylogging++.cpp \
     ../../libs/pugixml/pugixml.cpp \
-    stormglwidget.cpp \
-    ../../src/core/platforms/StormPlatformQt.cpp
+    ../../src/core/platforms/StormPlatformQt.cpp \
+    StormOpenGlWidget.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -95,8 +98,8 @@ HEADERS += \
     ../../libs/easyloggingpp/easylogging++.h \
     ../../libs/pugixml/pugiconfig.hpp \
     ../../libs/pugixml/pugixml.hpp \
-    stormglwidget.h \
-    ../../src/core/platforms/StormPlatformQt.h
+    ../../src/core/platforms/StormPlatformQt.h \
+    StormOpenGlWidget.h
 
 FORMS += \
         mainwindow.ui

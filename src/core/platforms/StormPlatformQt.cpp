@@ -27,6 +27,7 @@ void StormPlatformQt::deinitialize() {
 }
 
 int StormPlatformQt::createWindow(StormWindowSettings settings) {
+    _InputManager->setRealWindowSize(settings.getSize());
     return 1;
 }
 

@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "stormglwidget.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -17,7 +17,6 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    StormGlWidget* _StormGlWidget;
 };
 
 #endif // MAINWINDOW_H

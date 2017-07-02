@@ -31,7 +31,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="StormGlWidget" name="openGLWidget"/>
+     <widget class="StormOpenGlWidget" name="openGLWidget"/>
     </item>
     <item>
      <widget class="QWidget" name="verticalWidget" native="true">
@@ -68,8 +68,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>257</width>
-            <height>252</height>
+            <width>241</width>
+            <height>244</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -107,8 +107,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>243</width>
-            <height>251</height>
+            <width>227</width>
+            <height>243</height>
            </rect>
           </property>
           <property name="minimumSize">
@@ -166,9 +166,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>StormGlWidget</class>
+   <class>StormOpenGlWidget</class>
    <extends>QOpenGLWidget</extends>
-   <header>stormglwidget.h</header>
+   <header>StormOpenGlWidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include "ScalarMath.h"
 
 template <class T>
@@ -17,6 +18,15 @@ public:
     VectorT2 operator + (const VectorT2&) const;
     VectorT2 operator - (const VectorT2&) const;
     VectorT2 operator - () const;
+
+    friend std::ostream& operator<<(std::ostream& output, const VectorT2<T>& obj) {
+        output << "X: " << obj.x << " Y: " << obj.y;
+        return output;
+    }
+    friend std::istream &operator>>(std::istream& input, VectorT2<T>& obj) {
+       input >> obj;
+       return input;
+    }
 
     void set(T x_, T y_) {x = x_; y = y_;}
     void setZero() {x = 0; y = 0;}
