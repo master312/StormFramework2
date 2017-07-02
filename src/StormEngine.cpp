@@ -2,6 +2,7 @@
 #include "StormEngineEditing.h"
 #include "core/StormCommon.h"
 #include "core/platforms/StormPlatformSDL2.h"
+#include "core/platforms/StormPlatformQt.h"
 #include "core/graphics/StormVideoDriver.h"
 #include "core/graphics/StormRenderer.h"
 #include "core/graphics/StormShader.h"
@@ -37,12 +38,18 @@ void StormEngine::initialize(StormPlatformType platform) {
                 LOG(FATAL) << "Could not initialize SDL platform.";
             }
             break; }
+        case STORM_PLATFORM_QT: {
+            _Platform = new StormPlatformQt();
+            if (_Platform->initialize() < 0) {
+                LOG(FATAL) <<  "Could not initialize QT platform.";
+            }
+            break; }
         default: {
             LOG(ERROR) << "Requested platform not implemented.";
             break; }
     }
 
-    _GameDataFilesystem = new StormFileSystem("data/");
+    _GameDataFilesystem = new StormFileSystem("../../data/");
 
     if (_Platform->createWindow(_WindowInfo) < 0) {
         LOG(FATAL) << "Could not open window.";

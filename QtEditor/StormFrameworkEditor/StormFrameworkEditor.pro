@@ -52,7 +52,8 @@ SOURCES += \
     ../../src/StormTextureManager.cpp \
     ../../libs/easyloggingpp/easylogging++.cpp \
     ../../libs/pugixml/pugixml.cpp \
-    stormglwidget.cpp
+    stormglwidget.cpp \
+    ../../src/core/platforms/StormPlatformQt.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -94,7 +95,8 @@ HEADERS += \
     ../../libs/easyloggingpp/easylogging++.h \
     ../../libs/pugixml/pugiconfig.hpp \
     ../../libs/pugixml/pugixml.hpp \
-    stormglwidget.h
+    stormglwidget.h \
+    ../../src/core/platforms/StormPlatformQt.h
 
 FORMS += \
         mainwindow.ui

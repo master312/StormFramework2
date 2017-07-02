@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 #include "../utils/math/Rect.h"
 #include "../utils/math/Color.h"
 

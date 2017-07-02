@@ -1,4 +1,4 @@
-#include <GL/glew.h> 
+#include <GL/glew.h>
 #include "StormVideoDriver.h"
 #include "../StormCommon.h"
 #include "../utils/math/ScalarMath.h"
@@ -11,7 +11,7 @@ StormVideoDriver::~StormVideoDriver() {
 }
 
 int StormVideoDriver::initialize(Point windowSize) {
-    glewExperimental = GL_TRUE; 
+    glewExperimental = GL_TRUE;
     GLenum glewError = glewInit();
     if (glewError != GLEW_OK) {
         LOG(FATAL) << "Could not initialize glew. " << glewGetErrorString(glewError);

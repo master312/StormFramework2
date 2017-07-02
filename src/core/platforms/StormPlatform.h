@@ -11,7 +11,8 @@ enum StormPlatformType {
     STORM_PLATFORM_NONE,
     STORM_PLATFORM_SDL2,
     STORM_PLATFORM_IOS,
-    STORM_PLATFORM_ANDROID
+    STORM_PLATFORM_ANDROID,
+    STORM_PLATFORM_QT
 };
 
 struct StormWindowSettings {
@@ -59,7 +60,7 @@ public:
     void setMainTickingFunction(std::function<void(float)> tickingFun);
 
     /* Starts main loop ticking. This method will block until program ends. */
-    void startMainLoop();
+    virtual void startMainLoop();
 
     /* Returns true if quit event has been received from OS */
     bool shouldQuit();
@@ -70,6 +71,7 @@ public:
     StormPlatformType getType() const;
     StormWindowSettings getWindowSettings() const;
     StormInputManager* getInputManager();
+
 protected:
     bool _IsInitialized;
     StormPlatformType _PlatformType;

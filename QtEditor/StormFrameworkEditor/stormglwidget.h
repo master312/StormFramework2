@@ -1,6 +1,6 @@
 #ifndef STORMGLWIDGET_H
 #define STORMGLWIDGET_H
-
+#include <GL/glew.h>
 #include <QWidget>
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
@@ -11,6 +11,7 @@ class QGestureEvent;
 class QKeyEvent;
 class QMouseEvent;
 class QMoveEvent;
+class StormPlatformQt;
 
 class StormGlWidget : public QOpenGLWidget, protected QOpenGLFunctions
 {
@@ -40,7 +41,10 @@ protected:
     virtual void moveEvent(QMoveEvent *event);
 
 private:
+    /* Main timer. Used for determening uptime and ticking */
     QTimer* _Timer;
+
+    StormPlatformQt* _StormPlatform;
 };
 
 #endif // STORMGLWIDGET_H
