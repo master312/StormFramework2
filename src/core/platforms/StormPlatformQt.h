@@ -1,6 +1,5 @@
+#ifdef STORM_BUILD_PLATFORM_QT
 #pragma once
-
-#include <QTime>
 #include "StormPlatform.h"
 #include "../StormCommon.h"
 
@@ -42,3 +41,4 @@ private:
     QTime* _Time;
 };
 
+#endif

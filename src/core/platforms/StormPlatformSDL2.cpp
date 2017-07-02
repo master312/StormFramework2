@@ -1,3 +1,4 @@
+#ifdef STORM_BUILD_PLATFORM_SDL2
 #include "StormPlatformSDL2.h"
 #include "../StormCommon.h"
 
@@ -137,3 +138,5 @@ void StormPlatformSDL2::processEvents() {
 uint32_t StormPlatformSDL2::getRunningTime() {
     return (uint32_t)SDL_GetTicks();
 }
+
+#endif /* STORM_BUILD_PLATFORM_QT */

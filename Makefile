@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS  = -g -Wall -std=c++11 #-pg
+CFLAGS  = -g -Wall -std=c++11 -DSTORM_BUILD_PLATFORM_SDL2 #-pg
 LIBS = -w -lSDL2 -lSDL2_image -lGLEW -lGL -lGLU 
 OBJDIR = objects/
 EXNAME = a.out

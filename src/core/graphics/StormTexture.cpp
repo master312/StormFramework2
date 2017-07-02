@@ -89,7 +89,7 @@ uint32_t StormTexture::sdlSurfaceToGLTexture(SDL_Surface* surface) {
 
     /* Generate The Texture */
     glTexImage2D(GL_TEXTURE_2D, 0, mode, surface->w, surface->h, 0, mode,
-                          GL_UNSIGNED_BYTE, surface->pixels);
+                 GL_UNSIGNED_BYTE, surface->pixels);
     glGetError();
 
     /* Linear Filtering 

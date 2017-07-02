@@ -1,3 +1,4 @@
+#ifdef STORM_BUILD_PLATFORM_QT
 #include "StormPlatformQt.h"
 #include <QEvent>
 #include <QTimer>
@@ -44,3 +45,5 @@ uint32_t StormPlatformQt::getRunningTime() {
 void StormPlatformQt::mainTick() {
     _MainTickingFunction(0.16);
 }
+
+#endif /* STORM_BUILD_PLATFORM_QT */

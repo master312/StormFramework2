@@ -32,23 +32,31 @@ StormEngine* StormEngine::instance() {
 void StormEngine::initialize(StormPlatformType platform) {
     switch(platform) {
         case STORM_PLATFORM_SDL2: {
+#ifdef STORM_BUILD_PLATFORM_SDL2
             _Platform = new StormPlatformSDL2();
             if (_Platform->initialize() < 0) {
                 LOG(FATAL) << "Could not initialize SDL platform.";
             }
+#else
+            LOG(FATAL) << "Tryed to initialzie SDL2 platform, but engine was built without SDL2 support.";
+#endif
             break; }
         case STORM_PLATFORM_QT: {
+#ifdef STORM_BUILD_PLATFORM_QT
             _Platform = new StormPlatformQt();
             if (_Platform->initialize() < 0) {
                 LOG(FATAL) <<  "Could not initialize QT platform.";
             }
+#else
+            LOG(FATAL) << "Tryed to initialzie QT platform, but engine was built without QT support.";
+#endif
             break; }
         default: {
             LOG(ERROR) << "Requested platform not implemented.";
             break; }
     }
 
-    _GameDataFilesystem = new StormFileSystem("../../data/");
+    _GameDataFilesystem = new StormFileSystem("data/");
 
     if (_Platform->createWindow(_WindowInfo) < 0) {
         LOG(FATAL) << "Could not open window.";
