@@ -15,6 +15,7 @@ enum StormPlatformType {
     STORM_PLATFORM_QT
 };
 
+/* Struct holds basic informations about game window */
 struct StormWindowSettings {
     int width;
     int height;
@@ -26,9 +27,22 @@ struct StormWindowSettings {
     StormWindowSettings(int w, int h, bool fs, const std::string& wTitle, bool vsync = false) : 
             width(w), height(h), isFullscreen(fs), title(wTitle), useVsync(vsync) { }
     
-    Point getSize() {
+    Point getSizePoint() {
         return Point(width, height);
     }
+    Vector2 getSizeVec2() {
+        return Vector2((float)width, (float)height);
+    }
+};
+
+enum StormWindowEventType {
+    STORM_EVENT_WINDOW_RESIZED,
+    STORM_EVENT_WINDOW_HIDDEN,
+    STORM_EVENT_WINDOW_SHOWN,
+    STORM_EVENT_WINDOW_MOVED,
+    STORM_EVENT_WINDOW_FOCUS_GAINED,
+    STORM_EVENT_WINDOW_FOCUS_LOST
+    /* etc.... */
 };
 
 class StormPlatform {
@@ -59,6 +73,9 @@ public:
     /* Sets main ticking function. */
     void setMainTickingFunction(std::function<void(float)> tickingFun);
 
+    /* Sets listener method for window events. (like window resize, minimize, etc...) */
+    void setWindowEventListener(std::function<void(StormWindowEventType)> listener);
+
     /* Starts main loop ticking. This method will block until program ends. */
     virtual void startMainLoop();
 
@@ -82,4 +99,7 @@ protected:
 
     /* Main ticking function that will be called every tick */
     std::function<void(float)> _MainTickingFunction;
+
+    /* Method that will be called when window state changes. */
+    std::function<void(StormWindowEventType)> _WindowEventListener;
 };

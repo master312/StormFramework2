@@ -32,6 +32,8 @@ public:
 
 private:
     SDL_Window* _Window;
+
+    void handleWindowEvent(SDL_Event& event);
 };
 
 #endif /* STORM_BUILD_PLATFORM_QT */

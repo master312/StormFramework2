@@ -7,6 +7,7 @@ StormPlatform::StormPlatform() {
     _InputManager = nullptr;
     _ShouldQuit = false;
     _MainTickingFunction = nullptr;
+    _WindowEventListener = nullptr;
 }
 
 StormPlatform::~StormPlatform() {
@@ -17,6 +18,10 @@ StormPlatform::~StormPlatform() {
 
 void StormPlatform::setMainTickingFunction(std::function<void(float)> tickingFun) {
     _MainTickingFunction = tickingFun;
+}
+
+void StormPlatform::setWindowEventListener(std::function<void(StormWindowEventType)> listener) {
+    _WindowEventListener = listener;
 }
 
 void StormPlatform::startMainLoop() {

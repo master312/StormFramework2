@@ -16,8 +16,7 @@ StormEngine::StormEngine() {
     _GameDataFilesystem = nullptr;
     _DefaultShader = nullptr;
 
-    _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.03", true);
-    _ViewPerspectiveSize.set(1280, 768);
+    _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.04", true);
 }
 
 StormEngine::~StormEngine() {
@@ -61,7 +60,6 @@ void StormEngine::initialize(StormPlatformType platform) {
     if (_Platform->createWindow(_WindowInfo) < 0) {
         LOG(FATAL) << "Could not open window.";
     }
-    _Platform->getInputManager()->calculatePointerScaling(_ViewPerspectiveSize);
 
     if (initializeComponents() < 0) {
         LOG(FATAL) << "Could not initialize all engine components.";
@@ -78,6 +76,7 @@ void StormEngine::initialize(StormPlatformType platform) {
 
     /* If this line is reached, all components have been initialized successfully */
     _Platform->setMainTickingFunction(std::bind(&StormEngine::mainTickingMethod, this, std::placeholders::_1));
+    _Platform->setWindowEventListener(std::bind(&StormEngine::windowEventListener, this, std::placeholders::_1));
 
     LOG(INFO) << "Engine components initialized successfully";
     _IsInitialized = true;
@@ -110,15 +109,20 @@ void StormEngine::deinitialize() {
 
 int StormEngine::initializeComponents() {
     _ComVideoDriver = new StormVideoDriver();
-    if (_ComVideoDriver->initialize(_WindowInfo.getSize()) < 0) {
+    _ComVideoDriver->setVirtualViewSize(_WindowInfo.width, _WindowInfo.height);
+    
+    if (_ComVideoDriver->initialize(_WindowInfo.getSizePoint()) < 0) {
         return -1;
     }
+    
+    _Platform->getInputManager()->calculatePointerScaling(_ComVideoDriver->getVirtualViewSize());
 
     _ComRenderer = new StormRenderer();
     if (_ComRenderer->initialize() < 0) {
         return -1;
     }
-    _ComRenderer->setPerspective(0.0f, 0.0f, _ViewPerspectiveSize.x, _ViewPerspectiveSize.y);
+    _ComRenderer->setPerspective(0.0f, 0.0f, _ComVideoDriver->getVirtualViewSize().x, _ComVideoDriver->getVirtualViewSize().y);
+
 
     _ComTextureManager = new StormTextureManager(_GameDataFilesystem);
 
@@ -149,11 +153,6 @@ void StormEngine::quit() {
     _Platform->quit();
 }
 
-void StormEngine::mainTickingMethod(float deltaTime) {
-    updateTick(deltaTime);
-    renderTick();
-}
-
 StormRenderer* StormEngine::getRenderer() {
     return _ComRenderer;
 }
@@ -168,6 +167,25 @@ StormTextureManager* StormEngine::getTextureManager() {
 
 StormFileSystem* StormEngine::getDataFilesystem() {
     return _GameDataFilesystem;
+}
+
+void StormEngine::mainTickingMethod(float deltaTime) {
+    updateTick(deltaTime);
+    renderTick();
+}
+
+void StormEngine::windowEventListener(StormWindowEventType event) {
+    switch (event) {
+        case STORM_EVENT_WINDOW_RESIZED:
+            _ComVideoDriver->setVirtualViewSize(_Platform->getWindowSettings().getSizeVec2());
+            
+            _Platform->getInputManager()->setRealWindowSize(_Platform->getWindowSettings().getSizeVec2());
+            _Platform->getInputManager()->calculatePointerScaling(_ComVideoDriver->getVirtualViewSize());
+            
+            _ComRenderer->setPerspective(0.0f, 0.0f, _ComVideoDriver->getVirtualViewSize().x, _ComVideoDriver->getVirtualViewSize().y);
+            LOG(DEBUG) << "Window resized to: " << _Platform->getWindowSettings().getSizeVec2();
+            break;
+    }
 }
 
 #include "scene/StormScene.h"

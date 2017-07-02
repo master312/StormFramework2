@@ -17,6 +17,15 @@ public:
     VectorT4& operator+=(const VectorT4&);
     VectorT4& operator-=(const VectorT4&);
 
+
+    inline bool operator==(const VectorT4& vec) {
+        return vec.x == x && vec.y == y && vec.z == z && vec.w == w;
+    }
+    
+    inline bool operator!=(const VectorT4& vec) {
+        return vec.x != x || vec.y != y || vec.z != z || vec.w != w;
+    }
+
     VectorT4 operator + (const VectorT4&) const;
     VectorT4 operator - (const VectorT4&) const;
 

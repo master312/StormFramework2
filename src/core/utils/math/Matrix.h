@@ -28,6 +28,22 @@ public:
     MatrixT operator * (const MatrixT& m) const;
     vector4& operator[](int row);
 
+    bool operator==(const MatrixT& rhs) {
+        vector4* rows = (vector4*)this->ml;
+        vector4* rowsRhs = (vector4*)rhs.ml;
+
+        for (int i = 0; i < 4; i++) {
+            if (rows[i] != rowsRhs[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    inline bool operator!=(const MatrixT& rhs) {
+        return !((*this) == rhs);
+    }
+
     void identity();
     void inverse();
     void transpose();

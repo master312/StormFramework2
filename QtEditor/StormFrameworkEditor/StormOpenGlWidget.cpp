@@ -36,6 +36,7 @@ void StormOpenGlWidget::initializeGL() {
 }
 
 void StormOpenGlWidget::resizeGL(int width, int height) {
+    _StormPlatform->handleWidgetResize(width, height);
 }
 
 void StormOpenGlWidget::paintGL() {

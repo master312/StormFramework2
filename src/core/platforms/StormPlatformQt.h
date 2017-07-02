@@ -33,6 +33,9 @@ public:
     /* Called from QT timer, to tick engine */
     void mainTick();
 
+    /* Called from QT widget when widget gets resized */
+    void handleWidgetResize(int width, int height);
+
     /* Sence we tick main function from QT timer,
      * we dont need startMainLoop() method. */
     virtual void startMainLoop() { }

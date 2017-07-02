@@ -12,6 +12,7 @@ StormRenderer::StormRenderer() {
     _ColorOverlay.set(255, 255, 255, 255);
     _Perspective.identity();
     _RenderMode = S_RENDER_TRIANGLE_FAN;
+    _IsPerspectiveChanged = false;
 }
 
 StormRenderer::~StormRenderer() {
@@ -64,14 +65,17 @@ void StormRenderer::deinitialize() {
 }
 
 void StormRenderer::setPerspective(float left, float top, float right, float bottom, float near /* = -1.0f */, float far /* = 1.0f */) {
-    _Perspective = Matrix(
+    Matrix newPerspective = Matrix(
             2.0 / (right - left), 0, 0, 0,
             0, 2.0 / (top - bottom), 0, 0,
             0, 0, -2.0 / (far - near), 0,
             -(right + left) / (right - left), -(top + bottom) / (top - bottom), -(far + near) / (far - near), 1
         );
-
-    bindPerspectiveMatrix();
+        
+    if (_Perspective != newPerspective) {
+        _Perspective = newPerspective;
+        _IsPerspectiveChanged = true;
+    }
 }
 
 void StormRenderer::startRendering() {
@@ -81,6 +85,11 @@ void StormRenderer::startRendering() {
     glBindVertexArray(_GLVaoId);
     glBindBuffer(GL_ARRAY_BUFFER, _GLVertexBufferId);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _GLIndicesBufferId);
+
+    if (_IsPerspectiveChanged) {
+        _IsPerspectiveChanged = false;
+        bindPerspectiveMatrix();
+    }
 }
 
 void StormRenderer::endRendering() {

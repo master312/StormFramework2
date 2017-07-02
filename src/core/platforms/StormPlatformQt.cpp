@@ -28,7 +28,7 @@ void StormPlatformQt::deinitialize() {
 }
 
 int StormPlatformQt::createWindow(StormWindowSettings settings) {
-    _InputManager->setRealWindowSize(settings.getSize());
+    _InputManager->setRealWindowSize(settings.getSizeVec2());
     return 1;
 }
 
@@ -44,6 +44,14 @@ uint32_t StormPlatformQt::getRunningTime() {
 
 void StormPlatformQt::mainTick() {
     _MainTickingFunction(0.16);
+}
+
+void StormPlatformQt::handleWidgetResize(int width, int height) {
+    _WindowSettings.width = width;
+    _WindowSettings.height = height;
+    if (_WindowEventListener) {
+        _WindowEventListener(STORM_EVENT_WINDOW_RESIZED);
+    }
 }
 
 #endif /* STORM_BUILD_PLATFORM_QT */

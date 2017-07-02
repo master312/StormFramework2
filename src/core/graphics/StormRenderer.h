@@ -84,6 +84,9 @@ private:
     /* Perspective matrix. Used for managing virtual screen dimensions */
     Matrix _Perspective;
 
+    /* Set to true if perspective was changed and uniform should be updated */
+    bool _IsPerspectiveChanged;
+
     /* Binds @_Perspective matrix to uniform in shader */
     void bindPerspectiveMatrix();
     /* Binds @_ColorOverlay to uniform in shader */

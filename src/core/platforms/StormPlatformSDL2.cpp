@@ -3,7 +3,7 @@
 #include <SDL2/SDL_opengl.h>
 #include "../StormCommon.h"
 
-StormPlatformSDL2::StormPlatformSDL2() {
+StormPlatformSDL2::StormPlatformSDL2() : StormPlatform() {
     _Window = nullptr;
     _PlatformType = STORM_PLATFORM_SDL2;
 }
@@ -39,7 +39,7 @@ void StormPlatformSDL2::deinitialize() {
 int StormPlatformSDL2::createWindow(StormWindowSettings settings) {
     _WindowSettings = settings;
 
-    uint32_t flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
+    uint32_t flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
     if (_WindowSettings.isFullscreen) {
         flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
     }
@@ -69,6 +69,8 @@ int StormPlatformSDL2::createWindow(StormWindowSettings settings) {
         LOG(FATAL) << "Could not create SDL gl context. " << SDL_GetError();
         return -1;
     }
+    
+    glViewport(0, 0, (GLsizei)_WindowSettings.width, (GLsizei)_WindowSettings.height);
 
     if (_WindowSettings.useVsync) {
         SDL_GL_SetSwapInterval(1);
@@ -132,7 +134,38 @@ void StormPlatformSDL2::processEvents() {
             case SDL_MOUSEMOTION:
                 _InputManager->processPointerMotion(1, event.motion.x, event.motion.y);
                 break;
+            case SDL_WINDOWEVENT:
+                handleWindowEvent(event);
+                break;
         }
+    }
+}
+
+void StormPlatformSDL2::handleWindowEvent(SDL_Event& event) {
+    switch (event.window.event) {
+        case SDL_WINDOWEVENT_SHOWN:
+        case SDL_WINDOWEVENT_RESTORED:
+            if (_WindowEventListener) {
+                _WindowEventListener(STORM_EVENT_WINDOW_SHOWN);
+            }
+            break;
+
+        case SDL_WINDOWEVENT_HIDDEN:
+        case SDL_WINDOWEVENT_MINIMIZED:
+            if (_WindowEventListener) {
+                _WindowEventListener(STORM_EVENT_WINDOW_HIDDEN);
+            }
+            break;
+
+        case SDL_WINDOWEVENT_RESIZED:
+        case SDL_WINDOWEVENT_SIZE_CHANGED:
+            _WindowSettings.width = (int)event.window.data1;
+            _WindowSettings.height = (int)event.window.data2;
+            glViewport(0, 0, (GLsizei)_WindowSettings.width, (GLsizei)_WindowSettings.height);
+            if (_WindowEventListener) {
+                _WindowEventListener(STORM_EVENT_WINDOW_RESIZED);
+            }
+            break;
     }
 }
 
