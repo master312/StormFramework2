@@ -71,29 +71,19 @@
         </widget>
        </item>
        <item>
-        <widget class="QScrollArea" name="scrollObjects">
-         <property name="widgetResizable">
+        <widget class="SceneObjectsTreeWidget" name="treeSceneObjects">
+         <property name="dragEnabled">
           <bool>true</bool>
          </property>
-         <widget class="QWidget" name="scrollAreaWidgetContents">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>274</width>
-            <height>251</height>
-           </rect>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_3">
-           <item>
-            <widget class="SceneObjectsTreeWidget" name="treeSceneObjects">
-             <attribute name="headerVisible">
-              <bool>false</bool>
-             </attribute>
-            </widget>
-           </item>
-          </layout>
-         </widget>
+         <property name="dragDropMode">
+          <enum>QAbstractItemView::InternalMove</enum>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::ExtendedSelection</enum>
+         </property>
+         <attribute name="headerVisible">
+          <bool>false</bool>
+         </attribute>
         </widget>
        </item>
        <item>
@@ -119,7 +109,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>260</width>
+            <width>241</width>
             <height>250</height>
            </rect>
           </property>

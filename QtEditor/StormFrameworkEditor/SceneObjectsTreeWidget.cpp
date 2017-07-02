@@ -8,7 +8,7 @@
 SceneObjectsTreeWidget::SceneObjectsTreeWidget(QWidget* parent) : QTreeWidget(parent) {
     _Scene = nullptr;
 
-    setSelectionMode(QAbstractItemView::SingleSelection);
+    setSelectionMode(QAbstractItemView::ExtendedSelection);
     setDragEnabled(true);
     viewport()->setAcceptDrops(true);
     setDropIndicatorShown(true);
@@ -31,6 +31,11 @@ void SceneObjectsTreeWidget::populateSceneElements(StormScene* scene) {
     for (StormSceneObject* object : _Scene->getObjects()) {
         createSceneObjectListItem(object);
     }
+}
+
+void SceneObjectsTreeWidget::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected) {
+    //LOG(INFO) << "Selected item: " << selectedItems()[0]->text(0).toStdString();
+    update();
 }
 
 void SceneObjectsTreeWidget::createSceneObjectListItem(StormSceneObject* object) {

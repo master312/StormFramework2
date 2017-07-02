@@ -11,6 +11,9 @@ public:
 
     void populateSceneElements(StormScene* scene);
 
+protected:
+    virtual void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
+
 private:
     /* Currently active scene */
     StormScene* _Scene;
