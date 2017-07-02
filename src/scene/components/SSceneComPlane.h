@@ -18,7 +18,8 @@ public:
     /* Do transform calculations. */
     void transform(Plane* parent = nullptr);
 
-    void setPosition(const Vector2& position);
+    void setPosition(const Vector2 position);
+    void setPositionXY(const float x, const float y);
     Vector2 getPosition() const;
     Vector2 getPositionTransformed() const;
 

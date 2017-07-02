@@ -3,20 +3,24 @@
 #include <QPushButton>
 #include "../../src/scene/SSceneComponent.h"
 
-/* Base class for all storm object component widgets */
+/* Base class for all storm object component widgets.
+ * Make sure that StormObjComponentWidget objects are created using StormObjComponentWidget::newWidget method. */
 
 class StormObjComponentWidget : public QWidget {
     Q_OBJECT
 
 public:
-    StormObjComponentWidget(QWidget* parent = 0);
+    StormObjComponentWidget(QWidget* parent = nullptr);
     virtual ~StormObjComponentWidget();
 
     void setStormComponent(SSceneComponent* component);
-    void initialize();
+    virtual void initialize();
 
+    /* Ussualy called from Property widgets when values ware edited, to update storm component */
+    virtual void refresh();
+
+    /* Component widget factory method */
     static StormObjComponentWidget* newWidget(SSceneComponentType type, SSceneComponent* component);
-
 public slots:
     void collapseButtonClick();
 

@@ -7,7 +7,7 @@ class StormSceneObject;
 
 class SceneObjectTreeWidgetItem : public QTreeWidgetItem {
 public:
-    SceneObjectTreeWidgetItem(QTreeWidget* parent = 0);
+    SceneObjectTreeWidgetItem(QTreeWidget* parent = nullptr);
     virtual ~SceneObjectTreeWidgetItem();
 
     void setSceneObject(StormSceneObject* obj);
@@ -18,7 +18,7 @@ private:
 
 class SceneObjectsTreeWidget : public QTreeWidget {
 public:
-    SceneObjectsTreeWidget(QWidget* parent = 0);
+    SceneObjectsTreeWidget(QWidget* parent = nullptr);
     virtual ~SceneObjectsTreeWidget();
 
     void populateSceneElements(StormScene* scene);

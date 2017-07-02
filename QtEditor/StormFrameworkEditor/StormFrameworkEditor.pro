@@ -59,7 +59,8 @@ SOURCES += \
     SceneObjectsTreeWidget.cpp \
     StormObjComponentWidget.cpp \
     StormObjComPropertyWidget.cpp \
-    componentWidgets/StormObjComPlane.cpp
+    componentWidgets/StormObjComPlane.cpp \
+    propertyWidgets/StormPropertyVec2Widget.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -106,7 +107,8 @@ HEADERS += \
     StormQtHelperFunctions.h \
     StormObjComponentWidget.h \
     StormObjComPropertyWidget.h \
-    componentWidgets/StormObjComPlane.h
+    componentWidgets/StormObjComPlane.h \
+    propertyWidgets/StormPropertyVec2Widget.h
 
 FORMS += \
         mainwindow.ui

@@ -36,6 +36,9 @@ void StormObjComponentWidget::initialize() {
     setLayout(layout);
 }
 
+void StormObjComponentWidget::refresh() {
+}
+
 void StormObjComponentWidget::collapseButtonClick() {
     /* Collapse (header) button click callback */
     foreach (QWidget* child, findChildren<QWidget*>()) {

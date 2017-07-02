@@ -30,6 +30,7 @@ public:
 
     void set(T x_, T y_) {x = x_; y = y_;}
     void setZero() {x = 0; y = 0;}
+    inline VectorT2<T> get() { return *this; }
 
     template <class R>
     VectorT2 operator * (R s) const {VectorT2 r(*this); r.x = type(r.x * s); r.y = type(r.y * s); return r;}

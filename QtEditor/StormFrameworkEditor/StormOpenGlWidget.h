@@ -22,7 +22,7 @@ class StormOpenGlWidget : public QOpenGLWidget, protected QOpenGLFunctions {
     Q_OBJECT
 
 public:
-    StormOpenGlWidget(QWidget* parent = 0);
+    StormOpenGlWidget(QWidget* parent = nullptr);
     virtual ~StormOpenGlWidget();
 
 public slots:

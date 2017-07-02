@@ -80,8 +80,13 @@ void SSceneComPlane::transform(Plane* parent /* = nullptr */) {
     }
 }
 
-void SSceneComPlane::setPosition(const Vector2& position) {
+void SSceneComPlane::setPosition(const Vector2 position) {
     _PivotPosition = position;
+}
+
+void SSceneComPlane::setPositionXY(const float x, const float y) {
+    _PivotPosition.x = x;
+    _PivotPosition.y = y;
 }
 
 Vector2 SSceneComPlane::getPosition() const {
