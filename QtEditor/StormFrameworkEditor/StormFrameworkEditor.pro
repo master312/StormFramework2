@@ -51,7 +51,6 @@ SOURCES += \
     ../../src/scene/StormScene.cpp \
     ../../src/scene/StormSceneObject.cpp \
     ../../src/StormEngine.cpp \
-    ../../src/StormEngineEditing.cpp \
     ../../src/StormTextureManager.cpp \
     ../../libs/easyloggingpp/easylogging++.cpp \
     ../../libs/pugixml/pugixml.cpp \
@@ -93,7 +92,6 @@ HEADERS += \
     ../../src/scene/StormScene.h \
     ../../src/scene/StormSceneObject.h \
     ../../src/StormEngine.h \
-    ../../src/StormEngineEditing.h \
     ../../src/StormTextureManager.h \
     ../../libs/easyloggingpp/easylogging++.h \
     ../../libs/pugixml/pugiconfig.hpp \

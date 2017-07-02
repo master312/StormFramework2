@@ -5,7 +5,6 @@
 #include "components/SSceneSystemStaticTexture.h"
 
 #include "../StormEngine.h"
-#include "../StormEngineEditing.h"
 #include "../core/graphics/StormRenderer.h"
 #include "../core/resources/StormFileSystem.h"
 
@@ -14,10 +13,6 @@ StormScene::StormScene() {
     _Name = "";
 
     initializeDefaultSystems();
-
-#ifdef _EDITING_SUPPORT
-    initEditing();
-#endif
 }
 
 StormScene::~StormScene() {
@@ -117,10 +112,6 @@ void StormScene::render(StormRenderer* renderer) {
     for (unsigned int i = 0; i < _ComponentSystems.size(); i++) {
         _ComponentSystems[i]->render(renderer);
     }
-
-#ifdef _EDITING_SUPPORT
-    renderEditing(renderer);
-#endif
 }
 
 void StormScene::tick(float deltaTime) {
@@ -135,73 +126,3 @@ void StormScene::initializeDefaultSystems() {
     _ComponentSystems.push_back(sysTexture);
     _ComponentSystemsByType[S_SCENE_OBJECT_COM_TEXTURE] = sysTexture;
 }
-
-#ifdef _EDITING_SUPPORT
-
-void StormScene::initEditing() {
-    _ObjectSelectedForEdit = nullptr;
-}
-
-void StormScene::renderEditing(StormRenderer* renderer) {
-    if (!StormEngineEditing::isEditMode()) {
-        return;
-    }
-    ImGui::SetNextWindowSizeConstraints(ImVec2(200, 200), ImVec2(600, 600));
-    ImGui::Begin("Scene editing window", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-    ImGui::Text("Scene name: %s", _Name.c_str());
-    
-    if (ImGui::Button("Save scene file")) {
-        saveXml();
-    }
-
-    if (ImGui::TreeNode("Scene object hierarchy")) {
-        renderObjectHierarchyGui();
-        ImGui::TreePop();
-    }
-    
-    ImGui::Separator();
-
-    if (_ObjectSelectedForEdit) {
-        ImGui::Text("Editing object %s ID:%d", _ObjectSelectedForEdit->getName().c_str(), _ObjectSelectedForEdit->getId());
-        renderObjectEditingGui(_ObjectSelectedForEdit);
-    } else {
-        ImGui::Text("No object selected");
-    }
-
-    ImGui::End();
-}
-
-void StormScene::renderObjectHierarchyGui() {
-    for (unsigned int i = 0; i < _Objects.size(); i++) {
-        StormSceneObject* obj = _Objects[i];
-        if (ImGui::TreeNode((void*)(intptr_t)i, "ID:%d %s", obj->getId(), obj->getName().c_str())) {
-            // TODO: Render childen here
-            ImGui::TreePop();        
-        } else {
-            if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(1)) {
-                _ObjectSelectedForEdit = obj;
-            }
-        }
-        if (ImGui::IsItemHovered() && _ObjectSelectedForEdit != obj) {
-            ImGui::SetTooltip("Right click to edit");
-        }
-    }
-}
-
-void StormScene::renderObjectEditingGui(StormSceneObject* object) {
-    //ImGui::SetNextWindowSizeConstraints(ImVec2(200, 200), ImVec2(600, 600));
-    //ImGui::Begin("Editing object", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-
-    std::stringstream ss;
-    for (SSceneComponent* com : object->getComponents()) {
-        ss.str("");
-        ss << SSceneComponentTypeString[com->getType()] << " component";
-        if (ImGui::CollapsingHeader(ss.str().c_str())) {
-            com->renderEditingGui();
-        }
-    }
-
-   // ImGui::End();
-}
-
-#endif

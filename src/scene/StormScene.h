@@ -64,14 +64,4 @@ private:
     std::string _Name;
 
     void initializeDefaultSystems();
-
-#ifdef _EDITING_SUPPORT
-    /* Editing stuff */
-    StormSceneObject* _ObjectSelectedForEdit;
-
-    void initEditing();
-    void renderEditing(StormRenderer* renderer);
-    void renderObjectHierarchyGui();
-    void renderObjectEditingGui(StormSceneObject* object);
-#endif
 };

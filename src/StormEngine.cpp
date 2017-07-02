@@ -1,5 +1,4 @@
 #include "StormEngine.h"
-#include "StormEngineEditing.h"
 #include "core/StormCommon.h"
 #include "core/platforms/StormPlatformSDL2.h"
 #include "core/platforms/StormPlatformQt.h"
@@ -71,10 +70,6 @@ void StormEngine::initialize(StormPlatformType platform) {
 
     /* If this line is reached, all components have been initialized successfully */
     _Platform->setMainTickingFunction(std::bind(&StormEngine::mainTickingMethod, this, std::placeholders::_1));
-
-#ifdef _EDITING_SUPPORT
-    StormEngineEditing::instance()->initialize();
-#endif
 
     LOG(INFO) << "Engine components initialized successfully";
     _IsInitialized = true;
@@ -177,23 +172,12 @@ void StormEngine::renderTick() {
 
     _ComRenderer->startRendering();
 
-#ifdef _EDITING_SUPPORT
-    StormEngineEditing::instance()->renderPre(_ComRenderer);
-#endif
-
-
     if (!scene) {
         scene = new StormScene();
         scene->loadXml(_GameDataFilesystem->getResourceByFilename("scenes/the_scene.xml"));
         scene->initialize();
     }
     scene->render(_ComRenderer);
-
-
-#ifdef _EDITING_SUPPORT
-    StormEngineEditing::instance()->renderAfter(_ComRenderer);
-#endif
-
 
     _ComRenderer->endRendering();
     _Platform->windowSwapBuffers();
@@ -203,8 +187,4 @@ void StormEngine::updateTick(float deltaTime) {
     if (_Platform->getInputManager()->isKeyDown(S_KEY_ESCAPE)) {
         quit();
     }
-
-#ifdef _EDITING_SUPPORT
-    StormEngineEditing::instance()->updateTick(deltaTime);
-#endif
 }

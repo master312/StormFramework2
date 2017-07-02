@@ -44,11 +44,7 @@ public:
     /* Returns pointer to vertices array.
      * WARNING: Vertices are updated in @transform() method. */
     StormVertex* getVertices();
-
-#ifdef _EDITING_SUPPORT
-    virtual void renderEditingGui();
-#endif
-
+    
 private:
     /* Pivot position */
     Vector2 _PivotPosition;

@@ -53,10 +53,3 @@ SSceneComponent* SSceneComponent::newComponent(SSceneComponentType type, StormSc
 
     return component;
 }
-
-#ifdef _EDITING_SUPPORT
-
-void SSceneComponent::renderEditingGui() {
-}
-
-#endif

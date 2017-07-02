@@ -1,5 +1,4 @@
 #include "SSceneComPlane.h"
-#include "../../StormEngineEditing.h"
 #include "../../core/utils/math/ScalarMath.h"
 #include "../../core/utils/math/TrigonometryMath.h"
 
@@ -154,21 +153,3 @@ void SSceneComPlane::transformScale(Plane* parent) {
     _SizeTransformed.x *= _Size.x;
     _SizeTransformed.y *= _Size.y;
 }
-
-#ifdef _EDITING_SUPPORT
-
-void SSceneComPlane::renderEditingGui() {
-    bool shoudTransform = false;
-    shoudTransform |= ImGui::DragFloat("Position X", &_PivotPosition.x, 5.0f);
-    shoudTransform |= ImGui::DragFloat("Position Y", &_PivotPosition.y, 5.0f);
-    shoudTransform |= ImGui::DragFloat("Pivot X", &_PlaneCenterPosition.x, 5.0f);
-    shoudTransform |= ImGui::DragFloat("Pivot Y", &_PlaneCenterPosition.y, 5.0f);
-    shoudTransform |= ImGui::DragFloat("Scale X", &_Scale.x, 0.05f);
-    shoudTransform |= ImGui::DragFloat("Scale Y", &_Scale.y, 0.05f);
-    shoudTransform |= ImGui::SliderAngle("Angle", &_Angle);
-    if (shoudTransform) {
-        transform();
-    }
-}
-
-#endif

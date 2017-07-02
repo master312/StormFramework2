@@ -26,9 +26,6 @@ public:
 
     void render(StormRenderer* renderer);
 
-#ifdef _EDITING_SUPPORT
-    virtual void renderEditingGui();
-#endif
 private:
     /* Reference to plane component */
     SSceneComPlane* _PlaneComponent;

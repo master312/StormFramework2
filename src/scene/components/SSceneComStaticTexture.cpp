@@ -2,7 +2,6 @@
 #include "SSceneComPlane.h"
 #include "../StormSceneObject.h"
 #include "../../StormEngine.h"
-#include "../../StormEngineEditing.h"
 
 SSceneComStaticTexture::SSceneComStaticTexture(StormSceneObject* owner) : SSceneComponent(owner) {
     _PlaneComponent = nullptr;
@@ -74,20 +73,3 @@ void SSceneComStaticTexture::render(StormRenderer* renderer) {
     
     renderer->draw();
 }
-
-#ifdef _EDITING_SUPPORT
-
-void SSceneComStaticTexture::renderEditingGui() {
-    /* Color overlay editing */
-    ImGui::ColorEditMode(ImGuiColorEditMode_RGB);
-    float col[4];
-    col[0] = _ColorOverlay.floatR();
-    col[1] = _ColorOverlay.floatG();
-    col[2] = _ColorOverlay.floatB();
-    col[3] = _ColorOverlay.floatA();
-    ImGui::ColorEdit4("Color overlay", col);
-    _ColorOverlay.setFloat(col[0], col[1], col[2], col[3]);
-    /* * * */
-}
-
-#endif
