@@ -22,6 +22,10 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setCentralWidget(_StormGlWidget);*/
 }
 
+void MainWindow::on_treeSceneObjects_clicked(const QModelIndex &index) {
+
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;

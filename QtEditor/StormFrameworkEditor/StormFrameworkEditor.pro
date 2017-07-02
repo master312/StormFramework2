@@ -56,7 +56,10 @@ SOURCES += \
     ../../libs/pugixml/pugixml.cpp \
     ../../src/core/platforms/StormPlatformQt.cpp \
     StormOpenGlWidget.cpp \
-    SceneObjectsTreeWidget.cpp
+    SceneObjectsTreeWidget.cpp \
+    StormObjComponentWidget.cpp \
+    StormObjComPropertyWidget.cpp \
+    componentWidgets/StormObjComPlane.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -100,7 +103,10 @@ HEADERS += \
     ../../src/core/platforms/StormPlatformQt.h \
     StormOpenGlWidget.h \
     SceneObjectsTreeWidget.h \
-    StormQtHelperFunctions.h
+    StormQtHelperFunctions.h \
+    StormObjComponentWidget.h \
+    StormObjComPropertyWidget.h \
+    componentWidgets/StormObjComPlane.h
 
 FORMS += \
         mainwindow.ui

@@ -17,7 +17,7 @@ StormOpenGlWidget::StormOpenGlWidget(QWidget* parent /* = 0 */) : QOpenGLWidget(
     glFormat.setProfile(QSurfaceFormat::CoreProfile);
     this->setFormat(glFormat);
 
-    grabKeyboard();
+    //grabKeyboard();
 }
 
 StormOpenGlWidget::~StormOpenGlWidget() {
