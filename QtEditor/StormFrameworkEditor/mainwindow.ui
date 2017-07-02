@@ -51,6 +51,18 @@
        <property name="spacing">
         <number>1</number>
        </property>
+       <property name="leftMargin">
+        <number>2</number>
+       </property>
+       <property name="topMargin">
+        <number>2</number>
+       </property>
+       <property name="rightMargin">
+        <number>2</number>
+       </property>
+       <property name="bottomMargin">
+        <number>2</number>
+       </property>
        <item>
         <widget class="QLabel" name="lbSceneObjects">
          <property name="text">
@@ -68,16 +80,16 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>241</width>
-            <height>244</height>
+            <width>274</width>
+            <height>251</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
-            <widget class="QPushButton" name="pushButton_2">
-             <property name="text">
-              <string>PushButton</string>
-             </property>
+            <widget class="SceneObjectsTreeWidget" name="treeSceneObjects">
+             <attribute name="headerVisible">
+              <bool>false</bool>
+             </attribute>
             </widget>
            </item>
           </layout>
@@ -107,8 +119,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>227</width>
-            <height>243</height>
+            <width>260</width>
+            <height>250</height>
            </rect>
           </property>
           <property name="minimumSize">
@@ -169,6 +181,11 @@
    <class>StormOpenGlWidget</class>
    <extends>QOpenGLWidget</extends>
    <header>StormOpenGlWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SceneObjectsTreeWidget</class>
+   <extends>QTreeView</extends>
+   <header>SceneObjectsTreeWidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

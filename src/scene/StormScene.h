@@ -39,12 +39,14 @@ public:
     /* Adds new object to scene, and returns pointer to it */
     StormSceneObject* addNewObject(const std::string& name = "");
 
+    /* Returns vector of all scene objects */
+    std::vector<StormSceneObject*>& getObjects();
+
     /* Renders scene */
     void render(StormRenderer* renderer);
 
     /* Ticks all scene logic */
     void tick(float deltaTime);
-
 private:
     /* This variable increases every time new object is added.
      * It is used to assign unique ID to each scene object */

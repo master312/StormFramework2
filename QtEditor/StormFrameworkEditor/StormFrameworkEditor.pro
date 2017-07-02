@@ -55,7 +55,8 @@ SOURCES += \
     ../../libs/easyloggingpp/easylogging++.cpp \
     ../../libs/pugixml/pugixml.cpp \
     ../../src/core/platforms/StormPlatformQt.cpp \
-    StormOpenGlWidget.cpp
+    StormOpenGlWidget.cpp \
+    SceneObjectsTreeWidget.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -97,7 +98,9 @@ HEADERS += \
     ../../libs/pugixml/pugiconfig.hpp \
     ../../libs/pugixml/pugixml.hpp \
     ../../src/core/platforms/StormPlatformQt.h \
-    StormOpenGlWidget.h
+    StormOpenGlWidget.h \
+    SceneObjectsTreeWidget.h \
+    StormQtHelperFunctions.h
 
 FORMS += \
         mainwindow.ui

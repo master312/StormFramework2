@@ -13,8 +13,13 @@ class StormVideoDriver;
 class StormRenderer;
 class StormShader;
 
+#include "scene/StormScene.h"
+
 class StormEngine {
 public:
+    /* Temporary scene for testing. Remove after scene manager implementation */
+    StormScene* testScene = nullptr;
+
     virtual ~StormEngine();
 
     /* Gets singleton instance */

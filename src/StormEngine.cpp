@@ -80,6 +80,12 @@ void StormEngine::initialize(StormPlatformType platform) {
 
     LOG(INFO) << "Engine components initialized successfully";
     _IsInitialized = true;
+
+
+    /* Temporary code for testing scenes. Remove after scene manager implementation */
+    testScene = new StormScene();
+    testScene->loadXml(_GameDataFilesystem->getResourceByFilename("scenes/the_scene.xml"));
+    testScene->initialize();
 }
 
 void StormEngine::deinitialize() {
@@ -188,28 +194,21 @@ void StormEngine::windowEventListener(StormWindowEventType event) {
     }
 }
 
-#include "scene/StormScene.h"
-
-StormScene* scene = nullptr;
-
 void StormEngine::renderTick() {
     _ComVideoDriver->begin();
     _ComVideoDriver->clear();
 
     _ComRenderer->startRendering();
 
-    if (!scene) {
-        scene = new StormScene();
-        scene->loadXml(_GameDataFilesystem->getResourceByFilename("scenes/the_scene.xml"));
-        scene->initialize();
-    }
-    scene->render(_ComRenderer);
+    testScene->render(_ComRenderer);
 
     _ComRenderer->endRendering();
     _Platform->windowSwapBuffers();
 }
 
 void StormEngine::updateTick(float deltaTime) {
+    testScene->tick(deltaTime);
+    
     if (_Platform->getInputManager()->isKeyDown(S_KEY_ESCAPE)) {
         quit();
     }

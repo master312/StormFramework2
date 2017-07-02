@@ -108,6 +108,10 @@ StormSceneObject* StormScene::addNewObject(const std::string& name /* = "" */) {
     return object;
 }
 
+std::vector<StormSceneObject*>& StormScene::getObjects() {
+    return _Objects;
+}
+
 void StormScene::render(StormRenderer* renderer) {
     for (unsigned int i = 0; i < _ComponentSystems.size(); i++) {
         _ComponentSystems[i]->render(renderer);

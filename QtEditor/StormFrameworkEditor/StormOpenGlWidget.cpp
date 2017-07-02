@@ -1,6 +1,10 @@
 #include "StormOpenGlWidget.h"
+#include <QApplication>
+#include <QWidget>
 #include <QKeyEvent>
 #include <QSurfaceFormat>
+#include <SceneObjectsTreeWidget.h>
+#include "StormQtHelperFunctions.h"
 
 StormOpenGlWidget::StormOpenGlWidget(QWidget* parent /* = 0 */) : QOpenGLWidget(parent) {
     _Timer = new QTimer(this);
@@ -31,6 +35,16 @@ void StormOpenGlWidget::initializeGL() {
 
     StormEngine::instance()->initialize(STORM_PLATFORM_QT);
     _StormPlatform = dynamic_cast<StormPlatformQt*>(StormEngine::instance()->getPlatform());
+
+
+    /* Populate scene objects list. Should be called after scene loads */
+    SceneObjectsTreeWidget* sceneObjectsWidget = dynamic_cast<SceneObjectsTreeWidget*>(StormQtHelper::findChildByName(dynamic_cast<QWidget*>(parent()), "treeSceneObjects"));
+    if (sceneObjectsWidget) {
+        sceneObjectsWidget->populateSceneElements(StormEngine::instance()->testScene);
+    } else {
+        LOG(ERROR) << "No SceneObjectsTreeWidget found!";
+    }
+
 
     _Timer->start();
 }
