@@ -3,21 +3,9 @@
 #include <functional>
 #include "../../src/core/utils/math/Vector2.h"
 #include "../StormObjComPropertyWidget.h"
+#include "../SNumberLineEdit.h"
+
 class StormObjComponentWidget;
-
-class StormDragLineEdit : public QLineEdit {
-public:
-    StormDragLineEdit(QWidget* parent = nullptr);
-
-protected:
-    virtual void mousePressEvent(QMouseEvent* event);
-    virtual void mouseReleaseEvent(QMouseEvent* event);
-    virtual void mouseMoveEvent(QMouseEvent* event);
-
-private:
-    bool _IsDragging;
-    QPoint _DragStartPosition;
-};
 
 class StormPropertyVec2Widget : public StormObjComPropertyWidget {
     Q_OBJECT
@@ -45,8 +33,8 @@ private:
     std::function<Vector2()> _VectorGetter;
 
     /* Pointer to text input widgets */
-    QLineEdit* _XPosEdit;
-    QLineEdit* _YPosEdit;
+    SNumberLineEdit* _XPosEdit;
+    SNumberLineEdit* _YPosEdit;
 
     /* Reads values from getter and displays them in QLineEdit widgets */
     void readValues();

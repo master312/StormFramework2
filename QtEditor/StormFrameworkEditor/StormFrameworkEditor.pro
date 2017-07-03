@@ -60,7 +60,8 @@ SOURCES += \
     StormObjComponentWidget.cpp \
     StormObjComPropertyWidget.cpp \
     componentWidgets/StormObjComPlane.cpp \
-    propertyWidgets/StormPropertyVec2Widget.cpp
+    propertyWidgets/StormPropertyVec2Widget.cpp \
+    SNumberLineEdit.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -108,7 +109,8 @@ HEADERS += \
     StormObjComponentWidget.h \
     StormObjComPropertyWidget.h \
     componentWidgets/StormObjComPlane.h \
-    propertyWidgets/StormPropertyVec2Widget.h
+    propertyWidgets/StormPropertyVec2Widget.h \
+    SNumberLineEdit.h
 
 FORMS += \
         mainwindow.ui

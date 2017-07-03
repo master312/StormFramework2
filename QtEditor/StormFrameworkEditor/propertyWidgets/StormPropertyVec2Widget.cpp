@@ -1,45 +1,11 @@
 #include "StormPropertyVec2Widget.h"
+#include <QApplication>
 #include <QHBoxLayout>
 #include <QLineEdit>
 #include <QSpacerItem>
-#include <QDoubleValidator>
 #include <QMouseEvent>
 #include "../StormObjComponentWidget.h"
 #include "../../src/core/StormCommon.h"
-
-StormDragLineEdit::StormDragLineEdit(QWidget* parent) : QLineEdit(parent) {
-
-}
-
-void StormDragLineEdit::mousePressEvent(QMouseEvent* event) {
-    _IsDragging = true;
-    _DragStartPosition = event->pos();
-}
-
-void StormDragLineEdit::mouseReleaseEvent(QMouseEvent* event) {
-    _IsDragging = false;
-    editingFinished();
-}
-
-void StormDragLineEdit::mouseMoveEvent(QMouseEvent* event){
-    if (!_IsDragging) {
-        return;
-    }
-    bool ok = true;
-    float number = text().toFloat(&ok);
-    if (!ok) {
-        return;
-    }
-    float dist = (float)(_DragStartPosition.x() - event->pos().x()) / 2.0f;
-    number -= (float)dist;
-
-    setText(QString::number(number));
-    _DragStartPosition = event->pos();
-    editingFinished();
-}
-
-
-
 
 StormPropertyVec2Widget::StormPropertyVec2Widget(StormObjComponentWidget* parent, const std::string& name) : StormObjComPropertyWidget(parent, name) {
     _VectorSetter = nullptr;
@@ -50,10 +16,8 @@ StormPropertyVec2Widget::StormPropertyVec2Widget(StormObjComponentWidget* parent
     layout->setMargin(0);
     layout->setSpacing(1);
 
-    _XPosEdit = new StormDragLineEdit(this);
-    _XPosEdit->setValidator(new QDoubleValidator());
-    _YPosEdit = new StormDragLineEdit(this);
-    _YPosEdit->setValidator(new QDoubleValidator());
+    _XPosEdit = new SNumberLineEdit(this);
+    _YPosEdit = new SNumberLineEdit(this);
 
     layout->addWidget(generateNameLabel());
     layout->addWidget(new QLabel("X:", this));
@@ -61,8 +25,8 @@ StormPropertyVec2Widget::StormPropertyVec2Widget(StormObjComponentWidget* parent
     layout->addWidget(new QLabel("Y:", this));
     layout->addWidget(_YPosEdit);
 
-    connect(_XPosEdit, SIGNAL(editingFinished()), this, SLOT(editingFinished()));
-    connect(_YPosEdit, SIGNAL(editingFinished()), this, SLOT(editingFinished()));
+    connect(_XPosEdit, SIGNAL(valueChanged()), this, SLOT(editingFinished()));
+    connect(_YPosEdit, SIGNAL(valueChanged()), this, SLOT(editingFinished()));
 
     setLayout(layout);
 }
