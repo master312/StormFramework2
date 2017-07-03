@@ -21,15 +21,21 @@ public:
 
     /* Component widget factory method */
     static StormObjComponentWidget* newWidget(SSceneComponentType type, SSceneComponent* component);
+
 public slots:
     void collapseButtonClick();
 
 protected:
+    virtual void enterEvent(QEvent* event);
+    virtual void leaveEvent(QEvent* event);
+    virtual void paintEvent(QPaintEvent* event);
+
     /* Component's name */
     std::string _ComponentName;
 
     /* Pointer to storm scene object's component */
     SSceneComponent* _StormComponent;
 
+    float _BackgroundOpacity;
     QPushButton* _HeaderButton;
 };

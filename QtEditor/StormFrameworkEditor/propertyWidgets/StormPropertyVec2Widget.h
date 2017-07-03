@@ -23,8 +23,13 @@ public:
     void setVectorGetter(std::function<Vector2()> getter);
 
 public slots:
-    /* Signal received when finished editing QLineEdit text fields */
-    void editingFinished();
+    /* Signal when value in SNumberLineEdit fields changes */
+    void valuesChanged();
+
+protected:
+    virtual void mousePressEvent(QMouseEvent* event);
+    virtual void mouseReleaseEvent(QMouseEvent* event);
+    virtual void mouseMoveEvent(QMouseEvent* event);
 
 private:
     /* Vector setter and getted methods */
@@ -35,6 +40,10 @@ private:
     /* Pointer to text input widgets */
     SNumberLineEdit* _XPosEdit;
     SNumberLineEdit* _YPosEdit;
+
+    bool _IsDragging;
+    QPoint _DragStartPosition;
+    Vector2 _DragVariableFactor;
 
     /* Reads values from getter and displays them in QLineEdit widgets */
     void readValues();

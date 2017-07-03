@@ -1,11 +1,13 @@
 #include "StormObjComponentWidget.h"
 #include "componentWidgets/StormObjComPlane.h"
 #include <QVBoxLayout>
+#include <QPainter>
 
 StormObjComponentWidget::StormObjComponentWidget(QWidget* parent) : QWidget(parent) {
     _ComponentName = "ERROR: Name not set!";
     _StormComponent = nullptr;
     _HeaderButton = nullptr;
+    _BackgroundOpacity = 0.1f;
 }
 
 StormObjComponentWidget::~StormObjComponentWidget() {
@@ -46,6 +48,27 @@ void StormObjComponentWidget::collapseButtonClick() {
             child->setHidden(!child->isHidden());
         }
     }
+}
+
+void StormObjComponentWidget::enterEvent(QEvent* event) {
+    _BackgroundOpacity = 0.3f;
+    QWidget::enterEvent(event);
+    repaint();
+}
+
+void StormObjComponentWidget::leaveEvent(QEvent* event) {
+    _BackgroundOpacity = 0.1f;
+    QWidget::leaveEvent(event);
+    repaint();
+}
+
+void StormObjComponentWidget::paintEvent(QPaintEvent* event) {
+    QPainter painter(this);
+
+    painter.setOpacity(_BackgroundOpacity);
+    painter.fillRect(0, 0, width(), height(), Qt::BrushStyle::SolidPattern);
+
+    QWidget::paintEvent(event);
 }
 
 /* Static factory method */
