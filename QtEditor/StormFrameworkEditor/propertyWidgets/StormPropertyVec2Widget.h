@@ -22,9 +22,15 @@ public:
     void setVectorSetter(std::function<void(Vector2)> setter);
     void setVectorGetter(std::function<Vector2()> getter);
 
+    void setDragFactor(float factor);
+    void setDragFactor(Vector2 factor);
+    void setDragFactorX(float factor);
+    void setDragFactorY(float factor);
+
 public slots:
     /* Signal when value in SNumberLineEdit fields changes */
     void valuesChanged();
+    void editingFinished();
 
 protected:
     virtual void mousePressEvent(QMouseEvent* event);

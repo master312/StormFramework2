@@ -71,8 +71,8 @@ void SSceneComPlane::transform(Plane* parent /* = nullptr */) {
     _Vertices[3].position.y += size2.y;
     
     /* Rotate all points around pivot */
-    float sin = StormScalarMath::sin(_Angle);
-    float cos = StormScalarMath::cos(_Angle);
+    float sin = StormScalarMath::sin((_Angle * MATH_PI) / 180.0f);
+    float cos = StormScalarMath::cos((_Angle * MATH_PI) / 180.0f);
     for (int i = 0; i < 4; i++) {
         Vector2 tmpPoint = _Vertices[i].position;
         _Vertices[i].position.x = (tmpPoint.x * cos - tmpPoint.y * sin) + _PivotPositionTransformed.x;
@@ -124,7 +124,7 @@ float SSceneComPlane::getAngle() {
     return _Angle;
 }
 
-void SSceneComPlane::setSize(const Vector2& size) {
+void SSceneComPlane::setSize(const Vector2 size) {
     _Size = size;
 }
 
@@ -136,7 +136,7 @@ Vector2 SSceneComPlane::getSizeTransformed() const {
     return _SizeTransformed;
 }
 
-void SSceneComPlane::setScale(const Vector2& scale) {
+void SSceneComPlane::setScale(const Vector2 scale) {
     _Scale = scale;
 }
 

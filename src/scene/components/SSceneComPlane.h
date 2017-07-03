@@ -32,14 +32,14 @@ public:
     float getAngle();
 
     /* Sets plane size in pixels */
-    void setSize(const Vector2& size);
+    void setSize(const Vector2 size);
     /* Returns plane size */
     Vector2 getSize() const;
     /* Returns plane size with transform calculations calculated in */
     Vector2 getSizeTransformed() const;
 
     /* Sets plane scaling */
-    void setScale(const Vector2& scale);
+    void setScale(const Vector2 scale);
     Vector2 getScale() const;
 
     /* Returns pointer to vertices array.

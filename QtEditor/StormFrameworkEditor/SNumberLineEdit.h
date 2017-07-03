@@ -16,7 +16,7 @@ public:
     SNumberLineEdit(QWidget* parent = nullptr, SNumberLineEditValueType type = S_NUMBER_LINE_EDIT_FLOAT);
 
     void setValueType(SNumberLineEditValueType type);
-    void setValueDragFactor(float factor);
+    void setDragFactor(float factor);
 
 public slots:
     void editingFinished();

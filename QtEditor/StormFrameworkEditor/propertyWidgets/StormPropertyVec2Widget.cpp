@@ -14,7 +14,6 @@ StormPropertyVec2Widget::StormPropertyVec2Widget(StormObjComponentWidget* parent
     _IsDragging = false;
     _DragStartPosition.setX(0);
     _DragStartPosition.setY(0);
-    _DragVariableFactor.set(1.0f, 1.0f);
 
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -31,7 +30,10 @@ StormPropertyVec2Widget::StormPropertyVec2Widget(StormObjComponentWidget* parent
 
     connect(_XPosEdit, SIGNAL(valueChanged()), this, SLOT(valuesChanged()));
     connect(_YPosEdit, SIGNAL(valueChanged()), this, SLOT(valuesChanged()));
+    connect(_XPosEdit, SIGNAL(editingFinished()), this, SLOT(editingFinished()));
+    connect(_YPosEdit, SIGNAL(editingFinished()), this, SLOT(editingFinished()));
 
+    setDragFactor(1.0f);
     setLayout(layout);
 }
 
@@ -39,6 +41,8 @@ StormPropertyVec2Widget::~StormPropertyVec2Widget() {
 }
 
 void StormPropertyVec2Widget::refresh() {
+    StormObjComPropertyWidget::refresh();
+
     readValues();
 }
 
@@ -59,6 +63,28 @@ void StormPropertyVec2Widget::setVectorGetter(std::function<Vector2()> getter) {
     _VectorGetter = getter;
 }
 
+void StormPropertyVec2Widget::setDragFactor(float factor) {
+    _DragVariableFactor.set(factor, factor);
+    _XPosEdit->setDragFactor(factor);
+    _YPosEdit->setDragFactor(factor);
+}
+
+void StormPropertyVec2Widget::setDragFactor(Vector2 factor) {
+    _DragVariableFactor = factor;
+    _XPosEdit->setDragFactor(factor.x);
+    _YPosEdit->setDragFactor(factor.y);
+}
+
+void StormPropertyVec2Widget::setDragFactorX(float factor){
+    _DragVariableFactor.x = factor;
+    _XPosEdit->setDragFactor(factor);
+}
+
+void StormPropertyVec2Widget::setDragFactorY(float factor){
+    _DragVariableFactor.y = factor;
+    _YPosEdit->setDragFactor(factor);
+}
+
 void StormPropertyVec2Widget::valuesChanged() {
     if (_VectorSetter) {
         _VectorSetter(Vector2(_XPosEdit->text().toFloat(), _YPosEdit->text().toFloat()));
@@ -67,6 +93,10 @@ void StormPropertyVec2Widget::valuesChanged() {
     }
 
     _ComponentWidgetParent->refresh();
+}
+
+void StormPropertyVec2Widget::editingFinished() {
+    refresh();
 }
 
 void StormPropertyVec2Widget::mousePressEvent(QMouseEvent* event) {

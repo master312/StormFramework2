@@ -1,11 +1,9 @@
 #pragma once
 #include <QWidget>
 #include <QLabel>
-
+#include "StormObjComponentWidget.h"
 
 /* Base class for everty component property type. E.X: Color, Vector, Point, etc... */
-
-class StormObjComponentWidget;
 
 class StormObjComPropertyWidget : public QWidget {
     Q_OBJECT

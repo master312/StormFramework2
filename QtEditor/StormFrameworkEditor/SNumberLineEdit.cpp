@@ -28,7 +28,7 @@ void SNumberLineEdit::setValueType(SNumberLineEditValueType type) {
     }
 }
 
-void SNumberLineEdit::setValueDragFactor(float factor) {
+void SNumberLineEdit::setDragFactor(float factor) {
     _ValueDragFactor = factor;
 }
 
@@ -126,4 +126,5 @@ void SNumberLineEdit::endDragging() {
     _IsDragging = false;
     _DragStartPosition.setX(0);
     _DragStartPosition.setY(0);
+    QLineEdit::editingFinished();
 }

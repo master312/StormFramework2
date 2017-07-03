@@ -97,11 +97,6 @@ namespace StormScalarMath
 
     inline void clampAngle(float* angle)
     {
-        if (*angle > 360.0f) {
-            *angle -= 360.0f;
-        }
-        if (*angle < -360.0f) {
-            *angle += 360.0f;
-        }
+        *angle -= (float)((int)*angle / 360) * 360.0f;
     }
 }
