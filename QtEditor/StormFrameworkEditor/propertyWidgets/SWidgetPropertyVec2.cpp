@@ -1,13 +1,13 @@
-#include "StormPropertyVec2Widget.h"
+#include "SWidgetPropertyVec2.h"
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QLineEdit>
 #include <QSpacerItem>
 #include <QMouseEvent>
-#include "../StormObjComponentWidget.h"
+#include "../SWidgetComponent.h"
 #include "../../src/core/StormCommon.h"
 
-StormPropertyVec2Widget::StormPropertyVec2Widget(StormObjComponentWidget* parent, const std::string& name) : StormObjComPropertyWidget(parent, name) {
+SWidgetPropertyVec2::SWidgetPropertyVec2(SWidgetComponent* parent, const std::string& name) : SWidgetProperty(parent, name) {
     _VectorSetter = nullptr;
     _VectorFloatSetter = nullptr;
     _VectorGetter = nullptr;
@@ -37,55 +37,55 @@ StormPropertyVec2Widget::StormPropertyVec2Widget(StormObjComponentWidget* parent
     setLayout(layout);
 }
 
-StormPropertyVec2Widget::~StormPropertyVec2Widget() {
+SWidgetPropertyVec2::~SWidgetPropertyVec2() {
 }
 
-void StormPropertyVec2Widget::refresh() {
-    StormObjComPropertyWidget::refresh();
+void SWidgetPropertyVec2::refresh() {
+    SWidgetProperty::refresh();
 
     readValues();
 }
 
-void StormPropertyVec2Widget::setVector(Vector2* vector) {
+void SWidgetPropertyVec2::setVector(Vector2* vector) {
     _VectorFloatSetter = std::bind(&Vector2::set, vector, std::placeholders::_1, std::placeholders::_2);
     _VectorGetter = std::bind(&Vector2::get, vector);
 }
 
-void StormPropertyVec2Widget::setVectorSetter(std::function<void(float, float)> setter) {
+void SWidgetPropertyVec2::setVectorSetter(std::function<void(float, float)> setter) {
     _VectorFloatSetter = setter;
 }
 
-void StormPropertyVec2Widget::setVectorSetter(std::function<void(Vector2)> setter) {
+void SWidgetPropertyVec2::setVectorSetter(std::function<void(Vector2)> setter) {
     _VectorSetter = setter;
 }
 
-void StormPropertyVec2Widget::setVectorGetter(std::function<Vector2()> getter) {
+void SWidgetPropertyVec2::setVectorGetter(std::function<Vector2()> getter) {
     _VectorGetter = getter;
 }
 
-void StormPropertyVec2Widget::setDragFactor(float factor) {
+void SWidgetPropertyVec2::setDragFactor(float factor) {
     _DragVariableFactor.set(factor, factor);
     _XPosEdit->setDragFactor(factor);
     _YPosEdit->setDragFactor(factor);
 }
 
-void StormPropertyVec2Widget::setDragFactor(Vector2 factor) {
+void SWidgetPropertyVec2::setDragFactor(Vector2 factor) {
     _DragVariableFactor = factor;
     _XPosEdit->setDragFactor(factor.x);
     _YPosEdit->setDragFactor(factor.y);
 }
 
-void StormPropertyVec2Widget::setDragFactorX(float factor){
+void SWidgetPropertyVec2::setDragFactorX(float factor){
     _DragVariableFactor.x = factor;
     _XPosEdit->setDragFactor(factor);
 }
 
-void StormPropertyVec2Widget::setDragFactorY(float factor){
+void SWidgetPropertyVec2::setDragFactorY(float factor){
     _DragVariableFactor.y = factor;
     _YPosEdit->setDragFactor(factor);
 }
 
-void StormPropertyVec2Widget::valuesChanged() {
+void SWidgetPropertyVec2::valuesChanged() {
     if (_VectorSetter) {
         _VectorSetter(Vector2(_XPosEdit->text().toFloat(), _YPosEdit->text().toFloat()));
     } else if (_VectorFloatSetter) {
@@ -95,22 +95,22 @@ void StormPropertyVec2Widget::valuesChanged() {
     _ComponentWidgetParent->refresh();
 }
 
-void StormPropertyVec2Widget::editingFinished() {
+void SWidgetPropertyVec2::editingFinished() {
     refresh();
 }
 
-void StormPropertyVec2Widget::mousePressEvent(QMouseEvent* event) {
+void SWidgetPropertyVec2::mousePressEvent(QMouseEvent* event) {
     _IsDragging = true;
     _DragStartPosition = event->pos();
     QApplication::setOverrideCursor(Qt::SizeAllCursor);
 }
 
-void StormPropertyVec2Widget::mouseReleaseEvent(QMouseEvent* event) {
+void SWidgetPropertyVec2::mouseReleaseEvent(QMouseEvent* event) {
     _IsDragging = false;
     QApplication::restoreOverrideCursor();
 }
 
-void StormPropertyVec2Widget::mouseMoveEvent(QMouseEvent* event) {
+void SWidgetPropertyVec2::mouseMoveEvent(QMouseEvent* event) {
     if (!_IsDragging) {
         return;
     }
@@ -132,7 +132,7 @@ void StormPropertyVec2Widget::mouseMoveEvent(QMouseEvent* event) {
     _DragStartPosition = event->pos();
 }
 
-void StormPropertyVec2Widget::readValues() {
+void SWidgetPropertyVec2::readValues() {
     if (!_VectorGetter) {
         return;
     }

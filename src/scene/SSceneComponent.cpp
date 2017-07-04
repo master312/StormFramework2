@@ -43,7 +43,7 @@ SSceneComponent* SSceneComponent::newComponent(SSceneComponentType type, StormSc
         case S_SCENE_OBJECT_COM_PLANE:
             component = new SSceneComPlane(owner);
             break;
-        case S_SCENE_OBJECT_COM_TEXTURE:
+        case S_SCENE_OBJECT_COM_STATIC_TEXTURE:
             component = new SSceneComStaticTexture(owner);
             break;
         default:

@@ -11,7 +11,7 @@ SSceneSystemStaticTexture::~SSceneSystemStaticTexture() {
 }
 
 void SSceneSystemStaticTexture::addComponent(SSceneComponent* component) {
-    if (!validateComponent(component, S_SCENE_OBJECT_COM_TEXTURE)) {
+    if (!validateComponent(component, S_SCENE_OBJECT_COM_STATIC_TEXTURE)) {
         return;
     }
 

@@ -128,5 +128,5 @@ void StormScene::initializeDefaultSystems() {
 
     SSceneSystemStaticTexture* sysTexture = new SSceneSystemStaticTexture();
     _ComponentSystems.push_back(sysTexture);
-    _ComponentSystemsByType[S_SCENE_OBJECT_COM_TEXTURE] = sysTexture;
+    _ComponentSystemsByType[S_SCENE_OBJECT_COM_STATIC_TEXTURE] = sysTexture;
 }

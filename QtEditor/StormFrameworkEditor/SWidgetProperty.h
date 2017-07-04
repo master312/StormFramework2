@@ -1,16 +1,16 @@
 #pragma once
 #include <QWidget>
 #include <QLabel>
-#include "StormObjComponentWidget.h"
+#include "SWidgetComponent.h"
 
 /* Base class for everty component property type. E.X: Color, Vector, Point, etc... */
 
-class StormObjComPropertyWidget : public QWidget {
+class SWidgetProperty : public QWidget {
     Q_OBJECT
 
 public:
-    StormObjComPropertyWidget(StormObjComponentWidget* parent = nullptr, const std::string& name = "");
-    virtual ~StormObjComPropertyWidget();
+    SWidgetProperty(SWidgetComponent* parent = nullptr, const std::string& name = "");
+    virtual ~SWidgetProperty();
 
     virtual void refresh();
 
@@ -23,7 +23,7 @@ protected:
     std::string _Name;
 
     /* Pointer to parent component (for easy access) that contains all component property widgets */
-    StormObjComponentWidget* _ComponentWidgetParent;
+    SWidgetComponent* _ComponentWidgetParent;
 
     /* Background opacity */
     float _BackgroundOpacity;

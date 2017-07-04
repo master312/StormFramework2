@@ -8,7 +8,7 @@ SSceneComStaticTexture::SSceneComStaticTexture(StormSceneObject* owner) : SScene
     _Texture = nullptr;
     _ColorOverlay.set(255, 255, 255, 255);
     
-    _Type = S_SCENE_OBJECT_COM_TEXTURE;
+    _Type = S_SCENE_OBJECT_COM_STATIC_TEXTURE;
 }
 
 SSceneComStaticTexture::~SSceneComStaticTexture() {
@@ -59,6 +59,14 @@ void SSceneComStaticTexture::setTexture(spStormTexture texture) {
 
 spStormTexture SSceneComStaticTexture::getTexture() {
     return _Texture;
+}
+
+void SSceneComStaticTexture::setColorOverlay(Color color) {
+    _ColorOverlay = color;
+}
+
+Color SSceneComStaticTexture::getColorOverlay() {
+    return _ColorOverlay;
 }
 
 void SSceneComStaticTexture::render(StormRenderer* renderer) {

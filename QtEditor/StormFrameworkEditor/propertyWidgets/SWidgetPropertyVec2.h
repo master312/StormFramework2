@@ -2,17 +2,17 @@
 #include <QLineEdit>
 #include <functional>
 #include "../../src/core/utils/math/Vector2.h"
-#include "../StormObjComPropertyWidget.h"
+#include "../SWidgetProperty.h"
 #include "../SNumberLineEdit.h"
 
-class StormObjComponentWidget;
+class SWidgetComponent;
 
-class StormPropertyVec2Widget : public StormObjComPropertyWidget {
+class SWidgetPropertyVec2 : public SWidgetProperty {
     Q_OBJECT
 
 public:
-    StormPropertyVec2Widget(StormObjComponentWidget* parent = nullptr, const std::string& name = "");
-    virtual ~StormPropertyVec2Widget();
+    SWidgetPropertyVec2(SWidgetComponent* parent = nullptr, const std::string& name = "");
+    virtual ~SWidgetPropertyVec2();
 
     virtual void refresh();
 

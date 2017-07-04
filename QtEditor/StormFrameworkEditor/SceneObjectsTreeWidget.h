@@ -16,6 +16,7 @@ private:
     StormSceneObject* _SceneObject;
 };
 
+
 class SceneObjectsTreeWidget : public QTreeWidget {
 public:
     SceneObjectsTreeWidget(QWidget* parent = nullptr);
@@ -31,8 +32,8 @@ private:
     StormScene* _Scene;
 
 
-    /* Pointer to compoents widget layout, for easy access */
-    QLayout* _ObjectComponentsWidgetLayout;
+    /* Pointer to compoents widget, for easy access */
+    QWidget* _ObjectComponentsWidget;
 
     /* Adds new scene object and all of its children SceneObjectsTreeWidget as items. */
     void createSceneObjectListItem(StormSceneObject* object);

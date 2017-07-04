@@ -1,7 +1,7 @@
 #include "SWidgetPropertyFloat.h"
 #include <QHBoxLayout>
 
-SWidgetPropertyFloat::SWidgetPropertyFloat(StormObjComponentWidget* parent, const std::string& name) : StormObjComPropertyWidget(parent, name) {
+SWidgetPropertyFloat::SWidgetPropertyFloat(SWidgetComponent* parent, const std::string& name) : SWidgetProperty(parent, name) {
     _FloatValue = nullptr;
     _FloatGetter = nullptr;
     _FloatSetter = nullptr;
@@ -23,7 +23,7 @@ SWidgetPropertyFloat::SWidgetPropertyFloat(StormObjComponentWidget* parent, cons
 }
 
 void SWidgetPropertyFloat::refresh() {
-    StormObjComPropertyWidget::refresh();
+    SWidgetProperty::refresh();
 
     if (_FloatValue) {
         _FloatTextEdit->setText(QString::number(*_FloatValue));

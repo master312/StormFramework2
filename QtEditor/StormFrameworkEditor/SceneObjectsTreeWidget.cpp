@@ -1,7 +1,7 @@
 #include "SceneObjectsTreeWidget.h"
 #include "../../src/scene/StormScene.h"
 #include "../../src/scene/SSceneComponent.h"
-#include "StormObjComponentWidget.h"
+#include "SWidgetComponent.h"
 #include "StormQtHelperFunctions.h"
 #include <QApplication>
 #include <QTreeWidgetItem>
@@ -53,7 +53,7 @@ void SceneObjectsTreeWidget::populateSceneElements(StormScene* scene) {
 
 
     /* Find components widget */
-    _ObjectComponentsWidgetLayout = StormQtHelper::findChildByName(parentWidget(), "objectComponents")->layout();
+    _ObjectComponentsWidget = StormQtHelper::findChildByName(parentWidget(), "objectComponents");
 
 
     for (StormSceneObject* object : _Scene->getObjects()) {
@@ -101,23 +101,19 @@ void SceneObjectsTreeWidget::createSceneObjectListItem(StormSceneObject* object)
 
 void SceneObjectsTreeWidget::generateComponentWidgets(StormSceneObject* object) {
     for (SSceneComponent* component : object->getComponents()) {
-        StormObjComponentWidget* comWidget = StormObjComponentWidget::newWidget(component->getType(), component);
+        SWidgetComponent* comWidget = SWidgetComponent::newWidget(component->getType(), component, _ObjectComponentsWidget);
         if (!comWidget) {
             LOG(ERROR) << "Missing QT widget for component " << SSceneComponentTypeString[component->getType()];
             continue;
         }
-        comWidget->setParent(_ObjectComponentsWidgetLayout->widget());
         comWidget->initialize();
-        _ObjectComponentsWidgetLayout->addWidget(comWidget);
+        _ObjectComponentsWidget->layout()->addWidget(comWidget);
     }
 }
 
 void SceneObjectsTreeWidget::clearAllComponentWidgets() {
-    for (int i = 0; i < _ObjectComponentsWidgetLayout->count(); i++) {
-        QLayoutItem* item = _ObjectComponentsWidgetLayout->itemAt(i);
-        if (item && item->widget()) {
-            delete item->widget();
-        }
+    for (QWidget* widget : _ObjectComponentsWidget->findChildren<QWidget*>(QString(), Qt::FindDirectChildrenOnly)) {
+        delete widget;
     }
 }
 

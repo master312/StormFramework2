@@ -1,15 +1,16 @@
-#include "StormObjComPlane.h"
+#include "SWidgetComPlane.h"
 #include "../../src/core/StormCommon.h"
-#include "../propertyWidgets/StormPropertyVec2Widget.h"
+#include "../../src/scene/components/SSceneComPlane.h"
+#include "../propertyWidgets/SWidgetPropertyVec2.h"
 #include "../propertyWidgets/SWidgetPropertyFloat.h"
 #include <QLayout>
 
-StormObjComPlane::StormObjComPlane(QWidget* parent) : StormObjComponentWidget(parent) {
+SWidgetComPlane::SWidgetComPlane(QWidget* parent) : SWidgetComponent(parent) {
     _PlaneComponent = nullptr;
 }
 
-void StormObjComPlane::initialize() {
-    StormObjComponentWidget::initialize();
+void SWidgetComPlane::initialize() {
+    SWidgetComponent::initialize();
     _PlaneComponent = dynamic_cast<SSceneComPlane*>(_StormComponent);
     if (!_PlaneComponent) {
         LOG(ERROR) << "StormObjComPlane::initialize null plane component";
@@ -17,19 +18,19 @@ void StormObjComPlane::initialize() {
     }
 
     /* Create position widget */
-    StormPropertyVec2Widget* positionWidget = new StormPropertyVec2Widget(this, "Position");
+    SWidgetPropertyVec2* positionWidget = new SWidgetPropertyVec2(this, "Position");
     positionWidget->setVectorGetter(std::bind(&SSceneComPlane::getPosition, _PlaneComponent));
     positionWidget->setVectorSetter(std::bind(&SSceneComPlane::setPosition, _PlaneComponent, std::placeholders::_1));
     layout()->addWidget(positionWidget);
 
     /* Create size widget */
-    StormPropertyVec2Widget* sizeWidget = new StormPropertyVec2Widget(this, "Size");
+    SWidgetPropertyVec2* sizeWidget = new SWidgetPropertyVec2(this, "Size");
     sizeWidget->setVectorGetter(std::bind(&SSceneComPlane::getSize, _PlaneComponent));
     sizeWidget->setVectorSetter(std::bind(&SSceneComPlane::setSize, _PlaneComponent, std::placeholders::_1));
     layout()->addWidget(sizeWidget);
 
     /* Create scale widget */
-    StormPropertyVec2Widget* scaleWidget = new StormPropertyVec2Widget(this, "Scale");
+    SWidgetPropertyVec2* scaleWidget = new SWidgetPropertyVec2(this, "Scale");
     scaleWidget->setDragFactor(0.05f);
     scaleWidget->setVectorGetter(std::bind(&SSceneComPlane::getScale, _PlaneComponent));
     scaleWidget->setVectorSetter(std::bind(&SSceneComPlane::setScale, _PlaneComponent, std::placeholders::_1));
@@ -42,11 +43,11 @@ void StormObjComPlane::initialize() {
     angleWidget->setSetter(std::bind(&SSceneComPlane::setAngle, _PlaneComponent, std::placeholders::_1));
     layout()->addWidget(angleWidget);
 
-    foreach (StormObjComPropertyWidget* child, findChildren<StormObjComPropertyWidget*>()) {
+    foreach (SWidgetProperty* child, findChildren<SWidgetProperty*>()) {
         child->refresh();
     }
 }
 
-void StormObjComPlane::refresh() {
+void SWidgetComPlane::refresh() {
     _PlaneComponent->transform();
 }

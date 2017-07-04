@@ -57,12 +57,14 @@ SOURCES += \
     ../../src/core/platforms/StormPlatformQt.cpp \
     StormOpenGlWidget.cpp \
     SceneObjectsTreeWidget.cpp \
-    StormObjComponentWidget.cpp \
-    StormObjComPropertyWidget.cpp \
-    componentWidgets/StormObjComPlane.cpp \
-    propertyWidgets/StormPropertyVec2Widget.cpp \
     SNumberLineEdit.cpp \
-    propertyWidgets/SWidgetPropertyFloat.cpp
+    propertyWidgets/SWidgetPropertyFloat.cpp \
+    propertyWidgets/SWidgetPropertyVec2.cpp \
+    propertyWidgets/SWidgetPropertyResource.cpp \
+    SWidgetProperty.cpp \
+    componentWidgets/SWidgetComPlane.cpp \
+    componentWidgets/SWidgetComStaticTexture.cpp \
+    SWidgetComponent.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -107,12 +109,14 @@ HEADERS += \
     StormOpenGlWidget.h \
     SceneObjectsTreeWidget.h \
     StormQtHelperFunctions.h \
-    StormObjComponentWidget.h \
-    StormObjComPropertyWidget.h \
-    componentWidgets/StormObjComPlane.h \
-    propertyWidgets/StormPropertyVec2Widget.h \
     SNumberLineEdit.h \
-    propertyWidgets/SWidgetPropertyFloat.h
+    propertyWidgets/SWidgetPropertyFloat.h \
+    propertyWidgets/SWidgetPropertyVec2.h \
+    propertyWidgets/SWidgetPropertyResource.h \
+    SWidgetProperty.h \
+    componentWidgets/SWidgetComPlane.h \
+    componentWidgets/SWidgetComStaticTexture.h \
+    SWidgetComponent.h
 
 FORMS += \
         mainwindow.ui

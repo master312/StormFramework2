@@ -1,13 +1,13 @@
 #pragma once
 #include <functional>
 #include "../SNumberLineEdit.h"
-#include "../StormObjComPropertyWidget.h"
+#include "../SWidgetProperty.h"
 
-class SWidgetPropertyFloat : public StormObjComPropertyWidget {
+class SWidgetPropertyFloat : public SWidgetProperty {
     Q_OBJECT
 
 public:
-    SWidgetPropertyFloat(StormObjComponentWidget* parent = nullptr, const std::string& name = "");
+    SWidgetPropertyFloat(SWidgetComponent* parent = nullptr, const std::string& name = "");
 
     virtual void refresh();
 

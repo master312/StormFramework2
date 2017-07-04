@@ -1,23 +1,24 @@
-#include "StormObjComponentWidget.h"
-#include "componentWidgets/StormObjComPlane.h"
+#include "SWidgetComponent.h"
+#include "componentWidgets/SWidgetComPlane.h"
+#include "componentWidgets/SWidgetComStaticTexture.h"
 #include <QVBoxLayout>
 #include <QPainter>
 
-StormObjComponentWidget::StormObjComponentWidget(QWidget* parent) : QWidget(parent) {
+SWidgetComponent::SWidgetComponent(QWidget* parent) : QWidget(parent) {
     _ComponentName = "ERROR: Name not set!";
     _StormComponent = nullptr;
     _HeaderButton = nullptr;
     _BackgroundOpacity = 0.1f;
 }
 
-StormObjComponentWidget::~StormObjComponentWidget() {
+SWidgetComponent::~SWidgetComponent() {
 }
 
-void StormObjComponentWidget::setStormComponent(SSceneComponent* component) {
+void SWidgetComponent::setStormComponent(SSceneComponent* component) {
     _StormComponent = component;
 }
 
-void StormObjComponentWidget::initialize() {
+void SWidgetComponent::initialize() {
     QVBoxLayout* layout = new QVBoxLayout;
     layout->setSpacing(1);
     layout->setMargin(0);
@@ -33,15 +34,13 @@ void StormObjComponentWidget::initialize() {
     }
 
     layout->addWidget(_HeaderButton);
-    layout->addWidget(new QPushButton(this));
-    layout->addWidget(new QPushButton(this));
     setLayout(layout);
 }
 
-void StormObjComponentWidget::refresh() {
+void SWidgetComponent::refresh() {
 }
 
-void StormObjComponentWidget::collapseButtonClick() {
+void SWidgetComponent::collapseButtonClick() {
     /* Collapse (header) button click callback */
     foreach (QWidget* child, findChildren<QWidget*>()) {
         if (child != _HeaderButton) {
@@ -50,19 +49,19 @@ void StormObjComponentWidget::collapseButtonClick() {
     }
 }
 
-void StormObjComponentWidget::enterEvent(QEvent* event) {
+void SWidgetComponent::enterEvent(QEvent* event) {
     _BackgroundOpacity = 0.3f;
     QWidget::enterEvent(event);
     repaint();
 }
 
-void StormObjComponentWidget::leaveEvent(QEvent* event) {
+void SWidgetComponent::leaveEvent(QEvent* event) {
     _BackgroundOpacity = 0.1f;
     QWidget::leaveEvent(event);
     repaint();
 }
 
-void StormObjComponentWidget::paintEvent(QPaintEvent* event) {
+void SWidgetComponent::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
 
     painter.setOpacity(_BackgroundOpacity);
@@ -72,13 +71,15 @@ void StormObjComponentWidget::paintEvent(QPaintEvent* event) {
 }
 
 /* Static factory method */
-StormObjComponentWidget* StormObjComponentWidget::newWidget(SSceneComponentType type, SSceneComponent* component) {
-    StormObjComponentWidget* widget = nullptr;
+SWidgetComponent* SWidgetComponent::newWidget(SSceneComponentType type, SSceneComponent* component, QWidget* parent) {
+    SWidgetComponent* widget = nullptr;
     switch (type) {
         case S_SCENE_OBJECT_COM_PLANE:
-            widget = new StormObjComPlane();
+            widget = new SWidgetComPlane(parent);
             break;
-
+        case S_SCENE_OBJECT_COM_STATIC_TEXTURE:
+            widget = new SWidgetComStaticTexture(parent);
+            break;
     }
     if (widget) {
         widget->setStormComponent(component);

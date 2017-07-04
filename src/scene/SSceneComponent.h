@@ -12,9 +12,9 @@ typedef enum SSceneComponentType {
     S_SCENE_OBJECT_COM_UNDEFINED = 0,
 
     S_SCENE_OBJECT_COM_PLANE,
-    S_SCENE_OBJECT_COM_TEXTURE,             // Static texture component
-    S_SCENE_OBJECT_COM_SPRITE,              // Animated texture component
-    S_SCENE_OBJECT_COM_SPINE,               // Spine component
+    S_SCENE_OBJECT_COM_STATIC_TEXTURE,       // Static texture component
+    S_SCENE_OBJECT_COM_SPRITE,               // Animated texture component
+    S_SCENE_OBJECT_COM_SPINE,                // Spine component
 
     S_SCENE_OBJECT_COM_TYPES_COUNT
 };
@@ -23,7 +23,7 @@ typedef enum SSceneComponentType {
 static const std::string SSceneComponentTypeString[S_SCENE_OBJECT_COM_TYPES_COUNT] = {
     "Undefined",
     "Plane",
-    "Texture",
+    "Static texture",
     "Sprite",
     "Spine",
 };

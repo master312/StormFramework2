@@ -24,6 +24,9 @@ public:
     void setTexture(spStormTexture texture);
     spStormTexture getTexture();
 
+    void setColorOverlay(Color color);
+    Color getColorOverlay();
+
     void render(StormRenderer* renderer);
 
 private:
