@@ -62,8 +62,10 @@ void SceneObjectsTreeWidget::populateSceneElements(StormScene* scene) {
 }
 
 void SceneObjectsTreeWidget::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected) {
-    /* Update just to prevent blinking while selecting on linux */
-    update();
+    /* Repaint just to prevent blinking while selecting on linux */
+    foreach (QWidget* child, findChildren<QWidget*>()) {
+        child->repaint();
+    }
 
     if (selectedItems().size() != 1) {
         /* Dont show components if multiple objects are selected */
