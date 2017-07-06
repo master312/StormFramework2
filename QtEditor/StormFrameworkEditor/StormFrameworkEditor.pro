@@ -64,7 +64,8 @@ SOURCES += \
     SWidgetProperty.cpp \
     componentWidgets/SWidgetComPlane.cpp \
     componentWidgets/SWidgetComStaticTexture.cpp \
-    SWidgetComponent.cpp
+    SWidgetComponent.cpp \
+    SResourceLineEdit.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -116,7 +117,8 @@ HEADERS += \
     SWidgetProperty.h \
     componentWidgets/SWidgetComPlane.h \
     componentWidgets/SWidgetComStaticTexture.h \
-    SWidgetComponent.h
+    SWidgetComponent.h \
+    SResourceLineEdit.h
 
 FORMS += \
         mainwindow.ui
