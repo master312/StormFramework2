@@ -33,7 +33,8 @@ public:
     /* Sets shader that will be used for rendering */
     void setShader(StormShader* shader);
 
-    /* Begin rendering */
+    /* Begin rendering. 
+     * Should be called after shader has already been set. */
     void startRendering();
 
     /* Ends rendering. Unbind buffers and shaders */
@@ -42,7 +43,7 @@ public:
     /* Should be called before binding data to buffers to initialize stuff */
     void begin(StormRenderMode renderMode);
 
-    /* Binds texture to OpenGL buffer. */
+    /* Binds texture to OpenGL buffer */
     void bindTexture(StormTexture* texture);
     
     /* Binds vertex data to buffer */
@@ -56,6 +57,7 @@ public:
 
     /* Draws data from buffer to screen */
     void draw();
+    
 private:
     /* OpenGL VAO index */
     uint32_t _GLVaoId;

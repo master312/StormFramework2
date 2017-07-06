@@ -104,6 +104,10 @@ void StormFileSystem::freeResource(spStormResourceFile resource, bool forceUnloa
     }
 }
 
+std::string StormFileSystem::getRootPath() const {
+    return _RootPath;
+}
+
 StormResourceFile* StormFileSystem::loadResource(const std::string& filename) {
     if (!filename.size()) {
         return nullptr;
