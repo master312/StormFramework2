@@ -24,8 +24,15 @@ public:
     void setTexture(spStormTexture texture);
     spStormTexture getTexture();
 
-    void setColorOverlay(Color color);
-    Color getColorOverlay();
+    void setColorMultiply(Color color);
+    Color getColorMultiply();
+    /* Method used by editor. */
+    Color* getColorMultiplyPtr();
+
+    void setColorAdd(Color color);
+    Color getColorAdd();
+    /* Method used by editor. */
+    Color* getColorAddPtr();
 
     void render(StormRenderer* renderer);
 
@@ -33,5 +40,7 @@ private:
     /* Reference to plane component */
     SSceneComPlane* _PlaneComponent;
     spStormTexture _Texture;
-    Color _ColorOverlay;
+
+    Color _ColorMultiply;
+    Color _ColorAdd;
 };

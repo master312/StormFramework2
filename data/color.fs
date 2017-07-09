@@ -9,9 +9,9 @@ in vec4 pass_VertexColor;
 
 void main() {
     vec4 tmpColor = pass_VertexColor * colorMultiply;
+    tmpColor.xyz += colorAdd.xyz;
     tmpColor *= colorMultiply.w;
     tmpColor *= texture2D(textureUnit, pass_UvCoordinates);
-    tmpColor.xyz += colorAdd.xyz;
     
     gl_FragColor = tmpColor;
 

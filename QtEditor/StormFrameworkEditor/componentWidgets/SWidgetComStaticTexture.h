@@ -4,6 +4,7 @@
 
 class SSceneComStaticTexture;
 class SWidgetPropertyResource;
+class SWidgetPropertyFloat;
 
 class SWidgetComStaticTexture : public SWidgetComponent {
     Q_OBJECT
@@ -22,5 +23,7 @@ public slots:
 private:
     SSceneComStaticTexture* _TextureComponent;
     SWidgetPropertyResource* _ResourceSelectWidget;
+    float _CurrentAlpha;
+    SWidgetPropertyFloat* _AlphaControll;
     Vector4 _ColorOverlay;
 };

@@ -39,6 +39,7 @@ void SSceneSystemPlane::renderDebug(SSceneComPlane* component, StormRenderer* re
 
     /* Draw rect bounds */
     renderer->begin(S_RENDER_LINES_LOOP, true);
+    renderer->setColorMultiply(Color(255, 255, 255, 255));
     renderer->setColorAdd(Color(255, 10, 10));
     renderer->bindVertexData(component->getVertices(), 4);
     renderer->bindIndexData(indices, 4);

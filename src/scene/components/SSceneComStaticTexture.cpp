@@ -6,7 +6,8 @@
 SSceneComStaticTexture::SSceneComStaticTexture(StormSceneObject* owner) : SSceneComponent(owner) {
     _PlaneComponent = nullptr;
     _Texture = nullptr;
-    _ColorOverlay.set(255, 255, 255, 255);
+    _ColorMultiply.set(255, 255, 255, 255);
+    _ColorAdd.set(0, 0, 0, 0);
     
     _Type = S_SCENE_OBJECT_COM_STATIC_TEXTURE;
 }
@@ -22,10 +23,10 @@ void SSceneComStaticTexture::serializeXml(pugi::xml_node& node) {
     if (!_Texture->isDefaultTexture()) {
         node.append_attribute("texture").set_value(_Texture->getName().c_str());
     }
-    node.append_attribute("color_r").set_value((int)_ColorOverlay.r);
-    node.append_attribute("color_g").set_value((int)_ColorOverlay.g);
-    node.append_attribute("color_b").set_value((int)_ColorOverlay.b);
-    node.append_attribute("color_a").set_value((int)_ColorOverlay.a);
+    node.append_attribute("color_r").set_value((int)_ColorMultiply.r);
+    node.append_attribute("color_g").set_value((int)_ColorMultiply.g);
+    node.append_attribute("color_b").set_value((int)_ColorMultiply.b);
+    node.append_attribute("color_a").set_value((int)_ColorMultiply.a);
 }
 
 int SSceneComStaticTexture::deserializeXml(pugi::xml_node& node) {
@@ -37,10 +38,10 @@ int SSceneComStaticTexture::deserializeXml(pugi::xml_node& node) {
     }
     _Texture = StormEngine::instance()->getTextureManager()->getTexture(textureName);
 
-    _ColorOverlay.r = (uint8_t)node.attribute("color_r").as_int(255);
-    _ColorOverlay.g = (uint8_t)node.attribute("color_g").as_int(255);
-    _ColorOverlay.b = (uint8_t)node.attribute("color_b").as_int(255);
-    _ColorOverlay.a = (uint8_t)node.attribute("color_a").as_int(255);
+    _ColorMultiply.r = (uint8_t)node.attribute("color_r").as_int(255);
+    _ColorMultiply.g = (uint8_t)node.attribute("color_g").as_int(255);
+    _ColorMultiply.b = (uint8_t)node.attribute("color_b").as_int(255);
+    _ColorMultiply.a = (uint8_t)node.attribute("color_a").as_int(255);
 
     return 1;
 }
@@ -61,18 +62,35 @@ spStormTexture SSceneComStaticTexture::getTexture() {
     return _Texture;
 }
 
-void SSceneComStaticTexture::setColorOverlay(Color color) {
-    _ColorOverlay = color;
+void SSceneComStaticTexture::setColorMultiply(Color color) {
+    _ColorMultiply = color;
 }
 
-Color SSceneComStaticTexture::getColorOverlay() {
-    return _ColorOverlay;
+Color SSceneComStaticTexture::getColorMultiply() {
+    return _ColorMultiply;
+}
+
+Color* SSceneComStaticTexture::getColorMultiplyPtr() {
+    return &_ColorMultiply;
+}
+
+void SSceneComStaticTexture::setColorAdd(Color color) {
+    _ColorAdd = color;
+}
+
+Color SSceneComStaticTexture::getColorAdd() {
+    return _ColorAdd;
+}
+
+Color* SSceneComStaticTexture::getColorAddPtr() {
+    return &_ColorAdd;
 }
 
 void SSceneComStaticTexture::render(StormRenderer* renderer) {
     renderer->begin(S_RENDER_TRIANGLE_FAN);
     renderer->bindTexture(_Texture.get());
-    renderer->setColorMultiply(_ColorOverlay);
+    renderer->setColorMultiply(_ColorMultiply);
+    renderer->setColorAdd(_ColorAdd);
     renderer->bindVertexData(_PlaneComponent->getVertices(), 4);
     
     uint32_t indices[] = {0, 1, 2, 3};
