@@ -23,7 +23,7 @@ public:
     Vector2 getPosition() const;
     Vector2 getPositionTransformed() const;
 
-    void setCenterPosition(const Vector2& position);
+    void setCenterPosition(const Vector2 position);
     Vector2 getCenterPosition() const;
     Vector2 getCenterPositionTransformed() const;
 
@@ -46,6 +46,9 @@ public:
      * WARNING: Vertices are updated in @transform() method. */
     StormVertex* getVertices();
     
+    bool isRenderDebug();
+    void setRenderDebug(bool shouldRender);
+
 private:
     /* Pivot position */
     Vector2 _PivotPosition;
@@ -70,5 +73,8 @@ private:
     /* Plane vertices, with transformations calculated in */
     StormVertex _Vertices[4];
     
+    /* Should debug bounds for this plane be rendered */
+    bool _RenderDebug;
+
     void transformScale(Plane* parent);
 };

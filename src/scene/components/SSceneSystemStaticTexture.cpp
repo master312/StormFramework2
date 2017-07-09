@@ -4,7 +4,7 @@
 #include "../StormSceneObject.h"
 
 SSceneSystemStaticTexture::SSceneSystemStaticTexture() {
-    _Type = S_SCENE_OBJECT_COM_SYS_TEXTURE;
+    _Type = S_SCENE_OBJECT_COM_SYS_STATIC_TEXTURE;
 }
 
 SSceneSystemStaticTexture::~SSceneSystemStaticTexture() {
@@ -27,7 +27,7 @@ void SSceneSystemStaticTexture::addComponent(SSceneComponent* component) {
 }
 
 void SSceneSystemStaticTexture::render(StormRenderer* renderer) {
-    for (unsigned int i = 0; i < _Components.size(); i++) {
+    for (size_t i = 0; i < _Components.size(); i++) {
         _Components[i]->render(renderer);
     }
 }

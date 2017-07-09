@@ -137,6 +137,11 @@ void StormShader::setUniformColor(const std::string& uniformName, Color& value) 
     glUniform4f(location, value.floatR(), value.floatG(), value.floatB(), value.floatA());
 }
 
+void StormShader::setUniformColorNoAlpha(const std::string& uniformName, Color& value) {
+    int32_t location = getUniformLocation(uniformName);
+    glUniform3f(location, value.floatR(), value.floatG(), value.floatB());
+}
+
 void StormShader::destroy() {
     if (!_ProgramId) {
         return;

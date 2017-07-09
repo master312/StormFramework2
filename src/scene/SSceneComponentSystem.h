@@ -11,7 +11,7 @@ typedef enum SSceneComponentSystemType {
     S_SCENE_OBJECT_COM_SYS_UNDEFINED = 0,
 
     S_SCENE_OBJECT_COM_SYS_PLANE,
-    S_SCENE_OBJECT_COM_SYS_TEXTURE,             // Static texture component
+    S_SCENE_OBJECT_COM_SYS_STATIC_TEXTURE,      // Static texture component
     S_SCENE_OBJECT_COM_SYS_SPRITE,              // Animated texture component
     S_SCENE_OBJECT_COM_SYS_SPINE,               // Spine component
 };

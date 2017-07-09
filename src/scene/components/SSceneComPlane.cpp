@@ -8,6 +8,8 @@ SSceneComPlane::SSceneComPlane(StormSceneObject* owner) : SSceneComponent(owner)
     _Angle = 0.0f;
     _Scale.set(1.0f, 1.0f);
 
+    _RenderDebug = false;
+
     _Vertices[0].uv.set(0.0f, 0.0f);
     _Vertices[1].uv.set(1.0f, 0.0f);
     _Vertices[2].uv.set(1.0f, 1.0f);
@@ -97,7 +99,7 @@ Vector2 SSceneComPlane::getPositionTransformed() const {
     return _PivotPositionTransformed;
 }
 
-void SSceneComPlane::setCenterPosition(const Vector2& position) {
+void SSceneComPlane::setCenterPosition(const Vector2 position) {
     _PlaneCenterPosition = position;
 }
 
@@ -146,6 +148,14 @@ Vector2 SSceneComPlane::getScale() const {
 
 StormVertex* SSceneComPlane::getVertices() {
     return _Vertices;
+}
+
+bool SSceneComPlane::isRenderDebug() {
+    return _RenderDebug;
+}
+
+void SSceneComPlane::setRenderDebug(bool shouldRender) {
+    _RenderDebug = shouldRender;
 }
 
 void SSceneComPlane::transformScale(Plane* parent) {

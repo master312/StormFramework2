@@ -9,10 +9,11 @@ StormRenderer::StormRenderer() {
     _GLTextureSimplerUniform = 0;
     _Shader = nullptr;
     _BindedTexture = nullptr;
-    _ColorOverlay.set(255, 255, 255, 255);
     _Perspective.identity();
     _RenderMode = S_RENDER_TRIANGLE_FAN;
     _IsPerspectiveChanged = false;
+    
+    resetColorsOverlay();
 }
 
 StormRenderer::~StormRenderer() {
@@ -90,6 +91,9 @@ void StormRenderer::startRendering() {
         _IsPerspectiveChanged = false;
         bindPerspectiveMatrix();
     }
+
+    /* Unbind texture just in case */
+    unbindTexture();
 }
 
 void StormRenderer::endRendering() {
@@ -103,11 +107,15 @@ void StormRenderer::endRendering() {
     _Shader->unuse();
 }
 
-void StormRenderer::begin(StormRenderMode renderMode) {
+void StormRenderer::begin(StormRenderMode renderMode, bool unbindTextures /* = false */) {
     _GLVertexCount = 0;
     _RenderMode = renderMode;
     
-    setColor(Color(255, 255, 255, 255));
+    if (unbindTextures) {
+        unbindTexture();
+    }
+
+    resetColorsOverlay();
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
@@ -130,7 +138,7 @@ void StormRenderer::setShader(StormShader* shader) {
     _GLTextureSimplerUniform = _Shader->getUniformLocation("textureUnit");
 
     bindPerspectiveMatrix();
-    bindColorUniform();
+    bindColorUniforms();
 
     glActiveTexture(GL_TEXTURE0);
     glUniform1i(_GLTextureSimplerUniform, 0);
@@ -143,11 +151,12 @@ void StormRenderer::bindPerspectiveMatrix() {
     _Shader->setUniformMatrix4("perspective", _Perspective);
 }
 
-void StormRenderer::bindColorUniform() {
+void StormRenderer::bindColorUniforms() {
     if (!_Shader) {
         return;
     }
-    _Shader->setUniformColor("colorOverlay", _ColorOverlay);
+    _Shader->setUniformColor("colorMultiply", _MultiplyColorOverlay);
+    _Shader->setUniformColorNoAlpha("colorAdd", _AddColorOverlay);
 }
 
 void StormRenderer::bindTexture(StormTexture* texture) {
@@ -156,7 +165,14 @@ void StormRenderer::bindTexture(StormTexture* texture) {
         return;
     }
     _BindedTexture = texture;
-    glBindTexture(GL_TEXTURE_2D, texture->getOpenGLTextureId());
+    glBindTexture(GL_TEXTURE_2D, _BindedTexture->getOpenGLTextureId());
+}
+
+void StormRenderer::unbindTexture() {
+    if (_BindedTexture) {
+        _BindedTexture = nullptr;
+    }
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void StormRenderer::bindVertexData(StormVertex* vertices, uint32_t count) {
@@ -171,10 +187,28 @@ void StormRenderer::bindIndexData(uint32_t* indices, uint32_t count) {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_DYNAMIC_DRAW);
 }
 
-void StormRenderer::setColor(Color color) {
-    if (_ColorOverlay == color) {
+void StormRenderer::setColorMultiply(Color color) {
+    if (_MultiplyColorOverlay == color) {
         return;
     }
-    _ColorOverlay = color;
-    bindColorUniform();
+    _MultiplyColorOverlay = color;
+    bindColorUniforms();
+}
+
+void StormRenderer::setColorAdd(Color color) {
+    if (_AddColorOverlay == color) {
+        return;
+    }
+    _AddColorOverlay = color;
+    bindColorUniforms();
+}
+
+void StormRenderer::resetColorsOverlay() {
+    _AddColorOverlay.set(0, 0, 0, 0);
+    _MultiplyColorOverlay.set(255, 255, 255, 255);
+    bindColorUniforms();
+}
+
+void StormRenderer::setLineWidth(float width) {
+    glLineWidth(width);
 }

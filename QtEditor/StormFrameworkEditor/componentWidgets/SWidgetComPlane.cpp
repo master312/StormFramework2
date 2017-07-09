@@ -9,6 +9,12 @@ SWidgetComPlane::SWidgetComPlane(QWidget* parent) : SWidgetComponent(parent) {
     _PlaneComponent = nullptr;
 }
 
+SWidgetComPlane::~SWidgetComPlane() {
+    if (_PlaneComponent) {
+        _PlaneComponent->setRenderDebug(false);
+    }
+}
+
 void SWidgetComPlane::initialize() {
     SWidgetComponent::initialize();
     _PlaneComponent = dynamic_cast<SSceneComPlane*>(_StormComponent);
@@ -22,6 +28,12 @@ void SWidgetComPlane::initialize() {
     positionWidget->setVectorGetter(std::bind(&SSceneComPlane::getPosition, _PlaneComponent));
     positionWidget->setVectorSetter(std::bind(&SSceneComPlane::setPosition, _PlaneComponent, std::placeholders::_1));
     layout()->addWidget(positionWidget);
+
+    /* Create pivot position widget */
+    SWidgetPropertyVec2* pivotPosition = new SWidgetPropertyVec2(this, "Pivot");
+    pivotPosition->setVectorGetter(std::bind(&SSceneComPlane::getCenterPosition, _PlaneComponent));
+    pivotPosition->setVectorSetter(std::bind(&SSceneComPlane::setCenterPosition, _PlaneComponent, std::placeholders::_1));
+    layout()->addWidget(pivotPosition);
 
     /* Create size widget */
     SWidgetPropertyVec2* sizeWidget = new SWidgetPropertyVec2(this, "Size");
@@ -46,6 +58,8 @@ void SWidgetComPlane::initialize() {
     foreach (SWidgetProperty* child, findChildren<SWidgetProperty*>()) {
         child->refresh();
     }
+
+    _PlaneComponent->setRenderDebug(true);
 }
 
 void SWidgetComPlane::refresh() {

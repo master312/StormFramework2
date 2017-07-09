@@ -8,6 +8,7 @@ class SWidgetComPlane : public SWidgetComponent {
 
 public:
     SWidgetComPlane(QWidget* parent = nullptr);
+    virtual ~SWidgetComPlane();
 
     virtual void initialize();
 

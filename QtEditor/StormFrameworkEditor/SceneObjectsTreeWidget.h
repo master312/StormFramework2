@@ -5,18 +5,6 @@
 class StormScene;
 class StormSceneObject;
 
-class SceneObjectTreeWidgetItem : public QTreeWidgetItem {
-public:
-    SceneObjectTreeWidgetItem(QTreeWidget* parent = nullptr);
-    virtual ~SceneObjectTreeWidgetItem();
-
-    void setSceneObject(StormSceneObject* obj);
-    StormSceneObject* getSceneObject();
-private:
-    StormSceneObject* _SceneObject;
-};
-
-
 class SceneObjectsTreeWidget : public QTreeWidget {
 public:
     SceneObjectsTreeWidget(QWidget* parent = nullptr);
@@ -30,7 +18,6 @@ protected:
 private:
     /* Currently active scene */
     StormScene* _Scene;
-
 
     /* Pointer to compoents widget, for easy access */
     QWidget* _ObjectComponentsWidget;

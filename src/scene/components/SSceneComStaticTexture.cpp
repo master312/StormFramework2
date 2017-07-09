@@ -70,10 +70,9 @@ Color SSceneComStaticTexture::getColorOverlay() {
 }
 
 void SSceneComStaticTexture::render(StormRenderer* renderer) {
-
     renderer->begin(S_RENDER_TRIANGLE_FAN);
     renderer->bindTexture(_Texture.get());
-    renderer->setColor(_ColorOverlay);
+    renderer->setColorMultiply(_ColorOverlay);
     renderer->bindVertexData(_PlaneComponent->getVertices(), 4);
     
     uint32_t indices[] = {0, 1, 2, 3};

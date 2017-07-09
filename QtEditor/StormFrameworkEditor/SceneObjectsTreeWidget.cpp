@@ -1,32 +1,13 @@
 #include "SceneObjectsTreeWidget.h"
-#include "../../src/scene/StormScene.h"
-#include "../../src/scene/SSceneComponent.h"
+#include "SceneObjectTreeWidgetItem.h"
 #include "SWidgetComponent.h"
 #include "StormQtHelperFunctions.h"
+#include "../../src/scene/StormScene.h"
+#include "../../src/scene/SSceneComponent.h"
 #include <QApplication>
-#include <QTreeWidgetItem>
 #include <QDropEvent>
 #include <QModelIndex>
 #include <QApplication>
-
-SceneObjectTreeWidgetItem::SceneObjectTreeWidgetItem(QTreeWidget* parent) : QTreeWidgetItem(parent) {
-    _SceneObject = nullptr;
-}
-
-SceneObjectTreeWidgetItem::~SceneObjectTreeWidgetItem() {
-}
-
-void SceneObjectTreeWidgetItem::setSceneObject(StormSceneObject* obj) {
-    _SceneObject = obj;
-}
-
-StormSceneObject* SceneObjectTreeWidgetItem::getSceneObject() {
-    return _SceneObject;
-}
-
-
-
-
 
 SceneObjectsTreeWidget::SceneObjectsTreeWidget(QWidget* parent) : QTreeWidget(parent) {
     _Scene = nullptr;

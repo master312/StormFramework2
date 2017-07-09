@@ -65,7 +65,9 @@ SOURCES += \
     componentWidgets/SWidgetComPlane.cpp \
     componentWidgets/SWidgetComStaticTexture.cpp \
     SWidgetComponent.cpp \
-    SResourceLineEdit.cpp
+    SResourceLineEdit.cpp \
+    SceneObjectTreeWidgetItem.cpp \
+    ../../src/scene/components/SSceneSystemPlane.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -118,7 +120,9 @@ HEADERS += \
     componentWidgets/SWidgetComPlane.h \
     componentWidgets/SWidgetComStaticTexture.h \
     SWidgetComponent.h \
-    SResourceLineEdit.h
+    SResourceLineEdit.h \
+    SceneObjectTreeWidgetItem.h \
+    ../../src/scene/components/SSceneSystemPlane.h
 
 FORMS += \
         mainwindow.ui
