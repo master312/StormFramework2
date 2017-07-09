@@ -91,9 +91,6 @@ void StormRenderer::startRendering() {
         _IsPerspectiveChanged = false;
         bindPerspectiveMatrix();
     }
-
-    /* Unbind texture just in case */
-    unbindTexture();
 }
 
 void StormRenderer::endRendering() {
@@ -102,7 +99,8 @@ void StormRenderer::endRendering() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    _BindedTexture = nullptr;
+    /* Unbind texture just in case */
+    unbindTexture();
     
     _Shader->unuse();
 }
@@ -169,9 +167,7 @@ void StormRenderer::bindTexture(StormTexture* texture) {
 }
 
 void StormRenderer::unbindTexture() {
-    if (_BindedTexture) {
-        _BindedTexture = nullptr;
-    }
+    _BindedTexture = nullptr;
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
