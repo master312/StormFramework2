@@ -1,14 +1,12 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 
 namespace Ui {
-class MainWindow;
+    class MainWindow;
 }
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
@@ -21,5 +19,3 @@ private slots:
 private:
     Ui::MainWindow *ui;
 };
-
-#endif // MAINWINDOW_H

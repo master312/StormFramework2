@@ -1,5 +1,4 @@
-#ifndef STORMOPENGLWIDGET_H
-#define STORMOPENGLWIDGET_H
+#pragma once
 
 /* Must be inculded before everything else */
 #include <GL/glew.h>
@@ -49,5 +48,3 @@ private:
 
     StormPlatformQt* _StormPlatform;
 };
-
-#endif // STORMOPENGLWIDGET_H
