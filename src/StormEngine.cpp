@@ -1,7 +1,7 @@
 #include "StormEngine.h"
-#include "StormEngineEditing.h"
 #include "core/StormCommon.h"
 #include "core/platforms/StormPlatformSDL2.h"
+#include "core/platforms/StormPlatformQt.h"
 #include "core/graphics/StormVideoDriver.h"
 #include "core/graphics/StormRenderer.h"
 #include "core/graphics/StormShader.h"
@@ -15,9 +15,8 @@ StormEngine::StormEngine() {
     _ComTextureManager = nullptr;
     _GameDataFilesystem = nullptr;
     _DefaultShader = nullptr;
-    
-    _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.03", true);
-    _ViewPerspectiveSize.set(1280, 768);
+
+    _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.04", true);
 }
 
 StormEngine::~StormEngine() {
@@ -32,10 +31,24 @@ StormEngine* StormEngine::instance() {
 void StormEngine::initialize(StormPlatformType platform) {
     switch(platform) {
         case STORM_PLATFORM_SDL2: {
+#ifdef STORM_BUILD_PLATFORM_SDL2
             _Platform = new StormPlatformSDL2();
             if (_Platform->initialize() < 0) {
                 LOG(FATAL) << "Could not initialize SDL platform.";
             }
+#else
+            LOG(FATAL) << "Tryed to initialzie SDL2 platform, but engine was built without SDL2 support.";
+#endif
+            break; }
+        case STORM_PLATFORM_QT: {
+#ifdef STORM_BUILD_PLATFORM_QT
+            _Platform = new StormPlatformQt();
+            if (_Platform->initialize() < 0) {
+                LOG(FATAL) <<  "Could not initialize QT platform.";
+            }
+#else
+            LOG(FATAL) << "Tryed to initialzie QT platform, but engine was built without QT support.";
+#endif
             break; }
         default: {
             LOG(ERROR) << "Requested platform not implemented.";
@@ -47,30 +60,32 @@ void StormEngine::initialize(StormPlatformType platform) {
     if (_Platform->createWindow(_WindowInfo) < 0) {
         LOG(FATAL) << "Could not open window.";
     }
-    _Platform->getInputManager()->calculatePointerScaling(_ViewPerspectiveSize);
 
     if (initializeComponents() < 0) {
         LOG(FATAL) << "Could not initialize all engine components.";
     }
 
     _DefaultShader = new StormShader();
-    if (_DefaultShader->compileFromSource(_GameDataFilesystem->getResourceByFilename("color.vs")->getBuffer(), 
+    if (_DefaultShader->compileFromSource(_GameDataFilesystem->getResourceByFilename("color.vs")->getBuffer(),
                                           _GameDataFilesystem->getResourceByFilename("color.fs")->getBuffer()) < 0) {
-        LOG(FATAL) << "Default shader could not be compiled";                                
+        LOG(FATAL) << "Default shader could not be compiled";
     }
-    
+
     _DefaultShader->linkShaders();
     _ComRenderer->setShader(_DefaultShader);
 
     /* If this line is reached, all components have been initialized successfully */
     _Platform->setMainTickingFunction(std::bind(&StormEngine::mainTickingMethod, this, std::placeholders::_1));
-
-#ifdef _EDITING_SUPPORT
-    StormEngineEditing::instance()->initialize();
-#endif
+    _Platform->setWindowEventListener(std::bind(&StormEngine::windowEventListener, this, std::placeholders::_1));
 
     LOG(INFO) << "Engine components initialized successfully";
     _IsInitialized = true;
+
+
+    /* Temporary code for testing scenes. Remove after scene manager implementation */
+    testScene = new StormScene();
+    testScene->loadXml(_GameDataFilesystem->getResourceByFilename("scenes/the_scene.xml"));
+    testScene->initialize();
 }
 
 void StormEngine::deinitialize() {
@@ -100,18 +115,23 @@ void StormEngine::deinitialize() {
 
 int StormEngine::initializeComponents() {
     _ComVideoDriver = new StormVideoDriver();
-    if (_ComVideoDriver->initialize(_WindowInfo.getSize()) < 0) {
+    _ComVideoDriver->setVirtualViewSize(_WindowInfo.width, _WindowInfo.height);
+    
+    if (_ComVideoDriver->initialize(_WindowInfo.getSizePoint()) < 0) {
         return -1;
     }
+    
+    _Platform->getInputManager()->calculatePointerScaling(_ComVideoDriver->getVirtualViewSize());
 
     _ComRenderer = new StormRenderer();
     if (_ComRenderer->initialize() < 0) {
         return -1;
     }
-    _ComRenderer->setPerspective(0.0f, 0.0f, _ViewPerspectiveSize.x, _ViewPerspectiveSize.y);
+    _ComRenderer->setPerspective(0.0f, 0.0f, _ComVideoDriver->getVirtualViewSize().x, _ComVideoDriver->getVirtualViewSize().y);
+
 
     _ComTextureManager = new StormTextureManager(_GameDataFilesystem);
-    
+
     return 1;
 }
 
@@ -139,11 +159,6 @@ void StormEngine::quit() {
     _Platform->quit();
 }
 
-void StormEngine::mainTickingMethod(float deltaTime) {
-    updateTick(deltaTime);
-    renderTick();
-}
-
 StormRenderer* StormEngine::getRenderer() {
     return _ComRenderer;
 }
@@ -160,9 +175,24 @@ StormFileSystem* StormEngine::getDataFilesystem() {
     return _GameDataFilesystem;
 }
 
-#include "scene/StormScene.h"
+void StormEngine::mainTickingMethod(float deltaTime) {
+    updateTick(deltaTime);
+    renderTick();
+}
 
-StormScene* scene = nullptr;
+void StormEngine::windowEventListener(StormWindowEventType event) {
+    switch (event) {
+        case STORM_EVENT_WINDOW_RESIZED:
+            _ComVideoDriver->setVirtualViewSize(_Platform->getWindowSettings().getSizeVec2());
+            
+            _Platform->getInputManager()->setRealWindowSize(_Platform->getWindowSettings().getSizeVec2());
+            _Platform->getInputManager()->calculatePointerScaling(_ComVideoDriver->getVirtualViewSize());
+            
+            _ComRenderer->setPerspective(0.0f, 0.0f, _ComVideoDriver->getVirtualViewSize().x, _ComVideoDriver->getVirtualViewSize().y);
+            LOG(DEBUG) << "Window resized to: " << _Platform->getWindowSettings().getSizeVec2();
+            break;
+    }
+}
 
 void StormEngine::renderTick() {
     _ComVideoDriver->begin();
@@ -170,34 +200,16 @@ void StormEngine::renderTick() {
 
     _ComRenderer->startRendering();
 
-#ifdef _EDITING_SUPPORT
-    StormEngineEditing::instance()->renderPre(_ComRenderer);
-#endif
-
-
-    if (!scene) {
-        scene = new StormScene();
-        scene->loadXml(_GameDataFilesystem->getResourceByFilename("scenes/the_scene.xml"));
-        scene->initialize();
-    }
-    scene->render(_ComRenderer);
-
-
-#ifdef _EDITING_SUPPORT
-    StormEngineEditing::instance()->renderAfter(_ComRenderer);
-#endif
-
+    testScene->render(_ComRenderer);
 
     _ComRenderer->endRendering();
     _Platform->windowSwapBuffers();
 }
 
 void StormEngine::updateTick(float deltaTime) {
+    testScene->tick(deltaTime);
+    
     if (_Platform->getInputManager()->isKeyDown(S_KEY_ESCAPE)) {
         quit();
     }
-
-#ifdef _EDITING_SUPPORT
-    StormEngineEditing::instance()->updateTick(deltaTime);
-#endif
 }

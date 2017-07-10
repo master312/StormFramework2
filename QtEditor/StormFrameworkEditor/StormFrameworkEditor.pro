@@ -15,7 +15,7 @@ TEMPLATE = app
 # any feature of Qt which as been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
-DEFINES += QT_DEPRECATED_WARNINGS
+DEFINES += QT_DEPRECATED_WARNINGS STORM_BUILD_PLATFORM_QT
 
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -23,6 +23,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 CONFIG += c++11
+
+QMAKE_CXXFLAGS_RELEASE -= -O
+
 
 LIBS += -lSDL2 -lSDL2_image -lGLEW -lGL -lGLU
 
@@ -48,11 +51,24 @@ SOURCES += \
     ../../src/scene/StormScene.cpp \
     ../../src/scene/StormSceneObject.cpp \
     ../../src/StormEngine.cpp \
-    ../../src/StormEngineEditing.cpp \
     ../../src/StormTextureManager.cpp \
     ../../libs/easyloggingpp/easylogging++.cpp \
     ../../libs/pugixml/pugixml.cpp \
-    stormglwidget.cpp
+    ../../src/core/platforms/StormPlatformQt.cpp \
+    StormOpenGlWidget.cpp \
+    SceneObjectsTreeWidget.cpp \
+    SNumberLineEdit.cpp \
+    propertyWidgets/SWidgetPropertyFloat.cpp \
+    propertyWidgets/SWidgetPropertyVec2.cpp \
+    propertyWidgets/SWidgetPropertyResource.cpp \
+    SWidgetProperty.cpp \
+    componentWidgets/SWidgetComPlane.cpp \
+    componentWidgets/SWidgetComStaticTexture.cpp \
+    SWidgetComponent.cpp \
+    SResourceLineEdit.cpp \
+    SceneObjectTreeWidgetItem.cpp \
+    ../../src/scene/components/SSceneSystemPlane.cpp \
+    propertyWidgets/SWidgetPropertyColor.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -89,12 +105,28 @@ HEADERS += \
     ../../src/scene/StormScene.h \
     ../../src/scene/StormSceneObject.h \
     ../../src/StormEngine.h \
-    ../../src/StormEngineEditing.h \
     ../../src/StormTextureManager.h \
     ../../libs/easyloggingpp/easylogging++.h \
     ../../libs/pugixml/pugiconfig.hpp \
     ../../libs/pugixml/pugixml.hpp \
-    stormglwidget.h
+    ../../src/core/platforms/StormPlatformQt.h \
+    StormOpenGlWidget.h \
+    SceneObjectsTreeWidget.h \
+    StormQtHelperFunctions.h \
+    SNumberLineEdit.h \
+    propertyWidgets/SWidgetPropertyFloat.h \
+    propertyWidgets/SWidgetPropertyVec2.h \
+    propertyWidgets/SWidgetPropertyResource.h \
+    SWidgetProperty.h \
+    componentWidgets/SWidgetComPlane.h \
+    componentWidgets/SWidgetComStaticTexture.h \
+    SWidgetComponent.h \
+    SResourceLineEdit.h \
+    SceneObjectTreeWidgetItem.h \
+    ../../src/scene/components/SSceneSystemPlane.h \
+    propertyWidgets/SWidgetPropertyColor.h
 
 FORMS += \
         mainwindow.ui
+
+DISTFILES +=

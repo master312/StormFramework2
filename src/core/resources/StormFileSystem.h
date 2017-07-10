@@ -43,6 +43,10 @@ public:
      *  without any safety checks first. 
      * WARNING: Use @forceUnload only if you know what are you doing. This can cause memory leaks. */
     void freeResource(spStormResourceFile resource, bool forceUnload = false);
+
+    /* Returns string containing path to root of this filesystem */
+    std::string getRootPath() const;
+
 private:
     /* Root path of filesystem. (E.X: c:/game/data/ - with'/' on the end)*/
     std::string _RootPath;

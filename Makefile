@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS  = -g -Wall -std=c++11 -D_EDITING_SUPPORT #-pg
+CFLAGS  = -g -Wall -std=c++11 -DSTORM_BUILD_PLATFORM_SDL2 #-pg
 LIBS = -w -lSDL2 -lSDL2_image -lGLEW -lGL -lGLU 
 OBJDIR = objects/
 EXNAME = a.out
@@ -48,9 +48,6 @@ $(OBJDIR)StormTextureManager.o: src/StormTextureManager.cpp src/StormTextureMana
 $(OBJDIR)StormEngine.o: src/StormEngine.cpp src/StormEngine.h
 	$(CC) $(CFLAGS) -c src/StormEngine.cpp $(LIBS) -o $(OBJDIR)StormEngine.o 
 
-$(OBJDIR)StormEngineEditing.o: src/StormEngineEditing.cpp src/StormEngineEditing.h
-	$(CC) $(CFLAGS) -c src/StormEngineEditing.cpp $(LIBS) -o $(OBJDIR)StormEngineEditing.o 
-
 # Scene stuff
 $(OBJDIR)StormScene.o: src/scene/StormScene.cpp src/scene/StormScene.h
 	$(CC) $(CFLAGS) -c src/scene/StormScene.cpp $(LIBS) -o $(OBJDIR)StormScene.o 
@@ -68,8 +65,10 @@ $(OBJDIR)SSceneComStaticTexture.o: src/scene/components/SSceneComStaticTexture.c
 	$(CC) $(CFLAGS) -c src/scene/components/SSceneComStaticTexture.cpp $(LIBS) -o $(OBJDIR)SSceneComStaticTexture.o 
 
 # Systems
+$(OBJDIR)SSceneSystemPlane.o: src/scene/components/SSceneSystemPlane.cpp src/scene/components/SSceneSystemPlane.h
+	$(CC) $(CFLAGS) -c src/scene/components/SSceneSystemPlane.cpp $(LIBS) -o $(OBJDIR)SSceneSystemPlane.o 
 $(OBJDIR)SSceneSystemStaticTexture.o: src/scene/components/SSceneSystemStaticTexture.cpp src/scene/components/SSceneSystemStaticTexture.h
 	$(CC) $(CFLAGS) -c src/scene/components/SSceneSystemStaticTexture.cpp $(LIBS) -o $(OBJDIR)SSceneSystemStaticTexture.o 
 
-debug: $(OBJDIR)easylogging++.o $(OBJDIR)pugixml.o $(OBJDIR)imgui.o $(OBJDIR)imgui_draw.o  $(OBJDIR)imgui_demo.o $(OBJDIR)StormEngine.o $(OBJDIR)StormEngineEditing.o $(OBJDIR)StormPlatform.o $(OBJDIR)StormPlatformSDL2.o $(OBJDIR)StormInputManager.o $(OBJDIR)StormMiscTools.o $(OBJDIR)Plane.o $(OBJDIR)StormShader.o $(OBJDIR)StormTexture.o $(OBJDIR)StormVideoDriver.o $(OBJDIR)StormRenderer.o $(OBJDIR)StormResourceFile.o $(OBJDIR)StormTextureManager.o $(OBJDIR)StormFileSystem.o $(OBJDIR)StormTextureManager.o $(OBJDIR)StormSceneObject.o $(OBJDIR)StormScene.o $(OBJDIR)SSceneComponent.o $(OBJDIR)SSceneComponentSystem.o $(OBJDIR)SSceneComPlane.o $(OBJDIR)SSceneComStaticTexture.o $(OBJDIR)SSceneSystemStaticTexture.o
-	$(CC) $(CFLAGS) $(OBJDIR)easylogging++.o $(OBJDIR)pugixml.o $(OBJDIR)imgui.o $(OBJDIR)imgui_draw.o $(OBJDIR)imgui_demo.o $(OBJDIR)StormEngine.o $(OBJDIR)StormEngineEditing.o $(OBJDIR)StormPlatform.o $(OBJDIR)StormPlatformSDL2.o $(OBJDIR)StormInputManager.o $(OBJDIR)StormMiscTools.o $(OBJDIR)Plane.o $(OBJDIR)StormShader.o $(OBJDIR)StormTexture.o $(OBJDIR)StormVideoDriver.o $(OBJDIR)StormRenderer.o $(OBJDIR)StormResourceFile.o $(OBJDIR)StormFileSystem.o $(OBJDIR)StormTextureManager.o $(OBJDIR)StormSceneObject.o $(OBJDIR)StormScene.o $(OBJDIR)SSceneComponent.o $(OBJDIR)SSceneComponentSystem.o $(OBJDIR)SSceneComPlane.o $(OBJDIR)SSceneComStaticTexture.o $(OBJDIR)SSceneSystemStaticTexture.o main.cpp  -o "$(EXNAME)" $(LIBS)
+debug: $(OBJDIR)easylogging++.o $(OBJDIR)pugixml.o $(OBJDIR)imgui.o $(OBJDIR)imgui_draw.o  $(OBJDIR)imgui_demo.o $(OBJDIR)StormEngine.o $(OBJDIR)StormPlatform.o $(OBJDIR)StormPlatformSDL2.o $(OBJDIR)StormInputManager.o $(OBJDIR)StormMiscTools.o $(OBJDIR)Plane.o $(OBJDIR)StormShader.o $(OBJDIR)StormTexture.o $(OBJDIR)StormVideoDriver.o $(OBJDIR)StormRenderer.o $(OBJDIR)StormResourceFile.o $(OBJDIR)StormTextureManager.o $(OBJDIR)StormFileSystem.o $(OBJDIR)StormTextureManager.o $(OBJDIR)StormSceneObject.o $(OBJDIR)StormScene.o $(OBJDIR)SSceneComponent.o $(OBJDIR)SSceneComponentSystem.o $(OBJDIR)SSceneComPlane.o $(OBJDIR)SSceneComStaticTexture.o $(OBJDIR)SSceneSystemPlane.o $(OBJDIR)SSceneSystemStaticTexture.o
+	$(CC) $(CFLAGS) $(OBJDIR)easylogging++.o $(OBJDIR)pugixml.o $(OBJDIR)imgui.o $(OBJDIR)imgui_draw.o $(OBJDIR)imgui_demo.o $(OBJDIR)StormEngine.o $(OBJDIR)StormPlatform.o $(OBJDIR)StormPlatformSDL2.o $(OBJDIR)StormInputManager.o $(OBJDIR)StormMiscTools.o $(OBJDIR)Plane.o $(OBJDIR)StormShader.o $(OBJDIR)StormTexture.o $(OBJDIR)StormVideoDriver.o $(OBJDIR)StormRenderer.o $(OBJDIR)StormResourceFile.o $(OBJDIR)StormFileSystem.o $(OBJDIR)StormTextureManager.o $(OBJDIR)StormSceneObject.o $(OBJDIR)StormScene.o $(OBJDIR)SSceneComponent.o $(OBJDIR)SSceneComponentSystem.o $(OBJDIR)SSceneComPlane.o $(OBJDIR)SSceneComStaticTexture.o $(OBJDIR)SSceneSystemPlane.o $(OBJDIR)SSceneSystemStaticTexture.o main.cpp  -o "$(EXNAME)" $(LIBS)

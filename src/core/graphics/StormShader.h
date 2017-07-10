@@ -30,6 +30,7 @@ public:
     void setUniformVector2(const std::string& uniformName, const Vector2& value);
     void setUniformMatrix4(const std::string& uniformName, const Matrix& value);
     void setUniformColor(const std::string& uniformName, Color& value);
+    void setUniformColorNoAlpha(const std::string& uniformName, Color& value);
 
     /* TODO: Create alternative version of this methids like so: 
         void setUniformInt32(int32_t location, const int32_t value);

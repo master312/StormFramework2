@@ -39,12 +39,15 @@ public:
     /* Adds new object to scene, and returns pointer to it */
     StormSceneObject* addNewObject(const std::string& name = "");
 
+    /* Returns vector of all scene objects */
+    std::vector<StormSceneObject*>& getObjects();
+
     /* Renders scene */
     void render(StormRenderer* renderer);
 
     /* Ticks all scene logic */
     void tick(float deltaTime);
-
+    
 private:
     /* This variable increases every time new object is added.
      * It is used to assign unique ID to each scene object */
@@ -53,7 +56,7 @@ private:
     /* Vector containing all scene objects */
     std::vector<StormSceneObject*> _Objects;
     
-    /* Vector containt systems for managing scene object component logic */
+    /* Vector containt various systems for managing scene object component logic */
     std::vector<SSceneComponentSystem*> _ComponentSystems;
     
     /* All component systems indexed by their component types.
@@ -64,14 +67,4 @@ private:
     std::string _Name;
 
     void initializeDefaultSystems();
-
-#ifdef _EDITING_SUPPORT
-    /* Editing stuff */
-    StormSceneObject* _ObjectSelectedForEdit;
-
-    void initEditing();
-    void renderEditing(StormRenderer* renderer);
-    void renderObjectHierarchyGui();
-    void renderObjectEditingGui(StormSceneObject* object);
-#endif
 };

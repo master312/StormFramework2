@@ -7,6 +7,7 @@ StormPlatform::StormPlatform() {
     _InputManager = nullptr;
     _ShouldQuit = false;
     _MainTickingFunction = nullptr;
+    _WindowEventListener = nullptr;
 }
 
 StormPlatform::~StormPlatform() {
@@ -17,6 +18,10 @@ StormPlatform::~StormPlatform() {
 
 void StormPlatform::setMainTickingFunction(std::function<void(float)> tickingFun) {
     _MainTickingFunction = tickingFun;
+}
+
+void StormPlatform::setWindowEventListener(std::function<void(StormWindowEventType)> listener) {
+    _WindowEventListener = listener;
 }
 
 void StormPlatform::startMainLoop() {
@@ -44,10 +49,10 @@ void StormPlatform::startMainLoop() {
             /* Just makes sure we dont devide by zero */
             deltaTime = 0.0001f;
         }
-        averageFps += 1000 / (1000 * deltaTime);
+        averageFps += 1000.0f / (1000.0f * deltaTime);
         averageFpsCounter++;
         if (averageFpsCounter >= 100) {
-            LOG(INFO) << "FPS: " << (float)averageFps / (float)averageFpsCounter;
+            LOG(INFO) << "FPS: " << averageFps / (float)averageFpsCounter;
             averageFpsCounter = 0;
             averageFps = 0.0f;
         }

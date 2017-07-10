@@ -9,9 +9,11 @@ StormRenderer::StormRenderer() {
     _GLTextureSimplerUniform = 0;
     _Shader = nullptr;
     _BindedTexture = nullptr;
-    _ColorOverlay.set(255, 255, 255, 255);
     _Perspective.identity();
     _RenderMode = S_RENDER_TRIANGLE_FAN;
+    _IsPerspectiveChanged = false;
+    
+    resetColorsOverlay();
 }
 
 StormRenderer::~StormRenderer() {
@@ -64,14 +66,17 @@ void StormRenderer::deinitialize() {
 }
 
 void StormRenderer::setPerspective(float left, float top, float right, float bottom, float near /* = -1.0f */, float far /* = 1.0f */) {
-    _Perspective = Matrix(
+    Matrix newPerspective = Matrix(
             2.0 / (right - left), 0, 0, 0,
             0, 2.0 / (top - bottom), 0, 0,
             0, 0, -2.0 / (far - near), 0,
             -(right + left) / (right - left), -(top + bottom) / (top - bottom), -(far + near) / (far - near), 1
         );
-
-    bindPerspectiveMatrix();
+        
+    if (_Perspective != newPerspective) {
+        _Perspective = newPerspective;
+        _IsPerspectiveChanged = true;
+    }
 }
 
 void StormRenderer::startRendering() {
@@ -81,6 +86,11 @@ void StormRenderer::startRendering() {
     glBindVertexArray(_GLVaoId);
     glBindBuffer(GL_ARRAY_BUFFER, _GLVertexBufferId);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _GLIndicesBufferId);
+
+    if (_IsPerspectiveChanged) {
+        _IsPerspectiveChanged = false;
+        bindPerspectiveMatrix();
+    }
 }
 
 void StormRenderer::endRendering() {
@@ -89,16 +99,21 @@ void StormRenderer::endRendering() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    _BindedTexture = nullptr;
+    /* Unbind texture just in case */
+    unbindTexture();
     
     _Shader->unuse();
 }
 
-void StormRenderer::begin(StormRenderMode renderMode) {
+void StormRenderer::begin(StormRenderMode renderMode, bool unbindTextures /* = false */) {
     _GLVertexCount = 0;
     _RenderMode = renderMode;
     
-    setColor(Color(255, 255, 255, 255));
+    if (unbindTextures) {
+        unbindTexture();
+    }
+
+    resetColorsOverlay();
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
@@ -121,7 +136,7 @@ void StormRenderer::setShader(StormShader* shader) {
     _GLTextureSimplerUniform = _Shader->getUniformLocation("textureUnit");
 
     bindPerspectiveMatrix();
-    bindColorUniform();
+    bindColorUniforms();
 
     glActiveTexture(GL_TEXTURE0);
     glUniform1i(_GLTextureSimplerUniform, 0);
@@ -134,11 +149,12 @@ void StormRenderer::bindPerspectiveMatrix() {
     _Shader->setUniformMatrix4("perspective", _Perspective);
 }
 
-void StormRenderer::bindColorUniform() {
+void StormRenderer::bindColorUniforms() {
     if (!_Shader) {
         return;
     }
-    _Shader->setUniformColor("colorOverlay", _ColorOverlay);
+    _Shader->setUniformColor("colorMultiply", _MultiplyColorOverlay);
+    _Shader->setUniformColorNoAlpha("colorAdd", _AddColorOverlay);
 }
 
 void StormRenderer::bindTexture(StormTexture* texture) {
@@ -147,7 +163,12 @@ void StormRenderer::bindTexture(StormTexture* texture) {
         return;
     }
     _BindedTexture = texture;
-    glBindTexture(GL_TEXTURE_2D, texture->getOpenGLTextureId());
+    glBindTexture(GL_TEXTURE_2D, _BindedTexture->getOpenGLTextureId());
+}
+
+void StormRenderer::unbindTexture() {
+    _BindedTexture = nullptr;
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void StormRenderer::bindVertexData(StormVertex* vertices, uint32_t count) {
@@ -162,10 +183,28 @@ void StormRenderer::bindIndexData(uint32_t* indices, uint32_t count) {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_DYNAMIC_DRAW);
 }
 
-void StormRenderer::setColor(Color color) {
-    if (_ColorOverlay == color) {
+void StormRenderer::setColorMultiply(Color color) {
+    if (_MultiplyColorOverlay == color) {
         return;
     }
-    _ColorOverlay = color;
-    bindColorUniform();
+    _MultiplyColorOverlay = color;
+    bindColorUniforms();
+}
+
+void StormRenderer::setColorAdd(Color color) {
+    if (_AddColorOverlay == color) {
+        return;
+    }
+    _AddColorOverlay = color;
+    bindColorUniforms();
+}
+
+void StormRenderer::resetColorsOverlay() {
+    _AddColorOverlay.set(0, 0, 0, 0);
+    _MultiplyColorOverlay.set(255, 255, 255, 255);
+    bindColorUniforms();
+}
+
+void StormRenderer::setLineWidth(float width) {
+    glLineWidth(width);
 }

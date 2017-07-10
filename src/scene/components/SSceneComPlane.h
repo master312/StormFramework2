@@ -18,11 +18,12 @@ public:
     /* Do transform calculations. */
     void transform(Plane* parent = nullptr);
 
-    void setPosition(const Vector2& position);
+    void setPosition(const Vector2 position);
+    void setPositionXY(const float x, const float y);
     Vector2 getPosition() const;
     Vector2 getPositionTransformed() const;
 
-    void setCenterPosition(const Vector2& position);
+    void setCenterPosition(const Vector2 position);
     Vector2 getCenterPosition() const;
     Vector2 getCenterPositionTransformed() const;
 
@@ -31,23 +32,22 @@ public:
     float getAngle();
 
     /* Sets plane size in pixels */
-    void setSize(const Vector2& size);
+    void setSize(const Vector2 size);
     /* Returns plane size */
     Vector2 getSize() const;
     /* Returns plane size with transform calculations calculated in */
     Vector2 getSizeTransformed() const;
 
     /* Sets plane scaling */
-    void setScale(const Vector2& scale);
+    void setScale(const Vector2 scale);
     Vector2 getScale() const;
 
     /* Returns pointer to vertices array.
      * WARNING: Vertices are updated in @transform() method. */
     StormVertex* getVertices();
-
-#ifdef _EDITING_SUPPORT
-    virtual void renderEditingGui();
-#endif
+    
+    bool isRenderDebug();
+    void setRenderDebug(bool shouldRender);
 
 private:
     /* Pivot position */
@@ -73,5 +73,8 @@ private:
     /* Plane vertices, with transformations calculated in */
     StormVertex _Vertices[4];
     
+    /* Should debug bounds for this plane be rendered */
+    bool _RenderDebug;
+
     void transformScale(Plane* parent);
 };

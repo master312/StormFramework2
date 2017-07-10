@@ -1,5 +1,4 @@
 #include "SSceneComPlane.h"
-#include "../../StormEngineEditing.h"
 #include "../../core/utils/math/ScalarMath.h"
 #include "../../core/utils/math/TrigonometryMath.h"
 
@@ -8,6 +7,8 @@ SSceneComPlane::SSceneComPlane(StormSceneObject* owner) : SSceneComponent(owner)
     
     _Angle = 0.0f;
     _Scale.set(1.0f, 1.0f);
+
+    _RenderDebug = false;
 
     _Vertices[0].uv.set(0.0f, 0.0f);
     _Vertices[1].uv.set(1.0f, 0.0f);
@@ -72,8 +73,8 @@ void SSceneComPlane::transform(Plane* parent /* = nullptr */) {
     _Vertices[3].position.y += size2.y;
     
     /* Rotate all points around pivot */
-    float sin = StormScalarMath::sin(_Angle);
-    float cos = StormScalarMath::cos(_Angle);
+    float sin = StormScalarMath::sin((_Angle * MATH_PI) / 180.0f);
+    float cos = StormScalarMath::cos((_Angle * MATH_PI) / 180.0f);
     for (int i = 0; i < 4; i++) {
         Vector2 tmpPoint = _Vertices[i].position;
         _Vertices[i].position.x = (tmpPoint.x * cos - tmpPoint.y * sin) + _PivotPositionTransformed.x;
@@ -81,8 +82,13 @@ void SSceneComPlane::transform(Plane* parent /* = nullptr */) {
     }
 }
 
-void SSceneComPlane::setPosition(const Vector2& position) {
+void SSceneComPlane::setPosition(const Vector2 position) {
     _PivotPosition = position;
+}
+
+void SSceneComPlane::setPositionXY(const float x, const float y) {
+    _PivotPosition.x = x;
+    _PivotPosition.y = y;
 }
 
 Vector2 SSceneComPlane::getPosition() const {
@@ -93,7 +99,7 @@ Vector2 SSceneComPlane::getPositionTransformed() const {
     return _PivotPositionTransformed;
 }
 
-void SSceneComPlane::setCenterPosition(const Vector2& position) {
+void SSceneComPlane::setCenterPosition(const Vector2 position) {
     _PlaneCenterPosition = position;
 }
 
@@ -120,7 +126,7 @@ float SSceneComPlane::getAngle() {
     return _Angle;
 }
 
-void SSceneComPlane::setSize(const Vector2& size) {
+void SSceneComPlane::setSize(const Vector2 size) {
     _Size = size;
 }
 
@@ -132,7 +138,7 @@ Vector2 SSceneComPlane::getSizeTransformed() const {
     return _SizeTransformed;
 }
 
-void SSceneComPlane::setScale(const Vector2& scale) {
+void SSceneComPlane::setScale(const Vector2 scale) {
     _Scale = scale;
 }
 
@@ -142,6 +148,14 @@ Vector2 SSceneComPlane::getScale() const {
 
 StormVertex* SSceneComPlane::getVertices() {
     return _Vertices;
+}
+
+bool SSceneComPlane::isRenderDebug() {
+    return _RenderDebug;
+}
+
+void SSceneComPlane::setRenderDebug(bool shouldRender) {
+    _RenderDebug = shouldRender;
 }
 
 void SSceneComPlane::transformScale(Plane* parent) {
@@ -154,21 +168,3 @@ void SSceneComPlane::transformScale(Plane* parent) {
     _SizeTransformed.x *= _Size.x;
     _SizeTransformed.y *= _Size.y;
 }
-
-#ifdef _EDITING_SUPPORT
-
-void SSceneComPlane::renderEditingGui() {
-    bool shoudTransform = false;
-    shoudTransform |= ImGui::DragFloat("Position X", &_PivotPosition.x, 5.0f);
-    shoudTransform |= ImGui::DragFloat("Position Y", &_PivotPosition.y, 5.0f);
-    shoudTransform |= ImGui::DragFloat("Pivot X", &_PlaneCenterPosition.x, 5.0f);
-    shoudTransform |= ImGui::DragFloat("Pivot Y", &_PlaneCenterPosition.y, 5.0f);
-    shoudTransform |= ImGui::DragFloat("Scale X", &_Scale.x, 0.05f);
-    shoudTransform |= ImGui::DragFloat("Scale Y", &_Scale.y, 0.05f);
-    shoudTransform |= ImGui::SliderAngle("Angle", &_Angle);
-    if (shoudTransform) {
-        transform();
-    }
-}
-
-#endif

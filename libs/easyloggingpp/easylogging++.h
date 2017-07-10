@@ -16,7 +16,7 @@
 #ifndef EASYLOGGINGPP_H
 #define EASYLOGGINGPP_H
 
-#define ELPP_DISABLE_DEBUG_LOGS 1   // Disables debug logs
+#define ELPP_DISABLE_DEBUG_LOGS 1   // Disables debug logs - Master312
 
 
 

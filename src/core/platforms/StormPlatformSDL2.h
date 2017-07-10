@@ -1,3 +1,4 @@
+#ifdef STORM_BUILD_PLATFORM_SDL2
 #pragma once
 #include "StormPlatform.h"
 #include <SDL2/SDL.h>
@@ -31,4 +32,8 @@ public:
 
 private:
     SDL_Window* _Window;
+
+    void handleWindowEvent(SDL_Event& event);
 };
+
+#endif /* STORM_BUILD_PLATFORM_QT */

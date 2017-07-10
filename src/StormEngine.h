@@ -13,8 +13,13 @@ class StormVideoDriver;
 class StormRenderer;
 class StormShader;
 
+#include "scene/StormScene.h"
+
 class StormEngine {
 public:
+    /* Temporary scene for testing. Remove after scene manager implementation */
+    StormScene* testScene = nullptr;
+
     virtual ~StormEngine();
 
     /* Gets singleton instance */
@@ -33,9 +38,6 @@ public:
     /* Stops engine */
     void quit();
 
-    /* Main ticking function. Called form platform subsystem */
-    void mainTickingMethod(float deltaTime);
-
     /* Returns pointer to renderer */
     StormRenderer* getRenderer();
 
@@ -47,6 +49,7 @@ public:
 
     /* Returns pointer to filesystem containing all game data */
     StormFileSystem* getDataFilesystem();
+    
 private:
     StormEngine();
 
@@ -55,9 +58,6 @@ private:
     /** Engine settings **/
     /* Informations about game window */
     StormWindowSettings _WindowInfo;
-    
-    /* Virtual drawing space size */
-    Point _ViewPerspectiveSize;
     
     /* Currently initialized platform subsystem */
     StormPlatform* _Platform;
@@ -79,6 +79,12 @@ private:
 
     /* Deinitialize all components and free memory */
     void deinitializeComponents();
+
+    /* Main ticking function. Called form platform subsystem */
+    void mainTickingMethod(float deltaTime);
+
+    /* This method gets called on window events. (like resize, hide, move and stuff) */
+    void windowEventListener(StormWindowEventType event);
 
     /* Graphics ticking method */
     void renderTick();

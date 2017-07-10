@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 #include "../utils/math/Rect.h"
 #include "../utils/math/Color.h"
 
@@ -20,11 +20,17 @@ public:
     void begin();
     void clear();
     
-    /* This viewport will be used when calling begin() without viewport specified */
-    void setDefaultViewport(const Rect& viewport);
     /* Sets screen clear color */
     void setClearColor(Color color);
 
+    /* Sets size of virtual coordinate system that will be fit on the game window */
+    void setVirtualViewSize(float width, float height);
+    void setVirtualViewSize(Vector2 size);
+
+    Vector2 getVirtualViewSize() const;
 private:
     Color _ClearColor;
+    
+    /* Virtual drawing space size */
+    Vector2 _VirtualViewSize;
 };

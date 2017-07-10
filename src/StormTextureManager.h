@@ -15,6 +15,9 @@ public:
     StormTextureManager(StormFileSystem* filesystem);
     ~StormTextureManager();
 
+    /* Returns texture from resource on filesystem.
+     * If resource is not found, default texture will be returned and error logged. 
+     * E.X: @filename = "textures/some_texture.png" */
     spStormTexture getTexture(const std::string& filename);
 
     /* Unloads all texture resources that are currently not in use */

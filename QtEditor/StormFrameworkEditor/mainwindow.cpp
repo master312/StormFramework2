@@ -1,28 +1,19 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QSurfaceFormat>
+#include "../../src/StormEngine.h"
+#include "../../src/scene/StormScene.h"
+#include "../../src/scene/StormSceneObject.h"
 
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
-{
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-
-
-    /*_StormGlWidget = new StormGlWidget;
-
-    QSurfaceFormat glFormat;
-    glFormat.setRenderableType(QSurfaceFormat::OpenGL);
-    glFormat.setProfile(QS#include <QCoreApplication>urfaceFormat::CoreProfile);
-    glFormat.setVersion(3,3);
-
-    _StormGlWidget->setFormat(glFormat);
-
-    this->setCentralWidget(_StormGlWidget);*/
 }
 
-MainWindow::~MainWindow()
-{
+void MainWindow::on_treeSceneObjects_clicked(const QModelIndex &index) {
+
+}
+
+MainWindow::~MainWindow() {
     delete ui;
 }
