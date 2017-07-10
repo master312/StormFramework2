@@ -7,6 +7,9 @@
 
 StormPlatformQt::StormPlatformQt() : StormPlatform() {
     _PlatformType = STORM_PLATFORM_QT;
+    _LastTickTime = 0;
+    _AverageFps = 0.0f;
+    _AverageFpsCounter = 0;
     _Time = new QTime();
 }
 
@@ -20,6 +23,7 @@ int StormPlatformQt::initialize() {
     _Time->start();
     _InputManager = new StormInputManager();
     _IsInitialized = true;
+    _LastTickTime = getRunningTime();
     LOG(INFO) << "QT platform initialized";
     return 1;
 }
@@ -43,7 +47,19 @@ uint32_t StormPlatformQt::getRunningTime() {
 }
 
 void StormPlatformQt::mainTick() {
-    _MainTickingFunction(0.16);
+    float deltaTime = (float)(getRunningTime() - _LastTickTime) / 1000.0f;
+
+    _MainTickingFunction(deltaTime);
+
+    _LastTickTime = getRunningTime();
+
+    _AverageFps += 1000.0f / (1000.0f * deltaTime);
+    _AverageFpsCounter++;
+    if (_AverageFpsCounter >= 100) {
+        LOG(INFO) << "FPS: " << _AverageFps / (float)_AverageFpsCounter;
+        _AverageFpsCounter = 0;
+        _AverageFps = 0.0f;
+    }
 }
 
 void StormPlatformQt::handleWidgetResize(int width, int height) {

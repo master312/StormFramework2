@@ -39,9 +39,16 @@ public:
     /* Sence we tick main function from QT timer,
      * we dont need startMainLoop() method. */
     virtual void startMainLoop() { }
+
 private:
     /* Used for determening app uptime */
     QTime* _Time;
+
+    /* Used for calculating delta time */
+    uint32_t _LastTickTime;
+
+    float _AverageFps;
+    float _AverageFpsCounter;
 };
 
 #endif
