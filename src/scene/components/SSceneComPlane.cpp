@@ -1,4 +1,5 @@
 #include "SSceneComPlane.h"
+#include "../StormSceneObject.h"
 #include "../../core/utils/math/ScalarMath.h"
 #include "../../core/utils/math/TrigonometryMath.h"
 
@@ -7,6 +8,8 @@ SSceneComPlane::SSceneComPlane(StormSceneObject* owner) : SSceneComponent(owner)
     
     _Angle = 0.0f;
     _Scale.set(1.0f, 1.0f);
+
+    _ObjectPosition = owner->getPositionPtr();
 
     _RenderDebug = false;
 
@@ -22,8 +25,6 @@ SSceneComPlane::~SSceneComPlane() {
 void SSceneComPlane::serializeXml(pugi::xml_node& node) {
     SSceneComponent::serializeXml(node);
 
-    node.append_attribute("pivot_x").set_value(_PivotPosition.x);
-    node.append_attribute("pivot_y").set_value(_PivotPosition.y);
     node.append_attribute("center_x").set_value(_PlaneCenterPosition.x);
     node.append_attribute("center_y").set_value(_PlaneCenterPosition.y);
     node.append_attribute("size_x").set_value(_Size.x);
@@ -36,8 +37,6 @@ void SSceneComPlane::serializeXml(pugi::xml_node& node) {
 int SSceneComPlane::deserializeXml(pugi::xml_node& node) {
     SSceneComponent::deserializeXml(node);
 
-    _PivotPosition.x = node.attribute("pivot_x").as_float(0.0f);
-    _PivotPosition.y = node.attribute("pivot_y").as_float(0.0f);
     _PlaneCenterPosition.x = node.attribute("center_x").as_float(0.0f);
     _PlaneCenterPosition.y = node.attribute("center_y").as_float(0.0f);
     _Size.x = node.attribute("size_x").as_float(0.0f);
@@ -54,7 +53,7 @@ int SSceneComPlane::deserializeXml(pugi::xml_node& node) {
 }
 
 void SSceneComPlane::transform(Plane* parent /* = nullptr */) {
-    _PivotPositionTransformed = _PivotPosition;
+    _PivotPositionTransformed = *_ObjectPosition;
     if (parent && !StormScalarMath::equivalent(parent->getAngle(), 0)) {
         /* Rotate pivot around parent */
         StormTrigonometryMath::rotatePointAround(_PivotPositionTransformed, 
@@ -80,19 +79,6 @@ void SSceneComPlane::transform(Plane* parent /* = nullptr */) {
         _Vertices[i].position.x = (tmpPoint.x * cos - tmpPoint.y * sin) + _PivotPositionTransformed.x;
         _Vertices[i].position.y = (tmpPoint.y * cos + tmpPoint.x * sin) + _PivotPositionTransformed.y;
     }
-}
-
-void SSceneComPlane::setPosition(const Vector2 position) {
-    _PivotPosition = position;
-}
-
-void SSceneComPlane::setPositionXY(const float x, const float y) {
-    _PivotPosition.x = x;
-    _PivotPosition.y = y;
-}
-
-Vector2 SSceneComPlane::getPosition() const {
-    return _PivotPosition;
 }
 
 Vector2 SSceneComPlane::getPositionTransformed() const {

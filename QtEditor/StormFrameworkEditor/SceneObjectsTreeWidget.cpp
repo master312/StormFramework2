@@ -81,8 +81,18 @@ void SceneObjectsTreeWidget::createSceneObjectListItem(StormSceneObject* object)
 }
 
 void SceneObjectsTreeWidget::generateComponentWidgets(StormSceneObject* object) {
+    /* First generate default widget component.
+     * This component is used for editing common scene object stuff, like position and name. */
+    SWidgetComponent* defaultWidget = SWidgetComponent::newWidget(object, nullptr, _ObjectComponentsWidget);
+    if (!defaultWidget) {
+        LOG(ERROR) << "Failed to create QT widget for default component";
+        return;
+    }
+    defaultWidget->initialize();
+    _ObjectComponentsWidget->layout()->addWidget(defaultWidget);
+
     for (SSceneComponent* component : object->getComponents()) {
-        SWidgetComponent* comWidget = SWidgetComponent::newWidget(component->getType(), component, _ObjectComponentsWidget);
+        SWidgetComponent* comWidget = SWidgetComponent::newWidget(object, component, _ObjectComponentsWidget);
         if (!comWidget) {
             LOG(ERROR) << "Missing QT widget for component " << SSceneComponentTypeString[component->getType()];
             continue;

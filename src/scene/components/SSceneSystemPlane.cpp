@@ -1,6 +1,6 @@
 #include "SSceneSystemPlane.h"
 #include "SSceneComPlane.h"
-
+#include "../StormSceneObject.h"
 #include "../../core/graphics/StormRenderer.h"
 
 SSceneSystemPlane::SSceneSystemPlane() {
@@ -49,8 +49,7 @@ void SSceneSystemPlane::renderDebug(SSceneComPlane* component, StormRenderer* re
     /* Draw rect pivot */
     StormVertex vertices[4];
     for (int i = 0; i < 4; i++) {
-        vertices[i].position.x = component->getPosition().x;
-        vertices[i].position.y = component->getPosition().y;
+        vertices[i].position = component->getOwner()->getPosition();
     }
     vertices[0].position.x -= 4;
     vertices[0].position.y -= 4;

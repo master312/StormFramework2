@@ -23,12 +23,6 @@ void SWidgetComPlane::initialize() {
         return;
     }
 
-    /* Create position widget */
-    SWidgetPropertyVec2* positionWidget = new SWidgetPropertyVec2(this, "Position");
-    positionWidget->setVectorGetter(std::bind(&SSceneComPlane::getPosition, _PlaneComponent));
-    positionWidget->setVectorSetter(std::bind(&SSceneComPlane::setPosition, _PlaneComponent, std::placeholders::_1));
-    layout()->addWidget(positionWidget);
-
     /* Create pivot position widget */
     SWidgetPropertyVec2* pivotPosition = new SWidgetPropertyVec2(this, "Pivot");
     pivotPosition->setVectorGetter(std::bind(&SSceneComPlane::getCenterPosition, _PlaneComponent));

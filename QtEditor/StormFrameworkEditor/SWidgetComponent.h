@@ -1,7 +1,9 @@
 #pragma once
 #include <QWidget>
 #include <QPushButton>
-#include "../../src/scene/SSceneComponent.h"
+
+class SSceneComponent;
+class StormSceneObject;
 
 /* Base class for all storm object component widgets.
  * Make sure that StormObjComponentWidget objects are created using StormObjComponentWidget::newWidget method. */
@@ -19,8 +21,11 @@ public:
     /* Usualy called from Property widgets when values ware edited, to update storm component */
     virtual void refresh();
 
-    /* Component widget factory method */
-    static SWidgetComponent* newWidget(SSceneComponentType type, SSceneComponent* component, QWidget* parent);
+    StormSceneObject* getSceneObject();
+
+    /* Component widget factory method.
+     * Method will generate SWidgetComDefault if @component == nullptr. */
+    static SWidgetComponent* newWidget(StormSceneObject* object, SSceneComponent* component, QWidget* parent);
 
 public slots:
     void collapseButtonClick();
@@ -32,6 +37,9 @@ protected:
 
     /* Component's name */
     std::string _ComponentName;
+
+    /* Pointer to actual storm scene object */
+    StormSceneObject* _SceneObject;
 
     /* Pointer to storm scene object's component */
     SSceneComponent* _StormComponent;

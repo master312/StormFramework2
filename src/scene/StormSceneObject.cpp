@@ -1,13 +1,14 @@
 #include "StormSceneObject.h"
 #include "../core/StormCommon.h"
 
-StormSceneObject::StormSceneObject(uint32_t id /* = -1 */) {
+StormSceneObject::StormSceneObject(uint32_t id /* = 0 */) {
     _Id = id;
     _Name = "";
+    _Position.set(0.0f, 0.0f);
 }
 
-StormSceneObject::StormSceneObject(uint32_t id /* = 0 */, const std::string& name) {
-    _Id = id;
+StormSceneObject::StormSceneObject(uint32_t id, const std::string& name) : 
+    StormSceneObject(id) {
     _Name = name;
 }
 
@@ -21,6 +22,8 @@ StormSceneObject::~StormSceneObject() {
 void StormSceneObject::serializeXml(pugi::xml_node& node) {
     node.append_attribute("id").set_value(_Id);
     node.append_attribute("name").set_value(_Name.c_str());
+    node.append_attribute("position_x").set_value(_Position.x);
+    node.append_attribute("position_y").set_value(_Position.y);
 
     if (!_Components.size()) {
         /* Object dose not have any components */
@@ -38,6 +41,8 @@ void StormSceneObject::serializeXml(pugi::xml_node& node) {
 int StormSceneObject::deserializeXml(pugi::xml_node& node) {
     _Id = node.attribute("id").as_int(0);
     _Name = node.attribute("name").as_string("");
+    _Position.x = node.attribute("position_x").as_float(0.0f);
+    _Position.y = node.attribute("position_y").as_float(0.0f);
 
     /* Load components */
     for (pugi::xml_node comNode = node.first_child(); comNode; comNode = comNode.next_sibling()) {
@@ -68,6 +73,18 @@ std::string& StormSceneObject::getName() {
 
 void StormSceneObject::setName(const std::string& name) {
     _Name = name;
+}
+
+void StormSceneObject::setPosition(Vector2 position) {
+    _Position = position;
+}
+
+Vector2 StormSceneObject::getPosition() {
+    return _Position;
+}
+
+Vector2* StormSceneObject::getPositionPtr() {
+    return &_Position;
 }
 
 void StormSceneObject::addComponent(SSceneComponent* component) {

@@ -1,6 +1,8 @@
 #include "SWidgetComponent.h"
+#include "componentWidgets/SWidgetComDefault.h"
 #include "componentWidgets/SWidgetComPlane.h"
 #include "componentWidgets/SWidgetComStaticTexture.h"
+#include "../../src/scene/SSceneComponent.h"
 #include <QVBoxLayout>
 #include <QPainter>
 
@@ -8,6 +10,7 @@ SWidgetComponent::SWidgetComponent(QWidget* parent) : QWidget(parent) {
     _ComponentName = "ERROR: Name not set!";
     _StormComponent = nullptr;
     _HeaderButton = nullptr;
+    _SceneObject = nullptr;
     _BackgroundOpacity = 0.1f;
 }
 
@@ -38,6 +41,10 @@ void SWidgetComponent::initialize() {
 }
 
 void SWidgetComponent::refresh() {
+}
+
+StormSceneObject* SWidgetComponent::getSceneObject() {
+    return _SceneObject;
 }
 
 void SWidgetComponent::collapseButtonClick() {
@@ -71,18 +78,32 @@ void SWidgetComponent::paintEvent(QPaintEvent* event) {
 }
 
 /* Static factory method */
-SWidgetComponent* SWidgetComponent::newWidget(SSceneComponentType type, SSceneComponent* component, QWidget* parent) {
+SWidgetComponent* SWidgetComponent::newWidget(StormSceneObject* object, SSceneComponent* component, QWidget* parent) {
     SWidgetComponent* widget = nullptr;
-    switch (type) {
-        case S_SCENE_OBJECT_COM_PLANE:
-            widget = new SWidgetComPlane(parent);
-            break;
-        case S_SCENE_OBJECT_COM_STATIC_TEXTURE:
-            widget = new SWidgetComStaticTexture(parent);
-            break;
+    if (component) {
+        /* Component is specified */
+        switch (component->getType()) {
+            case S_SCENE_OBJECT_COM_PLANE:
+                widget = new SWidgetComPlane(parent);
+                break;
+            case S_SCENE_OBJECT_COM_STATIC_TEXTURE:
+                widget = new SWidgetComStaticTexture(parent);
+                break;
+        }
+    } else {
+        /* Component is not specified. Generate default widget */
+        widget = new SWidgetComDefault(parent);
     }
-    if (widget) {
+
+    if (!widget) {
+        return nullptr;
+    }
+
+    if (component) {
         widget->setStormComponent(component);
+    }
+    if (object) {
+        widget->_SceneObject = object;
     }
 
     return widget;

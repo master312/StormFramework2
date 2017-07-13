@@ -68,7 +68,8 @@ SOURCES += \
     SResourceLineEdit.cpp \
     SceneObjectTreeWidgetItem.cpp \
     ../../src/scene/components/SSceneSystemPlane.cpp \
-    propertyWidgets/SWidgetPropertyColor.cpp
+    propertyWidgets/SWidgetPropertyColor.cpp \
+    componentWidgets/SWidgetComDefault.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -124,7 +125,8 @@ HEADERS += \
     SResourceLineEdit.h \
     SceneObjectTreeWidgetItem.h \
     ../../src/scene/components/SSceneSystemPlane.h \
-    propertyWidgets/SWidgetPropertyColor.h
+    propertyWidgets/SWidgetPropertyColor.h \
+    componentWidgets/SWidgetComDefault.h
 
 FORMS += \
         mainwindow.ui

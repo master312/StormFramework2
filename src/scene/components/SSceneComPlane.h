@@ -18,9 +18,7 @@ public:
     /* Do transform calculations. */
     void transform(Plane* parent = nullptr);
 
-    void setPosition(const Vector2 position);
-    void setPositionXY(const float x, const float y);
-    Vector2 getPosition() const;
+    /* Returns scene object's position with transform calculations calculated in */
     Vector2 getPositionTransformed() const;
 
     void setCenterPosition(const Vector2 position);
@@ -50,8 +48,8 @@ public:
     void setRenderDebug(bool shouldRender);
 
 private:
-    /* Pivot position */
-    Vector2 _PivotPosition;
+    /* Pointer to vector containing scene object's position */
+    Vector2* _ObjectPosition;
     /* Plane center position relative to pivot position  */
     Vector2 _PlaneCenterPosition;
 
