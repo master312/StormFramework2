@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <scene name="the_scene">
 	<object id="1" name="TestNameOne">
-		<component type="1" pos_x="346.000031" pos_y="448.000031" scale_x="1.0" scale_y="1.0" angle="12.34" />
+		<component type="1" pos_x="546.000031" pos_y="348.000031" scale_x="1.0" scale_y="1.0" angle="12.34" />
 		<component type="2" size_x="100" size_y="100" />
 		<component type="3" texture="icon.png" color_r="255" color_g="253" color_b="255" color_a="255" />
 	</object>

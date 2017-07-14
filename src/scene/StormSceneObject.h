@@ -47,8 +47,6 @@ private:
     /* Object name */
     std::string _Name;
 
-    SObservable<SSceneObjectEventType, SSceneComponent> tuki;
-
     /* All components attached to object */
     std::vector<SSceneComponent*> _Components;
 };
