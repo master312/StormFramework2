@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
 <scene name="the_scene">
-	<object id="1" name="TestNameOne" position_x="346.000031" position_y="448.000031">
-		<component type="1" center_x="-5" center_y="55.0000038" size_x="100" size_y="100" scale_x="1.60000002" scale_y="2.10000014" angle="-0.994837701" />
-		<component type="2" texture="icon.png" color_r="255" color_g="253" color_b="255" color_a="255" />
+	<object id="1" name="TestNameOne">
+		<component type="1" pos_x="346.000031" pos_y="448.000031" scale_x="1.0" scale_y="1.0" angle="12.34" />
+		<component type="2" size_x="100" size_y="100" />
+		<component type="3" texture="icon.png" color_r="255" color_g="253" color_b="255" color_a="255" />
 	</object>
-	<object id="2" name="" position_x="360.000031" position_y="237">
+	<!-- <object id="2" name="" position_x="360.000031" position_y="237">
 		<component type="1" center_x="0" center_y="0" size_x="100" size_y="100" scale_x="1.35000002" scale_y="1.35000002" angle="0" />
 		<component type="2" texture="icon.png" color_r="255" color_g="255" color_b="255" color_a="255" />
 	</object>
@@ -27,5 +28,5 @@
 	<object id="7" name="" position_x="111.000008" position_y="330.000031">
 		<component type="1" center_x="0" center_y="0" size_x="100" size_y="100" scale_x="1.55000007" scale_y="2.75000024" angle="0.0872664675" />
 		<component type="2" texture="icon.png" color_r="119" color_g="2" color_b="143" color_a="174" />
-	</object>
+	</object> -->
 </scene>

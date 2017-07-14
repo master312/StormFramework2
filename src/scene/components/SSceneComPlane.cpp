@@ -1,11 +1,15 @@
 #include "SSceneComPlane.h"
+#include "SSceneComTransform.h"
 #include "../StormSceneObject.h"
+#include "../../core/StormCommon.h"
 #include "../../core/utils/math/ScalarMath.h"
 #include "../../core/utils/math/TrigonometryMath.h"
 
 SSceneComPlane::SSceneComPlane(StormSceneObject* owner) : SSceneComponent(owner) {
     _Type = S_SCENE_OBJECT_COM_PLANE;
     
+    _Transform = nullptr;
+
     _Size.set(0.0f, 0.0f);
     _SizeTransformed.set(0.0f, 0.0f);
 
@@ -13,6 +17,8 @@ SSceneComPlane::SSceneComPlane(StormSceneObject* owner) : SSceneComponent(owner)
     _Vertices[1].uv.set(1.0f, 0.0f);
     _Vertices[2].uv.set(1.0f, 1.0f);
     _Vertices[3].uv.set(0.0f, 1.0f);
+
+    _RenderDebug = false;
 }
 
 SSceneComPlane::~SSceneComPlane() {
@@ -31,9 +37,18 @@ int SSceneComPlane::deserializeXml(pugi::xml_node& node) {
     _Size.x = node.attribute("size_x").as_float(0.0f);
     _Size.y = node.attribute("size_y").as_float(0.0f);
 
-    /* TODO: remove this. This is only temporary */
-    onTransformChanged();
     return 1;
+}
+
+void SSceneComPlane::initialize() {
+    SSceneComponent* component = _Owner->getComponent(S_SCENE_OBJECT_COM_TRANSFORM);
+    _Transform = dynamic_cast<SSceneComTransform*>(component);
+    if (!_Transform) {
+        LOG(ERROR) << "Plane component could not get transform from object " << _Owner->getName();
+        return;
+    }
+
+    onTransformChanged();
 }
 
 void SSceneComPlane::setSize(const Vector2 size) {
@@ -61,13 +76,17 @@ void SSceneComPlane::setRenderDebug(bool shouldRender) {
 }
 
 void SSceneComPlane::onTransformChanged() {
-    SSceneObjectTransform& transform = _Owner->getTransform();
-    Vector2* ownerPosition = transform.getPositionAbsPtr();
+    if (!_Transform) {
+        /* Transform component dose not exists, so plane can not exist too */
+        LOG(ERROR) << "Plane component exists on scene object without transform component";
+        return;
+    }
+    Vector2* ownerPosition = _Transform->getPositionAbsPtr();
 
     /* Transform scale */
     _SizeTransformed = _Size;
-    _SizeTransformed.x *= transform.getScale().x;   // TODO: Micro optimize
-    _SizeTransformed.y *= transform.getScale().y;
+    _SizeTransformed.x *= _Transform->getScale().x;   // TODO: Micro optimize
+    _SizeTransformed.y *= _Transform->getScale().y;
 
     /* Generate vertex positions */
     Vector2 halfSize = _SizeTransformed / 2;
@@ -81,13 +100,13 @@ void SSceneComPlane::onTransformChanged() {
     _Vertices[3].position.y += halfSize.y;
 
     /* Rotate all vertices if angle is changed */
-    if (!StormScalarMath::equivalent(transform.getAngle(), 0.0f)) {
-        float sin = StormScalarMath::sin((transform.getAngle() * MATH_PI) / 180.0f);
-        float cos = StormScalarMath::cos((transform.getAngle() * MATH_PI) / 180.0f);
+    if (!StormScalarMath::equivalent(_Transform->getAngle(), 0.0f)) {
+        float sin = StormScalarMath::sin((_Transform->getAngle() * MATH_PI) / 180.0f);
+        float cos = StormScalarMath::cos((_Transform->getAngle() * MATH_PI) / 180.0f);
         for (int i = 0; i < 4; i++) {
             Vector2 tmpPoint = _Vertices[i].position;
-            _Vertices[i].position.x = (tmpPoint.x * cos - tmpPoint.y * sin) + ownerPosition->x;
-            _Vertices[i].position.y = (tmpPoint.y * cos + tmpPoint.x * sin) + ownerPosition->y;
+            _Vertices[i].position.x = (tmpPoint.x * cos - tmpPoint.y * sin);
+            _Vertices[i].position.y = (tmpPoint.y * cos + tmpPoint.x * sin);
         }
     }
 }

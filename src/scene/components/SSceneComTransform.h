@@ -1,18 +1,27 @@
 #pragma once
-#include "../core/utils/math/Vector2.h"
+#include "../SSceneComponent.h"
+#include "../../core/utils/math/Vector2.h"
 
-/* This class holds scene object tranform info - Position, rotation and scale.
+/* This component holds scene object tranform info - Position, rotation and scale.
  * Parent transformation calculations are also handled here. */
 
-class StormSceneObject;
-
-class SSceneObjectTransform {
+class SSceneComTransform : public SSceneComponent {
 public:
-    SSceneObjectTransform(StormSceneObject* owner);
-    ~SSceneObjectTransform();
+    SSceneComTransform(StormSceneObject* owner);
+    virtual ~SSceneComTransform();
+
+    /* Saves component data to @node */
+    virtual void serializeXml(pugi::xml_node& node);
+
+    /* Loads component data from @node. 
+     * Returns < 0 on error */
+    virtual int deserializeXml(pugi::xml_node& node);
+
+    /* Initialize component. Called after all components have been loaded */
+    virtual void initialize();
 
     /* Do transfrom calculations with @parent transformations calculated in */
-    void transform(SSceneObjectTransform* parent);
+    void transform(SSceneComTransform* parent);
 
     /* Returns position relative to parent
      * If parent is not set, this will return absolute position */
@@ -42,9 +51,6 @@ public:
     void setAngle(float angle);
     
 private:
-    /* Object that owns this transformation */
-    StormSceneObject* _OwnerObject;
-
     /* Position relative to parent
      * If parent is not set, this is absolute position */
     Vector2 _Position;

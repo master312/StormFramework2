@@ -2,7 +2,7 @@
 #include "StormSceneObject.h"
 #include "components/SSceneComPlane.h"
 #include "components/SSceneComStaticTexture.h"
-
+#include "components/SSceneComTransform.h"
 #include "../core/StormCommon.h"
 
 SSceneComponent::SSceneComponent(StormSceneObject* owner) {
@@ -25,6 +25,9 @@ void SSceneComponent::serializeXml(pugi::xml_node& node) {
 int SSceneComponent::deserializeXml(pugi::xml_node& node) {
 }
 
+void SSceneComponent::initialize() {
+}
+
 void SSceneComponent::setOwner(StormSceneObject* owner) {
     if (_Owner) {
         LOG(WARNING) << "Changing owner of scene component. This is not supported and might fail";
@@ -40,6 +43,9 @@ StormSceneObject* SSceneComponent::getOwner() {
 SSceneComponent* SSceneComponent::newComponent(SSceneComponentType type, StormSceneObject* owner) {
     SSceneComponent* component = nullptr;
     switch(type) {
+        case S_SCENE_OBJECT_COM_TRANSFORM:
+            component = new SSceneComTransform(owner);
+            break;
         case S_SCENE_OBJECT_COM_PLANE:
             component = new SSceneComPlane(owner);
             break;

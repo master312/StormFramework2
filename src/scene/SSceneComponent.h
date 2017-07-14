@@ -10,7 +10,8 @@
 /* Enum contains type of all components */
 typedef enum SSceneComponentType {
     S_SCENE_OBJECT_COM_UNDEFINED = 0,
-
+    
+    S_SCENE_OBJECT_COM_TRANSFORM,            // Transformation component
     S_SCENE_OBJECT_COM_PLANE,                // Plane component
     S_SCENE_OBJECT_COM_STATIC_TEXTURE,       // Static texture component
     S_SCENE_OBJECT_COM_SPRITE,               // Animated texture component
@@ -46,6 +47,9 @@ public:
     /* Loads component data from @node. 
      * Returns < 0 on error */
     virtual int deserializeXml(pugi::xml_node& node);
+
+    /* Called after all components and scene have been loaded */
+    virtual void initialize();
 
     /* Produces new component of @SSceneComponentType and return pointer to it */
     static SSceneComponent* newComponent(SSceneComponentType type, StormSceneObject* owner);

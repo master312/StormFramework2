@@ -1,7 +1,8 @@
 #pragma once
 #include "../SSceneComponent.h"
 #include "../../core/utils/StormVertex.h"
-#include "../../core/utils/Plane.h"
+
+class SSceneComTransform;
 
 class SSceneComPlane : public SSceneComponent {
 public:
@@ -14,6 +15,9 @@ public:
     /* Loads component data from @node. 
      * Returns < 0 on error */
     virtual int deserializeXml(pugi::xml_node& node);
+
+    /* Called after all components have been loaded */
+    virtual void initialize();
 
     /* Sets plane size in pixels. */
     void setSize(const Vector2 size);
@@ -36,6 +40,9 @@ public:
     void onTransformChanged();
 
 private:
+    /* Pointer to owner's transform component for faster access */
+    SSceneComTransform* _Transform;
+
     /* Plane size. */
     Vector2 _Size;
     Vector2 _SizeTransformed;

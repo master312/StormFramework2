@@ -11,6 +11,8 @@
         "bitset": "cpp",
         "*.tcc": "cpp",
         "istream": "cpp",
-        "tuple": "cpp"
+        "tuple": "cpp",
+        "ratio": "cpp",
+        "type_traits": "cpp"
     }
 }

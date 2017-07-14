@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 #include "SSceneComponent.h"
-#include "SSceneObjectTransform.h"
 
 class StormSceneObject {
 public:
@@ -16,7 +15,7 @@ public:
     /* Loads object and components from @node. 
      * Returns < 0 on error */
     int deserializeXml(pugi::xml_node& node);
-
+    
     /* Sets object's unique identifier */
     void setId(uint32_t id);
 
@@ -28,9 +27,6 @@ public:
 
     /* Assign name to the object */
     void setName(const std::string& name);
-
-    /* Returns transform info (position, rotation, scale) */
-    SSceneObjectTransform& getTransform();
 
     /* Adds component to the object */
     void addComponent(SSceneComponent* component);
@@ -47,9 +43,6 @@ private:
 
     /* Object name */
     std::string _Name;
-
-    /* Objects transform info (position, rotation, scale) */
-    SSceneObjectTransform _Transform;
 
     /* All components attached to object */
     std::vector<SSceneComponent*> _Components;

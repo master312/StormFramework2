@@ -41,6 +41,8 @@ int StormScene::loadXml(spStormResourceFile xmlFile) {
         addObject(object);
     }
 
+    initialize();
+
     LOG(INFO) << "Scene '" << _Name << "' loaded";
     return 1;
 }
@@ -81,6 +83,9 @@ void StormScene::saveXml(std::string path /* = "" */) {
 }
 
 void StormScene::initialize() {
+    for (SSceneComponentSystem* componentSystem : _ComponentSystems) {
+        componentSystem->initialize();
+    }
 }
 
 void StormScene::setName(const std::string& name) {

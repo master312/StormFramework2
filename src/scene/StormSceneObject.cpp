@@ -1,7 +1,7 @@
 #include "StormSceneObject.h"
 #include "../core/StormCommon.h"
 
-StormSceneObject::StormSceneObject(uint32_t id /* = 0 */) : _Transform(this) {
+StormSceneObject::StormSceneObject(uint32_t id /* = 0 */) {
     _Id = id;
     _Name = "";
 }
@@ -64,10 +64,6 @@ uint32_t StormSceneObject::getId() {
 
 std::string& StormSceneObject::getName() {
     return _Name;
-}
-
-SSceneObjectTransform& StormSceneObject::getTransform() {
-    return _Transform;
 }
 
 void StormSceneObject::setName(const std::string& name) {
