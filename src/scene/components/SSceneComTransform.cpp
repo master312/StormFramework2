@@ -48,7 +48,7 @@ void SSceneComTransform::transform() {
         return;
     }
     
-    _Owner->fireEvent(S_OBSERVER_EVENT_TRANSFORM_UPDATED);
+    _Owner->notifyObservers(S_OBSERVER_EVENT_TRANSFORM_UPDATED);
     _PositionAbs = _Position;
     _IsChanged = false;
 }

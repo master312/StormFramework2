@@ -22,7 +22,7 @@ SSceneComPlane::SSceneComPlane(StormSceneObject* owner) : SSceneComponent(owner)
 }
 
 SSceneComPlane::~SSceneComPlane() {
-    S_OBJECT_REMOVE_OBSERVERS(_Owner);
+    S_OBSERVER_REMOVE_ALL(_Owner, this);
 }
 
 void SSceneComPlane::serializeXml(pugi::xml_node& node) {
@@ -51,7 +51,7 @@ void SSceneComPlane::initialize() {
 
     onTransformChanged(nullptr);
 
-    S_OBJECT_ADD_OBSERVER(_Owner, this, S_OBSERVER_EVENT_TRANSFORM_UPDATED, &SSceneComPlane::onTransformChanged);
+    S_OBSERVER_ADD(_Owner, this, S_OBSERVER_EVENT_TRANSFORM_UPDATED, SSceneComPlane::onTransformChanged);
 }
 
 void SSceneComPlane::setSize(const Vector2 size) {
