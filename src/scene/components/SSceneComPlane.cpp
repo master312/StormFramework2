@@ -108,8 +108,10 @@ void SSceneComPlane::onTransformChanged(void* data) {
         float cos = StormScalarMath::cos((_Transform->getAngle() * MATH_PI) / 180.0f);
         for (int i = 0; i < 4; i++) {
             Vector2 tmpPoint = _Vertices[i].position;
-            _Vertices[i].position.x = (tmpPoint.x * cos - tmpPoint.y * sin);
-            _Vertices[i].position.y = (tmpPoint.y * cos + tmpPoint.x * sin);
+            tmpPoint.x -= ownerPosition.x;
+            tmpPoint.y = ownerPosition.y - tmpPoint.y;
+            _Vertices[i].position.x = (tmpPoint.x * cos - tmpPoint.y * sin) + ownerPosition.x;
+            _Vertices[i].position.y = (tmpPoint.y * cos + tmpPoint.x * sin) + ownerPosition.y;
         }
     }
 }

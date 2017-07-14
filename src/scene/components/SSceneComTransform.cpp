@@ -81,6 +81,7 @@ float SSceneComTransform::getAngle() {
 
 void SSceneComTransform::setAngle(float angle) {
     _Angle = angle;
+    StormScalarMath::clampAngle(&_Angle);
     _IsChanged = true;
 }
 
