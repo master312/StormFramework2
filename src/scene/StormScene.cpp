@@ -17,6 +17,16 @@ StormScene::StormScene() {
 }
 
 StormScene::~StormScene() {
+    for (size_t i = 0; i < _Objects.size(); i++) {
+        delete _Objects[i];
+    }
+    _Objects.clear();
+
+    for (size_t i = 0; i < _ComponentSystems.size(); i++) {
+        delete _ComponentSystems[i];
+    }
+    _ComponentSystems.clear();
+    _ComponentSystemsByType.clear();
 }
 
 int StormScene::loadXml(spStormResourceFile xmlFile) {
@@ -122,8 +132,12 @@ void StormScene::render(StormRenderer* renderer) {
         _ComponentSystems[i]->render(renderer);
     }
 }
-
+#include "components/SSceneComTransform.h"
 void StormScene::tick(float deltaTime) {
+    SSceneComTransform* com = dynamic_cast<SSceneComTransform*>(_Objects[0]->getComponent(S_SCENE_OBJECT_COM_TRANSFORM));
+    if (com) {
+        com->setPosition(com->getPosition() + Vector2(0.2f, 0.2f));
+    }
     for (unsigned int i = 0; i < _ComponentSystems.size(); i++) {
         _ComponentSystems[i]->tick(deltaTime);
     }

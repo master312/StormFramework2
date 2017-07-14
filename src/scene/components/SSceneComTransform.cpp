@@ -1,4 +1,5 @@
 #include "SSceneComTransform.h"
+#include "../StormSceneObject.h"
 
 SSceneComTransform::SSceneComTransform(StormSceneObject* owner) : SSceneComponent(owner) {
     _Type = S_SCENE_OBJECT_COM_TRANSFORM;
@@ -43,6 +44,11 @@ void SSceneComTransform::initialize() {
 
 void SSceneComTransform::transform() {
     /* TODO: Parent linking calculations hare */
+    if (!_IsChanged) {
+        return;
+    }
+    
+    _Owner->fireEvent(S_OBSERVER_EVENT_TRANSFORM_UPDATED);
     _PositionAbs = _Position;
     _IsChanged = false;
 }

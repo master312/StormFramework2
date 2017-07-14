@@ -37,7 +37,7 @@ public:
     
     /* Event listener. Called by owner object when transform changes.
      * Used to generate vertices and calculate transformed size. */
-    void onTransformChanged();
+    void onTransformChanged(void* data);
 
 private:
     /* Pointer to owner's transform component for faster access */

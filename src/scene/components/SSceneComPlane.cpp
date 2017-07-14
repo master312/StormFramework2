@@ -22,6 +22,7 @@ SSceneComPlane::SSceneComPlane(StormSceneObject* owner) : SSceneComponent(owner)
 }
 
 SSceneComPlane::~SSceneComPlane() {
+    S_OBJECT_REMOVE_OBSERVERS(_Owner);
 }
 
 void SSceneComPlane::serializeXml(pugi::xml_node& node) {
@@ -48,7 +49,9 @@ void SSceneComPlane::initialize() {
         return;
     }
 
-    onTransformChanged();
+    onTransformChanged(nullptr);
+
+    S_OBJECT_ADD_OBSERVER(_Owner, this, S_OBSERVER_EVENT_TRANSFORM_UPDATED, &SSceneComPlane::onTransformChanged);
 }
 
 void SSceneComPlane::setSize(const Vector2 size) {
@@ -75,7 +78,7 @@ void SSceneComPlane::setRenderDebug(bool shouldRender) {
     _RenderDebug = shouldRender;
 }
 
-void SSceneComPlane::onTransformChanged() {
+void SSceneComPlane::onTransformChanged(void* data) {
     if (!_Transform) {
         /* Transform component dose not exists, so plane can not exist too */
         LOG(ERROR) << "Plane component exists on scene object without transform component";

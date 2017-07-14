@@ -20,6 +20,8 @@ StormEngine::StormEngine() {
 }
 
 StormEngine::~StormEngine() {
+    delete testScene;
+    testScene = nullptr;
     deinitialize();
 }
 
