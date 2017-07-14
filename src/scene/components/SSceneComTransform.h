@@ -20,13 +20,12 @@ public:
     /* Initialize component. Called after all components have been loaded */
     virtual void initialize();
 
-    /* Do transfrom calculations with @parent transformations calculated in */
-    void transform(SSceneComTransform* parent);
+    /* Do transfrom calculations. */
+    void transform();
 
     /* Returns position relative to parent
      * If parent is not set, this will return absolute position */
     Vector2 getPosition();
-    Vector2* getPositionPtr();
 
     /* Sets position transform
      * If parent exists, this position will be relative to parents position */
@@ -34,22 +33,22 @@ public:
 
     /* Returns absolute position on scene */
     Vector2 getPositionAbs();
-    Vector2* getPositionAbsPtr();
 
     /* Returns transform scale multiplier */
     Vector2 getScale();
-    Vector2* getScalePtr();
     
     /* Sets scale multiplier */
     void setScale(Vector2 scale);
 
     /* Returns rotation angle */
     float getAngle();
-    float* getAnglePtr();
 
     /* Sets rotation angle */
     void setAngle(float angle);
     
+    /* Returns true if any of transform parameters ware changed */
+    bool isChanged();
+
 private:
     /* Position relative to parent
      * If parent is not set, this is absolute position */
@@ -63,4 +62,8 @@ private:
 
     /* Rotation angle */
     float _Angle;
+
+    /* Set to true if any of transform parameters ware changed.
+     * Variable is set back to false in @transform() method. */
+    bool _IsChanged;
 };

@@ -1,10 +1,9 @@
 #include "StormScene.h"
 #include "StormSceneObject.h"
 
-#include "components/SSceneComPlane.h"
 #include "components/SSceneSystemPlane.h"
-#include "components/SSceneComStaticTexture.h"
 #include "components/SSceneSystemStaticTexture.h"
+#include "components/SSceneSystemTransform.h"
 
 #include "../StormEngine.h"
 #include "../core/graphics/StormRenderer.h"
@@ -131,6 +130,10 @@ void StormScene::tick(float deltaTime) {
 }
 
 void StormScene::initializeDefaultSystems() {
+    SSceneSystemTransform* sysTransform = new SSceneSystemTransform();
+    _ComponentSystems.push_back(sysTransform);
+    _ComponentSystemsByType[S_SCENE_OBJECT_COM_TRANSFORM] = sysTransform;
+
     SSceneSystemStaticTexture* sysTexture = new SSceneSystemStaticTexture();
     _ComponentSystems.push_back(sysTexture);
     _ComponentSystemsByType[S_SCENE_OBJECT_COM_STATIC_TEXTURE] = sysTexture;

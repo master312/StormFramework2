@@ -7,6 +7,7 @@ SSceneComTransform::SSceneComTransform(StormSceneObject* owner) : SSceneComponen
     _PositionAbs.set(0.0f, 0.0f);
     _Scale.set(1.0f, 1.0f);
     _Angle = 0.0f;
+    _IsChanged = false;
 }
 
 SSceneComTransform::~SSceneComTransform() {
@@ -37,58 +38,46 @@ int SSceneComTransform::deserializeXml(pugi::xml_node& node) {
 }
 
 void SSceneComTransform::initialize() {
-    /* TODO: Pass parent after linking system implementation */
-    transform(nullptr);
+    transform();
 }
 
-void SSceneComTransform::transform(SSceneComTransform* parent) {
-    if (!parent) {
-        _PositionAbs = _Position;
-        return;
-    }
-    
+void SSceneComTransform::transform() {
+    /* TODO: Parent linking calculations hare */
+    _PositionAbs = _Position;
+    _IsChanged = false;
 }
 
 Vector2 SSceneComTransform::getPosition() {
     return _Position;
 }
 
-Vector2* SSceneComTransform::getPositionPtr() {
-    return &_Position;
-}
-
 void SSceneComTransform::setPosition(Vector2 position) {
     _Position = position;
+    _IsChanged = true;
 }
 
 Vector2 SSceneComTransform::getPositionAbs() {
     return _PositionAbs;
 }
 
-Vector2* SSceneComTransform::getPositionAbsPtr() {
-    return &_PositionAbs;
-}
-
 Vector2 SSceneComTransform::getScale() {
     return _Scale;
 }
 
-Vector2* SSceneComTransform::getScalePtr() {
-    return &_Scale;
-}
-
 void SSceneComTransform::setScale(Vector2 scale) {
     _Scale = scale;
+    _IsChanged = true;
 }
 
 float SSceneComTransform::getAngle() {
     return _Angle;
 }
 
-float* SSceneComTransform::getAnglePtr() {
-    return &_Angle;
-}
-
 void SSceneComTransform::setAngle(float angle) {
     _Angle = angle;
+    _IsChanged = true;
+}
+
+bool SSceneComTransform::isChanged() {
+    return _IsChanged;
 }

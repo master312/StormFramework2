@@ -81,7 +81,7 @@ void SSceneComPlane::onTransformChanged() {
         LOG(ERROR) << "Plane component exists on scene object without transform component";
         return;
     }
-    Vector2* ownerPosition = _Transform->getPositionAbsPtr();
+    Vector2 ownerPosition = _Transform->getPositionAbs();
 
     /* Transform scale */
     _SizeTransformed = _Size;
@@ -90,12 +90,12 @@ void SSceneComPlane::onTransformChanged() {
 
     /* Generate vertex positions */
     Vector2 halfSize = _SizeTransformed / 2;
-    _Vertices[0].position = *ownerPosition - halfSize;
-    _Vertices[1].position = *ownerPosition;
+    _Vertices[0].position = ownerPosition - halfSize;
+    _Vertices[1].position = ownerPosition;
     _Vertices[1].position.x += halfSize.x;
     _Vertices[1].position.y -= halfSize.y;
-    _Vertices[2].position = *ownerPosition + halfSize;
-    _Vertices[3].position = *ownerPosition;
+    _Vertices[2].position = ownerPosition + halfSize;
+    _Vertices[3].position = ownerPosition;
     _Vertices[3].position.x -= halfSize.x;
     _Vertices[3].position.y += halfSize.y;
 
