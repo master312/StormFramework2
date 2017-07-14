@@ -15,7 +15,6 @@ SSceneComTransform::SSceneComTransform(StormSceneObject* owner) : SSceneComponen
 
 SSceneComTransform::~SSceneComTransform() {
     _ParentTransform = nullptr;
-    S_OBSERVER_REMOVE_ALL(_Owner, this);
 }
 
 void SSceneComTransform::serializeXml(pugi::xml_node& node) {

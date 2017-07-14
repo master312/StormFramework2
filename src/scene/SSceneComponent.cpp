@@ -11,6 +11,7 @@ SSceneComponent::SSceneComponent(StormSceneObject* owner) {
 }
 
 SSceneComponent::~SSceneComponent() {
+    S_OBSERVER_REMOVE_ALL(_Owner, this);
     _Owner = nullptr;
 }
 

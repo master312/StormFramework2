@@ -22,7 +22,6 @@ SSceneComPlane::SSceneComPlane(StormSceneObject* owner) : SSceneComponent(owner)
 }
 
 SSceneComPlane::~SSceneComPlane() {
-    S_OBSERVER_REMOVE_ALL(_Owner, this);
 }
 
 void SSceneComPlane::serializeXml(pugi::xml_node& node) {
