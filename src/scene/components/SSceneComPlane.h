@@ -35,9 +35,9 @@ public:
     bool isRenderDebug();
     void setRenderDebug(bool shouldRender);
     
-    /* Event listener. Called by owner object when transform changes.
+    /* Observer method. Called when transform component fires event.
      * Used to generate vertices and calculate transformed size. */
-    void onTransformChanged(void* data);
+    void observeTransformChanged(void* data);
 
 private:
     /* Pointer to owner's transform component for faster access */

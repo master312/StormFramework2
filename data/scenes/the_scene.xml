@@ -5,14 +5,23 @@
 		<component type="2" size_x="100" size_y="100" />
 		<component type="3" texture="icon.png" color_r="255" color_g="253" color_b="255" color_a="255" />
 	</object>
-	<!-- <object id="2" name="" position_x="360.000031" position_y="237">
-		<component type="1" center_x="0" center_y="0" size_x="100" size_y="100" scale_x="1.35000002" scale_y="1.35000002" angle="0" />
-		<component type="2" texture="icon.png" color_r="255" color_g="255" color_b="255" color_a="255" />
+	<object id="2" parent="1">
+		<component type="1" pos_x="113" pos_y="61" scale_x="1.3" scale_y="1.0" angle="12.34" />
+		<component type="2" size_x="120" size_y="100" />
+		<component type="3" texture="icon.png" color_r="195" color_g="183" color_b="255" color_a="225" />
 	</object>
-	<object id="3" name="" position_x="900.000061" position_y="608">
-		<component type="1" center_x="20" center_y="-10" size_x="100" size_y="100" scale_x="2.70000005" scale_y="2.70000005" angle="1.20427716" />
-		<component type="2" texture="icon.png" color_r="93" color_g="255" color_b="87" color_a="242" />
+	<object id="3" parent="2">
+		<component type="1" pos_x="213" pos_y="79" scale_x="1.3" scale_y="1.0" angle="12.34" />
+		<component type="2" size_x="65" size_y="65" />
+		<component type="3" texture="icon.png" color_r="245" color_g="163" color_b="255" color_a="225" />
 	</object>
+	<object id="4" parent="1">
+		<component type="1" pos_x="413" pos_y="79" scale_x="1.3" scale_y="1.0" angle="123" />
+		<component type="2" size_x="75" size_y="75" />
+		<component type="3" texture="icon.png" color_r="165" color_g="213" color_b="105" color_a="225" />
+	</object>
+
+	 <!--
 	<object id="4" name="" position_x="297" position_y="646">
 		<component type="1" center_x="0" center_y="0" size_x="100" size_y="100" scale_x="1" scale_y="1" angle="0.994837701" />
 		<component type="2" color_r="12" color_g="255" color_b="0" color_a="207" />

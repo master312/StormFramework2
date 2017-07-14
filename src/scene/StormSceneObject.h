@@ -25,11 +25,20 @@ public:
     /* Gets object's unique identifier */
     uint32_t getId();
 
+    /* Assign name to the object */
+    void setName(const std::string& name);
+
     /* Gets object name */
     std::string& getName();
 
-    /* Assign name to the object */
-    void setName(const std::string& name);
+    /* Assign parent to object, or clear parent if @parent = nullptr */
+    void setParent(StormSceneObject* parent);
+
+    /* Return parent of this object, or nullptr if none */
+    StormSceneObject* getParent();
+
+    /* Returns vector of all child objects */
+    std::vector<StormSceneObject*>& getChildren();
 
     /* Adds component to the object */
     void addComponent(SSceneComponent* component);
@@ -47,6 +56,15 @@ private:
     /* Object name */
     std::string _Name;
 
+    /* Pointer to parent object */
+    StormSceneObject* _Parent;
+
+    /* Vector of all children child objects */
+    std::vector<StormSceneObject*> _Children;
+
     /* All components attached to object */
     std::vector<SSceneComponent*> _Components;
+
+    /* Removes this object from parent's @_Components array and clears @_Parent pointer */
+    void clearParent();
 };

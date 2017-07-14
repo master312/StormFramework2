@@ -42,6 +42,9 @@ public:
     /* Returns vector of all scene objects */
     std::vector<StormSceneObject*>& getObjects();
 
+    /* Returns pointer to object with ID */
+    StormSceneObject* getObjectById(uint32_t id);
+
     /* Renders scene */
     void render(StormRenderer* renderer);
 

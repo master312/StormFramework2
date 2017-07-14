@@ -49,9 +49,9 @@ void SSceneComPlane::initialize() {
         return;
     }
 
-    onTransformChanged(nullptr);
+    observeTransformChanged(nullptr);
 
-    S_OBSERVER_ADD(_Owner, this, S_OBSERVER_EVENT_TRANSFORM_UPDATED, SSceneComPlane::onTransformChanged);
+    S_OBSERVER_ADD(_Owner, this, S_OBSERVER_EVENT_TRANSFORM_UPDATED, SSceneComPlane::observeTransformChanged);
 }
 
 void SSceneComPlane::setSize(const Vector2 size) {
@@ -78,7 +78,7 @@ void SSceneComPlane::setRenderDebug(bool shouldRender) {
     _RenderDebug = shouldRender;
 }
 
-void SSceneComPlane::onTransformChanged(void* data) {
+void SSceneComPlane::observeTransformChanged(void* data) {
     if (!_Transform) {
         /* Transform component dose not exists, so plane can not exist too */
         LOG(ERROR) << "Plane component exists on scene object without transform component";
@@ -108,8 +108,8 @@ void SSceneComPlane::onTransformChanged(void* data) {
         float cos = StormScalarMath::cos((_Transform->getAngle() * MATH_PI) / 180.0f);
         for (int i = 0; i < 4; i++) {
             Vector2 tmpPoint = _Vertices[i].position;
-            tmpPoint.x -= ownerPosition.x;
-            tmpPoint.y = ownerPosition.y - tmpPoint.y;
+            tmpPoint.x = ownerPosition.x - tmpPoint.x;
+            tmpPoint.y -= ownerPosition.y;
             _Vertices[i].position.x = (tmpPoint.x * cos - tmpPoint.y * sin) + ownerPosition.x;
             _Vertices[i].position.y = (tmpPoint.y * cos + tmpPoint.x * sin) + ownerPosition.y;
         }

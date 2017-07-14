@@ -40,15 +40,43 @@ int StormScene::loadXml(spStormResourceFile xmlFile) {
     pugi::xml_node sceneRootNode = doc.child("scene");
     _Name = sceneRootNode.attribute("name").as_string("");
 
+    /* Map used loading linked objects
+     * <objectId, parentId> */
+    std::map<uint32_t, uint32_t> hierarchy;
     for (pugi::xml_node objectNode = sceneRootNode.first_child(); objectNode; objectNode = objectNode.next_sibling()) {
         StormSceneObject* object = new StormSceneObject();
         if (object->deserializeXml(objectNode) < 0) {
             LOG(ERROR) << "Object XML deserialization error";
             continue;
         }
+        int parentId = objectNode.attribute("parent").as_int(-1);
+        if (parentId > 0) {
+            /* This object has parent set */
+            hierarchy[object->getId()] = (uint32_t) parentId;
+        }
 
         addObject(object);
-    }    
+    }
+
+    /* Assign parents objects */
+    for (auto& iter : hierarchy) {
+        if (iter.first == iter.second) {
+            LOG(ERROR) << "Error in scene XML file. Object " << iter.first << " have it self as parent.";
+            continue;
+        }
+        StormSceneObject* child = getObjectById(iter.first);
+        StormSceneObject* parent = getObjectById(iter.second);
+        if (!child) {
+            LOG(ERROR) << "Error in scene XML file. Object " << iter.first << " not found.";
+            continue;
+        }
+        if (!parent) {
+            LOG(ERROR) << "Error in scene XML file. Parent object " << iter.second << " not found.";
+            continue;
+        }
+        child->setParent(parent);
+    }
+
 
     LOG(INFO) << "Scene '" << _Name << "' loaded";
     return 1;
@@ -125,6 +153,15 @@ StormSceneObject* StormScene::addNewObject(const std::string& name /* = "" */) {
 
 std::vector<StormSceneObject*>& StormScene::getObjects() {
     return _Objects;
+}
+
+StormSceneObject* StormScene::getObjectById(uint32_t id) {
+    for (StormSceneObject* object : _Objects) {
+        if (object->getId() == id) {
+            return object;
+        }
+    }
+    return nullptr;
 }
 
 void StormScene::render(StormRenderer* renderer) {

@@ -4,6 +4,7 @@
 StormSceneObject::StormSceneObject(uint32_t id /* = 0 */) {
     _Id = id;
     _Name = "";
+    _Parent = nullptr;
 }
 
 StormSceneObject::StormSceneObject(uint32_t id, const std::string& name) : 
@@ -16,6 +17,8 @@ StormSceneObject::~StormSceneObject() {
         delete _Components[i];
     }
     _Components.clear();
+    _Parent = nullptr;
+    _Children.clear();
 }
 
 void StormSceneObject::serializeXml(pugi::xml_node& node) {
@@ -66,6 +69,34 @@ std::string& StormSceneObject::getName() {
     return _Name;
 }
 
+void StormSceneObject::setParent(StormSceneObject* parent) {
+    if (_Parent == parent) {
+        LOG(DEBUG) << "ERROR: Setting same parent to object " << getId();
+        return;
+    }
+    if (_Parent) {
+        /* Object already have parent set */
+        clearParent();
+    }
+    
+    _Parent = parent;
+    
+    if (_Parent) {
+        /* NOTE: It might be usefull to check for doubles in @_Children, or not?... */
+        _Parent->_Children.push_back(this);
+    }
+    
+    notifyObservers(S_OBSERVER_EVENT_PARENT_CHANGED);
+}
+
+StormSceneObject* StormSceneObject::getParent() {
+    return _Parent;
+}
+
+std::vector<StormSceneObject*>& StormSceneObject::getChildren() {
+    return _Children;
+}
+
 void StormSceneObject::setName(const std::string& name) {
     _Name = name;
 }
@@ -85,4 +116,21 @@ SSceneComponent* StormSceneObject::getComponent(SSceneComponentType type) {
 
 std::vector<SSceneComponent*>& StormSceneObject::getComponents() {
     return _Components;
+}
+
+void StormSceneObject::clearParent() {
+    if (!_Parent) {
+        return;
+    }
+
+    std::vector<StormSceneObject*>& children = _Parent->_Children;
+    for (size_t i = 0; i < children.size(); i++) {
+        if (children[i] == this) {
+            children.erase(children.begin() + i);
+            _Parent = nullptr;
+            return;
+        }
+    }
+
+    _Parent = nullptr;
 }

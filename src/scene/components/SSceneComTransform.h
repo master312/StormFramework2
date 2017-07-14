@@ -49,7 +49,16 @@ public:
     /* Returns true if any of transform parameters ware changed */
     bool isChanged();
 
+    /* Observer method. Called when owner's parent changes */
+    void observeParentChanged(void* data);
+
+    /* Observer method. Called when parent's transform has been changed */
+    void observeParentTransformChanged(void* data);
+
 private:
+    /* Pointer to parent object's transform component */
+    SSceneComTransform* _ParentTransform;
+
     /* Position relative to parent
      * If parent is not set, this is absolute position */
     Vector2 _Position;
@@ -66,4 +75,8 @@ private:
     /* Set to true if any of transform parameters ware changed.
      * Variable is set back to false in @transform() method. */
     bool _IsChanged;
+
+    /* Pull transformation component from object's if any, 
+     * and sets @_ParentTransform to its pointer */
+    void pullParentTransform();
 };
