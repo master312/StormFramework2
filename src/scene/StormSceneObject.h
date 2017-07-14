@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "../core/utils/math/Vector2.h"
 #include "SSceneComponent.h"
+#include "SSceneObjectTransform.h"
 
 class StormSceneObject {
 public:
@@ -29,15 +29,8 @@ public:
     /* Assign name to the object */
     void setName(const std::string& name);
 
-    /* Assigns new position scene object */
-    void setPosition(Vector2 position);
-
-    /* Returns object's position */
-    Vector2 getPosition();
-
-    /* Returns pointer to object's position vector.
-     * Useful for components that need to use position often */
-    Vector2* getPositionPtr();
+    /* Returns transform info (position, rotation, scale) */
+    SSceneObjectTransform& getTransform();
 
     /* Adds component to the object */
     void addComponent(SSceneComponent* component);
@@ -55,8 +48,8 @@ private:
     /* Object name */
     std::string _Name;
 
-    /* Position on scene */
-    Vector2 _Position;
+    /* Objects transform info (position, rotation, scale) */
+    SSceneObjectTransform _Transform;
 
     /* All components attached to object */
     std::vector<SSceneComponent*> _Components;
