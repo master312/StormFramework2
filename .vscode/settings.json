@@ -7,6 +7,10 @@
         "initializer_list": "cpp",
         "utility": "cpp",
         "chrono": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "bitset": "cpp",
+        "*.tcc": "cpp",
+        "istream": "cpp",
+        "tuple": "cpp"
     }
 }
