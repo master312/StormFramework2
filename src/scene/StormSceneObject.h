@@ -6,6 +6,8 @@
 #include "SSceneObjectEventTypes.h"
 #include "../core/utils/SObservable.h"
 
+class SSceneComTransform;
+
 class StormSceneObject : public SObservable<SSceneObjectEventType, SSceneComponent> {
 public:
     StormSceneObject(uint32_t id = 0);
@@ -49,6 +51,9 @@ public:
     /* Returns reference to vector containing all components */
     std::vector<SSceneComponent*>& getComponents();
 
+    /* Returns pointer to transform component, or nullptr if none exists */
+    SSceneComTransform* getTransform() const;
+
 private:
     /* Unique object identifier */
     uint32_t _Id;
@@ -64,6 +69,9 @@ private:
 
     /* All components attached to object */
     std::vector<SSceneComponent*> _Components;
+
+    /* Pointer to transform component */
+    SSceneComTransform* _ComponentTransform;
 
     /* Removes this object from parent's @_Components array and clears @_Parent pointer */
     void clearParent();

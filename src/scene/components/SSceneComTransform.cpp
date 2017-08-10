@@ -64,8 +64,8 @@ void SSceneComTransform::transform() {
             _ParentTransform->transform();
         }
 
-        float sin = StormScalarMath::sin((_ParentTransform->getAngle() * MATH_PI) / 180.0f);
-        float cos = StormScalarMath::cos((_ParentTransform->getAngle() * MATH_PI) / 180.0f);
+        float sin = StormScalarMath::sin((_ParentTransform->getAngleAbs() * MATH_PI) / 180.0f);
+        float cos = StormScalarMath::cos((_ParentTransform->getAngleAbs() * MATH_PI) / 180.0f);
         
         _PositionAbs.x = (_Position.x * cos - _Position.y * sin);
         _PositionAbs.y = (_Position.y * cos + _Position.x * sin);
@@ -108,9 +108,15 @@ float SSceneComTransform::getAngle() {
     return _Angle;
 }
 
+float SSceneComTransform::getAngleAbs() {
+    if (_ParentTransform) {
+        return StormScalarMath::clampAngle(_ParentTransform->getAngleAbs() + _Angle);
+    }
+    return _Angle;
+}
+
 void SSceneComTransform::setAngle(float angle) {
-    _Angle = angle;
-    StormScalarMath::clampAngle(&_Angle);
+    _Angle = StormScalarMath::clampAngle(angle);
     _IsChanged = true;
 }
 
@@ -136,7 +142,11 @@ void SSceneComTransform::pullParentTransform() {
         return;
     }
 
-    SSceneComponent* parentTransform = _Owner->getParent()->getComponent(S_SCENE_OBJECT_COM_TRANSFORM);
-    _ParentTransform = dynamic_cast<SSceneComTransform*>(parentTransform);
+    if (_ParentTransform == _Owner->getParent()->getTransform()) {
+        /* Same parent is already set */
+        return;
+    }
+
+    _ParentTransform = _Owner->getParent()->getTransform();
     _IsChanged = true;
 }

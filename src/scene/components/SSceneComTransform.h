@@ -43,6 +43,9 @@ public:
     /* Returns rotation angle */
     float getAngle();
 
+    /* Get absolute angle, with parent transformations included */
+    float getAngleAbs();
+
     /* Sets rotation angle */
     void setAngle(float angle);
     
@@ -76,7 +79,8 @@ private:
      * Variable is set back to false in @transform() method. */
     bool _IsChanged;
 
-    /* Pull transformation component from object's if any, 
-     * and sets @_ParentTransform to its pointer */
+    /* Pull transformation component from object's parent, 
+     * and sets @_ParentTransform to its pointer. 
+     * Or clears pointer to nullptr if parent was removed */
     void pullParentTransform();
 };

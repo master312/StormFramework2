@@ -48,9 +48,9 @@ void SSceneSystemPlane::renderDebug(SSceneComPlane* component, StormRenderer* re
     renderer->draw();
 
     
-    /* Draw rect pivot */
+    /* Draw rect center */
     StormVertex vertices[4];
-    SSceneComTransform* comTransform = dynamic_cast<SSceneComTransform*>(component->getOwner()->getComponent(S_SCENE_OBJECT_COM_TRANSFORM));
+    SSceneComTransform* comTransform = component->getOwner()->getTransform();
     if (!comTransform) {
         return;
     }

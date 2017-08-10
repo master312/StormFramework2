@@ -19,6 +19,7 @@ SSceneComPlane::SSceneComPlane(StormSceneObject* owner) : SSceneComponent(owner)
     _Vertices[3].uv.set(0.0f, 1.0f);
 
     _RenderDebug = false;
+    _InheritRotation = true;
 }
 
 SSceneComPlane::~SSceneComPlane() {
@@ -41,8 +42,7 @@ int SSceneComPlane::deserializeXml(pugi::xml_node& node) {
 }
 
 void SSceneComPlane::initialize() {
-    SSceneComponent* component = _Owner->getComponent(S_SCENE_OBJECT_COM_TRANSFORM);
-    _Transform = dynamic_cast<SSceneComTransform*>(component);
+    _Transform = _Owner->getTransform();
     if (!_Transform) {
         LOG(ERROR) << "Plane component could not get transform from object " << _Owner->getName();
         return;
@@ -79,38 +79,67 @@ void SSceneComPlane::setRenderDebug(bool shouldRender) {
 
 void SSceneComPlane::observeTransformChanged(void* data) {
     if (!_Transform) {
-        /* Transform component dose not exists, so plane can not exist too */
+        /* Transform component dose not exists, and plane can not exist without transform */
         LOG(ERROR) << "Plane component exists on scene object without transform component";
         return;
     }
-    Vector2 ownerPosition = _Transform->getPositionAbs();
+    
+    _SizeTransformed = _Size.mult(_Transform->getScale());
 
-    /* Transform scale */
-    _SizeTransformed = _Size;
-    _SizeTransformed.x *= _Transform->getScale().x;   // TODO: Micro optimize
-    _SizeTransformed.y *= _Transform->getScale().y;
-
-    /* Generate vertex positions */
-    Vector2 halfSize = _SizeTransformed / 2;
-    _Vertices[0].position = ownerPosition - halfSize;
-    _Vertices[1].position = ownerPosition;
-    _Vertices[1].position.x += halfSize.x;
-    _Vertices[1].position.y -= halfSize.y;
-    _Vertices[2].position = ownerPosition + halfSize;
-    _Vertices[3].position = ownerPosition;
-    _Vertices[3].position.x -= halfSize.x;
-    _Vertices[3].position.y += halfSize.y;
-
-    /* Rotate all vertices if angle is changed */
-    if (!StormScalarMath::equivalent(_Transform->getAngle(), 0.0f)) {
-        float sin = StormScalarMath::sin((_Transform->getAngle() * MATH_PI) / 180.0f);
-        float cos = StormScalarMath::cos((_Transform->getAngle() * MATH_PI) / 180.0f);
-        for (int i = 0; i < 4; i++) {
-            Vector2 tmpPoint = _Vertices[i].position;
-            tmpPoint.x = ownerPosition.x - tmpPoint.x;
-            tmpPoint.y -= ownerPosition.y;
-            _Vertices[i].position.x = (tmpPoint.x * cos - tmpPoint.y * sin) + ownerPosition.x;
-            _Vertices[i].position.y = (tmpPoint.y * cos + tmpPoint.x * sin) + ownerPosition.y;
-        }
+    if (_Owner->getParent()) {
+        transformRotationWithParent();
+    } else {
+        transformRotation(_Transform->getPositionAbs());
     }
+}
+
+void SSceneComPlane::transformRotation(const Vector2& centerPosition) {
+    calculateVertices(centerPosition);
+
+    float angle = _Transform->getAngle();
+    if (StormScalarMath::equivalent(angle, 0.0f)) {
+        /* Do not rotate if angle is zero */
+        return;
+    }
+    float sin = StormScalarMath::sin((angle * MATH_PI) / 180.0f);
+    float cos = StormScalarMath::cos((angle * MATH_PI) / 180.0f);
+    for (int i = 0; i < 4; i++) {
+        Vector2 tmpPoint = _Vertices[i].position;
+        tmpPoint.x = centerPosition.x - tmpPoint.x;
+        tmpPoint.y -= centerPosition.y;
+        _Vertices[i].position.x = (tmpPoint.x * cos - tmpPoint.y * sin) + centerPosition.x;
+        _Vertices[i].position.y = (tmpPoint.y * cos + tmpPoint.x * sin) + centerPosition.y;
+    }
+}
+
+void SSceneComPlane::transformRotationWithParent() {
+    if (!_InheritRotation) {
+        transformRotation(_Transform->getPositionAbs());
+        return;
+    }
+
+    transformRotation(_Transform->getPosition());
+    
+    SSceneComTransform* parentTransform = _Owner->getParent()->getTransform();
+    float angle = parentTransform->getAngleAbs();
+    Vector2 pivotPos = parentTransform->getPositionAbs();
+    float sin = StormScalarMath::sin((angle * MATH_PI) / 180.0f);
+    float cos = StormScalarMath::cos((angle * MATH_PI) / 180.0f);
+    for (int i = 0; i < 4; i++) {
+        Vector2 tmpPoint = _Vertices[i].position;
+        _Vertices[i].position.x = (tmpPoint.x * cos - tmpPoint.y * sin) + pivotPos.x;
+        _Vertices[i].position.y = (tmpPoint.y * cos + tmpPoint.x * sin) + pivotPos.y;
+    }
+}
+
+void SSceneComPlane::calculateVertices(const Vector2& center) {
+    Vector2 size2 = _SizeTransformed / 2;
+    _Vertices[0].position = center - size2;
+    _Vertices[1].position = center;
+    _Vertices[1].position.x += size2.x;
+    _Vertices[1].position.y -= size2.y;
+    _Vertices[2].position = center + size2;
+    _Vertices[3].position = center;
+    _Vertices[3].position.x -= size2.x;
+    _Vertices[3].position.y += size2.y;
 }

@@ -1,10 +1,12 @@
 #include "StormSceneObject.h"
+#include "components/SSceneComTransform.h"
 #include "../core/StormCommon.h"
 
 StormSceneObject::StormSceneObject(uint32_t id /* = 0 */) {
     _Id = id;
     _Name = "";
     _Parent = nullptr;
+    _ComponentTransform = nullptr;
 }
 
 StormSceneObject::StormSceneObject(uint32_t id, const std::string& name) : 
@@ -102,7 +104,14 @@ void StormSceneObject::setName(const std::string& name) {
 }
 
 void StormSceneObject::addComponent(SSceneComponent* component) {
-    _Components.push_back(component);   
+    _Components.push_back(component);
+
+    if (component->getType() == S_SCENE_OBJECT_COM_TRANSFORM) {
+        if (_ComponentTransform) {
+            LOG(ERROR) << "Adding multiple transform components to same scene object";
+        }
+        _ComponentTransform = dynamic_cast<SSceneComTransform*>(component);
+    }
 }
 
 SSceneComponent* StormSceneObject::getComponent(SSceneComponentType type) {
@@ -116,6 +125,14 @@ SSceneComponent* StormSceneObject::getComponent(SSceneComponentType type) {
 
 std::vector<SSceneComponent*>& StormSceneObject::getComponents() {
     return _Components;
+}
+
+SSceneComTransform* StormSceneObject::getTransform() const {
+    if (!_ComponentTransform) {
+        LOG(ERROR) << "Tryed to get transfrom from scene object that dose not have transform component";
+        return nullptr;
+    }
+    return _ComponentTransform;
 }
 
 void StormSceneObject::clearParent() {

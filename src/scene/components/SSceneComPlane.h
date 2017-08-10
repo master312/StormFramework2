@@ -49,7 +49,16 @@ private:
 
     /* Plane vertices, with transformations calculated in. */
     StormVertex _Vertices[4];
+
+    /* TODO ... */
+    bool _InheritRotation;
     
     /* Should debug bounds for this plane be rendered. */
     bool _RenderDebug;
+
+    /* Calculate vertices based on center coordinates */
+    void calculateVertices(const Vector2& center);
+
+    void transformRotation(const Vector2& centerPosition);
+    void transformRotationWithParent();
 };
