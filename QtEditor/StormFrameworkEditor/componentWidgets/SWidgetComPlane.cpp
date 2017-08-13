@@ -2,7 +2,7 @@
 #include "../../src/core/StormCommon.h"
 #include "../../src/scene/components/SSceneComPlane.h"
 #include "../propertyWidgets/SWidgetPropertyVec2.h"
-#include "../propertyWidgets/SWidgetPropertyFloat.h"
+#include "../propertyWidgets/SWidgetPropertyBoolean.h"
 #include <QLayout>
 
 SWidgetComPlane::SWidgetComPlane(QWidget* parent) : SWidgetComponent(parent) {
@@ -23,31 +23,23 @@ void SWidgetComPlane::initialize() {
         return;
     }
 
-    /* Create pivot position widget */
-    SWidgetPropertyVec2* pivotPosition = new SWidgetPropertyVec2(this, "Pivot");
-    pivotPosition->setVectorGetter(std::bind(&SSceneComPlane::getCenterPosition, _PlaneComponent));
-    pivotPosition->setVectorSetter(std::bind(&SSceneComPlane::setCenterPosition, _PlaneComponent, std::placeholders::_1));
-    layout()->addWidget(pivotPosition);
-
     /* Create size widget */
     SWidgetPropertyVec2* sizeWidget = new SWidgetPropertyVec2(this, "Size");
     sizeWidget->setVectorGetter(std::bind(&SSceneComPlane::getSize, _PlaneComponent));
     sizeWidget->setVectorSetter(std::bind(&SSceneComPlane::setSize, _PlaneComponent, std::placeholders::_1));
     layout()->addWidget(sizeWidget);
 
-    /* Create scale widget */
-    SWidgetPropertyVec2* scaleWidget = new SWidgetPropertyVec2(this, "Scale");
-    scaleWidget->setDragFactor(0.05f);
-    scaleWidget->setVectorGetter(std::bind(&SSceneComPlane::getScale, _PlaneComponent));
-    scaleWidget->setVectorSetter(std::bind(&SSceneComPlane::setScale, _PlaneComponent, std::placeholders::_1));
-    layout()->addWidget(scaleWidget);
+    /* Create inherit rotation widget */
+    SWidgetPropertyBoolean* inheritRotationWidget = new SWidgetPropertyBoolean(this, "Inherit rotation");
+    inheritRotationWidget->setGetter(std::bind(&SSceneComPlane::getInheritRotation, _PlaneComponent));
+    inheritRotationWidget->setSetter(std::bind(&SSceneComPlane::setInheritRotation, _PlaneComponent, std::placeholders::_1));
+    layout()->addWidget(inheritRotationWidget);
 
-    /* Create angle widget */
-    SWidgetPropertyFloat* angleWidget = new SWidgetPropertyFloat(this, "Rotation");
-    angleWidget->setDragFactor(0.5f);
-    angleWidget->setGetter(std::bind(&SSceneComPlane::getAngle, _PlaneComponent));
-    angleWidget->setSetter(std::bind(&SSceneComPlane::setAngle, _PlaneComponent, std::placeholders::_1));
-    layout()->addWidget(angleWidget);
+    /* Create inherit scale widget */
+    SWidgetPropertyBoolean* inheritScaleWidget = new SWidgetPropertyBoolean(this, "Inherit scale");
+    inheritScaleWidget->setGetter(std::bind(&SSceneComPlane::getInheritScale, _PlaneComponent));
+    inheritScaleWidget->setSetter(std::bind(&SSceneComPlane::setInheritScale, _PlaneComponent, std::placeholders::_1));
+    layout()->addWidget(inheritScaleWidget);
 
     foreach (SWidgetProperty* child, findChildren<SWidgetProperty*>()) {
         child->refresh();
@@ -57,5 +49,5 @@ void SWidgetComPlane::initialize() {
 }
 
 void SWidgetComPlane::refresh() {
-    _PlaneComponent->transform();
+    //_PlaneComponent->transform();
 }

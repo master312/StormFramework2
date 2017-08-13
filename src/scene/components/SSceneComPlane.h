@@ -28,6 +28,18 @@ public:
     /* Returns plane size with scale tranform calculated in. */
     Vector2 getSizeTransformed() const;
 
+    /* Sets whether plane should inherit rotation from parent transfrorm or not. */
+    void setInheritRotation(bool value);
+
+    /* Returns whether plane is inheriting rotation from parent. */
+    bool getInheritRotation() const;
+
+    /* Sets whether plane should inherit Scale from parent transfrorm or not. */
+    void setInheritScale(bool value);
+    
+    /* Returns whether plane is inheriting Scale from parent. */
+    bool getInheritScale() const;
+    
     /* Returns pointer to vertices array.
      * WARNING: Vertices are updated in @transform() method. */
     StormVertex* getVertices();
@@ -50,8 +62,11 @@ private:
     /* Plane vertices, with transformations calculated in. */
     StormVertex _Vertices[4];
 
-    /* TODO ... */
+    /* Is rotation inherited from parent */
     bool _InheritRotation;
+
+    /* Is scale inherited from parrent */
+    bool _InheritScale;
     
     /* Should debug bounds for this plane be rendered. */
     bool _RenderDebug;

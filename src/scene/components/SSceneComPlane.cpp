@@ -19,6 +19,7 @@ SSceneComPlane::SSceneComPlane(StormSceneObject* owner) : SSceneComponent(owner)
     _Vertices[3].uv.set(0.0f, 1.0f);
 
     _RenderDebug = false;
+    _InheritScale = true;
     _InheritRotation = true;
 }
 
@@ -65,6 +66,22 @@ Vector2 SSceneComPlane::getSizeTransformed() const {
     return _SizeTransformed;
 }
 
+void SSceneComPlane::setInheritRotation(bool value) {
+    _InheritRotation = value; 
+}
+
+bool SSceneComPlane::getInheritRotation() const {
+    return _InheritRotation;
+}
+
+void SSceneComPlane::setInheritScale(bool value) {
+    _InheritScale = value;
+}
+
+bool SSceneComPlane::getInheritScale() const {
+    return _InheritScale;
+}
+
 StormVertex* SSceneComPlane::getVertices() {
     return _Vertices;
 }
@@ -86,7 +103,12 @@ void SSceneComPlane::observeTransformChanged(void* data) {
     
     _SizeTransformed = _Size.mult(_Transform->getScale());
 
-    if (_Owner->getParent()) {
+    StormSceneObject* parent = _Owner->getParent();
+    if (parent) {
+        if (_InheritScale) {
+            _SizeTransformed = _Size.mult(_Transform->getScale().mult( 
+                                          parent->getTransform()->getScale()));
+        }
         transformRotationWithParent();
     } else {
         transformRotation(_Transform->getPositionAbs());

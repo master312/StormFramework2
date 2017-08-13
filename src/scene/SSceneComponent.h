@@ -23,6 +23,7 @@ typedef enum SSceneComponentType {
 /* Contain string names of all components. */
 static const std::string SSceneComponentTypeString[S_SCENE_OBJECT_COM_TYPES_COUNT] = {
     "Undefined",
+    "Transform",
     "Plane",
     "Static texture",
     "Sprite",
