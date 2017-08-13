@@ -119,10 +119,6 @@ void SSceneComPlane::transformRotation(const Vector2& centerPosition) {
     calculateVertices(centerPosition);
 
     float angle = _Transform->getAngle();
-    if (StormScalarMath::equivalent(angle, 0.0f)) {
-        /* Do not rotate if angle is zero */
-        return;
-    }
     float sin = StormScalarMath::sin((angle * MATH_PI) / 180.0f);
     float cos = StormScalarMath::cos((angle * MATH_PI) / 180.0f);
     for (int i = 0; i < 4; i++) {
