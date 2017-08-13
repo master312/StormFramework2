@@ -49,5 +49,4 @@ void SWidgetComPlane::initialize() {
 }
 
 void SWidgetComPlane::refresh() {
-    //_PlaneComponent->transform();
 }

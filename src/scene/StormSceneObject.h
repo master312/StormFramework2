@@ -33,7 +33,8 @@ public:
     /* Gets object name */
     std::string& getName();
 
-    /* Assign parent to object, or clear parent if @parent = nullptr */
+    /* Assign parent to object, or clear parent if @parent = nullptr.
+     * If there is already a parent set, it will be replased */
     void setParent(StormSceneObject* parent);
 
     /* Return parent of this object, or nullptr if none */

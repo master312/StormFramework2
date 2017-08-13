@@ -4,6 +4,7 @@
 
 class StormScene;
 class StormSceneObject;
+class SceneObjectTreeWidgetItem;
 
 class SceneObjectsTreeWidget : public QTreeWidget {
 public:
@@ -22,8 +23,12 @@ private:
     /* Pointer to compoents widget, for easy access */
     QWidget* _ObjectComponentsWidget;
 
-    /* Adds new scene object and all of its children SceneObjectsTreeWidget as items. */
-    void createSceneObjectListItem(StormSceneObject* object);
+    /* Vector of all tree item widgets representing planes */
+    std::vector<SceneObjectTreeWidgetItem*> _TreeItemWidgets;
+
+    /* Adds new scene object and all of its children SceneObjectsTreeWidget as items.
+     * Returns pointer to created object. */
+    SceneObjectTreeWidgetItem* createSceneObjectListItem(StormSceneObject* object);
 
     /* Generate widgets for all components in this object */
     void generateComponentWidgets(StormSceneObject* object);
