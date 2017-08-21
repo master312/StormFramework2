@@ -52,9 +52,6 @@ public:
     void observeTransformChanged(void* data);
 
 private:
-    /* Pointer to owner's transform component for faster access */
-    SSceneComTransform* _Transform;
-
     /* Plane size. */
     Vector2 _Size;
     Vector2 _SizeTransformed;

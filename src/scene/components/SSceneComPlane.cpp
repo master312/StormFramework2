@@ -7,8 +7,6 @@
 
 SSceneComPlane::SSceneComPlane(StormSceneObject* owner) : SSceneComponent(owner) {
     _Type = S_SCENE_OBJECT_COM_PLANE;
-    
-    _Transform = nullptr;
 
     _Size.set(0.0f, 0.0f);
     _SizeTransformed.set(0.0f, 0.0f);
@@ -31,6 +29,8 @@ void SSceneComPlane::serializeXml(pugi::xml_node& node) {
 
     node.append_attribute("size_x").set_value(_Size.x);
     node.append_attribute("size_y").set_value(_Size.y);
+    node.append_attribute("inherit_rotation").set_value(_InheritRotation);
+    node.append_attribute("inherit_scale").set_value(_InheritScale);
 }
 
 int SSceneComPlane::deserializeXml(pugi::xml_node& node) {
@@ -38,13 +38,14 @@ int SSceneComPlane::deserializeXml(pugi::xml_node& node) {
 
     _Size.x = node.attribute("size_x").as_float(0.0f);
     _Size.y = node.attribute("size_y").as_float(0.0f);
+    _InheritRotation = node.attribute("inherit_rotation").as_bool();
+    _InheritScale = node.attribute("inherit_scale").as_bool();
 
     return 1;
 }
 
 void SSceneComPlane::initialize() {
-    _Transform = _Owner->getTransform();
-    if (!_Transform) {
+    if (!_Owner->getTransform()) {
         LOG(ERROR) << "Plane component could not get transform from object " << _Owner->getName();
         return;
     }
@@ -95,30 +96,32 @@ void SSceneComPlane::setRenderDebug(bool shouldRender) {
 }
 
 void SSceneComPlane::observeTransformChanged(void* data) {
-    if (!_Transform) {
+    SSceneComTransform* transform = _Owner->getTransform();
+
+    if (!transform) {
         /* Transform component dose not exists, and plane can not exist without transform */
         LOG(ERROR) << "Plane component exists on scene object without transform component";
         return;
     }
-    
-    _SizeTransformed = _Size.mult(_Transform->getScale());
+
+    _SizeTransformed = _Size.mult(transform->getScale());
 
     StormSceneObject* parent = _Owner->getParent();
     if (parent) {
         if (_InheritScale) {
-            _SizeTransformed = _Size.mult(_Transform->getScale().mult( 
+            _SizeTransformed = _Size.mult(transform->getScale().mult( 
                                           parent->getTransform()->getScale()));
         }
         transformRotationWithParent();
     } else {
-        transformRotation(_Transform->getPositionAbs());
+        transformRotation(transform->getPositionAbs());
     }
 }
 
 void SSceneComPlane::transformRotation(const Vector2& centerPosition) {
     calculateVertices(centerPosition);
 
-    float angle = _Transform->getAngle();
+    float angle = _Owner->getTransform()->getAngle();
     float sin = StormScalarMath::sin((angle * MATH_PI) / 180.0f);
     float cos = StormScalarMath::cos((angle * MATH_PI) / 180.0f);
     for (int i = 0; i < 4; i++) {
@@ -132,11 +135,11 @@ void SSceneComPlane::transformRotation(const Vector2& centerPosition) {
 
 void SSceneComPlane::transformRotationWithParent() {
     if (!_InheritRotation) {
-        transformRotation(_Transform->getPositionAbs());
+        transformRotation(_Owner->getTransform()->getPositionAbs());
         return;
     }
 
-    transformRotation(_Transform->getPosition());
+    transformRotation(_Owner->getTransform()->getPosition());
     
     SSceneComTransform* parentTransform = _Owner->getParent()->getTransform();
     float angle = parentTransform->getAngleAbs();
