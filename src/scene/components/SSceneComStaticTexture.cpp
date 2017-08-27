@@ -1,5 +1,6 @@
 #include "SSceneComStaticTexture.h"
 #include "SSceneComPlane.h"
+#include "../../StormTextureManager.h"
 #include "../StormSceneObject.h"
 #include "../../StormEngine.h"
 
@@ -42,7 +43,7 @@ int SSceneComStaticTexture::deserializeXml(pugi::xml_node& node) {
     if (textureName == "") {
         LOG(WARNING) << "Texture name not specified in XML file for SSceneComStaticTexture. Object ID " << getOwner()->getId();
     }
-    _Texture = StormEngine::instance()->getTextureManager()->getTexture(textureName);
+    _Texture = StormEngine::getModule<StormTextureManager>()->getTexture(textureName);
 
     _ColorMultiply.r = (uint8_t)node.attribute("color_mult_r").as_int(255);
     _ColorMultiply.g = (uint8_t)node.attribute("color_mult_g").as_int(255);

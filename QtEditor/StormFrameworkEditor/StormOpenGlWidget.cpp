@@ -34,17 +34,16 @@ void StormOpenGlWidget::initializeGL() {
     LOG(INFO) << "GL initialized " << glGetString(GL_VERSION);
 
     StormEngine::instance()->initialize(STORM_PLATFORM_QT);
-    _StormPlatform = dynamic_cast<StormPlatformQt*>(StormEngine::instance()->getPlatform());
+    _StormPlatform = dynamic_cast<StormPlatformQt*>(StormEngine::getModule<StormPlatform>());
 
 
     /* Populate scene objects list. Should be called after scene loads */
     SceneObjectsTreeWidget* sceneObjectsWidget = dynamic_cast<SceneObjectsTreeWidget*>(StormQtHelper::findChildByName(dynamic_cast<QWidget*>(parent()), "treeSceneObjects"));
     if (sceneObjectsWidget) {
-        sceneObjectsWidget->populateSceneElements(StormEngine::instance()->getActiveScene());
+        sceneObjectsWidget->populateSceneElements(StormEngine::getActiveScene());
     } else {
         LOG(ERROR) << "No SceneObjectsTreeWidget found!";
     }
-
 
     _Timer->start();
 }

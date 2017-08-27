@@ -43,6 +43,7 @@
         "thread": "cpp",
         "typeinfo": "cpp",
         "map": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "typeindex": "cpp"
     }
 }

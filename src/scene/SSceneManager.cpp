@@ -9,9 +9,7 @@ SSceneManager::~SSceneManager() {
 }
 
 int SSceneManager::loadScene(const std::string& filename) {
-    StormFileSystem* fileSystem = StormEngine::instance()->getDataFilesystem();
-
-    spStormResourceFile sceneFile = fileSystem->getResourceByFilename(filename);
+    spStormResourceFile sceneFile = StormEngine::getResource(filename);
     if (!sceneFile) {
         LOG(ERROR) << "Could not load scene file " << filename;
         return -1;

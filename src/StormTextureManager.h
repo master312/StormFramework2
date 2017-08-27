@@ -12,7 +12,7 @@ class StormFileSystem;
 
 class StormTextureManager {
 public:
-    StormTextureManager(StormFileSystem* filesystem);
+    StormTextureManager();
     ~StormTextureManager();
 
     /* Returns texture from resource on filesystem.

@@ -43,7 +43,7 @@ void SWidgetPropertyResource::resourceSelected() {
         return;
     }
 
-    _ResourceFile = StormEngine::instance()->getDataFilesystem()->
+    _ResourceFile = StormEngine::getModule<StormFileSystem>()->
                                              getResourceByFilename(resourceFilename.toStdString());
     if (!_ResourceFile) {
         /* TODO: Maybe log error ? */

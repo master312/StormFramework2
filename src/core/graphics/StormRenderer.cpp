@@ -127,8 +127,49 @@ void StormRenderer::draw() {
     glDrawElements(_RenderMode, _GLVertexCount, GL_UNSIGNED_INT, NULL);
 }
 
-void StormRenderer::setShader(StormShader* shader) {
-    _Shader = shader;
+int StormRenderer::loadShader(const std::string& name, char* vsData, char* fsData) {
+    if (_LoadedShaders.find(name) != _LoadedShaders.end()) {
+        /* Shader already loaded */
+        LOG(INFO) << "Tryed to load shader '" << name << "' but it was already loaded";
+        return 2;
+    }
+
+    StormShader* shader = new StormShader();
+    if (shader->compileFromSource(vsData, fsData) < 0) {
+        LOG(ERROR) << "Could not load shader '" << name << "'";
+        delete shader;
+        return -1;
+    }
+    shader->linkShaders();
+
+    _LoadedShaders[name] = shader;
+
+    LOG(INFO) << "Shader '" << name << "' loaded";
+}
+
+void StormRenderer::unloadShader(const std::string& name) {
+    auto iter = _LoadedShaders.find(name);
+    if (iter == _LoadedShaders.end()) {
+        return;
+    }
+    if (iter->second == _Shader) {
+        LOG(ERROR) << "Tryed to unload shader '" << name << "' and failed. Shader currently in use.";
+        return;
+    }
+    delete iter->second;
+    iter->second = nullptr;
+    _LoadedShaders.erase(iter);
+
+    LOG(DEBUG) << "Shader '" << name << "' unloaded";
+}
+
+void StormRenderer::setActiveShader(const std::string& name) {
+    auto iter = _LoadedShaders.find(name);
+    if (iter == _LoadedShaders.end()) {
+        LOG(ERROR) << "Tryed to activate non existing shader '" << name << "'";
+        return;
+    }
+    _Shader = iter->second;
     _Shader->use();
     _Shader->bindAttribute("vertexPosition");
     _Shader->bindAttribute("uvCoordinates");

@@ -73,7 +73,8 @@ SOURCES += \
     ../../src/scene/components/SSceneSystemTransform.cpp \
     ../../src/scene/components/SSceneComTransform.cpp \
     propertyWidgets/SWidgetPropertyBoolean.cpp \
-    ../../src/scene/SSceneManager.cpp
+    ../../src/scene/SSceneManager.cpp \
+    ../../src/SEngineModuleFactory.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -134,7 +135,8 @@ HEADERS += \
     ../../src/scene/components/SSceneSystemTransform.h \
     ../../src/scene/components/SSceneComTransform.h \
     propertyWidgets/SWidgetPropertyBoolean.h \
-    ../../src/scene/SSceneManager.h
+    ../../src/scene/SSceneManager.h \
+    ../../src/SEngineModuleFactory.h
 
 FORMS += \
         mainwindow.ui

@@ -111,7 +111,7 @@ void StormScene::saveXml(std::string path /* = "" */) {
     spStormResourceFile file = new StormResourceFile(path);
     file->allocateBuffer(xmlBuffer.size(), (char*)xmlBuffer.c_str());
 
-    if (StormEngine::instance()->getDataFilesystem()->saveResourceFile(file) > 0) {
+    if (StormEngine::getModule<StormFileSystem>()->saveResourceFile(file) > 0) {
         LOG(INFO) << "Scene '" << _Name << "' saved to xml";
     } else {
         LOG(DEBUG) << "Error occured while saving scene'" << _Name << "'";

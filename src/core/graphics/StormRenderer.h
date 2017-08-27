@@ -32,8 +32,16 @@ public:
     /* Sets render perspective */
     void setPerspective(float left, float top, float right, float bottom, float near = -1.0f, float far = 1.0f);
 
+    /* Load and compile shader. Returns < 0 on error
+     * @vsData = vertex shader code, @fsData = fragment shader code */
+    int loadShader(const std::string& name, char* vsData, char* fsData);
+
+    /* Deletes preloaded shader. 
+     * This method wil do nothing if shader '@name' is currently active */
+    void unloadShader(const std::string& name);
+
     /* Sets shader that will be used for rendering */
-    void setShader(StormShader* shader);
+    void setActiveShader(const std::string& name);
 
     /* Begin rendering. 
      * Should be called after shader has already been set. */
@@ -87,9 +95,12 @@ private:
     /* OpenGL sampler2D uniform location */
     uint32_t _GLTextureSimplerUniform;
 
-    /* Currently activveerite OpenGL shader program */
+    /* Currently active OpenGL shader program */
     StormShader* _Shader;
 
+    /* All currently loaded shaders, maped by their names */
+    std::map<std::string, StormShader*> _LoadedShaders;
+    
     /* Multiply color overlay */
     Color _MultiplyColorOverlay;
 
@@ -107,7 +118,7 @@ private:
 
     /* Set to true if perspective was changed and uniform should be updated */
     bool _IsPerspectiveChanged;
-
+    
     /* Binds @_Perspective matrix to uniform in shader */
     void bindPerspectiveMatrix();
     

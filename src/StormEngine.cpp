@@ -1,27 +1,23 @@
 #include "StormEngine.h"
 #include "core/StormCommon.h"
-#include "core/platforms/StormPlatformSDL2.h"
-#include "core/platforms/StormPlatformQt.h"
-#include "core/graphics/StormVideoDriver.h"
-#include "core/graphics/StormRenderer.h"
-#include "core/graphics/StormShader.h"
 #include "scene/SSceneManager.h"
+#include "SEngineModuleFactory.h"
+
+const std::string StormEngine::DEFAULT_SHADER_NAME = "color";
 
 StormEngine::StormEngine() {
     _IsInitialized = false;
-    _Platform = nullptr;
-    _ComVideoDriver = nullptr;
-    _ComRenderer = nullptr;
-    _ComTextureManager = nullptr;
-    _GameDataFilesystem = nullptr;
-    _DefaultShader = nullptr;
-    _SceneManager = nullptr;
+    _ModPlatform = nullptr;
+    _ModVideoDriver = nullptr;
+    _ModRenderer = nullptr;
+    _ModTextureManager = nullptr;
+    _ModResources = nullptr;
+    _ModSceneManager = nullptr;
 
-    _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.04", true);
+    _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.07", true);
 }
 
 StormEngine::~StormEngine() {
-    deinitialize();
 }
 
 StormEngine* StormEngine::instance() {
@@ -29,158 +25,76 @@ StormEngine* StormEngine::instance() {
     return &shared;
 }
 
-void StormEngine::initialize(StormPlatformType platform) {
-    switch(platform) {
-        case STORM_PLATFORM_SDL2: {
-#ifdef STORM_BUILD_PLATFORM_SDL2
-            _Platform = new StormPlatformSDL2();
-            if (_Platform->initialize() < 0) {
-                LOG(FATAL) << "Could not initialize SDL platform.";
-            }
-#else
-            LOG(FATAL) << "Tryed to initialzie SDL2 platform, but engine was built without SDL2 support.";
-#endif
-            break; }
-        case STORM_PLATFORM_QT: {
-#ifdef STORM_BUILD_PLATFORM_QT
-            _Platform = new StormPlatformQt();
-            if (_Platform->initialize() < 0) {
-                LOG(FATAL) <<  "Could not initialize QT platform.";
-            }
-#else
-            LOG(FATAL) << "Tryed to initialzie QT platform, but engine was built without QT support.";
-#endif
-            break; }
-        default: {
-            LOG(ERROR) << "Requested platform not implemented.";
-            break; }
+void StormEngine::initialize(StormPlatformType platformType) {
+    /* Initialize filesystem module */
+    _ModResources = new StormFileSystem("data/");
+    _ModulesByType[typeid(StormFileSystem)] = (void*)_ModResources;
+
+    
+    /* Initialize platform module */
+    _ModPlatform = SEngineModuleFactory::initPlatform(platformType);
+    if (!_ModPlatform) {
+        return;
     }
+    _ModulesByType[typeid(StormPlatform)] = (void*)_ModPlatform;
 
-    _GameDataFilesystem = new StormFileSystem("data/");
 
-    if (_Platform->createWindow(_WindowInfo) < 0) {
-        LOG(FATAL) << "Could not open window.";
+    /* Initialize video driver module */
+    _ModVideoDriver = SEngineModuleFactory::initVideoDriver();
+    if (!_ModVideoDriver) {
+        return;
     }
+    _ModulesByType[typeid(StormVideoDriver)] = (void*)_ModVideoDriver;
 
-    if (initializeComponents() < 0) {
-        LOG(FATAL) << "Could not initialize all engine components.";
+
+    /* Initialize renderer module */
+    _ModRenderer = SEngineModuleFactory::initRenderer(DEFAULT_SHADER_NAME);
+    if (!_ModRenderer) {
+        return;
     }
+    _ModulesByType[typeid(StormRenderer)] = (void*)_ModRenderer;
+    
 
-    _DefaultShader = new StormShader();
-    if (_DefaultShader->compileFromSource(_GameDataFilesystem->getResourceByFilename("color.vs")->getBuffer(),
-                                          _GameDataFilesystem->getResourceByFilename("color.fs")->getBuffer()) < 0) {
-        LOG(FATAL) << "Default shader could not be compiled";
-    }
+    /* Initialize texture manager module */
+    _ModTextureManager = new StormTextureManager();
+    _ModulesByType[typeid(StormTextureManager)] = (void*)_ModTextureManager;
 
-    _DefaultShader->linkShaders();
-    _ComRenderer->setShader(_DefaultShader);
 
-    /* If this line is reached, all components have been initialized successfully */
-    _Platform->setMainTickingFunction(std::bind(&StormEngine::mainTickingMethod, this, std::placeholders::_1));
-    _Platform->setWindowEventListener(std::bind(&StormEngine::windowEventListener, this, std::placeholders::_1));
+    /* Initialize scene manager, and load test scene */
+    _ModSceneManager = new SSceneManager();
+    _ModSceneManager->loadScene("scenes/the_scene.xml");
+    _ModSceneManager->switchScene("the_scene");
+    _ModulesByType[typeid(SSceneManager)] = (void*)_ModSceneManager;
 
-    /* Initialize scene manager, and load default scene */
-    _SceneManager = new SSceneManager();
-    _SceneManager->loadScene("scenes/the_scene.xml");
-    _SceneManager->switchScene("the_scene");
+
+    /* Bind ticking and event methods to platform module.
+     * If this line is reached, all components have been initialized successfully */
+    _ModPlatform->setMainTickingFunction(std::bind(&StormEngine::mainTickingMethod, this, std::placeholders::_1));
+    _ModPlatform->setWindowEventListener(std::bind(&StormEngine::windowEventListener, this, std::placeholders::_1));
 
     LOG(INFO) << "Engine components initialized successfully";
     _IsInitialized = true;
 }
 
 void StormEngine::deinitialize() {
-    if (!_IsInitialized) {
-        return;
+    for (auto& iter : _ModulesByType) {
+        delete iter.second;
+        iter.second = nullptr;
     }
-    _IsInitialized = false;
-
-    if (_DefaultShader) {
-        delete _DefaultShader;
-        _DefaultShader = nullptr;
-    }
-
-    deinitializeComponents();
-
-    if (_GameDataFilesystem) {
-        delete _GameDataFilesystem;
-        _GameDataFilesystem = nullptr;
-    }
-    if (_Platform) {
-        delete _Platform;
-        _Platform = nullptr;
-    }
-
-    LOG(INFO) << "Engine ended.";
-}
-
-int StormEngine::initializeComponents() {
-    _ComVideoDriver = new StormVideoDriver();
-    _ComVideoDriver->setVirtualViewSize(_WindowInfo.width, _WindowInfo.height);
-    
-    if (_ComVideoDriver->initialize(_WindowInfo.getSizePoint()) < 0) {
-        return -1;
-    }
-    
-    _Platform->getInputManager()->calculatePointerScaling(_ComVideoDriver->getVirtualViewSize());
-
-    _ComRenderer = new StormRenderer();
-    if (_ComRenderer->initialize() < 0) {
-        return -1;
-    }
-    _ComRenderer->setPerspective(0.0f, 0.0f, _ComVideoDriver->getVirtualViewSize().x, _ComVideoDriver->getVirtualViewSize().y);
-
-
-    _ComTextureManager = new StormTextureManager(_GameDataFilesystem);
-
-    return 1;
-}
-
-void StormEngine::deinitializeComponents() {
-    /* Make sure that order of exact opposite of initialization order */
-    if (_ComTextureManager) {
-        delete _ComTextureManager;
-        _ComTextureManager = nullptr;
-    }
-    if (_ComRenderer) {
-        delete _ComRenderer;
-        _ComRenderer = nullptr;
-    }
-    if (_ComVideoDriver) {
-        delete _ComVideoDriver;
-        _ComVideoDriver = nullptr;
-    }
+    _ModulesByType.clear();
+    LOG(INFO) << "All modules deleted successfully";
 }
 
 void StormEngine::startMainLoop() {
-    _Platform->startMainLoop();
+    if (!_ModPlatform) {
+        LOG(FATAL) << "Can not start main loop without platform";
+        return;
+    }
+    _ModPlatform->startMainLoop();
 }
 
 void StormEngine::quit() {
-    _Platform->quit();
-}
-
-StormRenderer* StormEngine::getRenderer() {
-    return _ComRenderer;
-}
-
-StormPlatform* StormEngine::getPlatform() {
-    return _Platform;
-}
-
-StormTextureManager* StormEngine::getTextureManager() {
-    return _ComTextureManager;
-}
-
-StormFileSystem* StormEngine::getDataFilesystem() {
-    return _GameDataFilesystem;
-}
-
-SSceneManager* StormEngine::getSceneManager() {
-    return _SceneManager;
-}
-
-StormScene* StormEngine::getActiveScene() {
-    return _SceneManager->getActiveScene();
+    _ModPlatform->quit();
 }
 
 void StormEngine::mainTickingMethod(float deltaTime) {
@@ -191,32 +105,41 @@ void StormEngine::mainTickingMethod(float deltaTime) {
 void StormEngine::windowEventListener(StormWindowEventType event) {
     switch (event) {
         case STORM_EVENT_WINDOW_RESIZED:
-            _ComVideoDriver->setVirtualViewSize(_Platform->getWindowSettings().getSizeVec2());
+            _ModVideoDriver->setVirtualViewSize(_ModPlatform->getWindowSettings().getSizeVec2());
             
-            _Platform->getInputManager()->setRealWindowSize(_Platform->getWindowSettings().getSizeVec2());
-            _Platform->getInputManager()->calculatePointerScaling(_ComVideoDriver->getVirtualViewSize());
+            _ModPlatform->getInputManager()->setRealWindowSize(_ModPlatform->getWindowSettings().getSizeVec2());
+            _ModPlatform->getInputManager()->calculatePointerScaling(_ModVideoDriver->getVirtualViewSize());
             
-            _ComRenderer->setPerspective(0.0f, 0.0f, _ComVideoDriver->getVirtualViewSize().x, _ComVideoDriver->getVirtualViewSize().y);
-            LOG(DEBUG) << "Window resized to: " << _Platform->getWindowSettings().getSizeVec2();
+            _ModRenderer->setPerspective(0.0f, 0.0f, _ModVideoDriver->getVirtualViewSize().x, _ModVideoDriver->getVirtualViewSize().y);
+            LOG(DEBUG) << "Window resized to: " << _ModPlatform->getWindowSettings().getSizeVec2();
             break;
     }
 }
 
 void StormEngine::renderTick() {
-    _ComVideoDriver->begin();
-    _ComVideoDriver->clear();
-    _ComRenderer->startRendering();
+    _ModVideoDriver->begin();
+    _ModVideoDriver->clear();
+    _ModRenderer->startRendering();
 
-    _SceneManager->render(_ComRenderer);
+    _ModSceneManager->render(_ModRenderer);
 
-    _ComRenderer->endRendering();
-    _Platform->windowSwapBuffers();
+    _ModRenderer->endRendering();
+    _ModPlatform->windowSwapBuffers();
 }
 
 void StormEngine::updateTick(float deltaTime) {
-    _SceneManager->tick(deltaTime);
-
-    if (_Platform->getInputManager()->isKeyDown(S_KEY_ESCAPE)) {
+    _ModSceneManager->tick(deltaTime);
+    
+    if (_ModPlatform->getInputManager()->isKeyDown(S_KEY_ESCAPE)) {
         quit();
     }
+}
+
+/**** Commonly used module methods for easy access ****/
+spStormResourceFile StormEngine::getResource(const std::string& filename) {
+    return instance()->_ModResources->getResourceByFilename(filename);
+}
+
+StormScene* StormEngine::getActiveScene() {
+    return instance()->_ModSceneManager->getActiveScene();
 }

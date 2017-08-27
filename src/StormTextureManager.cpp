@@ -1,9 +1,10 @@
 #include "StormTextureManager.h"
 #include "core/StormCommon.h"
+#include "StormEngine.h"
 #include "core/resources/StormFileSystem.h"
 
-StormTextureManager::StormTextureManager(StormFileSystem* filesystem) {
-    _Filesystem = filesystem;
+StormTextureManager::StormTextureManager() {
+    _Filesystem = StormEngine::getModule<StormFileSystem>();
     
     /* Load default texture */
     _DefaultTexture = getTexture(DEFAULT_TEXTURE);

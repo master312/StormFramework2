@@ -10,7 +10,7 @@ SResourceLineEdit::SResourceLineEdit(QWidget* parent) : QLineEdit(parent) {
 
 void SResourceLineEdit::mousePressEvent(QMouseEvent* event) {
     std::string rootPath = QDir::currentPath().toStdString();
-    rootPath += "/" + StormEngine::instance()->getDataFilesystem()->getRootPath();
+    rootPath += "/" + StormEngine::getModule<StormFileSystem>()->getRootPath();
 
     QString filename = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                     QString(rootPath.c_str()));
