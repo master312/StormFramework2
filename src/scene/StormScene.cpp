@@ -13,6 +13,9 @@ StormScene::StormScene() {
     _LastObjectIndex = 1;
     _Name = "";
     _IsInitialized = false;
+    
+    /* Fills @_ComponentSystemsByType array with NULL */
+    memset(_ComponentSystemsByType, 0, S_SCENE_OBJECT_COM_TYPES_COUNT * sizeof(SSceneComponentSystem*));
 
     initializeDefaultSystems();
 }
@@ -27,7 +30,7 @@ StormScene::~StormScene() {
         delete _ComponentSystems[i];
     }
     _ComponentSystems.clear();
-    _ComponentSystemsByType.clear();
+    memset(_ComponentSystemsByType, 0, S_SCENE_OBJECT_COM_TYPES_COUNT * sizeof(SSceneComponentSystem*));
 }
 
 int StormScene::loadXml(spStormResourceFile xmlFile) {
@@ -119,9 +122,14 @@ void StormScene::saveXml(std::string path /* = "" */) {
 }
 
 void StormScene::initialize() {
-    for (SSceneComponentSystem* componentSystem : _ComponentSystems) {
-        componentSystem->initialize();
+    for (int i = 0; i < S_SCENE_OBJECT_COM_TYPES_COUNT; i++) {
+        int nextToInit = SSceneComponentInitializationOrder[i];
+        if (_ComponentSystemsByType[nextToInit]) {
+            /* Component system exists */
+            _ComponentSystemsByType[nextToInit]->initialize();
+        }
     }
+    
     _IsInitialized = true;
     LOG(INFO) << "Scene '" << _Name << "' component systems initialized";
 }
@@ -140,9 +148,10 @@ bool StormScene::isInitialized() {
 
 void StormScene::addObject(StormSceneObject* object) {
     for (SSceneComponent* com : object->getComponents()) {
-        auto iter = _ComponentSystemsByType.find(com->getType());
-        if (iter != _ComponentSystemsByType.end()) {
-            iter->second->addComponent(com);
+        SSceneComponentSystem* comSystem = _ComponentSystemsByType[com->getType()];
+        if (comSystem) {
+            /* System for this component type exists */
+            comSystem->addComponent(com);
         }
     }
 
@@ -177,14 +186,17 @@ void StormScene::render(StormRenderer* renderer) {
 }
 #include "components/SSceneComTransform.h"
 void StormScene::tick(float deltaTime) {
+
     SSceneComTransform* com = _Objects[0]->getTransform();
     SSceneComTransform* com2 = _Objects[1]->getTransform();
     if (com) {
         com->setAngle(com->getAngle() + 0.5f);
-    }
+    }   /* TODO : REMOVE THIS. THIS IS TESTING CODE */
     if (com2) {
         com2->setAngle(com2->getAngle() + 1.5f);
     }
+
+    
     for (unsigned int i = 0; i < _ComponentSystems.size(); i++) {
         _ComponentSystems[i]->tick(deltaTime);
     }

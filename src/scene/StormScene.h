@@ -7,6 +7,9 @@
 
 class StormRenderer;
 
+/* TODO - OPTIMIZATION: Split components into 2 vectors. Tickable and untickable, so we dont 
+ * have to iterate trought all components on render if some of them are unrenerable. */
+
 class StormScene {
 public:
     StormScene();
@@ -67,7 +70,7 @@ private:
     
     /* All component systems indexed by their component types.
      * Used for faster access to systems. */
-    std::map<SSceneComponentType, SSceneComponentSystem*> _ComponentSystemsByType;
+    SSceneComponentSystem* _ComponentSystemsByType[S_SCENE_OBJECT_COM_TYPES_COUNT];
 
     /* Secne name */
     std::string _Name;
