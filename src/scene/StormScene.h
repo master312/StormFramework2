@@ -31,6 +31,9 @@ public:
     /* Gets scene name */
     std::string getName() const;
 
+    /* Returns true if scene is initialized */
+    bool isInitialized();
+
     /* Adds new element to this scene. Ownership of the @object pointer
      * will be transfered to StormScene class, 
      * and memory will be freed when scene gets deleted */
@@ -69,5 +72,8 @@ private:
     /* Secne name */
     std::string _Name;
 
+    /* Is scene been initialized */
+    bool _IsInitialized;
+    
     void initializeDefaultSystems();
 };

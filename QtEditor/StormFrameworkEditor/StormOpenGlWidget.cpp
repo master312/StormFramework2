@@ -40,7 +40,7 @@ void StormOpenGlWidget::initializeGL() {
     /* Populate scene objects list. Should be called after scene loads */
     SceneObjectsTreeWidget* sceneObjectsWidget = dynamic_cast<SceneObjectsTreeWidget*>(StormQtHelper::findChildByName(dynamic_cast<QWidget*>(parent()), "treeSceneObjects"));
     if (sceneObjectsWidget) {
-        sceneObjectsWidget->populateSceneElements(StormEngine::instance()->testScene);
+        sceneObjectsWidget->populateSceneElements(StormEngine::instance()->getActiveScene());
     } else {
         LOG(ERROR) << "No SceneObjectsTreeWidget found!";
     }

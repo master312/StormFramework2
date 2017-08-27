@@ -12,6 +12,7 @@
 StormScene::StormScene() {
     _LastObjectIndex = 1;
     _Name = "";
+    _IsInitialized = false;
 
     initializeDefaultSystems();
 }
@@ -121,6 +122,7 @@ void StormScene::initialize() {
     for (SSceneComponentSystem* componentSystem : _ComponentSystems) {
         componentSystem->initialize();
     }
+    _IsInitialized = true;
     LOG(INFO) << "Scene '" << _Name << "' component systems initialized";
 }
 
@@ -130,6 +132,10 @@ void StormScene::setName(const std::string& name) {
 
 std::string StormScene::getName() const {
     return _Name;
+}
+
+bool StormScene::isInitialized() {
+    return _IsInitialized;
 }
 
 void StormScene::addObject(StormSceneObject* object) {

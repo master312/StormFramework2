@@ -5,7 +5,7 @@
 #include "core/graphics/StormVideoDriver.h"
 #include "core/graphics/StormRenderer.h"
 #include "core/graphics/StormShader.h"
-#include "core/resources/StormFileSystem.h"
+#include "scene/SSceneManager.h"
 
 StormEngine::StormEngine() {
     _IsInitialized = false;
@@ -15,13 +15,12 @@ StormEngine::StormEngine() {
     _ComTextureManager = nullptr;
     _GameDataFilesystem = nullptr;
     _DefaultShader = nullptr;
+    _SceneManager = nullptr;
 
     _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.04", true);
 }
 
 StormEngine::~StormEngine() {
-    delete testScene;
-    testScene = nullptr;
     deinitialize();
 }
 
@@ -80,14 +79,13 @@ void StormEngine::initialize(StormPlatformType platform) {
     _Platform->setMainTickingFunction(std::bind(&StormEngine::mainTickingMethod, this, std::placeholders::_1));
     _Platform->setWindowEventListener(std::bind(&StormEngine::windowEventListener, this, std::placeholders::_1));
 
+    /* Initialize scene manager, and load default scene */
+    _SceneManager = new SSceneManager();
+    _SceneManager->loadScene("scenes/the_scene.xml");
+    _SceneManager->switchScene("the_scene");
+
     LOG(INFO) << "Engine components initialized successfully";
     _IsInitialized = true;
-
-
-    /* Temporary code for testing scenes. Remove after scene manager implementation */
-    testScene = new StormScene();
-    testScene->loadXml(_GameDataFilesystem->getResourceByFilename("scenes/the_scene.xml"));
-    testScene->initialize();
 }
 
 void StormEngine::deinitialize() {
@@ -177,6 +175,14 @@ StormFileSystem* StormEngine::getDataFilesystem() {
     return _GameDataFilesystem;
 }
 
+SSceneManager* StormEngine::getSceneManager() {
+    return _SceneManager;
+}
+
+StormScene* StormEngine::getActiveScene() {
+    return _SceneManager->getActiveScene();
+}
+
 void StormEngine::mainTickingMethod(float deltaTime) {
     updateTick(deltaTime);
     renderTick();
@@ -199,18 +205,17 @@ void StormEngine::windowEventListener(StormWindowEventType event) {
 void StormEngine::renderTick() {
     _ComVideoDriver->begin();
     _ComVideoDriver->clear();
-
     _ComRenderer->startRendering();
 
-    testScene->render(_ComRenderer);
+    _SceneManager->render(_ComRenderer);
 
     _ComRenderer->endRendering();
     _Platform->windowSwapBuffers();
 }
 
 void StormEngine::updateTick(float deltaTime) {
-    testScene->tick(deltaTime);
-    
+    _SceneManager->tick(deltaTime);
+
     if (_Platform->getInputManager()->isKeyDown(S_KEY_ESCAPE)) {
         quit();
     }

@@ -1,5 +1,6 @@
 #pragma once
 #include "core/platforms/StormPlatform.h"
+#include "core/resources/StormFileSystem.h"
 #include "StormTextureManager.h"
 
 /* Singleton class responsible for initialization and deinitialization of all engine components */
@@ -12,14 +13,11 @@
 class StormVideoDriver;
 class StormRenderer;
 class StormShader;
-
-#include "scene/StormScene.h"
+class SSceneManager;
+class StormScene;
 
 class StormEngine {
 public:
-    /* Temporary scene for testing. Remove after scene manager implementation */
-    StormScene* testScene = nullptr;
-
     virtual ~StormEngine();
 
     /* Gets singleton instance */
@@ -49,7 +47,13 @@ public:
 
     /* Returns pointer to filesystem containing all game data */
     StormFileSystem* getDataFilesystem();
-    
+
+    /* Returns pointer to scene manager */
+    SSceneManager* getSceneManager();
+
+    /* Returns pointer to currently active scene, or nullptr if none */
+    StormScene* getActiveScene();
+
 private:
     StormEngine();
 
@@ -72,6 +76,9 @@ private:
 
     /* Default shader that will be use if none is set */
     StormShader* _DefaultShader;
+
+    /* Scene managment class */
+    SSceneManager* _SceneManager;
 
     /* Initialize all engine components (video/audio/etc...)
      * Returns < 0 on failure */

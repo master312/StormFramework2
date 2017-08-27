@@ -4,6 +4,7 @@
 #include "../../src/StormEngine.h"
 #include "../../src/scene/components/SSceneComPlane.h"
 #include "../../src/scene/components/SSceneComTransform.h"
+#include "../../src/scene/StormSceneObject.h"
 #include <QLayout>
 
 SWidgetComTransform::SWidgetComTransform(QWidget* parent /* = nullptr */) : SWidgetComponent(parent) {
