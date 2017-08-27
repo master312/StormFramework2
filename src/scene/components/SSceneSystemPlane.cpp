@@ -28,9 +28,9 @@ void SSceneSystemPlane::addComponent(SSceneComponent* component) {
 
 void SSceneSystemPlane::render(StormRenderer* renderer) {
     for (SSceneComPlane* component : _PlaneComponents) {
-       //if (component->isRenderDebug()) {
+        if (component->isRenderDebug()) {
             renderDebug(component, renderer);
-       //}
+        }
     }
 }
 
