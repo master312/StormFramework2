@@ -5,7 +5,7 @@
 #include "SSceneComTransform.h"
 
 SSceneSystemPlane::SSceneSystemPlane() {
-    _Type = S_SCENE_OBJECT_COM_SYS_PLANE;
+    _Type = S_SCENE_OBJECT_COM_PLANE;
 }
 
 SSceneSystemPlane::~SSceneSystemPlane() {

@@ -2,7 +2,7 @@
 #include "SSceneComTransform.h"
 
 SSceneSystemTransform::SSceneSystemTransform() {
-    _Type = S_SCENE_OBJECT_COM_SYS_TRANSFORM;
+    _Type = S_SCENE_OBJECT_COM_TRANSFORM;
 }
 
 SSceneSystemTransform::~SSceneSystemTransform() {

@@ -6,17 +6,6 @@
 /* Base class for all component systems.
  * TODO: Create system for checking for double component entrys in _Components. */
 
-typedef enum SSceneComponentSystemType {
-    /* Enum contains type of all components managing systems */
-    S_SCENE_OBJECT_COM_SYS_UNDEFINED = 0,
-
-    S_SCENE_OBJECT_COM_SYS_TRANSFORM,           // Transform component system
-    S_SCENE_OBJECT_COM_SYS_PLANE,               // Plane component system
-    S_SCENE_OBJECT_COM_SYS_STATIC_TEXTURE,      // Static texture component
-    S_SCENE_OBJECT_COM_SYS_SPRITE,              // Animated texture component
-    S_SCENE_OBJECT_COM_SYS_SPINE,               // Spine component
-};
-
 class StormRenderer;
 
 class SSceneComponentSystem {
@@ -32,10 +21,10 @@ public:
 
     virtual void addComponent(SSceneComponent* component);
 
-    SSceneComponentSystemType getType() const;
+    SSceneComponentType getType() const;
 
 protected:
-    SSceneComponentSystemType _Type;
+    SSceneComponentType _Type;
     
     std::vector<SSceneComponent*> _Components;
     

@@ -4,7 +4,7 @@
 #include "../StormSceneObject.h"
 
 SSceneSystemStaticTexture::SSceneSystemStaticTexture() {
-    _Type = S_SCENE_OBJECT_COM_SYS_STATIC_TEXTURE;
+    _Type = S_SCENE_OBJECT_COM_STATIC_TEXTURE;
 }
 
 SSceneSystemStaticTexture::~SSceneSystemStaticTexture() {

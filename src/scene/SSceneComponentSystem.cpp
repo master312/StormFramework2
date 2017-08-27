@@ -2,7 +2,7 @@
 #include "../core/graphics/StormRenderer.h"
 
 SSceneComponentSystem::SSceneComponentSystem() {
-    _Type = S_SCENE_OBJECT_COM_SYS_UNDEFINED;
+    _Type = S_SCENE_OBJECT_COM_UNDEFINED;
 }
 
 SSceneComponentSystem::~SSceneComponentSystem() {
@@ -24,7 +24,7 @@ void SSceneComponentSystem::addComponent(SSceneComponent* component) {
     _Components.push_back(component);
 }
 
-SSceneComponentSystemType SSceneComponentSystem::getType() const {
+SSceneComponentType SSceneComponentSystem::getType() const {
     return _Type;
 }
 
