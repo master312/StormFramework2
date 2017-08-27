@@ -8,10 +8,20 @@ SSceneComponentSystem::SSceneComponentSystem() {
 SSceneComponentSystem::~SSceneComponentSystem() {
 }
 
+void SSceneComponentSystem::initialize() {
+    for (SSceneComponent* component : _Components) {
+        component->initialize();
+    }
+}
+
 void SSceneComponentSystem::render(StormRenderer* renderer) {
 }
 
 void SSceneComponentSystem::tick(float deltaTime) {
+}
+
+void SSceneComponentSystem::addComponent(SSceneComponent* component) {
+    _Components.push_back(component);
 }
 
 SSceneComponentSystemType SSceneComponentSystem::getType() const {

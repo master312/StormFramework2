@@ -95,8 +95,8 @@ namespace StormScalarMath
         return v;
     }
 
-    inline void clampAngle(float* angle)
+    inline float clampAngle(float angle)
     {
-        *angle -= (float)((int)*angle / 360) * 360.0f;
+        return angle - (float)((int)angle / 360) * 360.0f;
     }
 }

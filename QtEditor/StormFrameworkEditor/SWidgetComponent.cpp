@@ -1,5 +1,5 @@
 #include "SWidgetComponent.h"
-#include "componentWidgets/SWidgetComDefault.h"
+#include "componentWidgets/SWidgetComTransform.h"
 #include "componentWidgets/SWidgetComPlane.h"
 #include "componentWidgets/SWidgetComStaticTexture.h"
 #include "../../src/scene/SSceneComponent.h"
@@ -92,7 +92,7 @@ SWidgetComponent* SWidgetComponent::newWidget(StormSceneObject* object, SSceneCo
         }
     } else {
         /* Component is not specified. Generate default widget */
-        widget = new SWidgetComDefault(parent);
+        widget = new SWidgetComTransform(parent);
     }
 
     if (!widget) {

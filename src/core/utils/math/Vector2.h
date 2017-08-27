@@ -28,8 +28,9 @@ public:
        return input;
     }
 
-    void set(T x_, T y_) {x = x_; y = y_;}
-    void setZero() {x = 0; y = 0;}
+    inline void set(T x_, T y_) {x = x_; y = y_;}
+    inline void set(VectorT2<T> vec) {x = vec.x; y = vec.y;}
+    inline void setZero() {x = 0; y = 0;}
     inline VectorT2<T> get() { return *this; }
 
     template <class R>

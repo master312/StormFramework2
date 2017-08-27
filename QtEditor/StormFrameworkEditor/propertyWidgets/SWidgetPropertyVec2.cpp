@@ -47,7 +47,7 @@ void SWidgetPropertyVec2::refresh() {
 }
 
 void SWidgetPropertyVec2::setVector(Vector2* vector) {
-    _VectorFloatSetter = std::bind(&Vector2::set, vector, std::placeholders::_1, std::placeholders::_2);
+    _VectorFloatSetter = std::bind(static_cast<void(Vector2::*)(float, float)>(&Vector2::set), vector, std::placeholders::_1, std::placeholders::_2);
     _VectorGetter = std::bind(&Vector2::get, vector);
 }
 

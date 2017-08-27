@@ -1,10 +1,12 @@
 #include "StormSceneObject.h"
+#include "components/SSceneComTransform.h"
 #include "../core/StormCommon.h"
 
 StormSceneObject::StormSceneObject(uint32_t id /* = 0 */) {
     _Id = id;
     _Name = "";
-    _Position.set(0.0f, 0.0f);
+    _Parent = nullptr;
+    _ComponentTransform = nullptr;
 }
 
 StormSceneObject::StormSceneObject(uint32_t id, const std::string& name) : 
@@ -13,17 +15,17 @@ StormSceneObject::StormSceneObject(uint32_t id, const std::string& name) :
 }
 
 StormSceneObject::~StormSceneObject() {
-    for (unsigned int i = 0; i < _Components.size(); i++) {
+    for (size_t i = 0; i < _Components.size(); i++) {
         delete _Components[i];
     }
     _Components.clear();
+    _Parent = nullptr;
+    _Children.clear();
 }
 
 void StormSceneObject::serializeXml(pugi::xml_node& node) {
     node.append_attribute("id").set_value(_Id);
     node.append_attribute("name").set_value(_Name.c_str());
-    node.append_attribute("position_x").set_value(_Position.x);
-    node.append_attribute("position_y").set_value(_Position.y);
 
     if (!_Components.size()) {
         /* Object dose not have any components */
@@ -41,8 +43,6 @@ void StormSceneObject::serializeXml(pugi::xml_node& node) {
 int StormSceneObject::deserializeXml(pugi::xml_node& node) {
     _Id = node.attribute("id").as_int(0);
     _Name = node.attribute("name").as_string("");
-    _Position.x = node.attribute("position_x").as_float(0.0f);
-    _Position.y = node.attribute("position_y").as_float(0.0f);
 
     /* Load components */
     for (pugi::xml_node comNode = node.first_child(); comNode; comNode = comNode.next_sibling()) {
@@ -71,24 +71,47 @@ std::string& StormSceneObject::getName() {
     return _Name;
 }
 
+void StormSceneObject::setParent(StormSceneObject* parent) {
+    if (_Parent == parent) {
+        LOG(DEBUG) << "ERROR: Setting same parent to object " << getId();
+        return;
+    }
+    if (_Parent) {
+        /* Object already have parent set */
+        clearParent();
+    }
+    
+    _Parent = parent;
+    
+    if (_Parent) {
+        /* NOTE: It might be usefull to check for doubles in @_Children, or not?... */
+        _Parent->_Children.push_back(this);
+    }
+    
+    notifyObservers(S_OBSERVER_EVENT_PARENT_CHANGED);
+}
+
+StormSceneObject* StormSceneObject::getParent() {
+    return _Parent;
+}
+
+std::vector<StormSceneObject*>& StormSceneObject::getChildren() {
+    return _Children;
+}
+
 void StormSceneObject::setName(const std::string& name) {
     _Name = name;
 }
 
-void StormSceneObject::setPosition(Vector2 position) {
-    _Position = position;
-}
-
-Vector2 StormSceneObject::getPosition() {
-    return _Position;
-}
-
-Vector2* StormSceneObject::getPositionPtr() {
-    return &_Position;
-}
-
 void StormSceneObject::addComponent(SSceneComponent* component) {
-    _Components.push_back(component);   
+    _Components.push_back(component);
+
+    if (component->getType() == S_SCENE_OBJECT_COM_TRANSFORM) {
+        if (_ComponentTransform) {
+            LOG(ERROR) << "Adding multiple transform components to same scene object";
+        }
+        _ComponentTransform = dynamic_cast<SSceneComTransform*>(component);
+    }
 }
 
 SSceneComponent* StormSceneObject::getComponent(SSceneComponentType type) {
@@ -102,4 +125,29 @@ SSceneComponent* StormSceneObject::getComponent(SSceneComponentType type) {
 
 std::vector<SSceneComponent*>& StormSceneObject::getComponents() {
     return _Components;
+}
+
+SSceneComTransform* StormSceneObject::getTransform() const {
+    if (!_ComponentTransform) {
+        LOG(ERROR) << "Tryed to get transfrom from scene object that dose not have transform component";
+        return nullptr;
+    }
+    return _ComponentTransform;
+}
+
+void StormSceneObject::clearParent() {
+    if (!_Parent) {
+        return;
+    }
+
+    std::vector<StormSceneObject*>& children = _Parent->_Children;
+    for (size_t i = 0; i < children.size(); i++) {
+        if (children[i] == this) {
+            children.erase(children.begin() + i);
+            _Parent = nullptr;
+            return;
+        }
+    }
+
+    _Parent = nullptr;
 }

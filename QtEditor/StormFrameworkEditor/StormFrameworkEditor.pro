@@ -69,7 +69,10 @@ SOURCES += \
     SceneObjectTreeWidgetItem.cpp \
     ../../src/scene/components/SSceneSystemPlane.cpp \
     propertyWidgets/SWidgetPropertyColor.cpp \
-    componentWidgets/SWidgetComDefault.cpp
+    componentWidgets/SWidgetComTransform.cpp \
+    ../../src/scene/components/SSceneSystemTransform.cpp \
+    ../../src/scene/components/SSceneComTransform.cpp \
+    propertyWidgets/SWidgetPropertyBoolean.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -126,7 +129,10 @@ HEADERS += \
     SceneObjectTreeWidgetItem.h \
     ../../src/scene/components/SSceneSystemPlane.h \
     propertyWidgets/SWidgetPropertyColor.h \
-    componentWidgets/SWidgetComDefault.h
+    componentWidgets/SWidgetComTransform.h \
+    ../../src/scene/components/SSceneSystemTransform.h \
+    ../../src/scene/components/SSceneComTransform.h \
+    propertyWidgets/SWidgetPropertyBoolean.h
 
 FORMS += \
         mainwindow.ui

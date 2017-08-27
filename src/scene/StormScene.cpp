@@ -1,10 +1,9 @@
 #include "StormScene.h"
 #include "StormSceneObject.h"
 
-#include "components/SSceneComPlane.h"
 #include "components/SSceneSystemPlane.h"
-#include "components/SSceneComStaticTexture.h"
 #include "components/SSceneSystemStaticTexture.h"
+#include "components/SSceneSystemTransform.h"
 
 #include "../StormEngine.h"
 #include "../core/graphics/StormRenderer.h"
@@ -18,6 +17,16 @@ StormScene::StormScene() {
 }
 
 StormScene::~StormScene() {
+    for (size_t i = 0; i < _Objects.size(); i++) {
+        delete _Objects[i];
+    }
+    _Objects.clear();
+
+    for (size_t i = 0; i < _ComponentSystems.size(); i++) {
+        delete _ComponentSystems[i];
+    }
+    _ComponentSystems.clear();
+    _ComponentSystemsByType.clear();
 }
 
 int StormScene::loadXml(spStormResourceFile xmlFile) {
@@ -31,15 +40,43 @@ int StormScene::loadXml(spStormResourceFile xmlFile) {
     pugi::xml_node sceneRootNode = doc.child("scene");
     _Name = sceneRootNode.attribute("name").as_string("");
 
+    /* Map used loading linked objects
+     * <objectId, parentId> */
+    std::map<uint32_t, uint32_t> hierarchy;
     for (pugi::xml_node objectNode = sceneRootNode.first_child(); objectNode; objectNode = objectNode.next_sibling()) {
         StormSceneObject* object = new StormSceneObject();
         if (object->deserializeXml(objectNode) < 0) {
             LOG(ERROR) << "Object XML deserialization error";
             continue;
         }
+        int parentId = objectNode.attribute("parent").as_int(-1);
+        if (parentId > 0) {
+            /* This object has parent set */
+            hierarchy[object->getId()] = (uint32_t) parentId;
+        }
 
         addObject(object);
     }
+
+    /* Assign parents objects */
+    for (auto& iter : hierarchy) {
+        if (iter.first == iter.second) {
+            LOG(ERROR) << "Error in scene XML file. Object " << iter.first << " have it self as parent.";
+            continue;
+        }
+        StormSceneObject* child = getObjectById(iter.first);
+        StormSceneObject* parent = getObjectById(iter.second);
+        if (!child) {
+            LOG(ERROR) << "Error in scene XML file. Object " << iter.first << " not found.";
+            continue;
+        }
+        if (!parent) {
+            LOG(ERROR) << "Error in scene XML file. Parent object " << iter.second << " not found.";
+            continue;
+        }
+        child->setParent(parent);
+    }
+
 
     LOG(INFO) << "Scene '" << _Name << "' loaded";
     return 1;
@@ -81,6 +118,10 @@ void StormScene::saveXml(std::string path /* = "" */) {
 }
 
 void StormScene::initialize() {
+    for (SSceneComponentSystem* componentSystem : _ComponentSystems) {
+        componentSystem->initialize();
+    }
+    LOG(INFO) << "Scene '" << _Name << "' component systems initialized";
 }
 
 void StormScene::setName(const std::string& name) {
@@ -114,19 +155,40 @@ std::vector<StormSceneObject*>& StormScene::getObjects() {
     return _Objects;
 }
 
+StormSceneObject* StormScene::getObjectById(uint32_t id) {
+    for (StormSceneObject* object : _Objects) {
+        if (object->getId() == id) {
+            return object;
+        }
+    }
+    return nullptr;
+}
+
 void StormScene::render(StormRenderer* renderer) {
     for (unsigned int i = 0; i < _ComponentSystems.size(); i++) {
         _ComponentSystems[i]->render(renderer);
     }
 }
-
+#include "components/SSceneComTransform.h"
 void StormScene::tick(float deltaTime) {
+    SSceneComTransform* com = _Objects[0]->getTransform();
+    SSceneComTransform* com2 = _Objects[1]->getTransform();
+    if (com) {
+        com->setAngle(com->getAngle() + 0.5f);
+    }
+    if (com2) {
+        com2->setAngle(com2->getAngle() + 1.5f);
+    }
     for (unsigned int i = 0; i < _ComponentSystems.size(); i++) {
         _ComponentSystems[i]->tick(deltaTime);
     }
 }
 
 void StormScene::initializeDefaultSystems() {
+    SSceneSystemTransform* sysTransform = new SSceneSystemTransform();
+    _ComponentSystems.push_back(sysTransform);
+    _ComponentSystemsByType[S_SCENE_OBJECT_COM_TRANSFORM] = sysTransform;
+
     SSceneSystemStaticTexture* sysTexture = new SSceneSystemStaticTexture();
     _ComponentSystems.push_back(sysTexture);
     _ComponentSystemsByType[S_SCENE_OBJECT_COM_STATIC_TEXTURE] = sysTexture;

@@ -14,6 +14,7 @@ void SSceneSystemStaticTexture::addComponent(SSceneComponent* component) {
     if (!validateComponent(component, S_SCENE_OBJECT_COM_STATIC_TEXTURE)) {
         return;
     }
+    SSceneComponentSystem::addComponent(component);
 
     SSceneComStaticTexture* com = dynamic_cast<SSceneComStaticTexture*>(component);
     SSceneComPlane* planeCom = dynamic_cast<SSceneComPlane*>(com->getOwner()->getComponent(S_SCENE_OBJECT_COM_PLANE));
@@ -23,11 +24,11 @@ void SSceneSystemStaticTexture::addComponent(SSceneComponent* component) {
     }
     com->setPlaneComponent(planeCom);
 
-    _Components.push_back(com);
+    _TextureComponents.push_back(com);
 }
 
 void SSceneSystemStaticTexture::render(StormRenderer* renderer) {
-    for (size_t i = 0; i < _Components.size(); i++) {
-        _Components[i]->render(renderer);
+    for (size_t i = 0; i < _TextureComponents.size(); i++) {
+        _TextureComponents[i]->render(renderer);
     }
 }

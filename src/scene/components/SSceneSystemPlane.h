@@ -16,8 +16,8 @@ public:
     virtual void render(StormRenderer* renderer);
 
 private:
-    /* Vector containing all components managed by this system */
-    std::vector<SSceneComPlane*> _Components;
+    /* Vector containing all components. Used for faster component access. */
+    std::vector<SSceneComPlane*> _PlaneComponents;
 
     void renderDebug(SSceneComPlane* component, StormRenderer* renderer);
 };

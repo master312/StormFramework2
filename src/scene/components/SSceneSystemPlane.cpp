@@ -2,34 +2,35 @@
 #include "SSceneComPlane.h"
 #include "../StormSceneObject.h"
 #include "../../core/graphics/StormRenderer.h"
+#include "SSceneComTransform.h"
 
 SSceneSystemPlane::SSceneSystemPlane() {
     _Type = S_SCENE_OBJECT_COM_SYS_PLANE;
 }
 
 SSceneSystemPlane::~SSceneSystemPlane() {
-
 }
 
 void SSceneSystemPlane::addComponent(SSceneComponent* component) {
     if (!validateComponent(component, S_SCENE_OBJECT_COM_PLANE)) {
         return;
     }
-    
+    SSceneComponentSystem::addComponent(component);
+
     SSceneComPlane* plane = dynamic_cast<SSceneComPlane*>(component);
     if (!plane) {
         LOG(ERROR) << "Could not cast component to SSceneComPlane";
         return;
     }
 
-    _Components.push_back(plane);
+    _PlaneComponents.push_back(plane);
 }
 
 void SSceneSystemPlane::render(StormRenderer* renderer) {
-    for (SSceneComPlane* component : _Components) {
-        if (component->isRenderDebug()) {
+    for (SSceneComPlane* component : _PlaneComponents) {
+       //if (component->isRenderDebug()) {
             renderDebug(component, renderer);
-        }
+       //}
     }
 }
 
@@ -46,10 +47,15 @@ void SSceneSystemPlane::renderDebug(SSceneComPlane* component, StormRenderer* re
     renderer->setLineWidth(1);
     renderer->draw();
 
-    /* Draw rect pivot */
+    
+    /* Draw rect center */
     StormVertex vertices[4];
+    SSceneComTransform* comTransform = component->getOwner()->getTransform();
+    if (!comTransform) {
+        return;
+    }
     for (int i = 0; i < 4; i++) {
-        vertices[i].position = component->getOwner()->getPosition();
+        vertices[i].position = comTransform->getPositionAbs();
     }
     vertices[0].position.x -= 4;
     vertices[0].position.y -= 4;

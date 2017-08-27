@@ -1,31 +1,41 @@
 <?xml version="1.0"?>
 <scene name="the_scene">
-	<object id="1" name="TestNameOne" position_x="346.000031" position_y="448.000031">
-		<component type="1" center_x="-5" center_y="55.0000038" size_x="100" size_y="100" scale_x="1.60000002" scale_y="2.10000014" angle="-0.994837701" />
-		<component type="2" texture="icon.png" color_r="255" color_g="253" color_b="255" color_a="255" />
+	<object id="1" name="TestNameOne">
+		<component type="1" pos_x="546.000031" pos_y="348.000031" scale_x="1.0" scale_y="1.0" angle="12.34" />
+		<component type="2" size_x="100" size_y="100" />
+		<component type="3" texture="icon.png" color_mult_r="255" color_mult_g="253" color_mult_b="255" color_mult_a="255" />
 	</object>
-	<object id="2" name="" position_x="360.000031" position_y="237">
-		<component type="1" center_x="0" center_y="0" size_x="100" size_y="100" scale_x="1.35000002" scale_y="1.35000002" angle="0" />
-		<component type="2" texture="icon.png" color_r="255" color_g="255" color_b="255" color_a="255" />
+	<object id="2" parent="1">
+		<component type="1" pos_x="113" pos_y="61" scale_x="1.3" scale_y="1.0" angle="12.34" />
+		<component type="2" size_x="120" size_y="100" />
+		<component type="3" texture="icon.png" color_mult_r="195" color_mult_g="183" color_mult_b="255" color_mult_a="225" />
 	</object>
-	<object id="3" name="" position_x="900.000061" position_y="608">
-		<component type="1" center_x="20" center_y="-10" size_x="100" size_y="100" scale_x="2.70000005" scale_y="2.70000005" angle="1.20427716" />
-		<component type="2" texture="icon.png" color_r="93" color_g="255" color_b="87" color_a="242" />
+	<object id="3" parent="2">
+		<component type="1" pos_x="213" pos_y="79" scale_x="1.3" scale_y="1.0" angle="12.34" />
+		<component type="2" size_x="65" size_y="65" />
+		<component type="3" texture="icon.png" color_mult_r="245" color_mult_g="163" color_mult_b="255" color_mult_a="225" />
 	</object>
+	<object id="4" parent="1">
+		<component type="1" pos_x="413" pos_y="79" scale_x="1.3" scale_y="1.0" angle="123" />
+		<component type="2" size_x="75" size_y="75" />
+		<component type="3" texture="icon.png" color_mult_r="165" color_mult_g="213" color_mult_b="105" color_mult_a="225" />
+	</object>
+
+	 <!--
 	<object id="4" name="" position_x="297" position_y="646">
 		<component type="1" center_x="0" center_y="0" size_x="100" size_y="100" scale_x="1" scale_y="1" angle="0.994837701" />
-		<component type="2" color_r="12" color_g="255" color_b="0" color_a="207" />
+		<component type="2" color_mult_r="12" color_mult_g="255" color_mult_b="0" color_mult_a="207" />
 	</object>
 	<object id="5" name="" position_x="991.000061" position_y="309">
 		<component type="1" center_x="0" center_y="0" size_x="100" size_y="100" scale_x="1" scale_y="1" angle="0" />
-		<component type="2" texture="icon.png" color_r="255" color_g="225" color_b="0" color_a="255" />
+		<component type="2" texture="icon.png" color_mult_r="255" color_mult_g="225" color_mult_b="0" color_mult_a="255" />
 	</object>
 	<object id="6" name="" position_x="706.000061" position_y="309">
 		<component type="1" center_x="-95.0000076" center_y="0" size_x="100" size_y="100" scale_x="1" scale_y="1.79999995" angle="-1.74532926" />
-		<component type="2" texture="icon.png" color_r="255" color_g="255" color_b="255" color_a="255" />
+		<component type="2" texture="icon.png" color_mult_r="255" color_mult_g="255" color_mult_b="255" color_mult_a="255" />
 	</object>
 	<object id="7" name="" position_x="111.000008" position_y="330.000031">
 		<component type="1" center_x="0" center_y="0" size_x="100" size_y="100" scale_x="1.55000007" scale_y="2.75000024" angle="0.0872664675" />
-		<component type="2" texture="icon.png" color_r="119" color_g="2" color_b="143" color_a="174" />
-	</object>
+		<component type="2" texture="icon.png" color_mult_r="119" color_mult_g="2" color_mult_b="143" color_mult_a="174" />
+	</object> -->
 </scene>

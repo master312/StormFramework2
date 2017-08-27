@@ -29,16 +29,31 @@ void SceneObjectsTreeWidget::populateSceneElements(StormScene* scene) {
         foreach(QWidget* widget, widgets) {
             delete widget;
         }
+        _TreeItemWidgets.clear();
     }
     _Scene = scene;
-
 
     /* Find components widget */
     _ObjectComponentsWidget = StormQtHelper::findChildByName(parentWidget(), "objectComponents");
 
-
     for (StormSceneObject* object : _Scene->getObjects()) {
-        createSceneObjectListItem(object);
+        _TreeItemWidgets.push_back(createSceneObjectListItem(object));
+    }
+
+    /* Create children hierarchy */
+    /* TODO: Optimize */
+    for (SceneObjectTreeWidgetItem* widget : _TreeItemWidgets) {
+        StormSceneObject* parent = widget->getSceneObject()->getParent();
+        if (!parent) {
+            continue;
+        }
+
+        for (SceneObjectTreeWidgetItem* parentWidget : _TreeItemWidgets) {
+            if (parentWidget->getSceneObject() == parent) {
+                parentWidget->addChild(widget);
+                break;
+            }
+        }
     }
 }
 
@@ -67,8 +82,8 @@ void SceneObjectsTreeWidget::selectionChanged(const QItemSelection& selected, co
     generateComponentWidgets(selectedItem->getSceneObject());
 }
 
-void SceneObjectsTreeWidget::createSceneObjectListItem(StormSceneObject* object) {
-    SceneObjectTreeWidgetItem* objectItem = new SceneObjectTreeWidgetItem(this);
+SceneObjectTreeWidgetItem* SceneObjectsTreeWidget::createSceneObjectListItem(StormSceneObject* object) {
+    SceneObjectTreeWidgetItem* objectItem = new SceneObjectTreeWidgetItem(object->getParent() ? nullptr : this);
     objectItem->setSceneObject(object);
     if (object->getName().size() > 0) {
         /* Object has name specefied */
@@ -78,6 +93,8 @@ void SceneObjectsTreeWidget::createSceneObjectListItem(StormSceneObject* object)
         objectItem->setText(0, "Object ID: " + QString::number(object->getId()));
     }
     objectItem->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled);
+
+    return objectItem;
 }
 
 void SceneObjectsTreeWidget::generateComponentWidgets(StormSceneObject* object) {
@@ -116,4 +133,16 @@ void SceneObjectsTreeWidget::dropEvent(QDropEvent* event) {
     }
 
     QTreeWidget::dropEvent(event);
+    for(int i = 0; i < _TreeItemWidgets.size(); i++) {
+        SceneObjectTreeWidgetItem* widget = dynamic_cast<SceneObjectTreeWidgetItem*>(_TreeItemWidgets[i]);
+        SceneObjectTreeWidgetItem* parent = dynamic_cast<SceneObjectTreeWidgetItem*>(widget->parent());
+        if (!parent) {
+            widget->getSceneObject()->setParent(nullptr);
+            continue;
+        }
+        if (widget->getSceneObject()->getParent() != parent->getSceneObject()) {
+            /* Object parent not matching parent in the list */
+            widget->getSceneObject()->setParent(parent->getSceneObject());
+        }
+    }
 }

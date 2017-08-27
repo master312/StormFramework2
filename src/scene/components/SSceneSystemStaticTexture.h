@@ -16,5 +16,5 @@ public:
 
 private:
     /* Vector containing all components managed by this system */
-    std::vector<SSceneComStaticTexture*> _Components;
+    std::vector<SSceneComStaticTexture*> _TextureComponents;
 };

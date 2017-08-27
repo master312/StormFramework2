@@ -21,7 +21,7 @@ public:
      * in file named @_Name .xml */
     void saveXml(std::string path = "");
 
-    /* Initialize all scene object components.
+    /* Initialize all scene object component systems.
      * This method should be called once after scene has been loaded. */
     void initialize();
 
@@ -41,6 +41,9 @@ public:
 
     /* Returns vector of all scene objects */
     std::vector<StormSceneObject*>& getObjects();
+
+    /* Returns pointer to object with ID */
+    StormSceneObject* getObjectById(uint32_t id);
 
     /* Renders scene */
     void render(StormRenderer* renderer);
