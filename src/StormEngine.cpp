@@ -6,7 +6,6 @@
 const std::string StormEngine::DEFAULT_SHADER_NAME = "color";
 
 StormEngine::StormEngine() {
-    _IsInitialized = false;
     _ModPlatform = nullptr;
     _ModVideoDriver = nullptr;
     _ModRenderer = nullptr;
@@ -73,7 +72,6 @@ void StormEngine::initialize(StormPlatformType platformType) {
     _ModPlatform->setWindowEventListener(std::bind(&StormEngine::windowEventListener, this, std::placeholders::_1));
 
     LOG(INFO) << "Engine components initialized successfully";
-    _IsInitialized = true;
 }
 
 void StormEngine::deinitialize() {

@@ -45,8 +45,6 @@ private:
 
     StormEngine();
 
-    bool _IsInitialized;
-
     /* Struct that holds informations about game window,
      * window size, type, title etc...*/
     StormWindowSettings _WindowInfo;
