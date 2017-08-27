@@ -29,6 +29,20 @@ void SSceneSystemStaticTexture::addComponent(SSceneComponent* component) {
 
 void SSceneSystemStaticTexture::render(StormRenderer* renderer) {
     for (size_t i = 0; i < _TextureComponents.size(); i++) {
-        _TextureComponents[i]->render(renderer);
+        renderTexture(_TextureComponents[i], renderer);
     }
+}
+
+void SSceneSystemStaticTexture::renderTexture(SSceneComStaticTexture* texture, 
+                                                StormRenderer* renderer) {
+    renderer->begin(S_RENDER_TRIANGLE_FAN);
+    renderer->bindTexture(texture->getTexture().get());
+    renderer->setColorMultiply(texture->getColorMultiply());
+    renderer->setColorAdd(texture->getColorAdd());
+    renderer->bindVertexData(texture->getOwner()->getPlane()->getVertices(), 4);
+    
+    uint32_t indices[] = {0, 1, 2, 3};
+    renderer->bindIndexData(indices, 4);
+    
+    renderer->draw();
 }

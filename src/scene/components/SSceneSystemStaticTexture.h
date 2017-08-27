@@ -17,4 +17,7 @@ public:
 private:
     /* Vector containing all components managed by this system */
     std::vector<SSceneComStaticTexture*> _TextureComponents;
+
+    /* Renders SSceneComStaticTexture object to renderer */
+    void renderTexture(SSceneComStaticTexture* texture, StormRenderer* renderer);
 };

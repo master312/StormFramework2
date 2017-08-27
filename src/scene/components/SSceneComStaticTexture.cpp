@@ -96,16 +96,3 @@ Color SSceneComStaticTexture::getColorAdd() {
 Color* SSceneComStaticTexture::getColorAddPtr() {
     return &_ColorAdd;
 }
-
-void SSceneComStaticTexture::render(StormRenderer* renderer) {
-    renderer->begin(S_RENDER_TRIANGLE_FAN);
-    renderer->bindTexture(_Texture.get());
-    renderer->setColorMultiply(_ColorMultiply);
-    renderer->setColorAdd(_ColorAdd);
-    renderer->bindVertexData(_PlaneComponent->getVertices(), 4);
-    
-    uint32_t indices[] = {0, 1, 2, 3};
-    renderer->bindIndexData(indices, 4);
-    
-    renderer->draw();
-}

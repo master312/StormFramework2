@@ -34,8 +34,6 @@ public:
     /* Method used by editor. */
     Color* getColorAddPtr();
 
-    void render(StormRenderer* renderer);
-
 private:
     /* Reference to plane component */
     SSceneComPlane* _PlaneComponent;
