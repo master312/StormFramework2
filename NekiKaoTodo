@@ -61,3 +61,7 @@ R -- !PORTF! -- R
 - Create scene object component dependency system (for example, texture component is depended on plane component)
 
 g++ -std=c++11 main.cpp src/*.cpp src/resources/*.cpp libs/easyloggingpp/*.cc src/platforms/*.cpp src/graphics/*.cpp src/utils/*.cpp -lSDL2 -lSDL2_image -lGLEW -lGL
+
+Build SOL2   
+sudo apt-get install liblua5.1-0-dev
+master312@Cirkular-Neon:~/Projects/sol2-develop$ g++ -std=c++14 examples/basic.cpp -I . -I"/usr/include/lua5.1/" -I"/usr/lib/" -llua5.1

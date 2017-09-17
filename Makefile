@@ -1,6 +1,6 @@
 CC = g++
-CFLAGS  = -g -Wall -std=c++11 -DSTORM_BUILD_PLATFORM_SDL2 #-pg
-LIBS = -w -lSDL2 -lSDL2_image -lGLEW -lGL -lGLU 
+CFLAGS  = -g -Wall -std=c++14 -DSTORM_BUILD_PLATFORM_SDL2 -D_DEBUG -I"/usr/include/lua5.1/" -I"/usr/lib/" -I"libs/sol2/" #-pg
+LIBS = -w -lSDL2 -lSDL2_image -lGLEW -lGL -lGLU -llua5.1
 OBJDIR = objects/
 EXNAME = a.out
 
@@ -61,6 +61,8 @@ $(OBJDIR)SSceneComponent.o: src/scene/SSceneComponent.cpp src/scene/SSceneCompon
 	$(CC) $(CFLAGS) -c src/scene/SSceneComponent.cpp $(LIBS) -o $(OBJDIR)SSceneComponent.o 
 $(OBJDIR)SSceneComponentSystem.o: src/scene/SSceneComponentSystem.cpp src/scene/SSceneComponentSystem.h
 	$(CC) $(CFLAGS) -c src/scene/SSceneComponentSystem.cpp $(LIBS) -o $(OBJDIR)SSceneComponentSystem.o 
+$(OBJDIR)SSceneSystemLuaScript.o: src/scene/components/SSceneSystemLuaScript.cpp src/scene/components/SSceneSystemLuaScript.h
+	$(CC) $(CFLAGS) -c src/scene/components/SSceneSystemLuaScript.cpp $(LIBS) -o $(OBJDIR)SSceneSystemLuaScript.o 
 
 # Components
 $(OBJDIR)SSceneComTransform.o: src/scene/components/SSceneComTransform.cpp src/scene/components/SSceneComTransform.h
@@ -69,6 +71,8 @@ $(OBJDIR)SSceneComPlane.o: src/scene/components/SSceneComPlane.cpp src/scene/com
 	$(CC) $(CFLAGS) -c src/scene/components/SSceneComPlane.cpp $(LIBS) -o $(OBJDIR)SSceneComPlane.o 
 $(OBJDIR)SSceneComStaticTexture.o: src/scene/components/SSceneComStaticTexture.cpp src/scene/components/SSceneComStaticTexture.h
 	$(CC) $(CFLAGS) -c src/scene/components/SSceneComStaticTexture.cpp $(LIBS) -o $(OBJDIR)SSceneComStaticTexture.o 
+$(OBJDIR)SSceneComLuaScript.o: src/scene/components/SSceneComLuaScript.cpp src/scene/components/SSceneComLuaScript.h
+	$(CC) $(CFLAGS) -c src/scene/components/SSceneComLuaScript.cpp $(LIBS) -o $(OBJDIR)SSceneComLuaScript.o 
 
 # Systems
 $(OBJDIR)SSceneSystemPlane.o: src/scene/components/SSceneSystemPlane.cpp src/scene/components/SSceneSystemPlane.h
@@ -78,5 +82,5 @@ $(OBJDIR)SSceneSystemStaticTexture.o: src/scene/components/SSceneSystemStaticTex
 $(OBJDIR)SSceneSystemTransform.o: src/scene/components/SSceneSystemTransform.cpp src/scene/components/SSceneSystemTransform.h
 	$(CC) $(CFLAGS) -c src/scene/components/SSceneSystemTransform.cpp $(LIBS) -o $(OBJDIR)SSceneSystemTransform.o 
 
-debug: $(OBJDIR)easylogging++.o $(OBJDIR)pugixml.o $(OBJDIR)imgui.o $(OBJDIR)imgui_draw.o  $(OBJDIR)imgui_demo.o $(OBJDIR)SEngineModuleFactory.o $(OBJDIR)StormEngine.o $(OBJDIR)StormPlatform.o $(OBJDIR)StormPlatformSDL2.o $(OBJDIR)StormInputManager.o $(OBJDIR)StormMiscTools.o $(OBJDIR)Plane.o $(OBJDIR)StormShader.o $(OBJDIR)StormTexture.o $(OBJDIR)StormVideoDriver.o $(OBJDIR)StormRenderer.o $(OBJDIR)StormResourceFile.o $(OBJDIR)StormTextureManager.o $(OBJDIR)StormFileSystem.o $(OBJDIR)StormTextureManager.o $(OBJDIR)StormSceneObject.o $(OBJDIR)SSceneComTransform.o $(OBJDIR)StormScene.o $(OBJDIR)SSceneManager.o $(OBJDIR)SSceneComponent.o $(OBJDIR)SSceneComponentSystem.o $(OBJDIR)SSceneComPlane.o $(OBJDIR)SSceneComStaticTexture.o $(OBJDIR)SSceneSystemPlane.o $(OBJDIR)SSceneSystemStaticTexture.o $(OBJDIR)SSceneSystemTransform.o src/core/utils/SObservable.h
-	$(CC) $(CFLAGS) $(OBJDIR)easylogging++.o $(OBJDIR)pugixml.o $(OBJDIR)imgui.o $(OBJDIR)imgui_draw.o $(OBJDIR)imgui_demo.o $(OBJDIR)SEngineModuleFactory.o $(OBJDIR)StormEngine.o $(OBJDIR)StormPlatform.o $(OBJDIR)StormPlatformSDL2.o $(OBJDIR)StormInputManager.o $(OBJDIR)StormMiscTools.o $(OBJDIR)Plane.o $(OBJDIR)StormShader.o $(OBJDIR)StormTexture.o $(OBJDIR)StormVideoDriver.o $(OBJDIR)StormRenderer.o $(OBJDIR)StormResourceFile.o $(OBJDIR)StormFileSystem.o $(OBJDIR)StormTextureManager.o $(OBJDIR)StormSceneObject.o $(OBJDIR)SSceneComTransform.o $(OBJDIR)StormScene.o $(OBJDIR)SSceneManager.o $(OBJDIR)SSceneComponent.o $(OBJDIR)SSceneComponentSystem.o $(OBJDIR)SSceneComPlane.o $(OBJDIR)SSceneComStaticTexture.o $(OBJDIR)SSceneSystemPlane.o $(OBJDIR)SSceneSystemStaticTexture.o $(OBJDIR)SSceneSystemTransform.o main.cpp  -o "$(EXNAME)" $(LIBS)
+debug: $(OBJDIR)easylogging++.o $(OBJDIR)pugixml.o $(OBJDIR)imgui.o $(OBJDIR)imgui_draw.o $(OBJDIR)SSceneSystemLuaScript.o $(OBJDIR)SSceneComLuaScript.o $(OBJDIR)imgui_demo.o $(OBJDIR)SEngineModuleFactory.o $(OBJDIR)StormEngine.o $(OBJDIR)StormPlatform.o $(OBJDIR)StormPlatformSDL2.o $(OBJDIR)StormInputManager.o $(OBJDIR)StormMiscTools.o $(OBJDIR)Plane.o $(OBJDIR)StormShader.o $(OBJDIR)StormTexture.o $(OBJDIR)StormVideoDriver.o $(OBJDIR)StormRenderer.o $(OBJDIR)StormResourceFile.o $(OBJDIR)StormTextureManager.o $(OBJDIR)StormFileSystem.o $(OBJDIR)StormTextureManager.o $(OBJDIR)StormSceneObject.o $(OBJDIR)SSceneComTransform.o $(OBJDIR)StormScene.o $(OBJDIR)SSceneManager.o $(OBJDIR)SSceneComponent.o $(OBJDIR)SSceneComponentSystem.o $(OBJDIR)SSceneComPlane.o $(OBJDIR)SSceneComStaticTexture.o $(OBJDIR)SSceneSystemPlane.o $(OBJDIR)SSceneSystemStaticTexture.o $(OBJDIR)SSceneSystemTransform.o src/core/utils/SObservable.h
+	$(CC) $(CFLAGS) $(OBJDIR)easylogging++.o $(OBJDIR)pugixml.o $(OBJDIR)imgui.o $(OBJDIR)SSceneSystemLuaScript.o $(OBJDIR)SSceneComLuaScript.o $(OBJDIR)imgui_draw.o $(OBJDIR)imgui_demo.o $(OBJDIR)SEngineModuleFactory.o $(OBJDIR)StormEngine.o $(OBJDIR)StormPlatform.o $(OBJDIR)StormPlatformSDL2.o $(OBJDIR)StormInputManager.o $(OBJDIR)StormMiscTools.o $(OBJDIR)Plane.o $(OBJDIR)StormShader.o $(OBJDIR)StormTexture.o $(OBJDIR)StormVideoDriver.o $(OBJDIR)StormRenderer.o $(OBJDIR)StormResourceFile.o $(OBJDIR)StormFileSystem.o $(OBJDIR)StormTextureManager.o $(OBJDIR)StormSceneObject.o $(OBJDIR)SSceneComTransform.o $(OBJDIR)StormScene.o $(OBJDIR)SSceneManager.o $(OBJDIR)SSceneComponent.o $(OBJDIR)SSceneComponentSystem.o $(OBJDIR)SSceneComPlane.o $(OBJDIR)SSceneComStaticTexture.o $(OBJDIR)SSceneSystemPlane.o $(OBJDIR)SSceneSystemStaticTexture.o $(OBJDIR)SSceneSystemTransform.o main.cpp  -o "$(EXNAME)" $(LIBS)

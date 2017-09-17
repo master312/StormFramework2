@@ -72,7 +72,7 @@ private:
     /* SSceneManager module, used for loading/unloading/switching scenes. */
     SSceneManager* _ModSceneManager;
 
-    /* Map of all elgine modules maped by their type id */
+    /* Map of all engine modules maped by their type id */
     std::map<std::type_index, void*> _ModulesByType;
 
     /***** END OF ENGINE MODULES *****/

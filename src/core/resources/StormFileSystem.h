@@ -44,12 +44,14 @@ public:
      * WARNING: Use @forceUnload only if you know what are you doing. This can cause memory leaks. */
     void freeResource(spStormResourceFile resource, bool forceUnload = false);
 
-    /* Returns string containing path to root of this filesystem */
+    /* Returns string containing path to root of this filesystem
+     * with '/' char at the end */
     std::string getRootPath() const;
 
 private:
     /* Root path of filesystem. (E.X: c:/game/data/ - with'/' on the end)*/
     std::string _RootPath;
+
     /* Map of all currently loaded resource files, indexed by their hashed filename. */
     std::map<int, spStormResourceFile> _Resources;
 

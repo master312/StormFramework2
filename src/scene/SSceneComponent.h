@@ -39,6 +39,7 @@ static const std::string SSceneComponentTypeString[S_SCENE_OBJECT_COM_TYPES_COUN
     "Static texture",
     "Sprite",
     "Spine",
+    "Script",
 };
 
 class StormSceneObject;

@@ -4,6 +4,7 @@
 #include "components/SSceneSystemPlane.h"
 #include "components/SSceneSystemStaticTexture.h"
 #include "components/SSceneSystemTransform.h"
+#include "components/SSceneSystemLuaScript.h"
 
 #include "../StormEngine.h"
 #include "../core/graphics/StormRenderer.h"
@@ -214,4 +215,8 @@ void StormScene::initializeDefaultSystems() {
     SSceneSystemPlane* sysPlane = new SSceneSystemPlane();
     _ComponentSystems.push_back(sysPlane);
     _ComponentSystemsByType[S_SCENE_OBJECT_COM_PLANE] = sysPlane;
+
+    SSceneSystemLuaScript* sysLua = new SSceneSystemLuaScript();
+    _ComponentSystems.push_back(sysLua);
+    _ComponentSystemsByType[S_SCENE_OBJECT_COM_SCRIPT] = sysLua;
 }
