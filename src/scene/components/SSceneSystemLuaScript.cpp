@@ -1,5 +1,7 @@
 #include "SSceneSystemLuaScript.h" 
 #include "SSceneComLuaScript.h"
+#include "../../core/utils/math/Vector2.h"
+
 /*
     Component load script and holds pointer to table
 
@@ -19,16 +21,25 @@ void some_function(std::string a) {
 
 void SSceneSystemLuaScript::initialize() {
     //SSceneComponentSystem::initialize();
-    _LuaState.open_libraries(sol::lib::base);
+    _LuaState.open_libraries(sol::lib::base, sol::lib::os);
 
     /* Load lua debug methods */
     _LuaState.create_table("debug");
     _LuaState["debug"]["log"] = some_function;
 
+    _LuaState.new_usertype<Vector2>("Vector2", 
+        "x", &Vector2::x,
+        "y", &Vector2::y
+    );
+
     _LuaState.script(R"(
         Handles = {}
         
-        function createHandle(object)
+        function Vector2:_str()
+            return "'X:" .. self.x .. " Y:" .. self.y .. "'"
+        end
+
+        function createObjectHandle(object)
             local handle = {
                 obj = object,
                 isValid = true
@@ -36,13 +47,21 @@ void SSceneSystemLuaScript::initialize() {
             Handles[object.id] = handle
             return handle
         end
+
+        function tickObjects(deltaTime) 
+            for key,value in pairs(Handles) do
+                local object = Handles[key]
+                if object.isValid and object.obj.onUpdate ~= nil then
+                    object.obj.onUpdate(deltaTime)
+                end
+            end
+        end
     )");
     
 
-    int internalCnt = 0;
+
     for (SSceneComLuaScript* component : _ScriptComponents) {
-        internalCnt++;
-        if (component->initializeLua(_LuaState, internalCnt) < 0) {
+        if (component->initializeLua(_LuaState) < 0) {
             /* initializeLua() will log error */
             continue;
         }
@@ -53,6 +72,10 @@ void SSceneSystemLuaScript::initialize() {
     for (SSceneComLuaScript* component : _ScriptComponents) {
         onScriptStart(component);
     }
+}
+
+void SSceneSystemLuaScript::tick(float deltaTime) {
+    _LuaState["tickObjects"](deltaTime);
 }
 
 void SSceneSystemLuaScript::addComponent(SSceneComponent* component) {

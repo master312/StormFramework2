@@ -41,6 +41,10 @@ StormSceneObject* SSceneComponent::getOwner() {
     return _Owner;
 }
 
+int SSceneComponent::bindToLua(sol::table& object) {
+    return 0;
+}
+
 /* Static component producer method */
 SSceneComponent* SSceneComponent::newComponent(SSceneComponentType type, StormSceneObject* owner) {
     SSceneComponent* component = nullptr;

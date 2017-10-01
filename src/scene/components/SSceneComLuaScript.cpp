@@ -30,7 +30,7 @@ int SSceneComLuaScript::deserializeXml(pugi::xml_node& node) {
     return 1;
 }
 
-int SSceneComLuaScript::initializeLua(sol::state& luaState, int internalIndex) {
+int SSceneComLuaScript::initializeLua(sol::state& luaState) {
     SSceneComponent::initialize();
     
     if (_Filename.size() <= 2) {
@@ -51,24 +51,32 @@ int SSceneComLuaScript::initializeLua(sol::state& luaState, int internalIndex) {
     }
 
     /* Creates temporary table 'this' */
-    luaState.create_table("this");
-    luaState.script(scriptFile->getBuffer());
-    luaState["this"]["id"] = _Owner->getId();
-    
-    /*
-        TODO: Interface all components with lua here
-    */
-
-    /* Adds object's table to lua handler */
-    sol::function fun = luaState["createHandle"];
-    if (!fun.valid()) {
-        LOG(ERROR) << "LUA createHandle function not found.";
+    sol::table entityObject = luaState.script(scriptFile->getBuffer());
+    if (!entityObject.valid()) {
+        LOG(ERROR) << "Invalid entity lua table. ID: " << _Owner->getId();
         return -4;
     }
-    _LuaHandler = fun(luaState["this"]);
+    entityObject["id"] = _Owner->getId();
+    
+    /* Adds object's table to lua handler */
+    sol::function fun = luaState["createObjectHandle"];
+    if (!fun.valid()) {
+        LOG(ERROR) << "LUA createHandle function not found.";
+        return -5;
+    }
+    _LuaHandler = fun(entityObject);
 
-    /* Clears temporary 'this' object */
-    luaState["this"] = nullptr;
+    /* Bind all components to lua object */
+    for (SSceneComponent* component : _Owner->getComponents()) {
+        if (component == this) {
+            continue;
+        }
+        if (component->bindToLua(entityObject) < 0) {
+            LOG(ERROR) << "Lua failed to bind component of type '" << 
+                            SSceneComponentTypeString[component->getType()] <<
+                            "' Object ID " << _Owner->getId();
+        }
+    }
 
     LOG(DEBUG) << "Lua script: '" << scriptFile->getFilename() << "' loaded";
 

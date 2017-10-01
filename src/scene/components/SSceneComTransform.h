@@ -58,6 +58,11 @@ public:
     /* Observer method. Called when parent's transform has been changed */
     void observeParentTransformChanged(void* data);
 
+    /* Binds component related attributes to lua object
+     * Returns < 0 on error
+     * Called from LuaScript component */
+    virtual int bindToLua(sol::table& object);
+
 private:
     /* Pointer to parent object's transform component */
     SSceneComTransform* _ParentTransform;

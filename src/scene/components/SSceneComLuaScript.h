@@ -19,7 +19,7 @@ public:
     /* REMAINDER: Use this instend of SSceneComponent::initialize() !!!""
      * Loads script file, bind all components to lua and 
      * add script object to lua handler. */
-    virtual int initializeLua(sol::state& luaState, int internalIndex);
+    virtual int initializeLua(sol::state& luaState);
 
     /* Returns lua handler for this script */
     sol::table& getLuaHandle();
