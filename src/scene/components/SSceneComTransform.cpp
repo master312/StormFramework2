@@ -91,6 +91,24 @@ void SSceneComTransform::setPosition(Vector2 position) {
     _IsChanged = true;
 }
 
+void SSceneComTransform::setX(float x) {
+    _Position.x = x;
+    _IsChanged = true;
+}
+
+void SSceneComTransform::setY(float y) {
+    _Position.y = y;
+    _IsChanged = true;
+}
+
+float SSceneComTransform::getX() {
+    return _Position.x;
+}
+
+float SSceneComTransform::getY() {
+    return _Position.y;
+}
+
 Vector2 SSceneComTransform::getPositionAbs() {
     return _PositionAbs;
 }
@@ -135,7 +153,10 @@ void SSceneComTransform::observeParentTransformChanged(void* data) {
 int SSceneComTransform::bindToLua(sol::table& object) {
     object.new_usertype<SSceneComTransform>("comTransform",
         "posAbs", sol::property(&SSceneComTransform::getPositionAbs),
-        "pos", sol::property(&SSceneComTransform::getPosition, &SSceneComTransform::setPosition),
+        "getPosition", &SSceneComTransform::getPosition,
+        "setPosition", &SSceneComTransform::setPosition,
+        "x", sol::property(&SSceneComTransform::getX, &SSceneComTransform::setX),
+        "y", sol::property(&SSceneComTransform::getY, &SSceneComTransform::setY),
         "angle", sol::property(&SSceneComTransform::getAngle, &SSceneComTransform::setAngle)
     );
     

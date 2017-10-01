@@ -8,7 +8,7 @@ end
 
 -- Called after all scripts have been loaded, and ready to use
 this.onStart = function()
-    debug.log("Started mother fucking shit! 777 " .. this.transform.pos:_str())
+    debug.log("Started mother fucking shit! 777 " .. this.transform:getPosition():_str())
 end
 
 this.onUpdate = function(deltaTime) 
@@ -17,9 +17,6 @@ this.onUpdate = function(deltaTime)
     else
         this.transform.angle = this.transform.angle + 1
     end
-    -- local tmp = this.transform.pos
-    -- tmp.x = tmp.x - 1
-    -- this.transform.pos = tmp
 end
 
 return this
