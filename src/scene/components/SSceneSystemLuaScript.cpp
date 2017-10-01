@@ -1,5 +1,6 @@
 #include "SSceneSystemLuaScript.h" 
 #include "SSceneComLuaScript.h"
+#include "../../StormEngine.h"
 #include "../../core/utils/math/Vector2.h"
 
 /*
@@ -32,33 +33,14 @@ void SSceneSystemLuaScript::initialize() {
         "y", &Vector2::y
     );
 
-    _LuaState.script(R"(
-        Handles = {}
-        
-        function Vector2:_str()
-            return "'X:" .. self.x .. " Y:" .. self.y .. "'"
-        end
+    spStormResourceFile resFile = StormEngine::getResource("lua_common/lua_common.lua");
+    if (!resFile) {
+        LOG(FATAL) << "Failed to initialize script engine. No common scripts found";
+        return;
+    }
 
-        function createObjectHandle(object)
-            local handle = {
-                obj = object,
-                isValid = true
-            }
-            Handles[object.id] = handle
-            return handle
-        end
-
-        function tickObjects(deltaTime) 
-            for key,value in pairs(Handles) do
-                local object = Handles[key]
-                if object.isValid and object.obj.onUpdate ~= nil then
-                    object.obj.onUpdate(deltaTime)
-                end
-            end
-        end
-    )");
-    
-
+    /* Load common script(s) */
+    _LuaState.script(resFile->getBuffer());
 
     for (SSceneComLuaScript* component : _ScriptComponents) {
         if (component->initializeLua(_LuaState) < 0) {

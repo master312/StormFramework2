@@ -12,10 +12,14 @@ this.onStart = function()
 end
 
 this.onUpdate = function(deltaTime) 
-    local tmp = this.transform.pos
-    tmp.x = tmp.x - 1
-    this.transform.pos.x = tmp.x
-    debug.log("Aaa " .. this.transform.pos:_str())
+    if this.id ~= 1 then
+        this.transform.angle = this.transform.angle + 5
+    else
+        this.transform.angle = this.transform.angle + 1
+    end
+    -- local tmp = this.transform.pos
+    -- tmp.x = tmp.x - 1
+    -- this.transform.pos = tmp
 end
 
 return this

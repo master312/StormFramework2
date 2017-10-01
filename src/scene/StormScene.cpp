@@ -185,19 +185,8 @@ void StormScene::render(StormRenderer* renderer) {
         _ComponentSystems[i]->render(renderer);
     }
 }
-#include "components/SSceneComTransform.h"
+
 void StormScene::tick(float deltaTime) {
-
-    SSceneComTransform* com = _Objects[0]->getTransform();
-    SSceneComTransform* com2 = _Objects[1]->getTransform();
-    if (com) {
-        com->setAngle(com->getAngle() + 0.5f);
-    }   /* TODO : REMOVE THIS. THIS IS TESTING CODE */
-    if (com2) {
-        com2->setAngle(com2->getAngle() + 1.5f);
-    }
-
-    
     for (unsigned int i = 0; i < _ComponentSystems.size(); i++) {
         _ComponentSystems[i]->tick(deltaTime);
     }
