@@ -8,9 +8,11 @@
 #include <QDropEvent>
 #include <QModelIndex>
 #include <QApplication>
+#include <QPlainTextEdit>
 
 SceneObjectsTreeWidget::SceneObjectsTreeWidget(QWidget* parent) : QTreeWidget(parent) {
     _Scene = nullptr;
+    _SelectedItem = nullptr;
 
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setDragEnabled(true);
@@ -23,6 +25,9 @@ SceneObjectsTreeWidget::~SceneObjectsTreeWidget() {
 }
 
 void SceneObjectsTreeWidget::populateSceneElements(StormScene* scene) {
+    _ObjectNameTextWidget = dynamic_cast<QPlainTextEdit*>(StormQtHelper::findChildByName(this, "txtSelectedObjectName"));
+    connect(_ObjectNameTextWidget, SIGNAL(textChanged()), this, SLOT(objectRenamed()));
+
     if (_Scene) {
         /* If some scene already exists, clear it's element first */
         QList<QWidget*> widgets = findChildren<QWidget*>();
@@ -59,6 +64,7 @@ void SceneObjectsTreeWidget::populateSceneElements(StormScene* scene) {
 
 void SceneObjectsTreeWidget::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected) {
     /* Repaint just to prevent blinking while selecting on linux */
+    _SelectedItem = nullptr;
     foreach (QWidget* child, findChildren<QWidget*>()) {
         child->repaint();
     }
@@ -69,8 +75,8 @@ void SceneObjectsTreeWidget::selectionChanged(const QItemSelection& selected, co
         return;
     }
 
-    SceneObjectTreeWidgetItem* selectedItem = dynamic_cast<SceneObjectTreeWidgetItem*>(selectedItems()[0]);
-    if (!selectedItem || !selectedItem->getSceneObject()) {
+    _SelectedItem = dynamic_cast<SceneObjectTreeWidgetItem*>(selectedItems()[0]);
+    if (!_SelectedItem || !_SelectedItem->getSceneObject()) {
         LOG(ERROR) << "SceneObjectsTreeWidget::selectionChanged No selected item or invalid item type";
         return;
     }
@@ -79,7 +85,29 @@ void SceneObjectsTreeWidget::selectionChanged(const QItemSelection& selected, co
     clearAllComponentWidgets();
 
     /* And create new onse */
-    generateComponentWidgets(selectedItem->getSceneObject());
+    generateComponentWidgets(_SelectedItem->getSceneObject());
+
+    /* Show object name in text edit */
+    std::string name = _SelectedItem->getSceneObject()->getName();
+    if (name.size() > 0) {
+        _ObjectNameTextWidget->setPlainText(name.c_str());
+    } else {
+        _ObjectNameTextWidget->setPlainText("Unnamed object");
+    }
+}
+
+void SceneObjectsTreeWidget::objectRenamed() {
+    if (!_SelectedItem) {
+        return;
+    }
+    std::string newName = _ObjectNameTextWidget->toPlainText().toStdString();
+    if (newName.size() > 0) {
+        _SelectedItem->getSceneObject()->setName(newName);
+        _SelectedItem->setText(0, newName.c_str());
+    } else {
+        _SelectedItem->getSceneObject()->setName("");
+        _SelectedItem->setText(0, "Object ID: " + QString::number(_SelectedItem->getSceneObject()->getId()));
+    }
 }
 
 SceneObjectTreeWidgetItem* SceneObjectsTreeWidget::createSceneObjectListItem(StormSceneObject* object) {
@@ -98,16 +126,6 @@ SceneObjectTreeWidgetItem* SceneObjectsTreeWidget::createSceneObjectListItem(Sto
 }
 
 void SceneObjectsTreeWidget::generateComponentWidgets(StormSceneObject* object) {
-    /* First generate default widget component.
-     * This component is used for editing common scene object stuff, like position and name. */
-    SWidgetComponent* defaultWidget = SWidgetComponent::newWidget(object, nullptr, _ObjectComponentsWidget);
-    if (!defaultWidget) {
-        LOG(ERROR) << "Failed to create QT widget for default component";
-        return;
-    }
-    defaultWidget->initialize();
-    _ObjectComponentsWidget->layout()->addWidget(defaultWidget);
-
     for (SSceneComponent* component : object->getComponents()) {
         SWidgetComponent* comWidget = SWidgetComponent::newWidget(object, component, _ObjectComponentsWidget);
         if (!comWidget) {

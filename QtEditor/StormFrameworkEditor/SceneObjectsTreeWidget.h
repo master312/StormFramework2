@@ -5,13 +5,20 @@
 class StormScene;
 class StormSceneObject;
 class SceneObjectTreeWidgetItem;
+class QPlainTextEdit;
 
 class SceneObjectsTreeWidget : public QTreeWidget {
+    Q_OBJECT
+
 public:
     SceneObjectsTreeWidget(QWidget* parent = nullptr);
     virtual ~SceneObjectsTreeWidget();
 
     void populateSceneElements(StormScene* scene);
+
+public slots:
+    /* Slot triggered when changing name of obect in text field */
+    void objectRenamed();
 
 protected:
     virtual void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
@@ -25,6 +32,12 @@ private:
 
     /* Vector of all tree item widgets representing planes */
     std::vector<SceneObjectTreeWidgetItem*> _TreeItemWidgets;
+
+    /* Editable text box for widget name */
+    QPlainTextEdit* _ObjectNameTextWidget;
+
+    /* Currently selected item from scene objects tree widget */
+    SceneObjectTreeWidgetItem* _SelectedItem;
 
     /* Adds new scene object and all of its children SceneObjectsTreeWidget as items.
      * Returns pointer to created object. */

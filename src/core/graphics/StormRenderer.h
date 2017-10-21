@@ -6,6 +6,7 @@
 #include "StormTexture.h"
 #include <GL/glew.h>
 #include <vector>
+#include <map>
 
 /* This class queues and executes render commands. */
 

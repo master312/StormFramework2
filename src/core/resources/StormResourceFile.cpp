@@ -1,5 +1,7 @@
 #include "StormResourceFile.h"
 #include <algorithm>
+#include <sstream>
+#include <memory.h>
 
 StormResourceFile::StormResourceFile() {
     _Filename = "";

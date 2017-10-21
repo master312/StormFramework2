@@ -55,7 +55,6 @@ SOURCES += \
     ../../src/scene/StormSceneObject.cpp \
     ../../src/StormEngine.cpp \
     ../../src/StormTextureManager.cpp \
-    ../../libs/easyloggingpp/easylogging++.cpp \
     ../../libs/pugixml/pugixml.cpp \
     ../../src/core/platforms/StormPlatformQt.cpp \
     StormOpenGlWidget.cpp \
@@ -74,15 +73,17 @@ SOURCES += \
     propertyWidgets/SWidgetPropertyColor.cpp \
     componentWidgets/SWidgetComTransform.cpp \
     ../../src/scene/components/SSceneSystemTransform.cpp \
+    ../../src/scene/components/SSceneSystemLuaScript.cpp \
     ../../src/scene/components/SSceneComTransform.cpp \
+    ../../src/scene/components/SSceneComLuaScript.cpp \
     propertyWidgets/SWidgetPropertyBoolean.cpp \
     ../../src/scene/SSceneManager.cpp \
     ../../src/SEngineModuleFactory.cpp \
-    ../../libs/easyloggingpp/easylogging++.cpp \
     ../../libs/imgui/imgui.cpp \
     ../../libs/imgui/imgui_demo.cpp \
     ../../libs/imgui/imgui_draw.cpp \
-    ../../libs/pugixml/pugixml.cpp \
+    ../../src/scene/components/lua/SLuaBinders.cpp \
+    ../../libs/easyloggingpp/easylogging++.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -120,7 +121,6 @@ HEADERS += \
     ../../src/scene/StormSceneObject.h \
     ../../src/StormEngine.h \
     ../../src/StormTextureManager.h \
-    ../../libs/easyloggingpp/easylogging++.h \
     ../../libs/pugixml/pugiconfig.hpp \
     ../../libs/pugixml/pugixml.hpp \
     ../../src/core/platforms/StormPlatformQt.h \
@@ -141,19 +141,20 @@ HEADERS += \
     propertyWidgets/SWidgetPropertyColor.h \
     componentWidgets/SWidgetComTransform.h \
     ../../src/scene/components/SSceneSystemTransform.h \
+    ../../src/scene/components/SSceneSystemLuaScript.h \
     ../../src/scene/components/SSceneComTransform.h \
     propertyWidgets/SWidgetPropertyBoolean.h \
     ../../src/scene/SSceneManager.h \
     ../../src/SEngineModuleFactory.h \
-    ../../libs/easyloggingpp/easylogging++.h \
     ../../libs/imgui/imconfig.h \
     ../../libs/imgui/imgui.h \
     ../../libs/imgui/imgui_internal.h \
     ../../libs/imgui/stb_rect_pack.h \
     ../../libs/imgui/stb_textedit.h \
     ../../libs/imgui/stb_truetype.h \
-    ../../libs/pugixml/pugiconfig.hpp \
-    ../../libs/pugixml/pugixml.hpp \
+    ../../src/scene/components/lua/SLuaBinders.h \
+    ../../src/scene/SSceneObjectEventTypes.h \
+    ../../libs/easyloggingpp/easylogging++.h
 
 FORMS += \
         mainwindow.ui

@@ -80,19 +80,21 @@ void SWidgetComponent::paintEvent(QPaintEvent* event) {
 /* Static factory method */
 SWidgetComponent* SWidgetComponent::newWidget(StormSceneObject* object, SSceneComponent* component, QWidget* parent) {
     SWidgetComponent* widget = nullptr;
-    if (component) {
-        /* Component is specified */
-        switch (component->getType()) {
-            case S_SCENE_OBJECT_COM_PLANE:
-                widget = new SWidgetComPlane(parent);
-                break;
-            case S_SCENE_OBJECT_COM_STATIC_TEXTURE:
-                widget = new SWidgetComStaticTexture(parent);
-                break;
-        }
-    } else {
-        /* Component is not specified. Generate default widget */
-        widget = new SWidgetComTransform(parent);
+    if (!component) {
+        return nullptr;
+    }
+
+    /* Component is specified */
+    switch (component->getType()) {
+        case S_SCENE_OBJECT_COM_PLANE:
+            widget = new SWidgetComPlane(parent);
+            break;
+        case S_SCENE_OBJECT_COM_STATIC_TEXTURE:
+            widget = new SWidgetComStaticTexture(parent);
+            break;
+        case S_SCENE_OBJECT_COM_TRANSFORM:
+            widget = new SWidgetComTransform(parent);
+            break;
     }
 
     if (!widget) {
