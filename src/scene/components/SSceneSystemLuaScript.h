@@ -15,7 +15,7 @@ public:
     virtual void addComponent(SSceneComponent* component);
 
     /* Load all scripts and execute initial methods */
-    virtual void initialize();
+    virtual void initialize(StormScene* ownerScene = nullptr);
     
     virtual void tick(float deltaTime);
 
@@ -25,9 +25,14 @@ private:
 
     /* Main lua state */
     sol::state _LuaState;
-    
-    /* Called right after script has been loaded */
+
+    /* Set to false when this system ticks first time
+     * Used for handling @onScriptStart(...) method */
+    bool _IsFirstTick;
+
+    /* Called right after script has been loaded and initialized */
     void onScriptLoad(SSceneComLuaScript* component);
-    /* Called after all script have been loaded and game is about to start */
+    
+    /* Called on just before first tick */
     void onScriptStart(SSceneComLuaScript* component);
 };

@@ -10,9 +10,11 @@ class StormVideoDriver;
 class StormRenderer;
 class SSceneManager;
 class StormScene;
+class StormInputManager;
 
 class StormEngine {
     friend class SEngineModuleFactory;
+
 public:
     virtual ~StormEngine();
 
@@ -36,6 +38,9 @@ public:
     /* Returns resource file from default filesystem,
      * or nullptr if not found */
     static spStormResourceFile getResource(const std::string& filename);    
+
+    /* Returns imput manager object */
+    static StormInputManager* getInputManager();
 
     /* Returns currently active scene */
     static StormScene* getActiveScene();

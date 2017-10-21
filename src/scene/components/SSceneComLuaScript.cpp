@@ -57,7 +57,11 @@ int SSceneComLuaScript::initializeLua(sol::state& luaState) {
         return -4;
     }
     entityObject["id"] = _Owner->getId();
-    
+    entityObject["hasParent"] = _Owner->getParent() ? true : false;
+    if (_Owner->getParent()) {
+        entityObject["parent"] = luaState["Handles"][_Owner->getParent()->getId()];
+    }
+
     /* Adds object's table to lua handler */
     sol::function fun = luaState["createObjectHandle"];
     if (!fun.valid()) {
@@ -65,18 +69,6 @@ int SSceneComLuaScript::initializeLua(sol::state& luaState) {
         return -5;
     }
     _LuaHandler = fun(entityObject);
-
-    /* Bind all components to lua object */
-    for (SSceneComponent* component : _Owner->getComponents()) {
-        if (component == this) {
-            continue;
-        }
-        if (component->bindToLua(entityObject) < 0) {
-            LOG(ERROR) << "Lua failed to bind component of type '" << 
-                            SSceneComponentTypeString[component->getType()] <<
-                            "' Object ID " << _Owner->getId();
-        }
-    }
 
     LOG(DEBUG) << "Lua script: '" << scriptFile->getFilename() << "' loaded";
 

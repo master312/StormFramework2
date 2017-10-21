@@ -34,6 +34,24 @@ void SSceneSystemPlane::render(StormRenderer* renderer) {
     }
 }
 
+int SSceneSystemPlane::bindToLua(sol::state& luaState) {
+    luaState.new_usertype<SSceneComPlane>("ComPlane",
+        "inheritRotation", sol::property(&SSceneComPlane::getInheritRotation, &SSceneComPlane::setInheritRotation),
+        "containsPoint", &SSceneComPlane::containsPoint
+    );
+
+    for (SSceneComPlane* com : _PlaneComponents) {
+        sol::table handle = luaState["Handles"][com->getOwner()->getId()];
+        if (!handle.valid() || !handle || !handle["isValid"]) {
+            continue;
+        }
+
+        handle["obj"]["plane"] = com;
+    }
+
+    return 1;
+}
+
 void SSceneSystemPlane::renderDebug(SSceneComPlane* component, StormRenderer* renderer) {
     /* TODO: Rewrite this after primitive rendering system has been implemented */
     uint32_t indices[4] = {0, 1, 2, 3};

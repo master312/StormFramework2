@@ -13,6 +13,14 @@ function createObjectHandle(object)
     return handle
 end
 
+function getObjectHandle(id)
+    local handle = Handles[id]
+    if not handle.isValid then 
+        debug.log("Getting invalid entity handle " .. id)
+    end
+    return handle
+end
+
 function tickObjects(deltaTime) 
     for key,value in pairs(Handles) do
         local object = Handles[key]

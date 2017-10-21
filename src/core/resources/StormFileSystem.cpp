@@ -131,8 +131,11 @@ StormResourceFile* StormFileSystem::loadResource(const std::string& filename) {
 
     StormResourceFile* resourceFile = new StormResourceFile(filename);
     
-    char* buffer = new char[size];
+    char* buffer = new char[size + 1];
     file.read(buffer, size);
+    /* In case of text file, we add \0 on the end.
+     * Binary content should not be affected, sence size var is never changed */
+    buffer[size] = '\0';
 
     resourceFile->setBuffer(buffer, size);
 

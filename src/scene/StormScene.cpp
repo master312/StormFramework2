@@ -127,7 +127,7 @@ void StormScene::initialize() {
         int nextToInit = SSceneComponentInitializationOrder[i];
         if (_ComponentSystemsByType[nextToInit]) {
             /* Component system exists */
-            _ComponentSystemsByType[nextToInit]->initialize();
+            _ComponentSystemsByType[nextToInit]->initialize(this);
         }
     }
     
@@ -178,6 +178,10 @@ StormSceneObject* StormScene::getObjectById(uint32_t id) {
         }
     }
     return nullptr;
+}
+
+std::vector<SSceneComponentSystem*>& StormScene::getSystems() {
+    return _ComponentSystems;
 }
 
 void StormScene::render(StormRenderer* renderer) {

@@ -138,6 +138,13 @@ spStormResourceFile StormEngine::getResource(const std::string& filename) {
     return instance()->_ModResources->getResourceByFilename(filename);
 }
 
+StormInputManager* StormEngine::getInputManager() {
+    if (!instance()->_ModPlatform) {
+        return nullptr;
+    }
+    return instance()->_ModPlatform->getInputManager();
+}
+
 StormScene* StormEngine::getActiveScene() {
     return instance()->_ModSceneManager->getActiveScene();
 }

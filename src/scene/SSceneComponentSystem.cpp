@@ -8,7 +8,7 @@ SSceneComponentSystem::SSceneComponentSystem() {
 SSceneComponentSystem::~SSceneComponentSystem() {
 }
 
-void SSceneComponentSystem::initialize() {
+void SSceneComponentSystem::initialize(StormScene* ownerScene /* = nullptr*/) {
     for (SSceneComponent* component : _Components) {
         component->initialize();
     }
@@ -22,6 +22,10 @@ void SSceneComponentSystem::tick(float deltaTime) {
 
 void SSceneComponentSystem::addComponent(SSceneComponent* component) {
     _Components.push_back(component);
+}
+
+int SSceneComponentSystem::bindToLua(sol::state& luaState) {
+    return 0;
 }
 
 SSceneComponentType SSceneComponentSystem::getType() const {

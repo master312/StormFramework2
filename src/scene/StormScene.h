@@ -51,6 +51,9 @@ public:
     /* Returns pointer to object with ID */
     StormSceneObject* getObjectById(uint32_t id);
 
+    /* Retnurns reference to rector containing all component systems */
+    std::vector<SSceneComponentSystem*>& getSystems();
+
     /* Renders scene */
     void render(StormRenderer* renderer);
 

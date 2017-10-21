@@ -65,11 +65,6 @@ public:
     /* Called after all components and scene have been loaded */
     virtual void initialize();
 
-    /* Binds component related attributes to lua object
-     * Returns < 0 on error
-     * Called from LuaScript component */
-    virtual int bindToLua(sol::table& object);
-
     /* Produces new component of @SSceneComponentType and return pointer to it */
     static SSceneComponent* newComponent(SSceneComponentType type, StormSceneObject* owner);
 

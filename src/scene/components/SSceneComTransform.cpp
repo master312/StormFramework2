@@ -150,21 +150,6 @@ void SSceneComTransform::observeParentTransformChanged(void* data) {
     _IsChanged = true;
 }
 
-int SSceneComTransform::bindToLua(sol::table& object) {
-    object.new_usertype<SSceneComTransform>("comTransform",
-        "posAbs", sol::property(&SSceneComTransform::getPositionAbs),
-        "getPosition", &SSceneComTransform::getPosition,
-        "setPosition", &SSceneComTransform::setPosition,
-        "x", sol::property(&SSceneComTransform::getX, &SSceneComTransform::setX),
-        "y", sol::property(&SSceneComTransform::getY, &SSceneComTransform::setY),
-        "angle", sol::property(&SSceneComTransform::getAngle, &SSceneComTransform::setAngle)
-    );
-    
-    object["transform"] = this;
-
-    return 0;
-}
-
 void SSceneComTransform::pullParentTransform() {
     if (!_Owner->getParent()) {
         /* Parent has been cleared */

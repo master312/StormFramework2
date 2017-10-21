@@ -1,37 +1,30 @@
 #include "SSceneSystemLuaScript.h" 
 #include "SSceneComLuaScript.h"
+#include "lua/SLuaBinders.h"
+#include "../StormScene.h"
 #include "../../StormEngine.h"
 #include "../../core/utils/math/Vector2.h"
 
 /*
     Component load script and holds pointer to table
-
 */
 
 SSceneSystemLuaScript::SSceneSystemLuaScript() {
     _Type = S_SCENE_OBJECT_COM_SCRIPT;
+    _IsFirstTick = true;
 }
 
 SSceneSystemLuaScript::~SSceneSystemLuaScript() {
-
 }
 
-void some_function(std::string a) {
-    LOG(INFO) << "LUA: " << a;
-}
-
-void SSceneSystemLuaScript::initialize() {
+void SSceneSystemLuaScript::initialize(StormScene* ownerScene) {
     //SSceneComponentSystem::initialize();
     _LuaState.open_libraries(sol::lib::base, sol::lib::os);
 
-    /* Load lua debug methods */
-    _LuaState.create_table("debug");
-    _LuaState["debug"]["log"] = some_function;
-
-    _LuaState.new_usertype<Vector2>("Vector2", 
-        "x", &Vector2::x,
-        "y", &Vector2::y
-    );
+    if (SLuaBinders::bind(_LuaState) < 0) {
+        LOG(ERROR) << "Could not bind lua functions";
+        return;
+    }
 
     spStormResourceFile resFile = StormEngine::getResource("lua_common/lua_common.lua");
     if (!resFile) {
@@ -47,16 +40,31 @@ void SSceneSystemLuaScript::initialize() {
             /* initializeLua() will log error */
             continue;
         }
-
-        onScriptLoad(component);
+    }
+    
+    for (SSceneComponentSystem* system : ownerScene->getSystems()) {
+        if (system == this) {
+            continue;
+        }
+        if (system->bindToLua(_LuaState) < 0) {
+            LOG(ERROR) << "System could not be binded to lua script";
+        }
     }
     
     for (SSceneComLuaScript* component : _ScriptComponents) {
-        onScriptStart(component);
+        onScriptLoad(component);
     }
 }
 
 void SSceneSystemLuaScript::tick(float deltaTime) {
+    if (_IsFirstTick) {
+        /* Execute script onStart method */
+        _IsFirstTick = false;
+        for (SSceneComLuaScript* component : _ScriptComponents) {
+            onScriptStart(component);
+        }
+    }
+
     _LuaState["tickObjects"](deltaTime);
 }
 
