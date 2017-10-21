@@ -118,11 +118,11 @@ void SSceneComPlane::observeTransformChanged(void* data) {
     }
 }
 
-bool SSceneComPlane::containsPoint(SSceneComPlane* plane, Vector2 point) {
-    Vector2& p1 = plane->_Vertices[0].position;
-    Vector2& p2 = plane->_Vertices[1].position;
-    Vector2& p3 = plane->_Vertices[2].position;
-    Vector2& p4 = plane->_Vertices[3].position;
+bool SSceneComPlane::containsPoint(Vector2 point) {
+    Vector2& p1 = _Vertices[0].position;
+    Vector2& p2 = _Vertices[1].position;
+    Vector2& p3 = _Vertices[2].position;
+    Vector2& p4 = _Vertices[3].position;
 
     Vector2 p1_p4 = p1 - p4;
     Vector2 p3_p4 = p3 - p4;

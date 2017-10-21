@@ -4,11 +4,9 @@
 #include "../../../core/utils/math/Vector2.h"
 
 SLuaBinders::SLuaBinders() {
-
 }
 
 SLuaBinders::~SLuaBinders() {
-
 }
 
 int SLuaBinders::bind(sol::state& state) { 

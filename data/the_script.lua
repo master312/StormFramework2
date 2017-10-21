@@ -2,7 +2,7 @@ local this = {}
 
 
 this.onUpdate = function(deltaTime) 
-    if ComPlane.containsPoint(this.plane, InputManager:getPointerPosition(1)) then
+    if this.plane:containsPoint(InputManager:getPointerPosition(1)) then
         this.transform.angle = this.transform.angle + 1
     end
 end

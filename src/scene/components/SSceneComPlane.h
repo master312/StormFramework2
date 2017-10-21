@@ -51,8 +51,8 @@ public:
      * Used to generate vertices and calculate transformed size. */
     void observeTransformChanged(void* data);
 
-    /* Check if @plane cointains point @point */
-    static bool containsPoint(SSceneComPlane* plane, Vector2 point);
+    /* Check if plane cointains point @point */
+    bool containsPoint(Vector2 point);
 
 private:
     /* Plane size. */
