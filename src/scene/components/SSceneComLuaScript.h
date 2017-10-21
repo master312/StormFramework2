@@ -24,6 +24,9 @@ public:
     /* Returns lua handler for this script */
     sol::table& getLuaHandle();
 
+    /* Returns script filename */
+    std::string& getFilename();
+
 private:
     /* Lua script filename */
     std::string _Filename;

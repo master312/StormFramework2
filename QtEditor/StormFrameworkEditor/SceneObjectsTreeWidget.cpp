@@ -101,7 +101,7 @@ void SceneObjectsTreeWidget::objectRenamed() {
         return;
     }
     std::string newName = _ObjectNameTextWidget->toPlainText().toStdString();
-    if (newName.size() > 0) {
+    if (newName.size() > 0 && newName != "Unnamed object") {
         _SelectedItem->getSceneObject()->setName(newName);
         _SelectedItem->setText(0, newName.c_str());
     } else {

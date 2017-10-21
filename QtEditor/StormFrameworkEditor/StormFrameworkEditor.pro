@@ -83,7 +83,8 @@ SOURCES += \
     ../../libs/imgui/imgui_demo.cpp \
     ../../libs/imgui/imgui_draw.cpp \
     ../../src/scene/components/lua/SLuaBinders.cpp \
-    ../../libs/easyloggingpp/easylogging++.cpp
+    ../../libs/easyloggingpp/easylogging++.cpp \
+    componentWidgets/SWidgetComScript.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -154,7 +155,8 @@ HEADERS += \
     ../../libs/imgui/stb_truetype.h \
     ../../src/scene/components/lua/SLuaBinders.h \
     ../../src/scene/SSceneObjectEventTypes.h \
-    ../../libs/easyloggingpp/easylogging++.h
+    ../../libs/easyloggingpp/easylogging++.h \
+    componentWidgets/SWidgetComScript.h
 
 FORMS += \
         mainwindow.ui

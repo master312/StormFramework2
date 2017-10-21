@@ -63,7 +63,7 @@ void StormResourceFile::setFilename(const std::string& filename) {
     size_t sep = replacedFilename.find_last_of("\\/");
     size_t dot = replacedFilename.find_last_of(".");
     if (sep != std::string::npos && dot != std::string::npos) {
-        _Filename = replacedFilename.substr(sep + 1, replacedFilename.size() - dot + sep - 1);
+        _Filename = replacedFilename.substr(sep + 1, dot - (sep + 1));
     }
     
     if (dot != std::string::npos) {

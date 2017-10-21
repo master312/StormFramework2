@@ -83,3 +83,7 @@ sol::table& SSceneComLuaScript::getLuaHandle() {
 #endif
     return _LuaHandler;
 }
+
+std::string& SSceneComLuaScript::getFilename() {
+    return _Filename;
+}

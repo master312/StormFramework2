@@ -23,6 +23,13 @@ SWidgetPropertyResource::SWidgetPropertyResource(SWidgetComponent* parent, const
 
 void SWidgetPropertyResource::setResource(spStormResourceFile resource) {
     _ResourceFile = resource;
+    if (_ResourceFile) {
+        _ResourceLineEdit->setText(_ResourceFile->getFilenameWithExt().c_str());
+    } else {
+        _ResourceLineEdit->setText("");
+    }
+
+    resourceChanged();
 }
 
 spStormResourceFile SWidgetPropertyResource::getResource() {

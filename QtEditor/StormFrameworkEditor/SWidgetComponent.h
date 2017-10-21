@@ -29,6 +29,7 @@ public:
 
 public slots:
     void collapseButtonClick();
+    void destroyComponentClick();
 
 protected:
     virtual void enterEvent(QEvent* event);
@@ -46,4 +47,5 @@ protected:
 
     float _BackgroundOpacity;
     QPushButton* _HeaderButton;
+    QPushButton* _DestroyButtonButton;
 };
