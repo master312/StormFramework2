@@ -1,11 +1,47 @@
 local this = {}
 
+local isPressed = false
 
 this.onUpdate = function(deltaTime) 
-    if this.plane:containsPoint(InputManager:getPointerPosition(1)) then
-        this.transform.angle = this.transform.angle + 1
+    if this.plane:containsPoint(InputManager:getPointerPosition(1)) and InputManager:isPointerDown(1) then
+        isPressed = true
+    else
+        if not InputManager:isPointerDown(1) then
+            isPressed = false
+        end
     end
+
+    
+    this.transform.angle = this.transform.angle + 1.2
+    
+
+    if InputManager:isKeyPressed(Keyboard.A) then
+        debug.log("A Key is pressed modafaka!")
+    elseif InputManager:isKeyDown(Keyboard.B) then
+        debug.log("Never forget B key")
+    end
+
+    if isPressed then
+        local pointerPosition = InputManager:getPointerPosition(1)
+        this.transform:setPosition(pointerPosition);
+        -- debug.log("modafaka ")
+    end
+
+-- kerberovo sranje
+
+    local position = this.transform.position
+    -- debug.log(position:toString())	
+
+
+
+
+
+
 end
+
+
+
+-- this.transform.angle = this.transform.angle + 1
 
 return this;
 

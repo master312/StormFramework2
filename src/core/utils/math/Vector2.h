@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "ScalarMath.h"
+#include <sstream>
 
 template <class T>
 class VectorT2
@@ -18,6 +19,13 @@ public:
     VectorT2 operator + (const VectorT2&) const;
     VectorT2 operator - (const VectorT2&) const;
     VectorT2 operator - () const;
+
+    inline std::string toString() {
+        static std::stringstream ss;
+        ss.str("");
+        ss << "X:" << x << " Y:" << y;
+        return ss.str();
+    }
 
     friend std::ostream& operator<<(std::ostream& output, const VectorT2<T>& obj) {
         output << "X: " << obj.x << " Y: " << obj.y;

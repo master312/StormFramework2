@@ -35,6 +35,7 @@ void SSceneSystemTransform::addComponent(SSceneComponent* component) {
 int SSceneSystemTransform::bindToLua(sol::state& luaState) {
     luaState.new_usertype<SSceneComTransform>("ComTransform",
         "posAbs", sol::property(&SSceneComTransform::getPositionAbs),
+        "position", sol::property(&SSceneComTransform::getPosition, &SSceneComTransform::setPosition),
         "getPosition", &SSceneComTransform::getPosition,
         "setPosition", &SSceneComTransform::setPosition,
         "x", sol::property(&SSceneComTransform::getX, &SSceneComTransform::setX),
