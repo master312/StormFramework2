@@ -30,6 +30,18 @@ public:
     /* Sets position transform
      * If parent exists, this position will be relative to parents position */
     void setPosition(Vector2 position);
+    
+    /* Sets X local position */
+    void setX(float x);
+
+    /* Sets Y local position */
+    void setY(float y);
+
+    /* Gets local X position */
+    float getX();
+
+    /* Gets local Y position */
+    float getY();
 
     /* Returns absolute position on scene */
     Vector2 getPositionAbs();

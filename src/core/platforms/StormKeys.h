@@ -4,7 +4,7 @@
 * Create custom key mapings. Dont just map keys to SDLKs
 */
 typedef enum {
-    S_KEY_NONE      = -1000,
+    S_KEY_NONE      = 0,
     S_KEY_UNKNOWN	= SDLK_UNKNOWN,
     S_KEY_BACKSPACE	= SDLK_BACKSPACE,
     S_KEY_TAB		= SDLK_TAB,
@@ -79,6 +79,8 @@ typedef enum {
     S_KEY_y			    = SDLK_y,
     S_KEY_z			    = SDLK_z,
     S_KEY_DELETE	    = SDLK_DELETE,
+
+    S_KEY_ASCII_END,
 
     /* Numeric keypad */
     S_KEY_KP_PEROID		= SDLK_KP_PERIOD,

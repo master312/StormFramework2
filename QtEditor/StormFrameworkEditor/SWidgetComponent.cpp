@@ -2,9 +2,11 @@
 #include "componentWidgets/SWidgetComTransform.h"
 #include "componentWidgets/SWidgetComPlane.h"
 #include "componentWidgets/SWidgetComStaticTexture.h"
+#include "componentWidgets/SWidgetComScript.h"
 #include "../../src/scene/SSceneComponent.h"
 #include <QVBoxLayout>
 #include <QPainter>
+#include <QHBoxLayout>
 
 SWidgetComponent::SWidgetComponent(QWidget* parent) : QWidget(parent) {
     _ComponentName = "ERROR: Name not set!";
@@ -12,6 +14,8 @@ SWidgetComponent::SWidgetComponent(QWidget* parent) : QWidget(parent) {
     _HeaderButton = nullptr;
     _SceneObject = nullptr;
     _BackgroundOpacity = 0.1f;
+
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 }
 
 SWidgetComponent::~SWidgetComponent() {
@@ -28,7 +32,13 @@ void SWidgetComponent::initialize() {
     layout->setAlignment(Qt::AlignmentFlag::AlignTop);
 
     _HeaderButton = new QPushButton(this);
+    _HeaderButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     connect(_HeaderButton, SIGNAL(clicked(bool)), this, SLOT(collapseButtonClick()));
+
+    _DestroyButtonButton = new QPushButton(this);
+    _DestroyButtonButton->setText("X");
+    _DestroyButtonButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+    connect(_DestroyButtonButton, SIGNAL(clicked(bool)), this, SLOT(destroyComponentClick()));
 
     if (_StormComponent) {
         _HeaderButton->setText(SSceneComponentTypeString[_StormComponent->getType()].c_str());
@@ -36,7 +46,13 @@ void SWidgetComponent::initialize() {
         _HeaderButton->setText("ERROR: null storm component pointer");
     }
 
-    layout->addWidget(_HeaderButton);
+    QHBoxLayout* btnLayout = new QHBoxLayout;
+    btnLayout->setSpacing(0);
+    btnLayout->setMargin(0);
+    btnLayout->addWidget(_HeaderButton);
+    btnLayout->addWidget(_DestroyButtonButton);
+
+    layout->addLayout(btnLayout);
     setLayout(layout);
 }
 
@@ -54,6 +70,11 @@ void SWidgetComponent::collapseButtonClick() {
             child->setHidden(!child->isHidden());
         }
     }
+}
+
+void SWidgetComponent::destroyComponentClick() {
+    parentWidget()->layout()->removeWidget(this);
+    delete this;
 }
 
 void SWidgetComponent::enterEvent(QEvent* event) {
@@ -80,19 +101,24 @@ void SWidgetComponent::paintEvent(QPaintEvent* event) {
 /* Static factory method */
 SWidgetComponent* SWidgetComponent::newWidget(StormSceneObject* object, SSceneComponent* component, QWidget* parent) {
     SWidgetComponent* widget = nullptr;
-    if (component) {
-        /* Component is specified */
-        switch (component->getType()) {
-            case S_SCENE_OBJECT_COM_PLANE:
-                widget = new SWidgetComPlane(parent);
-                break;
-            case S_SCENE_OBJECT_COM_STATIC_TEXTURE:
-                widget = new SWidgetComStaticTexture(parent);
-                break;
-        }
-    } else {
-        /* Component is not specified. Generate default widget */
-        widget = new SWidgetComTransform(parent);
+    if (!component) {
+        return nullptr;
+    }
+
+    /* Component is specified */
+    switch (component->getType()) {
+        case S_SCENE_OBJECT_COM_PLANE:
+            widget = new SWidgetComPlane(parent);
+            break;
+        case S_SCENE_OBJECT_COM_STATIC_TEXTURE:
+            widget = new SWidgetComStaticTexture(parent);
+            break;
+        case S_SCENE_OBJECT_COM_TRANSFORM:
+            widget = new SWidgetComTransform(parent);
+            break;
+        case S_SCENE_OBJECT_COM_SCRIPT:
+            widget = new SWidgetComScript(parent);
+            break;
     }
 
     if (!widget) {

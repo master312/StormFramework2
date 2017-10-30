@@ -44,6 +44,8 @@
         "typeinfo": "cpp",
         "map": "cpp",
         "vector": "cpp",
-        "typeindex": "cpp"
+        "typeindex": "cpp",
+        "atomic": "cpp",
+        "string_view": "cpp"
     }
 }

@@ -145,6 +145,7 @@ int StormRenderer::loadShader(const std::string& name, char* vsData, char* fsDat
     _LoadedShaders[name] = shader;
 
     LOG(INFO) << "Shader '" << name << "' loaded";
+    return 1;
 }
 
 void StormRenderer::unloadShader(const std::string& name) {

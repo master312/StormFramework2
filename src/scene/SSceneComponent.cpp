@@ -3,6 +3,7 @@
 #include "components/SSceneComPlane.h"
 #include "components/SSceneComStaticTexture.h"
 #include "components/SSceneComTransform.h"
+#include "components/SSceneComLuaScript.h"
 #include "../core/StormCommon.h"
 
 SSceneComponent::SSceneComponent(StormSceneObject* owner) {
@@ -52,6 +53,9 @@ SSceneComponent* SSceneComponent::newComponent(SSceneComponentType type, StormSc
             break;
         case S_SCENE_OBJECT_COM_STATIC_TEXTURE:
             component = new SSceneComStaticTexture(owner);
+            break;
+        case S_SCENE_OBJECT_COM_SCRIPT:
+            component = new SSceneComLuaScript(owner);
             break;
         default:
             LOG(ERROR) << "Tryed to create new component of invalid type " << type;

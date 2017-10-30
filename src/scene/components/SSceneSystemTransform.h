@@ -12,6 +12,8 @@ public:
 
     virtual void addComponent(SSceneComponent* component);
 
+    virtual int bindToLua(sol::state& luaState);
+
 private:
     std::vector<SSceneComTransform*> _TransformComponents;
 

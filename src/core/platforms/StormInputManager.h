@@ -49,6 +49,10 @@ public:
     void processKeyEvent(bool isDown, StormKey key);
     void processPointerMotion(int pointerIndex, int xPos, int yPos);
     void processPointerButton(int pointerIndex, bool isDown);
+    
+
+    /* Returns matching string for @key. */
+    static const char* keyToString(const StormKey key);
 
 private:
     /* Array of all keys that are currently pressed(in down state) */

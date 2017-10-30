@@ -4,6 +4,7 @@
 #include "components/SSceneSystemPlane.h"
 #include "components/SSceneSystemStaticTexture.h"
 #include "components/SSceneSystemTransform.h"
+#include "components/SSceneSystemLuaScript.h"
 
 #include "../StormEngine.h"
 #include "../core/graphics/StormRenderer.h"
@@ -126,7 +127,7 @@ void StormScene::initialize() {
         int nextToInit = SSceneComponentInitializationOrder[i];
         if (_ComponentSystemsByType[nextToInit]) {
             /* Component system exists */
-            _ComponentSystemsByType[nextToInit]->initialize();
+            _ComponentSystemsByType[nextToInit]->initialize(this);
         }
     }
     
@@ -179,24 +180,17 @@ StormSceneObject* StormScene::getObjectById(uint32_t id) {
     return nullptr;
 }
 
+std::vector<SSceneComponentSystem*>& StormScene::getSystems() {
+    return _ComponentSystems;
+}
+
 void StormScene::render(StormRenderer* renderer) {
     for (unsigned int i = 0; i < _ComponentSystems.size(); i++) {
         _ComponentSystems[i]->render(renderer);
     }
 }
-#include "components/SSceneComTransform.h"
+
 void StormScene::tick(float deltaTime) {
-
-    SSceneComTransform* com = _Objects[0]->getTransform();
-    SSceneComTransform* com2 = _Objects[1]->getTransform();
-    if (com) {
-        com->setAngle(com->getAngle() + 0.5f);
-    }   /* TODO : REMOVE THIS. THIS IS TESTING CODE */
-    if (com2) {
-        com2->setAngle(com2->getAngle() + 1.5f);
-    }
-
-    
     for (unsigned int i = 0; i < _ComponentSystems.size(); i++) {
         _ComponentSystems[i]->tick(deltaTime);
     }
@@ -214,4 +208,8 @@ void StormScene::initializeDefaultSystems() {
     SSceneSystemPlane* sysPlane = new SSceneSystemPlane();
     _ComponentSystems.push_back(sysPlane);
     _ComponentSystemsByType[S_SCENE_OBJECT_COM_PLANE] = sysPlane;
+
+    SSceneSystemLuaScript* sysLua = new SSceneSystemLuaScript();
+    _ComponentSystems.push_back(sysLua);
+    _ComponentSystemsByType[S_SCENE_OBJECT_COM_SCRIPT] = sysLua;
 }

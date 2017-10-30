@@ -15,6 +15,8 @@ public:
 
     virtual void render(StormRenderer* renderer);
 
+    virtual int bindToLua(sol::state& luaState);
+
 private:
     /* Vector containing all components. Used for faster component access. */
     std::vector<SSceneComPlane*> _PlaneComponents;

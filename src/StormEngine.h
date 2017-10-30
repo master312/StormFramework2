@@ -10,9 +10,11 @@ class StormVideoDriver;
 class StormRenderer;
 class SSceneManager;
 class StormScene;
+class StormInputManager;
 
 class StormEngine {
     friend class SEngineModuleFactory;
+
 public:
     virtual ~StormEngine();
 
@@ -36,6 +38,9 @@ public:
     /* Returns resource file from default filesystem,
      * or nullptr if not found */
     static spStormResourceFile getResource(const std::string& filename);    
+
+    /* Returns imput manager object */
+    static StormInputManager* getInputManager();
 
     /* Returns currently active scene */
     static StormScene* getActiveScene();
@@ -72,7 +77,7 @@ private:
     /* SSceneManager module, used for loading/unloading/switching scenes. */
     SSceneManager* _ModSceneManager;
 
-    /* Map of all elgine modules maped by their type id */
+    /* Map of all engine modules maped by their type id */
     std::map<std::type_index, void*> _ModulesByType;
 
     /***** END OF ENGINE MODULES *****/

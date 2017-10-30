@@ -48,6 +48,9 @@ int StormSceneObject::deserializeXml(pugi::xml_node& node) {
 
     /* Load components */
     for (pugi::xml_node comNode = node.first_child(); comNode; comNode = comNode.next_sibling()) {
+        if (comNode.type() != pugi::node_element) {
+            continue;
+        }
         SSceneComponentType type = (SSceneComponentType)comNode.attribute("type").as_int(0);
         SSceneComponent* component = SSceneComponent::newComponent(type, this);
         if (!component) {

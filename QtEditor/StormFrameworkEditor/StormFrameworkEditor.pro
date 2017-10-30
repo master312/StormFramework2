@@ -15,19 +15,22 @@ TEMPLATE = app
 # any feature of Qt which as been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
-DEFINES += QT_DEPRECATED_WARNINGS STORM_BUILD_PLATFORM_QT
+DEFINES += QT_DEPRECATED_WARNINGS STORM_BUILD_PLATFORM_QT _DEBUG
 
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-CONFIG += c++11
+CONFIG += c++14
 
 QMAKE_CXXFLAGS_RELEASE -= -O
 
+INCLUDEPATH += /usr/include/lua5.1/
+INCLUDEPATH += /usr/lib/
+INCLUDEPATH += ../../libs/sol2/
 
-LIBS += -lSDL2 -lSDL2_image -lGLEW -lGL -lGLU
+LIBS += -lSDL2 -lSDL2_image -lGLEW -lGL -lGLU -llua5.1
 
 SOURCES += \
         main.cpp \
@@ -52,7 +55,6 @@ SOURCES += \
     ../../src/scene/StormSceneObject.cpp \
     ../../src/StormEngine.cpp \
     ../../src/StormTextureManager.cpp \
-    ../../libs/easyloggingpp/easylogging++.cpp \
     ../../libs/pugixml/pugixml.cpp \
     ../../src/core/platforms/StormPlatformQt.cpp \
     StormOpenGlWidget.cpp \
@@ -71,10 +73,18 @@ SOURCES += \
     propertyWidgets/SWidgetPropertyColor.cpp \
     componentWidgets/SWidgetComTransform.cpp \
     ../../src/scene/components/SSceneSystemTransform.cpp \
+    ../../src/scene/components/SSceneSystemLuaScript.cpp \
     ../../src/scene/components/SSceneComTransform.cpp \
+    ../../src/scene/components/SSceneComLuaScript.cpp \
     propertyWidgets/SWidgetPropertyBoolean.cpp \
     ../../src/scene/SSceneManager.cpp \
-    ../../src/SEngineModuleFactory.cpp
+    ../../src/SEngineModuleFactory.cpp \
+    ../../libs/imgui/imgui.cpp \
+    ../../libs/imgui/imgui_demo.cpp \
+    ../../libs/imgui/imgui_draw.cpp \
+    ../../src/scene/components/lua/SLuaBinders.cpp \
+    ../../libs/easyloggingpp/easylogging++.cpp \
+    componentWidgets/SWidgetComScript.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -112,7 +122,6 @@ HEADERS += \
     ../../src/scene/StormSceneObject.h \
     ../../src/StormEngine.h \
     ../../src/StormTextureManager.h \
-    ../../libs/easyloggingpp/easylogging++.h \
     ../../libs/pugixml/pugiconfig.hpp \
     ../../libs/pugixml/pugixml.hpp \
     ../../src/core/platforms/StormPlatformQt.h \
@@ -133,10 +142,21 @@ HEADERS += \
     propertyWidgets/SWidgetPropertyColor.h \
     componentWidgets/SWidgetComTransform.h \
     ../../src/scene/components/SSceneSystemTransform.h \
+    ../../src/scene/components/SSceneSystemLuaScript.h \
     ../../src/scene/components/SSceneComTransform.h \
     propertyWidgets/SWidgetPropertyBoolean.h \
     ../../src/scene/SSceneManager.h \
-    ../../src/SEngineModuleFactory.h
+    ../../src/SEngineModuleFactory.h \
+    ../../libs/imgui/imconfig.h \
+    ../../libs/imgui/imgui.h \
+    ../../libs/imgui/imgui_internal.h \
+    ../../libs/imgui/stb_rect_pack.h \
+    ../../libs/imgui/stb_textedit.h \
+    ../../libs/imgui/stb_truetype.h \
+    ../../src/scene/components/lua/SLuaBinders.h \
+    ../../src/scene/SSceneObjectEventTypes.h \
+    ../../libs/easyloggingpp/easylogging++.h \
+    componentWidgets/SWidgetComScript.h
 
 FORMS += \
         mainwindow.ui

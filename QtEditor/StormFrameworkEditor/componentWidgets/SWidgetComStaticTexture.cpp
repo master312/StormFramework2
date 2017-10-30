@@ -45,6 +45,11 @@ void SWidgetComStaticTexture::initialize() {
     layout()->addWidget(_AlphaControll);
     layout()->addWidget(_ResourceSelectWidget);
 
+    if (_TextureComponent->getTexture()) {
+        _ResourceSelectWidget->setResource(StormEngine::getResource(_TextureComponent->getTexture()->getName()));
+    }
+
+
     connect(_ResourceSelectWidget, SIGNAL(resourceChanged()), this, SLOT(resourceChanged()));
 
     foreach (SWidgetProperty* child, findChildren<SWidgetProperty*>()) {

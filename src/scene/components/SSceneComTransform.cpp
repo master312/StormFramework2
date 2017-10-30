@@ -91,6 +91,24 @@ void SSceneComTransform::setPosition(Vector2 position) {
     _IsChanged = true;
 }
 
+void SSceneComTransform::setX(float x) {
+    _Position.x = x;
+    _IsChanged = true;
+}
+
+void SSceneComTransform::setY(float y) {
+    _Position.y = y;
+    _IsChanged = true;
+}
+
+float SSceneComTransform::getX() {
+    return _Position.x;
+}
+
+float SSceneComTransform::getY() {
+    return _Position.y;
+}
+
 Vector2 SSceneComTransform::getPositionAbs() {
     return _PositionAbs;
 }

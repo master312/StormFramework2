@@ -1,5 +1,6 @@
 #pragma once
 #include "../../libs/pugixml/pugixml.hpp"
+#include "sol.hpp"
 
 /* Base class for all scene object components.
  * Most components are managed by proper component system.
@@ -39,6 +40,7 @@ static const std::string SSceneComponentTypeString[S_SCENE_OBJECT_COM_TYPES_COUN
     "Static texture",
     "Sprite",
     "Spine",
+    "Script",
 };
 
 class StormSceneObject;

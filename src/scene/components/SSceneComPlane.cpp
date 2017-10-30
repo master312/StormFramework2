@@ -118,6 +118,21 @@ void SSceneComPlane::observeTransformChanged(void* data) {
     }
 }
 
+bool SSceneComPlane::containsPoint(Vector2 point) {
+    Vector2& p1 = _Vertices[0].position;
+    Vector2& p2 = _Vertices[1].position;
+    Vector2& p3 = _Vertices[2].position;
+    Vector2& p4 = _Vertices[3].position;
+
+    Vector2 p1_p4 = p1 - p4;
+    Vector2 p3_p4 = p3 - p4;
+   // TWO_P_C=2P-C, C=Center of rectangle
+    Vector2 pwo_p_c = (point * 2.0f) - p1 - p3;
+   
+    return (p3_p4.dot(pwo_p_c - p3_p4) <= 0 && p3_p4.dot(pwo_p_c + p3_p4) >= 0) &&
+           (p1_p4.dot(pwo_p_c - p1_p4) <= 0 && p1_p4.dot(pwo_p_c + p1_p4) >= 0);
+}
+
 void SSceneComPlane::transformRotation(const Vector2& centerPosition) {
     calculateVertices(centerPosition);
 
