@@ -10,7 +10,7 @@ SSceneComponentSystem::~SSceneComponentSystem() {
 
 void SSceneComponentSystem::initialize(StormScene* ownerScene /* = nullptr*/) {
     for (SSceneComponent* component : _Components) {
-        component->initialize();
+        component->initialize(this);
     }
 }
 

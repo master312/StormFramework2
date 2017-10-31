@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<sprite>
+    <frame id="0" startX="0" startY="0" width="512" height="256" />
+    <frame id="1" startX="512" startY="0" width="512" height="256" />
+    <frame id="2" startX="0" startY="256" width="512" height="256" />
+    <frame id="3" startX="512" startY="256" width="512" height="256" />
+    <frame id="4" startX="0" startY="512" width="512" height="256" />
+    <frame id="5" startX="512" startY="512" width="512" height="256" />
+    <frame id="6" startX="0" startY="768" width="512" height="256" />
+    <frame id="7" startX="512" startY="768" width="512" height="256" />
+</sprite>

@@ -12,7 +12,7 @@ this.onUpdate = function(deltaTime)
     end
 
     
-    this.transform.angle = this.transform.angle + 1.2
+    -- this.transform.angle = this.transform.angle + 1.2
     
 
     if InputManager:isKeyPressed(Keyboard.A) then
@@ -32,16 +32,7 @@ this.onUpdate = function(deltaTime)
     local position = this.transform.position
     -- debug.log(position:toString())	
 
-
-
-
-
-
 end
-
-
-
--- this.transform.angle = this.transform.angle + 1
 
 return this;
 
@@ -50,12 +41,12 @@ return this;
 -- -- Called immidiaty after script loads. Method should be light as possible, sence it will slow loading
 -- this.onLoad = function()
 --     transform = this.transform
---     debug.log("Motherfucking shit 1 JEDAN 1 LOADED LOADED LOADED " .. this.id .. " " .. this.transform.posAbs:_str())
+--     debug.log("Modafakaaa 1 LOADED LOADED LOADED " .. this.id .. " " .. this.transform.posAbs:_str())
 -- end 
 
 -- -- Called after all scripts have been loaded, and ready to use
 -- this.onStart = function()
---     debug.log("Started mother fucking shit! 777 " .. this.transform:getPosition():_str())
+--     debug.log("Started Fakamoda! 777 " .. this.transform:getPosition():_str())
     
 --     if this.hasParent then
 --         debug.log("HAS PARENT ");

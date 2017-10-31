@@ -5,7 +5,8 @@
 #include "sol.hpp"
 
 /* Base class for all component systems.
- * TODO: Create system for checking for double component entrys in _Components. */
+ * TODO: Create system for checking for double component entrys in _Components. 
+ *     : In SSceneComponentSystem::initialize method, handle errors returned by componets. */
 
 class StormRenderer;
 class StormScene;

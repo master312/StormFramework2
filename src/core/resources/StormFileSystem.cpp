@@ -108,6 +108,13 @@ std::string StormFileSystem::getRootPath() const {
     return _RootPath;
 }
 
+bool StormFileSystem::checkIfFileExists(const std::string& filename) const {
+    /* TODO: Fix this shit. .is_open() can fail for many other reasons, 
+             other then file not existing. */
+    std::ifstream file(_RootPath + filename);
+    return file.is_open();
+}
+
 StormResourceFile* StormFileSystem::loadResource(const std::string& filename) {
     if (!filename.size()) {
         return nullptr;

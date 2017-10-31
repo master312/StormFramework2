@@ -1,4 +1,5 @@
 #include "SSceneComLuaScript.h"
+#include "SSceneSystemLuaScript.h"
 #include "../StormSceneObject.h"
 #include "../../StormEngine.h"
 
@@ -30,9 +31,15 @@ int SSceneComLuaScript::deserializeXml(pugi::xml_node& node) {
     return 1;
 }
 
-int SSceneComLuaScript::initializeLua(sol::state& luaState) {
-    SSceneComponent::initialize();
-    
+int SSceneComLuaScript::initialize(SSceneComponentSystem* system) {
+    SSceneComponent::initialize(system);
+    SSceneSystemLuaScript* luaSystem = dynamic_cast<SSceneSystemLuaScript*>(system);
+    if (!luaSystem) {
+        return -9;
+    }
+
+    sol::state& luaState = luaSystem->getLuaState();
+
     if (_Filename.size() <= 2) {
         LOG(ERROR) << "Could not initialize lua script. Filename not specified";
         return -1;

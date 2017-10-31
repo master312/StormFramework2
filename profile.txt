@@ -5,7 +5,7 @@ granularity: each sample hit covers 2 byte(s) for 2.63% of 0.38 seconds
 
 index % time    self  children    called     name
                                                  <spontaneous>
-[1]     31.6    0.01    0.11                 SSceneComStaticTexture::render(StormRenderer*) [1]
+[1]     31.6    0.01    0.11                 SSceneComSprite::render(StormRenderer*) [1]
                 0.02    0.02 2876000/2876000     StormRenderCommand::setVertexData(StormVertex*, unsigned short) [5]
                 0.00    0.04 2876000/2876000     StormRenderer::queueCommand(StormRenderCommand*) [7]
                 0.02    0.00 2876000/2876000     StormRenderCommand::setDefaultIndices() [15]
@@ -29,7 +29,7 @@ index % time    self  children    called     name
                                                  <spontaneous>
 [4]     13.2    0.05    0.00                 VectorT2<float>::VectorT2() [4]
 -----------------------------------------------
-                0.02    0.02 2876000/2876000     SSceneComStaticTexture::render(StormRenderer*) [1]
+                0.02    0.02 2876000/2876000     SSceneComSprite::render(StormRenderer*) [1]
 [5]     10.5    0.02    0.02 2876000         StormRenderCommand::setVertexData(StormVertex*, unsigned short) [5]
                 0.02    0.00 11504000/11508004     StormVertex::StormVertex() [11]
 -----------------------------------------------
@@ -44,7 +44,7 @@ index % time    self  children    called     name
                 0.00    0.00    2877/5753        std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::end() [55]
                 0.00    0.00    2877/2877        std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::clear() [62]
 -----------------------------------------------
-                0.00    0.04 2876000/2876000     SSceneComStaticTexture::render(StormRenderer*) [1]
+                0.00    0.04 2876000/2876000     SSceneComSprite::render(StormRenderer*) [1]
 [7]      9.2    0.00    0.04 2876000         StormRenderer::queueCommand(StormRenderCommand*) [7]
                 0.01    0.03 2876000/2876000     std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> >::push_back(StormRenderCommand* const&) [8]
 -----------------------------------------------
@@ -81,7 +81,7 @@ index % time    self  children    called     name
 [14]     5.3    0.00    0.02 2876000         StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::deleteObject(StormRenderCommand*) [14]
                 0.02    0.00 2876000/2876000     StormRenderCommand::~StormRenderCommand() [17]
 -----------------------------------------------
-                0.02    0.00 2876000/2876000     SSceneComStaticTexture::render(StormRenderer*) [1]
+                0.02    0.00 2876000/2876000     SSceneComSprite::render(StormRenderer*) [1]
 [15]     5.3    0.02    0.00 2876000         StormRenderCommand::setDefaultIndices() [15]
 -----------------------------------------------
                 0.01    0.01 2876000/2876000     StormRenderer::flush() [2]
@@ -93,7 +93,7 @@ index % time    self  children    called     name
                 0.02    0.00 2876000/2876000     StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::deleteObject(StormRenderCommand*) [14]
 [17]     5.3    0.02    0.00 2876000         StormRenderCommand::~StormRenderCommand() [17]
 -----------------------------------------------
-                0.00    0.02 2876000/2876000     SSceneComStaticTexture::render(StormRenderer*) [1]
+                0.00    0.02 2876000/2876000     SSceneComSprite::render(StormRenderer*) [1]
 [18]     3.9    0.00    0.02 2876000         StormRenderer::newCommand() [18]
                 0.01    0.01 2876000/2876000     StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::newObject() [19]
 -----------------------------------------------
@@ -113,10 +113,10 @@ index % time    self  children    called     name
 [22]     2.6    0.01    0.00                 _GLOBAL__sub_I__ZN17StormInputManagerC2Ev [22]
 -----------------------------------------------
                                                  <spontaneous>
-[23]     2.6    0.01    0.00                 SSceneComStaticTexture::getTexture() [23]
+[23]     2.6    0.01    0.00                 SSceneComSprite::getTexture() [23]
 -----------------------------------------------
                                                  <spontaneous>
-[24]     2.6    0.01    0.00                 SSceneSystemStaticTexture::render(StormRenderer*) [24]
+[24]     2.6    0.01    0.00                 SSceneSystemSprite::render(StormRenderer*) [24]
 -----------------------------------------------
                                                  <spontaneous>
 [25]     2.6    0.01    0.00                 void std::_Bind<std::_Mem_fn<void (StormEngine::*)(float)> (StormEngine*, std::_Placeholder<1>)>::__call<void, float&&, 0ul, 1ul>(std::tuple<float&&>&&, std::_Index_tuple<0ul, 1ul>) [25]
@@ -203,7 +203,7 @@ index % time    self  children    called     name
                 0.00    0.00 2876000/2876000     StormRenderCommand::execute(StormRenderer*) [16]
 [51]     0.0    0.00    0.00 2876000         StormRenderer::bindIndexData(unsigned int*, unsigned int) [51]
 -----------------------------------------------
-                0.00    0.00 2876000/2876000     SSceneComStaticTexture::render(StormRenderer*) [1]
+                0.00    0.00 2876000/2876000     SSceneComSprite::render(StormRenderer*) [1]
 [52]     0.0    0.00    0.00 2876000         StormRenderCommand::setTexture(StormTexture*) [52]
 -----------------------------------------------
                 0.00    0.00 2876000/2876000     StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::newObject() [19]
@@ -699,6 +699,6 @@ Index by function name
   [17] StormRenderCommand::~StormRenderCommand() [75] std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_deallocate(StormRenderCommand**, unsigned long) [89] StormRenderCommand** std::copy<std::move_iterator<StormRenderCommand**>, StormRenderCommand**>(std::move_iterator<StormRenderCommand**>, std::move_iterator<StormRenderCommand**>, StormRenderCommand**)
   [91] DefaultMemoryAllocator::Deallocate(void*, unsigned long) [57] std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_M_get_Tp_allocator() [13] StormRenderCommand* const& std::forward<StormRenderCommand* const&>(std::remove_reference<StormRenderCommand* const&>::type&)
   [92] DefaultMemoryAllocator::Allocate(unsigned long) [125] std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::_Vector_base() [59] void std::_Destroy<StormRenderCommand**>(StormRenderCommand**, StormRenderCommand**)
-  [23] SSceneComStaticTexture::getTexture() [126] std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::~_Vector_base() [60] void std::_Destroy<StormRenderCommand**, StormRenderCommand*>(StormRenderCommand**, StormRenderCommand**, std::allocator<StormRenderCommand*>&)
-   [1] SSceneComStaticTexture::render(StormRenderer*) [127] std::__shared_ptr<el::LogBuilder, (__gnu_cxx::_Lock_policy)2>::__shared_ptr<el::base::DefaultLogBuilder>(el::base::DefaultLogBuilder*) [31] operator new(unsigned long, void*)
-  [24] SSceneSystemStaticTexture::render(StormRenderer*) [128] std::__shared_ptr<el::base::Storage, (__gnu_cxx::_Lock_policy)2>::__shared_ptr<el::base::Storage>(el::base::Storage*)
+  [23] SSceneComSprite::getTexture() [126] std::_Vector_base<StormRenderCommand*, std::allocator<StormRenderCommand*> >::~_Vector_base() [60] void std::_Destroy<StormRenderCommand**, StormRenderCommand*>(StormRenderCommand**, StormRenderCommand**, std::allocator<StormRenderCommand*>&)
+   [1] SSceneComSprite::render(StormRenderer*) [127] std::__shared_ptr<el::LogBuilder, (__gnu_cxx::_Lock_policy)2>::__shared_ptr<el::base::DefaultLogBuilder>(el::base::DefaultLogBuilder*) [31] operator new(unsigned long, void*)
+  [24] SSceneSystemSprite::render(StormRenderer*) [128] std::__shared_ptr<el::base::Storage, (__gnu_cxx::_Lock_policy)2>::__shared_ptr<el::base::Storage>(el::base::Storage*)

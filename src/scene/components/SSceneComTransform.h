@@ -18,7 +18,7 @@ public:
     virtual int deserializeXml(pugi::xml_node& node);
 
     /* Initialize component. Called after all components have been loaded */
-    virtual void initialize();
+    virtual int initialize(SSceneComponentSystem* system);
 
     /* Do transfrom calculations. */
     void transform();

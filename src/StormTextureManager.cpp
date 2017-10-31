@@ -54,13 +54,14 @@ spStormTexture StormTextureManager::loadTextureResource(const std::string& filen
         LOG(ERROR) << "Could not load texture resource. No filesystem specified";
         return nullptr;
     }
+    
     spStormResourceFile file = _Filesystem->getResourceByFilename(filename);
     if (!file) {
         return nullptr;
     }
     
     spStormTexture tmpTexture = new StormTexture();
-    if (tmpTexture->loadFromFileBuffer(file->getBuffer(), file->getBufferSize()) < 0) {
+    if (tmpTexture->loadFromFile(file) < 0) {
         LOG(ERROR) << "Error loading texture from file " << filename;
         _Filesystem->freeResource(file);
         return nullptr;
@@ -68,6 +69,8 @@ spStormTexture StormTextureManager::loadTextureResource(const std::string& filen
     
     tmpTexture->setName(filename);
 
+    /* Close resource file */
     _Filesystem->freeResource(file);
+    LOG(DEBUG) << "Texture file '" << filename << "' loaded";
     return tmpTexture;
 }

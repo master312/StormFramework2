@@ -13,7 +13,7 @@ StormEngine::StormEngine() {
     _ModResources = nullptr;
     _ModSceneManager = nullptr;
 
-    _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.07", true);
+    _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.11", true);
 }
 
 StormEngine::~StormEngine() {
@@ -147,4 +147,8 @@ StormInputManager* StormEngine::getInputManager() {
 
 StormScene* StormEngine::getActiveScene() {
     return instance()->_ModSceneManager->getActiveScene();
+}
+
+uint32_t StormEngine::getRunningTime() {
+    return instance()->_ModPlatform->getRunningTime();
 }

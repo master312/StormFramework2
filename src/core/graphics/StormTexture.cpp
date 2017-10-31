@@ -1,4 +1,5 @@
 #include "StormTexture.h"
+#include "../resources/StormResourceFile.h"
 #include <SDL2/SDL_image.h>
 #include <GL/glew.h>
 #include <GL/glu.h>
@@ -15,8 +16,10 @@ StormTexture::~StormTexture() {
     }
 }
 
-int StormTexture::loadFromFileBuffer(const char* buffer, int size) {
-    SDL_Surface* texture = IMG_Load_RW(SDL_RWFromMem((void*)buffer, size), 0);
+int StormTexture::loadFromFile(spStormResourceFile file) {
+    SDL_Surface* texture = IMG_Load_RW(
+                            SDL_RWFromMem((void*)file->getBuffer(), 
+                                          (int)file->getBufferSize()), 0);
     if (!texture) {
         LOG(ERROR) << "StormTexture Could not load texture from buffer";
         return -1;
@@ -71,6 +74,14 @@ void StormTexture::setIsDefaultTexture(bool isDefault) {
     _IsDefaultTexture = isDefault;
 }
 
+Point StormTexture::getSize() const {
+    return _Size;
+}
+
+std::reference_wrapper<const Rect> StormTexture::getArea() const {
+    return std::cref<Rect>(_Rect);
+}
+
 bool StormTexture::isDefaultTexture() const {
     return _IsDefaultTexture;
 }
@@ -86,6 +97,11 @@ uint32_t StormTexture::sdlSurfaceToGLTexture(SDL_Surface* surface) {
     if(surface->format->BytesPerPixel == 4) {
         mode = GL_RGBA;
     }
+
+    _Size.x = (int)surface->w;
+    _Size.y = (int)surface->h;
+    _Rect.pos.set(0, 0);
+    _Rect.size = _Size;
 
     /* Generate The Texture */
     glTexImage2D(GL_TEXTURE_2D, 0, mode, surface->w, surface->h, 0, mode,

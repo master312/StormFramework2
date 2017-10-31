@@ -45,7 +45,7 @@ public:
     std::string getExtension() const;
     /* Returns filename.extension */
     std::string getFilenameWithExt() const;
-    /* Returns full path of the file. */
+    /* Returns full path of the file, without '/' on the end. */
     std::string getPath() const;
     /* Returns path/filename.extension format */
     std::string getFilenameWithPath() const;
@@ -54,6 +54,7 @@ public:
 
     /* Gets string containting file info */
     std::string toString() const;
+    
 private:
     /* Name of actual file, without path and extension */
     std::string _Filename;

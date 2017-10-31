@@ -41,12 +41,16 @@ int SSceneComTransform::deserializeXml(pugi::xml_node& node) {
     return 1;
 }
 
-void SSceneComTransform::initialize() {
+int SSceneComTransform::initialize(SSceneComponentSystem* system) {
+    SSceneComponent::initialize(system);
+
     pullParentTransform();
     transform();
     
     S_OBSERVER_ADD(_Owner, this, S_OBSERVER_EVENT_PARENT_CHANGED, SSceneComTransform::observeParentChanged);
     S_OBSERVER_ADD(_Owner, this, S_OBSERVER_EVENT_PARENT_TRANSFORM_UPDATED, SSceneComTransform::observeParentTransformChanged);
+
+    return 1;
 }
 
 void SSceneComTransform::transform() {

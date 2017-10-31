@@ -2,7 +2,7 @@
 #include "../SWidgetComponent.h"
 #include "../../src/core/utils/math/Vector4.h"
 
-class SSceneComStaticTexture;
+class SSceneComSprite;
 class SWidgetPropertyResource;
 class SWidgetPropertyFloat;
 
@@ -21,7 +21,7 @@ public slots:
     void resourceChanged();
 
 private:
-    SSceneComStaticTexture* _TextureComponent;
+    SSceneComSprite* _TextureComponent;
     SWidgetPropertyResource* _ResourceSelectWidget;
     float _CurrentAlpha;
     SWidgetPropertyFloat* _AlphaControll;

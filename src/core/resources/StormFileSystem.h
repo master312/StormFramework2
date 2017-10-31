@@ -10,6 +10,8 @@
 
 /* TODO
  ---- Long term ----
+ ---** Reimplement @StormFileSystem::checkIfFileExists in safe and portable way! **---
+ ---** Maybe if smart pointer ref counter reaches zero (or 3, wathever) automatically free resource buffer **---
  - Upon setting filesystem path using @setRootPath(...) check if path exists, and report errors if needed
  - Disable loading (only already loaded resources can be getted)
  - Some kind of XML file that indexes all resource by identifiers for easyer acces 
@@ -47,6 +49,9 @@ public:
     /* Returns string containing path to root of this filesystem
      * with '/' char at the end */
     std::string getRootPath() const;
+
+    /* Checks if file @filename exists on the filesystem. */
+    bool checkIfFileExists(const std::string& filename) const;
 
 private:
     /* Root path of filesystem. (E.X: c:/game/data/ - with'/' on the end)*/

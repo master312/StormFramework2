@@ -18,7 +18,6 @@ SSceneSystemLuaScript::~SSceneSystemLuaScript() {
 }
 
 void SSceneSystemLuaScript::initialize(StormScene* ownerScene) {
-    //SSceneComponentSystem::initialize();
     _LuaState.open_libraries(sol::lib::base, sol::lib::os);
 
     if (SLuaBinders::bind(_LuaState) < 0) {
@@ -35,12 +34,7 @@ void SSceneSystemLuaScript::initialize(StormScene* ownerScene) {
     /* Load common script(s) */
     _LuaState.script(resFile->getBuffer());
 
-    for (SSceneComLuaScript* component : _ScriptComponents) {
-        if (component->initializeLua(_LuaState) < 0) {
-            /* initializeLua() will log error */
-            continue;
-        }
-    }
+    SSceneComponentSystem::initialize(ownerScene);
     
     for (SSceneComponentSystem* system : ownerScene->getSystems()) {
         if (system == this) {
@@ -66,6 +60,10 @@ void SSceneSystemLuaScript::tick(float deltaTime) {
     }
 
     _LuaState["tickObjects"](deltaTime);
+}
+
+sol::state& SSceneSystemLuaScript::getLuaState() {
+    return _LuaState;
 }
 
 void SSceneSystemLuaScript::addComponent(SSceneComponent* component) {

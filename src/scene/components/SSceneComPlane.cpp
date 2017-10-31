@@ -44,15 +44,17 @@ int SSceneComPlane::deserializeXml(pugi::xml_node& node) {
     return 1;
 }
 
-void SSceneComPlane::initialize() {
+int SSceneComPlane::initialize(SSceneComponentSystem* system) {
     if (!_Owner->getTransform()) {
         LOG(ERROR) << "Plane component could not get transform from object " << _Owner->getName();
-        return;
+        return -1;
     }
+    SSceneComponent::initialize(system);
 
     observeTransformChanged(nullptr);
 
     S_OBSERVER_ADD(_Owner, this, S_OBSERVER_EVENT_TRANSFORM_UPDATED, SSceneComPlane::observeTransformChanged);
+    return 1;
 }
 
 void SSceneComPlane::setSize(const Vector2 size) {

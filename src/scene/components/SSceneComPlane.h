@@ -17,7 +17,7 @@ public:
     virtual int deserializeXml(pugi::xml_node& node);
 
     /* Called after all components have been loaded */
-    virtual void initialize();
+    virtual int initialize(SSceneComponentSystem* system);
 
     /* Sets plane size in pixels. */
     void setSize(const Vector2 size);

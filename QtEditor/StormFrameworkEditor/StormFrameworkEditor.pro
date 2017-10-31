@@ -47,8 +47,8 @@ SOURCES += \
     ../../src/core/utils/Plane.cpp \
     ../../src/core/utils/StormMiscTools.cpp \
     ../../src/scene/components/SSceneComPlane.cpp \
-    ../../src/scene/components/SSceneComStaticTexture.cpp \
-    ../../src/scene/components/SSceneSystemStaticTexture.cpp \
+    ../../src/scene/components/SSceneComSprite.cpp \
+    ../../src/scene/components/SSceneSystemSprite.cpp \
     ../../src/scene/SSceneComponent.cpp \
     ../../src/scene/SSceneComponentSystem.cpp \
     ../../src/scene/StormScene.cpp \
@@ -114,8 +114,8 @@ HEADERS += \
     ../../src/core/utils/StormVertex.h \
     ../../src/core/StormCommon.h \
     ../../src/scene/components/SSceneComPlane.h \
-    ../../src/scene/components/SSceneComStaticTexture.h \
-    ../../src/scene/components/SSceneSystemStaticTexture.h \
+    ../../src/scene/components/SSceneComSprite.h \
+    ../../src/scene/components/SSceneSystemSprite.h \
     ../../src/scene/SSceneComponent.h \
     ../../src/scene/SSceneComponentSystem.h \
     ../../src/scene/StormScene.h \

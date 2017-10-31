@@ -1,7 +1,7 @@
 #include "SWidgetComStaticTexture.h"
 #include "../../src/StormEngine.h"
 #include "../../src/StormTextureManager.h"
-#include "../../src/scene/components/SSceneComStaticTexture.h"
+#include "../../src/scene/components/SSceneComSprite.h"
 #include "../propertyWidgets/SWidgetPropertyFloat.h"
 #include "../propertyWidgets/SWidgetPropertyResource.h"
 #include "../propertyWidgets/SWidgetPropertyColor.h"
@@ -17,7 +17,7 @@ SWidgetComStaticTexture::SWidgetComStaticTexture(QWidget* parent) : SWidgetCompo
 
 void SWidgetComStaticTexture::initialize() {
     SWidgetComponent::initialize();
-    _TextureComponent = dynamic_cast<SSceneComStaticTexture*>(_StormComponent);
+    _TextureComponent = dynamic_cast<SSceneComSprite*>(_StormComponent);
     if (!_StormComponent) {
         LOG(ERROR) << "SWidgetComStaticTexture::initialize null static texture component";
         return;

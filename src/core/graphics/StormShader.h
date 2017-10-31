@@ -40,6 +40,7 @@ public:
 
     /* Destroys shader program */
     void destroy();
+    
 private:
     int _AttributesCount;
 

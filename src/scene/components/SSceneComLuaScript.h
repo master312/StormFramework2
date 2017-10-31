@@ -16,10 +16,9 @@ public:
      * Returns < 0 on error */
     virtual int deserializeXml(pugi::xml_node& node);
 
-    /* REMAINDER: Use this instend of SSceneComponent::initialize() !!!""
-     * Loads script file, bind all storm components to lua and 
-     * add script object to lua handler. */
-    int initializeLua(sol::state& luaState);
+    /* Loads script file, bind all storm components to lua and 
+     * add script object to lua handler. */ 
+    virtual int initialize(SSceneComponentSystem* system);
 
     /* Returns lua handler for this script */
     sol::table& getLuaHandle();

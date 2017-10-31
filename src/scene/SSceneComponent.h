@@ -12,12 +12,11 @@
 typedef enum SSceneComponentType {
     S_SCENE_OBJECT_COM_UNDEFINED = 0,
     
-    S_SCENE_OBJECT_COM_TRANSFORM,            // Transformation component
-    S_SCENE_OBJECT_COM_PLANE,                // Plane component
-    S_SCENE_OBJECT_COM_STATIC_TEXTURE,       // Static texture component
-    S_SCENE_OBJECT_COM_SPRITE,               // Animated texture component
-    S_SCENE_OBJECT_COM_SPINE,                // Spine component
-    S_SCENE_OBJECT_COM_SCRIPT,
+    S_SCENE_OBJECT_COM_TRANSFORM = 1,            // Transformation component
+    S_SCENE_OBJECT_COM_PLANE = 2,                // Plane component
+    S_SCENE_OBJECT_COM_SPRITE = 3,               // Animated texture component
+    S_SCENE_OBJECT_COM_SPINE = 4,                // Spine component
+    S_SCENE_OBJECT_COM_SCRIPT = 5,
 
     S_SCENE_OBJECT_COM_TYPES_COUNT
 };
@@ -26,7 +25,6 @@ typedef enum SSceneComponentType {
 static const int SSceneComponentInitializationOrder[S_SCENE_OBJECT_COM_TYPES_COUNT] = {
     S_SCENE_OBJECT_COM_TRANSFORM,
     S_SCENE_OBJECT_COM_PLANE,
-    S_SCENE_OBJECT_COM_STATIC_TEXTURE,
     S_SCENE_OBJECT_COM_SPRITE,
     S_SCENE_OBJECT_COM_SPINE,
     S_SCENE_OBJECT_COM_SCRIPT
@@ -37,13 +35,13 @@ static const std::string SSceneComponentTypeString[S_SCENE_OBJECT_COM_TYPES_COUN
     "Undefined",
     "Transform",
     "Plane",
-    "Static texture",
     "Sprite",
     "Spine",
     "Script",
 };
 
 class StormSceneObject;
+class SSceneComponentSystem;
 
 class SSceneComponent {
 public:
@@ -63,7 +61,7 @@ public:
     virtual int deserializeXml(pugi::xml_node& node);
 
     /* Called after all components and scene have been loaded */
-    virtual void initialize();
+    virtual int initialize(SSceneComponentSystem* system);
 
     /* Produces new component of @SSceneComponentType and return pointer to it */
     static SSceneComponent* newComponent(SSceneComponentType type, StormSceneObject* owner);

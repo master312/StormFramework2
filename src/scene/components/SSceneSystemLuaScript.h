@@ -19,6 +19,8 @@ public:
     
     virtual void tick(float deltaTime);
 
+    sol::state& getLuaState();
+
 private:
     /* Vector containing all components. Used for faster component access. */
     std::vector<SSceneComLuaScript*> _ScriptComponents;

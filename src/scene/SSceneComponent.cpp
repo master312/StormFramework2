@@ -1,9 +1,10 @@
 #include "SSceneComponent.h"
 #include "StormSceneObject.h"
 #include "components/SSceneComPlane.h"
-#include "components/SSceneComStaticTexture.h"
+#include "components/SSceneComSprite.h"
 #include "components/SSceneComTransform.h"
 #include "components/SSceneComLuaScript.h"
+#include "SSceneComponentSystem.h"
 #include "../core/StormCommon.h"
 
 SSceneComponent::SSceneComponent(StormSceneObject* owner) {
@@ -27,7 +28,8 @@ void SSceneComponent::serializeXml(pugi::xml_node& node) {
 int SSceneComponent::deserializeXml(pugi::xml_node& node) {
 }
 
-void SSceneComponent::initialize() {
+int SSceneComponent::initialize(SSceneComponentSystem* system) {
+    return 1;
 }
 
 void SSceneComponent::setOwner(StormSceneObject* owner) {
@@ -51,8 +53,8 @@ SSceneComponent* SSceneComponent::newComponent(SSceneComponentType type, StormSc
         case S_SCENE_OBJECT_COM_PLANE:
             component = new SSceneComPlane(owner);
             break;
-        case S_SCENE_OBJECT_COM_STATIC_TEXTURE:
-            component = new SSceneComStaticTexture(owner);
+        case S_SCENE_OBJECT_COM_SPRITE:
+            component = new SSceneComSprite(owner);
             break;
         case S_SCENE_OBJECT_COM_SCRIPT:
             component = new SSceneComLuaScript(owner);

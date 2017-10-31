@@ -2,7 +2,7 @@
 #include "StormSceneObject.h"
 
 #include "components/SSceneSystemPlane.h"
-#include "components/SSceneSystemStaticTexture.h"
+#include "components/SSceneSystemSprite.h"
 #include "components/SSceneSystemTransform.h"
 #include "components/SSceneSystemLuaScript.h"
 
@@ -43,6 +43,10 @@ int StormScene::loadXml(spStormResourceFile xmlFile) {
     }
     
     pugi::xml_node sceneRootNode = doc.child("scene");
+    if (sceneRootNode.type() != pugi::node_element) {
+        LOG(ERROR) << "Scene XML " << xmlFile->getFilename() << " error. Missing root tag.";
+        return -2;
+    }
     _Name = sceneRootNode.attribute("name").as_string("");
 
     /* Map used loading linked objects
@@ -201,9 +205,9 @@ void StormScene::initializeDefaultSystems() {
     _ComponentSystems.push_back(sysTransform);
     _ComponentSystemsByType[S_SCENE_OBJECT_COM_TRANSFORM] = sysTransform;
 
-    SSceneSystemStaticTexture* sysTexture = new SSceneSystemStaticTexture();
-    _ComponentSystems.push_back(sysTexture);
-    _ComponentSystemsByType[S_SCENE_OBJECT_COM_STATIC_TEXTURE] = sysTexture;
+    SSceneSystemSprite* sysSprite = new SSceneSystemSprite();
+    _ComponentSystems.push_back(sysSprite);
+    _ComponentSystemsByType[S_SCENE_OBJECT_COM_SPRITE] = sysSprite;
 
     SSceneSystemPlane* sysPlane = new SSceneSystemPlane();
     _ComponentSystems.push_back(sysPlane);
