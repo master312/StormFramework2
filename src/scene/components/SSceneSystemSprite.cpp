@@ -79,10 +79,14 @@ int SSceneSystemSprite::loadSpriteSheetFromXml(spStormResourceFile file) {
     }
 
     sprite.fps = rootNode.attribute("fps").as_float(0.0f);
+    sprite.textureName = rootNode.attribute("texture").as_string("");
 
 #ifndef PRODUCTION
     if (sprite.fps == 0.0f) {
         LOG(WARNING) << "Sprite animation '" << sprite.filename << "' fps is 0.0";
+    }
+    if (sprite.textureName == "") {
+        LOG(WARNING) << "Sprite animation '" << sprite.filename << "' no texture specified";
     }
 #endif
 

@@ -14,6 +14,7 @@ SSceneComSprite::SSceneComSprite(StormSceneObject* owner) : SSceneComponent(owne
     _FrameTime = 0.0f;
     _SpriteSheet = nullptr;
     _SpriteSheetFilename = "";
+    _OriginalTextureName = "";
     _LastFrameTime = 0;
 
     _Type = S_SCENE_OBJECT_COM_SPRITE;
@@ -26,8 +27,8 @@ SSceneComSprite::~SSceneComSprite() {
 void SSceneComSprite::serializeXml(pugi::xml_node& node) {
     SSceneComponent::serializeXml(node);
  
-    if (!_Texture->isDefaultTexture()) {
-        node.append_attribute("texture").set_value(_Texture->getName().c_str());
+    if (_OriginalTextureName != "") {
+        node.append_attribute("texture").set_value(_OriginalTextureName.c_str());
     }
 
     node.append_attribute("color_mult_r").set_value((int)_ColorMultiply.r);
@@ -48,12 +49,6 @@ void SSceneComSprite::serializeXml(pugi::xml_node& node) {
 int SSceneComSprite::deserializeXml(pugi::xml_node& node) {
     SSceneComponent::deserializeXml(node);
 
-    std::string textureName = node.attribute("texture").as_string("");
-    if (textureName == "") {
-        LOG(WARNING) << "Texture name not specified in XML file for SSceneComSprite. Object ID " << getOwner()->getId();
-    }
-    _Texture = StormEngine::getModule<StormTextureManager>()->getTexture(textureName);
-
     _ColorMultiply.r = (uint8_t)node.attribute("color_mult_r").as_int(255);
     _ColorMultiply.g = (uint8_t)node.attribute("color_mult_g").as_int(255);
     _ColorMultiply.b = (uint8_t)node.attribute("color_mult_b").as_int(255);
@@ -65,6 +60,13 @@ int SSceneComSprite::deserializeXml(pugi::xml_node& node) {
     _ColorAdd.a = (uint8_t)node.attribute("color_add_a").as_int(0);
 
     _SpriteSheetFilename = node.attribute("sprite_sheet").as_string("");
+    _OriginalTextureName = node.attribute("texture").as_string("");
+    
+    if (_OriginalTextureName == "" && _SpriteSheetFilename == "") {
+        LOG(WARNING) << "Texture and sprite name not specified in XML file for SSceneComSprite. Object ID " << getOwner()->getId();
+    } else if (_OriginalTextureName != "") {
+        _Texture = StormEngine::getModule<StormTextureManager>()->getTexture(_OriginalTextureName);
+    }
 
     return 1;
 }
@@ -83,6 +85,9 @@ int SSceneComSprite::initialize(SSceneComponentSystem* system) {
 
     _SpriteSheet = sysSprite->getSpriteSheet(_SpriteSheetFilename);
     _LastFrameTime = StormEngine::getTimeMs();
+    if (!_Texture) {
+        _Texture = StormEngine::getModule<StormTextureManager>()->getTexture(_SpriteSheet->textureName);
+    }
     /* TODO * speed scaler */
     _FrameTime = 1000 /_SpriteSheet->fps;
     return 1;

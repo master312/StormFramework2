@@ -68,6 +68,8 @@ public:
     
 private:
     spStormTexture _Texture;
+    /* Texture filename loaded from XML */
+    std::string _OriginalTextureName;
 
     Color _ColorMultiply;
     Color _ColorAdd;

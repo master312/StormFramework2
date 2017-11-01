@@ -21,9 +21,10 @@ struct SComSpriteSheet {
     std::string filename;
     std::vector<Rect> frames;
     float fps;
-    SComSpriteSheet() : filename(""), fps(0.0f) { }
+    std::string textureName;
+    SComSpriteSheet() : filename(""), fps(0.0f), textureName("") { }
     SComSpriteSheet(const std::string& _filename, float _fps = 0.0f) : 
-        filename(_filename), fps(_fps) { }
+        filename(_filename), fps(_fps), textureName("") { }
     
     /* Retunrs count of frames in this sprite sheet */
     inline uint32_t count() { static_cast<uint32_t>(frames.size()); }
