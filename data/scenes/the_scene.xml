@@ -3,7 +3,7 @@
 	<object id="1" name="TestNameOne">
 		<component type="1" pos_x="546.000031" pos_y="348.000031" scale_x="2.0" scale_y="2.0" angle="12.34" />
 		<component type="2" size_x="100" size_y="100" />
-		<component type="3" texture="test_lion.png" sprite_sheet="test_lion_sheet.xml" color_mult_r="255" color_mult_g="253" color_mult_b="255" color_mult_a="255" />
+		<component type="3" sprite_sheet="test_lion_sheet.xml" animation_speed="2.5" color_mult_r="255" color_mult_g="253" color_mult_b="255" color_mult_a="255" />
 		<component type="5" filename="the_script.lua" />
 	</object>
 	<object id="2" parent="1">

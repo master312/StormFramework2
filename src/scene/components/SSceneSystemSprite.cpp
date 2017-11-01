@@ -121,7 +121,7 @@ int SSceneSystemSprite::loadSpriteSheetFromXml(spStormResourceFile file) {
 
 void SSceneSystemSprite::tickSpriteAnimation(SSceneComSprite* sprite, float deltaTime) {
     uint32_t timeDiff = StormEngine::getTimeMs() - sprite->getLastFrameTime();
-    float framesDiff = (float)(timeDiff / sprite->getFrameTime());
+    float framesDiff = (float)timeDiff / sprite->getFrameTime();
     if (framesDiff >= 1.0f) {
         /* Enough time has passed. Move to next frame */
         float nextFrame = sprite->getCurrentFrame() + framesDiff;

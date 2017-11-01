@@ -48,8 +48,9 @@ public:
      * Clamps to begining if needed */
     void setCurrentFrame(float count);
     
-    /* Returns how long one sprite frame lasts. (animation speed - fps/1000.0) */
-    uint32_t getFrameTime() const;
+    /* Returns how long one sprite frame lasts in milisecounds (ms). 
+     * (animation speed - 1000 / fps / speed) */
+    float getFrameTime() const;
     
     /* Returns time when was the last frame changed */
     uint32_t getLastFrameTime() const;
@@ -80,8 +81,11 @@ private:
     /* Reference to sprite sheet for faster access */
     SComSpriteSheet* _SpriteSheet;
 
+    /* Animation speed (fps) multiplier */
+    float _AnimationSpeed;
+
     /* Duration of one frame in milisecounds */
-    uint32_t _FrameTime;
+    float _FrameTime;
 
     /* Index of frame that is currently been drawn */
     uint32_t _CurrentFrame;

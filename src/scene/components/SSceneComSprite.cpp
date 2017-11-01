@@ -16,6 +16,7 @@ SSceneComSprite::SSceneComSprite(StormSceneObject* owner) : SSceneComponent(owne
     _SpriteSheetFilename = "";
     _OriginalTextureName = "";
     _LastFrameTime = 0;
+    _AnimationSpeed = 1.0f;
 
     _Type = S_SCENE_OBJECT_COM_SPRITE;
 }
@@ -41,6 +42,10 @@ void SSceneComSprite::serializeXml(pugi::xml_node& node) {
     node.append_attribute("color_add_b").set_value((int)_ColorAdd.b);
     node.append_attribute("color_add_a").set_value((int)_ColorAdd.a);
 
+    if (_AnimationSpeed != 1.0f) {
+        node.append_attribute("animation_speed").set_value(_AnimationSpeed);
+    }
+
     if (_SpriteSheetFilename != "") {
         node.append_attribute("sprite_sheet").set_value(_SpriteSheetFilename.c_str());
     }
@@ -59,9 +64,11 @@ int SSceneComSprite::deserializeXml(pugi::xml_node& node) {
     _ColorAdd.b = (uint8_t)node.attribute("color_add_b").as_int(0);
     _ColorAdd.a = (uint8_t)node.attribute("color_add_a").as_int(0);
 
+    _AnimationSpeed = node.attribute("animation_speed").as_float(1.0f);
+
     _SpriteSheetFilename = node.attribute("sprite_sheet").as_string("");
     _OriginalTextureName = node.attribute("texture").as_string("");
-    
+
     if (_OriginalTextureName == "" && _SpriteSheetFilename == "") {
         LOG(WARNING) << "Texture and sprite name not specified in XML file for SSceneComSprite. Object ID " << getOwner()->getId();
     } else if (_OriginalTextureName != "") {
@@ -88,8 +95,8 @@ int SSceneComSprite::initialize(SSceneComponentSystem* system) {
     if (!_Texture) {
         _Texture = StormEngine::getModule<StormTextureManager>()->getTexture(_SpriteSheet->textureName);
     }
-    /* TODO * speed scaler */
-    _FrameTime = 1000 /_SpriteSheet->fps;
+
+    _FrameTime = 1000.0f / (float)_SpriteSheet->fps;
     return 1;
 }
 
@@ -147,8 +154,8 @@ void SSceneComSprite::setCurrentFrame(float count) {
     }
 }
 
-uint32_t SSceneComSprite::getFrameTime() const {
-    return _FrameTime;
+float SSceneComSprite::getFrameTime() const {
+    return _FrameTime / _AnimationSpeed;
 }
 
 uint32_t SSceneComSprite::getLastFrameTime() const {
