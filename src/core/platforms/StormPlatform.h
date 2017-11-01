@@ -68,7 +68,10 @@ public:
     virtual void processEvents() = 0;
 
     /* Returns time since program start in milliseconds (ms) */
-    virtual uint32_t getRunningTime() = 0;
+    virtual uint32_t getTimeMs() = 0;
+    
+    /* Returns time since program start in nanosecounds (ns) */
+    virtual uint64_t getTimeNs() = 0;
 
     /* Sets main ticking function. */
     void setMainTickingFunction(std::function<void(float)> tickingFun);

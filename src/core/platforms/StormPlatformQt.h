@@ -28,7 +28,7 @@ public:
     virtual void processEvents();
 
     /* Returns time since program start in milliseconds (ms) */
-    virtual uint32_t getRunningTime();
+    virtual uint32_t getTimeMs();
 
     /* Called from QT timer, to tick engine */
     void mainTick();

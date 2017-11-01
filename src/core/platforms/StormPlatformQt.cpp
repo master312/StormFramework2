@@ -23,7 +23,7 @@ int StormPlatformQt::initialize() {
     _Time->start();
     _InputManager = new StormInputManager();
     _IsInitialized = true;
-    _LastTickTime = getRunningTime();
+    _LastTickTime = getTimeMs();
     LOG(INFO) << "QT platform initialized";
     return 1;
 }
@@ -42,16 +42,16 @@ void StormPlatformQt::windowSwapBuffers() {
 void StormPlatformQt::processEvents() {
 }
 
-uint32_t StormPlatformQt::getRunningTime() {
+uint32_t StormPlatformQt::getTimeMs() {
     return static_cast<uint32_t>(_Time->elapsed());
 }
 
 void StormPlatformQt::mainTick() {
-    float deltaTime = (float)(getRunningTime() - _LastTickTime) / 1000.0f;
+    float deltaTime = (float)(getTimeMs() - _LastTickTime) / 1000.0f;
 
     _MainTickingFunction(deltaTime);
 
-    _LastTickTime = getRunningTime();
+    _LastTickTime = getTimeMs();
 
     _AverageFps += 1000.0f / (1000.0f * deltaTime);
     _AverageFpsCounter++;

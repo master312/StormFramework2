@@ -1,11 +1,14 @@
 #ifdef STORM_BUILD_PLATFORM_SDL2
-#include "StormPlatformSDL2.h"
 #include <SDL2/SDL_opengl.h>
+#include <chrono>
+#include "StormPlatformSDL2.h"
 #include "../StormCommon.h"
 
 StormPlatformSDL2::StormPlatformSDL2() : StormPlatform() {
     _Window = nullptr;
     _PlatformType = STORM_PLATFORM_SDL2;
+    _StartTimeMs = 0;
+    _StartTimeNs = 0;
 }
 
 StormPlatformSDL2::~StormPlatformSDL2() {
@@ -17,6 +20,8 @@ int StormPlatformSDL2::initialize() {
         LOG(FATAL) << "Could not initialize SDL. " << SDL_GetError();
         return -1;
     }
+    _StartTimeMs = SDL_GetTicks();
+    _StartTimeNs = getNanoTime();
     _IsInitialized = true;
     _InputManager = new StormInputManager();
     LOG(INFO) << "SDL initialized";
@@ -141,6 +146,12 @@ void StormPlatformSDL2::processEvents() {
     }
 }
 
+uint64_t StormPlatformSDL2::getNanoTime() {
+    auto timeNow = std::chrono::high_resolution_clock::now().time_since_epoch();
+    auto timeInt = std::chrono::duration_cast<std::chrono::nanoseconds> (timeNow).count();
+    return static_cast<uint64_t>(timeInt);
+}
+
 void StormPlatformSDL2::handleWindowEvent(SDL_Event& event) {
     switch (event.window.event) {
         case SDL_WINDOWEVENT_SHOWN:
@@ -169,8 +180,12 @@ void StormPlatformSDL2::handleWindowEvent(SDL_Event& event) {
     }
 }
 
-uint32_t StormPlatformSDL2::getRunningTime() {
-    return (uint32_t)SDL_GetTicks();
+uint32_t StormPlatformSDL2::getTimeMs() {
+    return (uint32_t)SDL_GetTicks() - _StartTimeMs;
+}
+
+uint64_t StormPlatformSDL2::getTimeNs() {
+    return getNanoTime() - _StartTimeNs;
 }
 
 #endif /* STORM_BUILD_PLATFORM_QT */

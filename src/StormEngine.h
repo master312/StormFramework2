@@ -45,8 +45,11 @@ public:
     /* Returns currently active scene */
     static StormScene* getActiveScene();
 
-    /* Get time in milliseconds, how long was program running */
-    static uint32_t getRunningTime();
+    /* Get time in milliseconds (ms), how long was program running */
+    static uint32_t getTimeMs();
+
+    /* Get time in nanoseconds (ns), how long was program running */
+    static uint64_t getTimeNs();
 
 private:
     static const std::string DEFAULT_SHADER_NAME;

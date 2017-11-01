@@ -149,6 +149,10 @@ StormScene* StormEngine::getActiveScene() {
     return instance()->_ModSceneManager->getActiveScene();
 }
 
-uint32_t StormEngine::getRunningTime() {
-    return instance()->_ModPlatform->getRunningTime();
+uint32_t StormEngine::getTimeMs() {
+    return instance()->_ModPlatform->getTimeMs();
+}
+
+uint64_t StormEngine::getTimeNs() {
+    return instance()->_ModPlatform->getTimeNs();
 }

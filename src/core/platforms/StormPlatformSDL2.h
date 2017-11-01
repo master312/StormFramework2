@@ -28,10 +28,19 @@ public:
     virtual void processEvents();
 
     /* Returns time since program start in milliseconds (ms) */
-    virtual uint32_t getRunningTime();
+    virtual uint32_t getTimeMs();
+
+    /* Returns time since program start in nanosecounds (ns) */
+    virtual uint64_t getTimeNs();
 
 private:
     SDL_Window* _Window;
+    
+    uint32_t _StartTimeMs;
+    uint64_t _StartTimeNs;
+    
+    /* Gets time in nanosecounds converted to uint64_t, using std::chrono */
+    uint64_t getNanoTime();
 
     void handleWindowEvent(SDL_Event& event);
 };

@@ -37,12 +37,12 @@ void StormPlatform::startMainLoop() {
     int averageFpsCounter = 0;
 
     while (!_ShouldQuit) {
-        startTime = getRunningTime();
+        startTime = getTimeMs();
 
         processEvents();
         _MainTickingFunction(deltaTime);
 
-        timeDiff = getRunningTime() - startTime;
+        timeDiff = getTimeMs() - startTime;
         deltaTime = (float)timeDiff / 1000.0f;
         
         if (deltaTime <= 0.0f) {
