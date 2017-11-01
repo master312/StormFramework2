@@ -20,8 +20,10 @@ class SSceneComSprite;
 struct SComSpriteSheet {
     std::string filename;
     std::vector<Rect> frames;
-    SComSpriteSheet() : filename("") { }
-    SComSpriteSheet(const std::string& _filename) : filename(_filename) { }
+    float fps;
+    SComSpriteSheet() : filename(""), fps(0.0f) { }
+    SComSpriteSheet(const std::string& _filename, float _fps = 0.0f) : 
+        filename(_filename), fps(_fps) { }
     
     /* Retunrs count of frames in this sprite sheet */
     inline uint32_t count() { static_cast<uint32_t>(frames.size()); }

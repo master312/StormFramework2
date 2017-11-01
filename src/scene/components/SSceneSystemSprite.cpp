@@ -78,6 +78,14 @@ int SSceneSystemSprite::loadSpriteSheetFromXml(spStormResourceFile file) {
         return -5;
     }
 
+    sprite.fps = rootNode.attribute("fps").as_float(0.0f);
+
+#ifndef PRODUCTION
+    if (sprite.fps == 0.0f) {
+        LOG(WARNING) << "Sprite animation '" << sprite.filename << "' fps is 0.0";
+    }
+#endif
+
     for (pugi::xml_node frameNode = rootNode.first_child(); frameNode; frameNode = frameNode.next_sibling()) {
         if (frameNode.type() != pugi::node_element) {
             continue;
@@ -108,12 +116,13 @@ int SSceneSystemSprite::loadSpriteSheetFromXml(spStormResourceFile file) {
 }
 
 void SSceneSystemSprite::tickSpriteAnimation(SSceneComSprite* sprite, float deltaTime) {
-    uint64_t timeDiff = StormEngine::getTimeNs() - sprite->getLastFrameTime();
-    if ((float)(timeDiff / 1000000000) >= sprite->getFrameTime()) {
+    uint32_t timeDiff = StormEngine::getTimeMs() - sprite->getLastFrameTime();
+    float framesDiff = (float)(timeDiff / sprite->getFrameTime());
+    if (framesDiff >= 1.0f) {
         /* Enough time has passed. Move to next frame */
-        uint32_t nextFrame = sprite->getCurrentFrame() + 1;
+        float nextFrame = sprite->getCurrentFrame() + framesDiff;
         sprite->setCurrentFrame(nextFrame);
-        sprite->setLastFrameTime(StormEngine::getTimeNs());
+        sprite->setLastFrameTime(StormEngine::getTimeMs());
     }
 }
 

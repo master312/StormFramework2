@@ -10,7 +10,7 @@ SSceneComSprite::SSceneComSprite(StormSceneObject* owner) : SSceneComponent(owne
     _Texture = nullptr;
     _ColorMultiply.set(255, 255, 255, 255);
     _ColorAdd.set(0, 0, 0, 0);
-    _CurrentFrame = 0;
+    _CurrentFrame = 0.0f;
     _FrameTime = 0.0f;
     _SpriteSheet = nullptr;
     _SpriteSheetFilename = "";
@@ -40,9 +40,6 @@ void SSceneComSprite::serializeXml(pugi::xml_node& node) {
     node.append_attribute("color_add_b").set_value((int)_ColorAdd.b);
     node.append_attribute("color_add_a").set_value((int)_ColorAdd.a);
 
-    if (_FrameTime > 0.0f) {
-        node.append_attribute("fps").set_value(_FrameTime * 1000.0f);
-    }
     if (_SpriteSheetFilename != "") {
         node.append_attribute("sprite_sheet").set_value(_SpriteSheetFilename.c_str());
     }
@@ -66,11 +63,6 @@ int SSceneComSprite::deserializeXml(pugi::xml_node& node) {
     _ColorAdd.g = (uint8_t)node.attribute("color_add_g").as_int(0);
     _ColorAdd.b = (uint8_t)node.attribute("color_add_b").as_int(0);
     _ColorAdd.a = (uint8_t)node.attribute("color_add_a").as_int(0);
-    
-    _FrameTime = node.attribute("fps").as_float(0.0f);
-    if (_FrameTime != 0.0f) {
-        _FrameTime /= 1000.0f;
-    }
 
     _SpriteSheetFilename = node.attribute("sprite_sheet").as_string("");
 
@@ -89,8 +81,10 @@ int SSceneComSprite::initialize(SSceneComponentSystem* system) {
         return -1;
     }
 
-    _LastFrameTime = StormEngine::getTimeNs();
     _SpriteSheet = sysSprite->getSpriteSheet(_SpriteSheetFilename);
+    _LastFrameTime = StormEngine::getTimeMs();
+    /* TODO * speed scaler */
+    _FrameTime = 1000 /_SpriteSheet->fps;
     return 1;
 }
 
@@ -130,33 +124,33 @@ bool SSceneComSprite::hasSpriteSheet() {
     return _SpriteSheet != nullptr;
 }
 
-uint32_t SSceneComSprite::getCurrentFrame() const {
+float SSceneComSprite::getCurrentFrame() const {
     return _CurrentFrame;
 }
 
-void SSceneComSprite::setCurrentFrame(uint32_t count) {
+void SSceneComSprite::setCurrentFrame(float count) {
 #ifndef PRODUCTION
     if (!_SpriteSheet) {
         LOG(ERROR) << "Could not set next frame. Sprite sheet is nullptr";
         return;
     }
 #endif
-    if (count >= _SpriteSheet->count()) {
-        _CurrentFrame = 0;
+    if (count >= (float)_SpriteSheet->count()) {
+        _CurrentFrame = 0.0f;
     } else {
         _CurrentFrame = count;
     }
 }
 
-float SSceneComSprite::getFrameTime() const {
+uint32_t SSceneComSprite::getFrameTime() const {
     return _FrameTime;
 }
 
-uint64_t SSceneComSprite::getLastFrameTime() const {
+uint32_t SSceneComSprite::getLastFrameTime() const {
     return _LastFrameTime;
 }
 
-void SSceneComSprite::setLastFrameTime(uint64_t time) { 
+void SSceneComSprite::setLastFrameTime(uint32_t time) { 
     _LastFrameTime = time;
 }
 
@@ -165,7 +159,7 @@ std::reference_wrapper<const Rect> SSceneComSprite::getCurrentFrameRect() const 
         return _Texture->getArea();
     }
 
-    return _SpriteSheet->frames[getCurrentFrame()];
+    return _SpriteSheet->frames[(int)getCurrentFrame()];
 }
 
 const std::string& SSceneComSprite::getSpriteSheetFilename() {
