@@ -46,13 +46,17 @@ public:
     /* Increases animation to next frame. 
      * Multiple frames can be ticked with by setting argument @count.
      * Clamps to begining if needed */
-    void setNextFrame(uint32_t count = 1);
+    void setCurrentFrame(uint32_t count);
     
-    /* Returns how long one sprite frame lasts. (animation speed) */
+    /* Returns how long one sprite frame lasts. (animation speed - fps/1000.0) */
     float getFrameTime() const;
+    
+    /* Returns time when was the last frame changed */
+    uint64_t getLastFrameTime() const;
 
-    float getCurrentFrameTime() const;
-    void setCurrentFrameTime(float time);
+    /* Sets value to @_LastFrameTime. 
+     * If @time == 0 (default argumet) current time will be set */
+    void setLastFrameTime(uint64_t time);
 
     /* Returns reference texture part (rect) that should be rendered.
      * If sprite is animated, this rect will be current animation frame,
@@ -81,6 +85,6 @@ private:
     /* Index of frame that is currently been drawn */
     uint32_t _CurrentFrame;
     
-    /* For how long is current frame been drawn */
-    float _CurrentFrameTime;
+    /* Time in nanoseconds when the last frame was changed */
+    uint64_t _LastFrameTime;
 };

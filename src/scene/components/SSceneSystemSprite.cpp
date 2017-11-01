@@ -108,18 +108,12 @@ int SSceneSystemSprite::loadSpriteSheetFromXml(spStormResourceFile file) {
 }
 
 void SSceneSystemSprite::tickSpriteAnimation(SSceneComSprite* sprite, float deltaTime) {
-    float currentFrameTime = sprite->getCurrentFrameTime() + deltaTime;
-    if (currentFrameTime >= sprite->getFrameTime()) {
-        /* Frame ended. Goto next one */
-        float singleFrameTime = sprite->getFrameTime();
-        uint32_t framesToTick = 1;
-        if (deltaTime > singleFrameTime) {
-            framesToTick = (uint32_t)round(deltaTime - singleFrameTime);
-        }
-        sprite->setNextFrame(framesToTick);
-    } else {
-        /* It is not the time yet to tick. Increase frame time, my friend */
-        sprite->setCurrentFrameTime(currentFrameTime);
+    uint64_t timeDiff = StormEngine::getTimeNs() - sprite->getLastFrameTime();
+    if ((float)(timeDiff / 1000000000) >= sprite->getFrameTime()) {
+        /* Enough time has passed. Move to next frame */
+        uint32_t nextFrame = sprite->getCurrentFrame() + 1;
+        sprite->setCurrentFrame(nextFrame);
+        sprite->setLastFrameTime(StormEngine::getTimeNs());
     }
 }
 

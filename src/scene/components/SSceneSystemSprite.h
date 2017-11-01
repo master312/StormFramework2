@@ -22,6 +22,9 @@ struct SComSpriteSheet {
     std::vector<Rect> frames;
     SComSpriteSheet() : filename("") { }
     SComSpriteSheet(const std::string& _filename) : filename(_filename) { }
+    
+    /* Retunrs count of frames in this sprite sheet */
+    inline uint32_t count() { static_cast<uint32_t>(frames.size()); }
 };
 
 class SSceneSystemSprite : public SSceneComponentSystem {
@@ -44,7 +47,7 @@ private:
 
     /* All sprite sheets, indexed by filename */
     std::map<std::string, SComSpriteSheet> _SpriteSheets;
-    
+
     /* Load sprite sheet from xml file @file, and add
      * it to @_SpriteSheets map.
      * Return < 0 on error */

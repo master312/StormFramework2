@@ -4,6 +4,7 @@
 #include "../StormSceneObject.h"
 #include "../../StormTextureManager.h"
 #include "../../StormEngine.h"
+#include "../../core/utils/math/ScalarMath.h"
 
 SSceneComSprite::SSceneComSprite(StormSceneObject* owner) : SSceneComponent(owner) {
     _Texture = nullptr;
@@ -11,9 +12,9 @@ SSceneComSprite::SSceneComSprite(StormSceneObject* owner) : SSceneComponent(owne
     _ColorAdd.set(0, 0, 0, 0);
     _CurrentFrame = 0;
     _FrameTime = 0.0f;
-    _CurrentFrameTime = 0.0f;
     _SpriteSheet = nullptr;
     _SpriteSheetFilename = "";
+    _LastFrameTime = 0;
 
     _Type = S_SCENE_OBJECT_COM_SPRITE;
 }
@@ -24,7 +25,7 @@ SSceneComSprite::~SSceneComSprite() {
 
 void SSceneComSprite::serializeXml(pugi::xml_node& node) {
     SSceneComponent::serializeXml(node);
-
+ 
     if (!_Texture->isDefaultTexture()) {
         node.append_attribute("texture").set_value(_Texture->getName().c_str());
     }
@@ -40,7 +41,10 @@ void SSceneComSprite::serializeXml(pugi::xml_node& node) {
     node.append_attribute("color_add_a").set_value((int)_ColorAdd.a);
 
     if (_FrameTime > 0.0f) {
-        node.append_attribute("frame_time").set_value(_FrameTime);
+        node.append_attribute("fps").set_value(_FrameTime * 1000.0f);
+    }
+    if (_SpriteSheetFilename != "") {
+        node.append_attribute("sprite_sheet").set_value(_SpriteSheetFilename.c_str());
     }
 }
 
@@ -63,7 +67,10 @@ int SSceneComSprite::deserializeXml(pugi::xml_node& node) {
     _ColorAdd.b = (uint8_t)node.attribute("color_add_b").as_int(0);
     _ColorAdd.a = (uint8_t)node.attribute("color_add_a").as_int(0);
     
-    _FrameTime = node.attribute("frame_time").as_float(0.0f);
+    _FrameTime = node.attribute("fps").as_float(0.0f);
+    if (_FrameTime != 0.0f) {
+        _FrameTime /= 1000.0f;
+    }
 
     _SpriteSheetFilename = node.attribute("sprite_sheet").as_string("");
 
@@ -82,6 +89,7 @@ int SSceneComSprite::initialize(SSceneComponentSystem* system) {
         return -1;
     }
 
+    _LastFrameTime = StormEngine::getTimeNs();
     _SpriteSheet = sysSprite->getSpriteSheet(_SpriteSheetFilename);
     return 1;
 }
@@ -126,32 +134,30 @@ uint32_t SSceneComSprite::getCurrentFrame() const {
     return _CurrentFrame;
 }
 
-void SSceneComSprite::setNextFrame(uint32_t count /*& = 1 */) {
+void SSceneComSprite::setCurrentFrame(uint32_t count) {
 #ifndef PRODUCTION
     if (!_SpriteSheet) {
         LOG(ERROR) << "Could not set next frame. Sprite sheet is nullptr";
         return;
     }
 #endif
-
-    _CurrentFrame += count;
-    uint32_t framesCountMax = _SpriteSheet->frames.size();
-    if (_CurrentFrame >= framesCountMax) {
-        _CurrentFrame -= framesCountMax;
+    if (count >= _SpriteSheet->count()) {
+        _CurrentFrame = 0;
+    } else {
+        _CurrentFrame = count;
     }
-    setCurrentFrameTime(0.0f);
 }
 
 float SSceneComSprite::getFrameTime() const {
     return _FrameTime;
 }
 
-float SSceneComSprite::getCurrentFrameTime() const {
-    return _CurrentFrameTime;
+uint64_t SSceneComSprite::getLastFrameTime() const {
+    return _LastFrameTime;
 }
 
-void SSceneComSprite::setCurrentFrameTime(float time) {
-    _CurrentFrameTime = time;
+void SSceneComSprite::setLastFrameTime(uint64_t time) { 
+    _LastFrameTime = time;
 }
 
 std::reference_wrapper<const Rect> SSceneComSprite::getCurrentFrameRect() const {
