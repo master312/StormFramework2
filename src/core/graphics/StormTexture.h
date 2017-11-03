@@ -28,7 +28,7 @@ public:
     void setIsDefaultTexture(bool isDefault);
     bool isDefaultTexture() const;
     
-    Point getSize() const;
+    std::reference_wrapper<const Point> getSize() const;
 
     /* Returns area representing usable texture space.
      * This is set to size of whole texture, 

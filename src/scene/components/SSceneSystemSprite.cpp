@@ -141,17 +141,18 @@ void SSceneSystemSprite::renderSprite(SSceneComSprite* sprite, StormRenderer* re
     renderer->setColorAdd(sprite->getColorAdd());
 
     if (sprite->hasSpriteSheet()) {
-        /* Animated sprite sheet found */
+        /* Animated sprite sheet found. Calculate UV coordinates. */
         const Rect& rect = sprite->getCurrentFrameRect();
+        const Point& textureSize = texture->getSize();
 
-        vertices[0].uv.x = (float)rect.pos.x / (float)texture->getSize().x;
-        vertices[0].uv.y = (float)rect.pos.y / (float)texture->getSize().y;
+        vertices[0].uv.x = (float)rect.pos.x / (float)textureSize.x;
+        vertices[0].uv.y = (float)rect.pos.y / (float)textureSize.y;
 
-        vertices[1].uv.x = ((float)rect.pos.x / (float)texture->getSize().x) + ((float)rect.size.x / (float)texture->getSize().x);
+        vertices[1].uv.x = ((float)rect.pos.x / (float)textureSize.x) + ((float)rect.size.x / (float)textureSize.x);
         vertices[1].uv.y = vertices[0].uv.y;
 
         vertices[2].uv.x = vertices[1].uv.x;
-        vertices[2].uv.y = ((float)rect.pos.y / (float)texture->getSize().y) + ((float)rect.size.y / (float)texture->getSize().y);
+        vertices[2].uv.y = ((float)rect.pos.y / (float)textureSize.y) + ((float)rect.size.y / (float)textureSize.y);
 
         vertices[3].uv.x = vertices[0].uv.x;
         vertices[3].uv.y = vertices[2].uv.y;

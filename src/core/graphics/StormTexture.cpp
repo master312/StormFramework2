@@ -74,7 +74,7 @@ void StormTexture::setIsDefaultTexture(bool isDefault) {
     _IsDefaultTexture = isDefault;
 }
 
-Point StormTexture::getSize() const {
+std::reference_wrapper<const Point> StormTexture::getSize() const {
     return _Size;
 }
 
