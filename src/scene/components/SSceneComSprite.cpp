@@ -96,7 +96,9 @@ int SSceneComSprite::deserializeXml(pugi::xml_node& node) {
 
 int SSceneComSprite::initialize(SSceneComponentSystem* system) {
     S_OBSERVER_ADD(_Owner, this, S_OBSERVER_EVENT_TRANSFORM_UPDATED, SSceneComSprite::observeTransformChanged);
-
+    
+    SSceneComSprite::observeTransformChanged(nullptr);
+    
     if (_SpriteSheetFilename == "") {
         /* Set to nullptr again, just in case */
         _SpriteSheet = nullptr;
@@ -128,10 +130,16 @@ void SSceneComSprite::observeTransformChanged(void* data) {
     /* Store oritinal size for backup */
     const Vector2 originalSize = _RenderPlane.getSize();
     /* Scale size by transform scale */
-    _RenderPlane.setSize(originalSize.mult(transform->getScale()));
+    _RenderPlane.setSize(originalSize.mult(transform->getScaleAbs()));
     
     _RenderPlane.setPosition(transform->getPositionAbs());
     _RenderPlane.setAngle(transform->getAngle());
+    
+    if (transform->getParentAsPivot()) {
+        _RenderPlane.setPivot(transform->getPosition() * -1);
+        _RenderPlane.setPivotAngle(transform->getAngleAbs());
+    }
+    
     _RenderPlane.transform();
 
     /* Restore original size after transformation */

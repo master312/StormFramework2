@@ -3,6 +3,7 @@ local this = {}
 local isPressed = false
 
 this.onUpdate = function(deltaTime) 
+    
     if this.plane:containsPoint(InputManager:getPointerPosition(1)) and InputManager:isPointerDown(1) then
         isPressed = true
     else
@@ -11,8 +12,9 @@ this.onUpdate = function(deltaTime)
         end
     end
 
-    
-    this.transform.angle = this.transform.angle + 1.2
+    if this.plane:containsPoint(InputManager:getPointerPosition(1)) and InputManager:isPointerDown(2) then
+        this.transform.angle = this.transform.angle + 1.2
+    end
     
 
     if InputManager:isKeyPressed(Keyboard.A) then

@@ -36,7 +36,6 @@ void SSceneSystemPlane::render(StormRenderer* renderer) {
 
 int SSceneSystemPlane::bindToLua(sol::state& luaState) {
     luaState.new_usertype<SSceneComPlane>("ComPlane",
-        "inheritRotation", sol::property(&SSceneComPlane::getInheritRotation, &SSceneComPlane::setInheritRotation),
         "containsPoint", &SSceneComPlane::containsPoint
     );
 

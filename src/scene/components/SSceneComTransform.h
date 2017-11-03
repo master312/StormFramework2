@@ -47,8 +47,13 @@ public:
     Vector2 getPositionAbs() const;
 
     /* Returns transform scale multiplier */
-    Vector2 getScale();
+    Vector2 getScale() const;
     
+    /* Returns scale with parent scale calculations calculated in.
+     * This will return same resoult as ::getScale() method
+     * if Inherit Scale flag is not set */
+    Vector2 getScaleAbs() const;
+
     /* Sets scale multiplier */
     void setScale(Vector2 scale);
 
@@ -61,6 +66,21 @@ public:
     /* Sets rotation angle */
     void setAngle(float angle);
     
+    /* Sets whether scale should be inherited from parent */
+    void setInheritScale(bool value);
+
+    /* Returns whether scale is inherited from parent */
+    bool getInheritScale() const;
+
+    /* Sets whether parent should be used as pivot, while
+     * performing transform calculations */
+    void setParentAsPivot(bool value);
+
+    /* Returns whether component is transformed using
+     * parent as pivot. 
+     * Will always return false if there is no parent set to owner object. */
+    bool getParentAsPivot() const;
+
     /* Returns true if any of transform parameters ware changed */
     bool isChanged();
 
@@ -84,8 +104,17 @@ private:
     /* Scale multiplier */
     Vector2 _Scale;
 
+    /* Scale multiplier with parent scale calculated in */
+    Vector2 _ScaleAbs;
+
     /* Rotation angle */
     float _Angle;
+
+    /* Set to true if scale should be inherited from parent */
+    bool _InheritScale;
+
+    /* Of set to true, parent will act as pivot */
+    bool _ParentAsPivot;
 
     /* Set to true if any of transform parameters ware changed.
      * Variable is set back to false in @transform() method. */

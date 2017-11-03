@@ -40,7 +40,9 @@ int SSceneSystemTransform::bindToLua(sol::state& luaState) {
         "setPosition", &SSceneComTransform::setPosition,
         "x", sol::property(&SSceneComTransform::getX, &SSceneComTransform::setX),
         "y", sol::property(&SSceneComTransform::getY, &SSceneComTransform::setY),
-        "angle", sol::property(&SSceneComTransform::getAngle, &SSceneComTransform::setAngle)
+        "angle", sol::property(&SSceneComTransform::getAngle, &SSceneComTransform::setAngle),
+        "inheritScale", sol::property(&SSceneComTransform::getInheritScale, &SSceneComTransform::setInheritScale),
+        "parentAsPivot", sol::property(&SSceneComTransform::getParentAsPivot, &SSceneComTransform::setParentAsPivot)
     );
     
     for (SSceneComTransform* com : _TransformComponents) {
