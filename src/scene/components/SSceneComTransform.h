@@ -25,7 +25,7 @@ public:
 
     /* Returns position relative to parent
      * If parent is not set, this will return absolute position */
-    Vector2 getPosition();
+    Vector2 getPosition() const;
 
     /* Sets position transform
      * If parent exists, this position will be relative to parents position */
@@ -44,7 +44,7 @@ public:
     float getY();
 
     /* Returns absolute position on scene */
-    Vector2 getPositionAbs();
+    Vector2 getPositionAbs() const;
 
     /* Returns transform scale multiplier */
     Vector2 getScale();

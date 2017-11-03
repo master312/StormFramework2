@@ -12,7 +12,7 @@ this.onUpdate = function(deltaTime)
     end
 
     
-    -- this.transform.angle = this.transform.angle + 1.2
+    this.transform.angle = this.transform.angle + 1.2
     
 
     if InputManager:isKeyPressed(Keyboard.A) then

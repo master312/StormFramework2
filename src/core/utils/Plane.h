@@ -1,69 +1,79 @@
 #pragma once
 #include "math/Vector2.h"
+#include "StormVertex.h"
 
-/* Actual plane is linked to pivot. Pivot is used as 'main position', and actual plane is relative to it. */
+/* Class responsible for all plane related math calculations */
 
 class Plane {
 public:
-    /* TODO: Proper constructors */
+    /* TODO: Constructors */
     Plane();
     ~Plane();
 
-    /* Do transform calculations. */
-    void transform(Plane* parent = nullptr);
-
+    /* Sets and absolute position to be used as center of plane. */
     void setPosition(const Vector2& position);
-    Vector2 getPosition() const;
-    Vector2 getPositionTransformed() const;
-    
-    /* Sets offset from pivot to plane */
-    void setPlaneOffset(const Vector2& offset);
-    Vector2 getPlaneOffset() const;
-    Vector2 getPlaneOffsetTransformed() const;
+    void setPositionX(float x);
+    void setPositionY(float y);
 
+    Vector2 getPosition() const;
+    float getPositionX();
+    float getPositionY();
+
+    /* Sets pivot position. This position is relative to plane position. */
+    void setPivot(const Vector2& position);
+    void setPivotX(float x);
+    void setPivotY(float y);
+
+    Vector2 getPivot() const;
+    float getPivotX();
+    float getPivotY();
+
+    void setSize(const Vector2& position);
+    void setSizeX(float x);
+    void setSizeY(float y);
+
+    Vector2 getSize() const;
+    float getSizeX();
+    float getSizeY();
+    
     void setAngle(float angle);
-    void addAngle(float angle);
     float getAngle();
 
-    /* Sets plane size in units (most likely pixels) */
-    void setSize(const Vector2& size);
-    /* Returns plane size */
-    Vector2 getSize() const;
-    /* Returns plane size with transform calculations calculated in */
-    Vector2 getSizeTransformed() const;
+    void setPivotAngle(float angle);
+    float getPivotAngle();
 
-    /* Sets plane scaling */
-    void setScale(const Vector2& scale);
-    Vector2 getScale() const;
+    /* Do transform calculations */
+    void transform();
 
-    /* Returns pointer to vertices array.
-     * WARNING: Vertices are updated in @transform() method. */
-    Vector2* getVertices();
-    /* Returns pointer to specific vertex */
-    Vector2* getVertex(int ver);
-private:
-    /* Pivot position */
-    Vector2 _PivotPosition;
-    /* Offset from pivot to plane center */
-    Vector2 _PlanePivotOffset;
+    /* Returns true if plane contains point @point */
+    bool containsPoint(const Vector2& point);
 
-    /* Pivot position with transform calculations calculated in */
-    Vector2 _PivotPositionTransformed;
-    /* Offset from pivot to plane center with transfrom calculations calculated in */
-    Vector2 _PlanePivotOffsetTransformed;
+    /* Returns all 4 plane vertices.
+     * Make sure to use Plane::transform() to update vertices position.
+     * [0] -> Top Left, [1] -> Top Right, [2] -> Bottom right */
+    StormVertex* getVertices();
     
-    /* Plane rotation angle around the pivot */
-    float _Angle;
-
-    /* Plane size in abs units (most likely pixels) */
+private:
     Vector2 _Size;
-    /* Plane scale */
-    Vector2 _Scale;
-    /* Plane size in abs units (most likely pixels) with transformation calculations calculated in */
-    Vector2 _SizeTransformed;
 
-    /* Plane vertices, with transformations calculated in */
-    Vector2 _Vertices[4];
+    /* Position of plane center point */
+    Vector2 _Position;
+    
+    /* Pivot positon, relative to center position */
+    Vector2 _PivotPosition;
+    
+    float _Angle;
+    
+    float _PivotAngle;
 
-    void transformScale(Plane* parent);
+    /* Flag set to true, when any property changes.
+     * Reseted to false in Plane::transform() */
+    bool _HasChanged;
+
+    StormVertex _Vertices[4];
+    
+    void transformRotationAroundPivot();
+    void transformRotationAroundCenter();
+
+    void calculateVertices(const Vector2& center);
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include "../SSceneComponent.h"
 #include "../../core/utils/StormVertex.h"
+#include "../../core/utils/Plane.h"
 
 class SSceneComTransform;
 
@@ -52,15 +53,17 @@ public:
     void observeTransformChanged(void* data);
 
     /* Check if plane cointains point @point */
-    bool containsPoint(Vector2 point);
+    bool containsPoint(const Vector2& point);
 
 private:
     /* Plane size. */
     Vector2 _Size;
+
+    /* Size multiplied by transforom scale */
     Vector2 _SizeTransformed;
 
-    /* Plane vertices, with transformations calculated in. */
-    StormVertex _Vertices[4];
+    /* Math plane class that handles all calculations */
+    Plane _Plane;
 
     /* Is rotation inherited from parent */
     bool _InheritRotation;

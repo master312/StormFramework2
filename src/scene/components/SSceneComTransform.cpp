@@ -86,7 +86,7 @@ void SSceneComTransform::transform() {
     }
 }
 
-Vector2 SSceneComTransform::getPosition() {
+Vector2 SSceneComTransform::getPosition() const {
     return _Position;
 }
 
@@ -113,7 +113,7 @@ float SSceneComTransform::getY() {
     return _Position.y;
 }
 
-Vector2 SSceneComTransform::getPositionAbs() {
+Vector2 SSceneComTransform::getPositionAbs() const {
     return _PositionAbs;
 }
 
