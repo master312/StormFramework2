@@ -113,7 +113,7 @@ private:
     /* Set to true if scale should be inherited from parent */
     bool _InheritScale;
 
-    /* Of set to true, parent will act as pivot */
+    /* If set to true, parent will act as pivot */
     bool _ParentAsPivot;
 
     /* Set to true if any of transform parameters ware changed.

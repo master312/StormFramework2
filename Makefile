@@ -27,6 +27,8 @@ $(OBJDIR)StormInputManager.o: src/core/platforms/StormInputManager.cpp src/core/
 	$(CC) $(CFLAGS) -c src/core/platforms/StormInputManager.cpp $(LIBS) -o $(OBJDIR)StormInputManager.o 
 $(OBJDIR)Plane.o: src/core/utils/Plane.cpp src/core/utils/Plane.h
 	$(CC) $(CFLAGS) -c src/core/utils/Plane.cpp $(LIBS) -o $(OBJDIR)Plane.o 
+$(OBJDIR)Geometry.o: src/core/utils/Geometry.cpp src/core/utils/Geometry.h
+	$(CC) $(CFLAGS) -c src/core/utils/Geometry.cpp $(LIBS) -o $(OBJDIR)Geometry.o 
 $(OBJDIR)StormMiscTools.o: src/core/utils/StormMiscTools.cpp src/core/utils/StormMiscTools.h
 	$(CC) $(CFLAGS) -c src/core/utils/StormMiscTools.cpp $(LIBS) -o $(OBJDIR)StormMiscTools.o 
 $(OBJDIR)StormShader.o: src/core/graphics/StormShader.cpp src/core/graphics/StormShader.h
@@ -61,30 +63,30 @@ $(OBJDIR)SSceneComponent.o: src/scene/SSceneComponent.cpp src/scene/SSceneCompon
 	$(CC) $(CFLAGS) -c src/scene/SSceneComponent.cpp $(LIBS) -o $(OBJDIR)SSceneComponent.o 
 $(OBJDIR)SSceneComponentSystem.o: src/scene/SSceneComponentSystem.cpp src/scene/SSceneComponentSystem.h
 	$(CC) $(CFLAGS) -c src/scene/SSceneComponentSystem.cpp $(LIBS) -o $(OBJDIR)SSceneComponentSystem.o 
-$(OBJDIR)SSceneSystemLuaScript.o: src/scene/components/SSceneSystemLuaScript.cpp src/scene/components/SSceneSystemLuaScript.h
-	$(CC) $(CFLAGS) -c src/scene/components/SSceneSystemLuaScript.cpp $(LIBS) -o $(OBJDIR)SSceneSystemLuaScript.o 
 
 # Components
 $(OBJDIR)SSceneComTransform.o: src/scene/components/SSceneComTransform.cpp src/scene/components/SSceneComTransform.h
 	$(CC) $(CFLAGS) -c src/scene/components/SSceneComTransform.cpp $(LIBS) -o $(OBJDIR)SSceneComTransform.o 
-$(OBJDIR)SSceneComPlane.o: src/scene/components/SSceneComPlane.cpp src/scene/components/SSceneComPlane.h
-	$(CC) $(CFLAGS) -c src/scene/components/SSceneComPlane.cpp $(LIBS) -o $(OBJDIR)SSceneComPlane.o 
 $(OBJDIR)SSceneComSprite.o: src/scene/components/SSceneComSprite.cpp src/scene/components/SSceneComSprite.h
 	$(CC) $(CFLAGS) -c src/scene/components/SSceneComSprite.cpp $(LIBS) -o $(OBJDIR)SSceneComSprite.o 
 $(OBJDIR)SSceneComLuaScript.o: src/scene/components/SSceneComLuaScript.cpp src/scene/components/SSceneComLuaScript.h
 	$(CC) $(CFLAGS) -c src/scene/components/SSceneComLuaScript.cpp $(LIBS) -o $(OBJDIR)SSceneComLuaScript.o 
+$(OBJDIR)SSceneComCollider.o: src/scene/components/SSceneComCollider.cpp src/scene/components/SSceneComCollider.h
+	$(CC) $(CFLAGS) -c src/scene/components/SSceneComCollider.cpp $(LIBS) -o $(OBJDIR)SSceneComCollider.o 
 
 # Lua binding class
 $(OBJDIR)SLuaBinders.o: src/scene/components/lua/SLuaBinders.cpp src/scene/components/lua/SLuaBinders.h
 	$(CC) $(CFLAGS) -c src/scene/components/lua/SLuaBinders.cpp $(LIBS) -o $(OBJDIR)SLuaBinders.o 
 
 # Systems
-$(OBJDIR)SSceneSystemPlane.o: src/scene/components/SSceneSystemPlane.cpp src/scene/components/SSceneSystemPlane.h
-	$(CC) $(CFLAGS) -c src/scene/components/SSceneSystemPlane.cpp $(LIBS) -o $(OBJDIR)SSceneSystemPlane.o 
 $(OBJDIR)SSceneSystemSprite.o: src/scene/components/SSceneSystemSprite.cpp src/scene/components/SSceneSystemSprite.h
 	$(CC) $(CFLAGS) -c src/scene/components/SSceneSystemSprite.cpp $(LIBS) -o $(OBJDIR)SSceneSystemSprite.o 
 $(OBJDIR)SSceneSystemTransform.o: src/scene/components/SSceneSystemTransform.cpp src/scene/components/SSceneSystemTransform.h
 	$(CC) $(CFLAGS) -c src/scene/components/SSceneSystemTransform.cpp $(LIBS) -o $(OBJDIR)SSceneSystemTransform.o 
+$(OBJDIR)SSceneSystemLuaScript.o: src/scene/components/SSceneSystemLuaScript.cpp src/scene/components/SSceneSystemLuaScript.h
+	$(CC) $(CFLAGS) -c src/scene/components/SSceneSystemLuaScript.cpp $(LIBS) -o $(OBJDIR)SSceneSystemLuaScript.o 
+$(OBJDIR)SSceneSystemCollider.o: src/scene/components/SSceneSystemCollider.cpp src/scene/components/SSceneSystemCollider.h
+	$(CC) $(CFLAGS) -c src/scene/components/SSceneSystemCollider.cpp $(LIBS) -o $(OBJDIR)SSceneSystemCollider.o 
 
-debug: $(OBJDIR)easylogging++.o $(OBJDIR)pugixml.o $(OBJDIR)imgui.o $(OBJDIR)imgui_draw.o $(OBJDIR)SSceneSystemLuaScript.o $(OBJDIR)SSceneComLuaScript.o $(OBJDIR)imgui_demo.o $(OBJDIR)SEngineModuleFactory.o $(OBJDIR)StormEngine.o $(OBJDIR)StormPlatform.o $(OBJDIR)StormPlatformSDL2.o $(OBJDIR)StormInputManager.o $(OBJDIR)StormMiscTools.o $(OBJDIR)Plane.o $(OBJDIR)StormShader.o $(OBJDIR)StormTexture.o $(OBJDIR)StormVideoDriver.o $(OBJDIR)StormRenderer.o $(OBJDIR)StormResourceFile.o $(OBJDIR)StormTextureManager.o $(OBJDIR)StormFileSystem.o $(OBJDIR)StormTextureManager.o $(OBJDIR)StormSceneObject.o $(OBJDIR)SSceneComTransform.o $(OBJDIR)StormScene.o $(OBJDIR)SSceneManager.o $(OBJDIR)SSceneComponent.o $(OBJDIR)SSceneComponentSystem.o $(OBJDIR)SSceneComPlane.o $(OBJDIR)SSceneComSprite.o $(OBJDIR)SSceneSystemPlane.o $(OBJDIR)SSceneSystemSprite.o $(OBJDIR)SSceneSystemTransform.o $(OBJDIR)SLuaBinders.o src/core/utils/SObservable.h
-	$(CC) $(CFLAGS) $(OBJDIR)easylogging++.o $(OBJDIR)pugixml.o $(OBJDIR)imgui.o $(OBJDIR)SSceneSystemLuaScript.o $(OBJDIR)SSceneComLuaScript.o $(OBJDIR)imgui_draw.o $(OBJDIR)imgui_demo.o $(OBJDIR)SEngineModuleFactory.o $(OBJDIR)StormEngine.o $(OBJDIR)StormPlatform.o $(OBJDIR)StormPlatformSDL2.o $(OBJDIR)StormInputManager.o $(OBJDIR)StormMiscTools.o $(OBJDIR)Plane.o $(OBJDIR)StormShader.o $(OBJDIR)StormTexture.o $(OBJDIR)StormVideoDriver.o $(OBJDIR)StormRenderer.o $(OBJDIR)StormResourceFile.o $(OBJDIR)StormFileSystem.o $(OBJDIR)StormTextureManager.o $(OBJDIR)StormSceneObject.o $(OBJDIR)SSceneComTransform.o $(OBJDIR)StormScene.o $(OBJDIR)SSceneManager.o $(OBJDIR)SSceneComponent.o $(OBJDIR)SSceneComponentSystem.o $(OBJDIR)SSceneComPlane.o $(OBJDIR)SSceneComSprite.o $(OBJDIR)SSceneSystemPlane.o $(OBJDIR)SSceneSystemSprite.o $(OBJDIR)SSceneSystemTransform.o $(OBJDIR)SLuaBinders.o main.cpp  -o "$(EXNAME)" $(LIBS)
+debug: $(OBJDIR)easylogging++.o $(OBJDIR)pugixml.o $(OBJDIR)imgui.o $(OBJDIR)imgui_draw.o $(OBJDIR)SSceneSystemLuaScript.o $(OBJDIR)SSceneComLuaScript.o $(OBJDIR)SSceneComCollider.o $(OBJDIR)SSceneSystemCollider.o $(OBJDIR)imgui_demo.o $(OBJDIR)SEngineModuleFactory.o $(OBJDIR)StormEngine.o $(OBJDIR)StormPlatform.o $(OBJDIR)StormPlatformSDL2.o $(OBJDIR)StormInputManager.o $(OBJDIR)StormMiscTools.o $(OBJDIR)Plane.o $(OBJDIR)Geometry.o $(OBJDIR)StormShader.o $(OBJDIR)StormTexture.o $(OBJDIR)StormVideoDriver.o $(OBJDIR)StormRenderer.o $(OBJDIR)StormResourceFile.o $(OBJDIR)StormTextureManager.o $(OBJDIR)StormFileSystem.o $(OBJDIR)StormTextureManager.o $(OBJDIR)StormSceneObject.o $(OBJDIR)SSceneComTransform.o $(OBJDIR)StormScene.o $(OBJDIR)SSceneManager.o $(OBJDIR)SSceneComponent.o $(OBJDIR)SSceneComponentSystem.o $(OBJDIR)SSceneComSprite.o $(OBJDIR)SSceneSystemSprite.o $(OBJDIR)SSceneSystemTransform.o $(OBJDIR)SLuaBinders.o src/core/utils/SObservable.h
+	$(CC) $(CFLAGS) $(OBJDIR)easylogging++.o $(OBJDIR)pugixml.o $(OBJDIR)imgui.o $(OBJDIR)SSceneSystemLuaScript.o $(OBJDIR)SSceneComLuaScript.o $(OBJDIR)SSceneComCollider.o $(OBJDIR)SSceneSystemCollider.o $(OBJDIR)imgui_draw.o $(OBJDIR)imgui_demo.o $(OBJDIR)SEngineModuleFactory.o $(OBJDIR)StormEngine.o $(OBJDIR)StormPlatform.o $(OBJDIR)StormPlatformSDL2.o $(OBJDIR)StormInputManager.o $(OBJDIR)StormMiscTools.o $(OBJDIR)Plane.o $(OBJDIR)Geometry.o $(OBJDIR)StormShader.o $(OBJDIR)StormTexture.o $(OBJDIR)StormVideoDriver.o $(OBJDIR)StormRenderer.o $(OBJDIR)StormResourceFile.o $(OBJDIR)StormFileSystem.o $(OBJDIR)StormTextureManager.o $(OBJDIR)StormSceneObject.o $(OBJDIR)SSceneComTransform.o $(OBJDIR)StormScene.o $(OBJDIR)SSceneManager.o $(OBJDIR)SSceneComponent.o $(OBJDIR)SSceneComponentSystem.o $(OBJDIR)SSceneComSprite.o $(OBJDIR)SSceneSystemSprite.o $(OBJDIR)SSceneSystemTransform.o $(OBJDIR)SLuaBinders.o main.cpp  -o "$(EXNAME)" $(LIBS)

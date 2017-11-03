@@ -7,7 +7,6 @@
 #include "../core/utils/SObservable.h"
 
 class SSceneComTransform;
-class SSceneComPlane;
 
 class StormSceneObject : public SObservable<SSceneObjectEventType, SSceneComponent> {
 public:
@@ -57,10 +56,6 @@ public:
      * Used for easy access to transform component, since its used offen */
     SSceneComTransform* getTransform() const;
 
-    /* Returns pointer to plane component, or nullptr if none exists
-     * Used for easy access to plane component, since its used offen */
-    SSceneComPlane* getPlane() const;
-
 private:
     /* Unique object identifier */
     uint32_t _Id;
@@ -79,9 +74,6 @@ private:
 
     /* Pointer to transform component */
     SSceneComTransform* _ComponentTransform;
-
-    /* Pointer to plane component */
-    SSceneComPlane* _ComponentPlane;
 
     /* Removes this object from parent's @_Components array and clears @_Parent pointer */
     void clearParent();

@@ -1,6 +1,5 @@
 #include "SSceneSystemSprite.h"
 #include "SSceneComSprite.h"
-#include "SSceneComPlane.h"
 #include "../StormSceneObject.h"
 #include "../../StormEngine.h"
 

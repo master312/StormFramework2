@@ -1,6 +1,5 @@
 #include "StormSceneObject.h"
 #include "components/SSceneComTransform.h"
-#include "components/SSceneComPlane.h"
 #include "../core/StormCommon.h"
 
 StormSceneObject::StormSceneObject(uint32_t id /* = 0 */) {
@@ -8,7 +7,6 @@ StormSceneObject::StormSceneObject(uint32_t id /* = 0 */) {
     _Name = "";
     _Parent = nullptr;
     _ComponentTransform = nullptr;
-    _ComponentPlane = nullptr;
 }
 
 StormSceneObject::StormSceneObject(uint32_t id, const std::string& name) : 
@@ -118,12 +116,6 @@ void StormSceneObject::addComponent(SSceneComponent* component) {
             }
             _ComponentTransform = dynamic_cast<SSceneComTransform*>(component);
             break;
-        case S_SCENE_OBJECT_COM_PLANE:
-            if (_ComponentPlane) {
-                LOG(ERROR) << "Adding multiple plane components to same scene object";
-            }
-            _ComponentPlane = dynamic_cast<SSceneComPlane*>(component);
-            break;
         default:
             break;
     }
@@ -148,14 +140,6 @@ SSceneComTransform* StormSceneObject::getTransform() const {
         return nullptr;
     }
     return _ComponentTransform;
-}
-
-SSceneComPlane* StormSceneObject::getPlane() const {
-    if (!_ComponentPlane) {
-        LOG(ERROR) << "Tryed to get plane from scene object that dose not have plane component";
-        return nullptr;
-    }
-    return _ComponentPlane;
 }
 
 void StormSceneObject::clearParent() {

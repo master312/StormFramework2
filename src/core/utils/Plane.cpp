@@ -5,13 +5,13 @@
 Plane::Plane() {
     _Angle = 0.0f;
     _PivotAngle = 0.0f;
-    _HasChanged = false;
 
     /* Set default UV coordinates */
     _Vertices[0].uv.set(0.0f, 0.0f);
     _Vertices[1].uv.set(1.0f, 0.0f);
     _Vertices[2].uv.set(1.0f, 1.0f);
     _Vertices[3].uv.set(0.0f, 1.0f);
+    _Type = GEOMETRY_TYPE_PLANE;
 }
 
 Plane::~Plane() {
@@ -102,33 +102,6 @@ void Plane::calculateVertices(const Vector2& center) {
     _Vertices[3].position = center;
     _Vertices[3].position.x -= size2.x;
     _Vertices[3].position.y += size2.y;
-}
-
-void Plane::setPosition(const Vector2& position) {
-    _Position = position;
-    _HasChanged = true;
-}
-
-void Plane::setPositionX(float x) {
-    _Position.x = x;
-    _HasChanged = true;
-}
-
-void Plane::setPositionY(float y) {
-    _Position.y = y;
-    _HasChanged = true;
-}
-
-Vector2 Plane::getPosition() const {
-    return _Position;
-}
-
-float Plane::getPositionX() {
-    return _Position.x;
-}
-
-float Plane::getPositionY() {
-    return _Position.y;
 }
 
 void Plane::setPivot(const Vector2& position) {

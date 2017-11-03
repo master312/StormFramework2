@@ -1,23 +1,14 @@
 #pragma once
-#include "math/Vector2.h"
+#include "Geometry.h"
 #include "StormVertex.h"
 
 /* Class responsible for all plane related math calculations */
 
-class Plane {
+class Plane : public Geometry {
 public:
     /* TODO: Constructors */
     Plane();
-    ~Plane();
-
-    /* Sets and absolute position to be used as center of plane. */
-    void setPosition(const Vector2& position);
-    void setPositionX(float x);
-    void setPositionY(float y);
-
-    Vector2 getPosition() const;
-    float getPositionX();
-    float getPositionY();
+    virtual ~Plane();
 
     /* Sets pivot position. This position is relative to plane position. */
     void setPivot(const Vector2& position);
@@ -43,10 +34,10 @@ public:
     float getPivotAngle();
 
     /* Do transform calculations */
-    void transform();
+    virtual void transform();
 
     /* Returns true if plane contains point @point */
-    bool containsPoint(const Vector2& point);
+    virtual bool containsPoint(const Vector2& point);
 
     /* Returns all 4 plane vertices.
      * Make sure to use Plane::transform() to update vertices position.
@@ -55,9 +46,6 @@ public:
     
 private:
     Vector2 _Size;
-
-    /* Position of plane center point */
-    Vector2 _Position;
     
     /* Pivot positon, relative to center position */
     Vector2 _PivotPosition;
@@ -65,10 +53,6 @@ private:
     float _Angle;
     
     float _PivotAngle;
-
-    /* Flag set to true, when any property changes.
-     * Reseted to false in Plane::transform() */
-    bool _HasChanged;
 
     StormVertex _Vertices[4];
     

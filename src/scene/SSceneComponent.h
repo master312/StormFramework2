@@ -13,31 +13,31 @@ typedef enum SSceneComponentType {
     S_SCENE_OBJECT_COM_UNDEFINED = 0,
     
     S_SCENE_OBJECT_COM_TRANSFORM = 1,            // Transformation component
-    S_SCENE_OBJECT_COM_PLANE = 2,                // Plane component
-    S_SCENE_OBJECT_COM_SPRITE = 3,               // Animated texture component
-    S_SCENE_OBJECT_COM_SPINE = 4,                // Spine component
-    S_SCENE_OBJECT_COM_SCRIPT = 5,
+    S_SCENE_OBJECT_COM_SPRITE = 2,               // Animated texture component
+    S_SCENE_OBJECT_COM_SPINE = 3,                // Spine component
+    S_SCENE_OBJECT_COM_SCRIPT = 4,
+    S_SCENE_OBJECT_COM_COLLIDER = 5,
 
     S_SCENE_OBJECT_COM_TYPES_COUNT
-};
-
-/* Order of component type initialization */
-static const int SSceneComponentInitializationOrder[S_SCENE_OBJECT_COM_TYPES_COUNT] = {
-    S_SCENE_OBJECT_COM_TRANSFORM,
-    S_SCENE_OBJECT_COM_PLANE,
-    S_SCENE_OBJECT_COM_SPRITE,
-    S_SCENE_OBJECT_COM_SPINE,
-    S_SCENE_OBJECT_COM_SCRIPT
 };
 
 /* Contain string names of all components. */
 static const std::string SSceneComponentTypeString[S_SCENE_OBJECT_COM_TYPES_COUNT] = {
     "Undefined",
     "Transform",
-    "Plane",
     "Sprite",
     "Spine",
     "Script",
+    "Collider",
+};
+
+/* Order of component type initialization */
+static const int SSceneComponentInitializationOrder[S_SCENE_OBJECT_COM_TYPES_COUNT] = {
+    S_SCENE_OBJECT_COM_TRANSFORM,
+    S_SCENE_OBJECT_COM_SPRITE,
+    S_SCENE_OBJECT_COM_SPINE,
+    S_SCENE_OBJECT_COM_COLLIDER,
+    S_SCENE_OBJECT_COM_SCRIPT
 };
 
 class StormSceneObject;

@@ -4,7 +4,7 @@ local isPressed = false
 
 this.onUpdate = function(deltaTime) 
     
-    if this.plane:containsPoint(InputManager:getPointerPosition(1)) and InputManager:isPointerDown(1) then
+    if this.collider:containsPoint(InputManager:getPointerPosition(1)) and InputManager:isPointerDown(1) then
         isPressed = true
     else
         if not InputManager:isPointerDown(1) then
@@ -12,7 +12,7 @@ this.onUpdate = function(deltaTime)
         end
     end
 
-    if this.plane:containsPoint(InputManager:getPointerPosition(1)) and InputManager:isPointerDown(2) then
+    if this.collider:containsPoint(InputManager:getPointerPosition(1)) and InputManager:isPointerDown(2) then
         this.transform.angle = this.transform.angle + 1.2
     end
     

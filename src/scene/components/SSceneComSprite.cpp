@@ -95,9 +95,9 @@ int SSceneComSprite::deserializeXml(pugi::xml_node& node) {
 }
 
 int SSceneComSprite::initialize(SSceneComponentSystem* system) {
-    S_OBSERVER_ADD(_Owner, this, S_OBSERVER_EVENT_TRANSFORM_UPDATED, SSceneComSprite::observeTransformChanged);
     
     SSceneComSprite::observeTransformChanged(nullptr);
+    S_OBSERVER_ADD(_Owner, this, S_OBSERVER_EVENT_TRANSFORM_UPDATED, SSceneComSprite::observeTransformChanged);
     
     if (_SpriteSheetFilename == "") {
         /* Set to nullptr again, just in case */

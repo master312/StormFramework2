@@ -1,7 +1,7 @@
 #include "StormScene.h"
 #include "StormSceneObject.h"
 
-#include "components/SSceneSystemPlane.h"
+#include "components/SSceneSystemCollider.h"
 #include "components/SSceneSystemSprite.h"
 #include "components/SSceneSystemTransform.h"
 #include "components/SSceneSystemLuaScript.h"
@@ -209,9 +209,9 @@ void StormScene::initializeDefaultSystems() {
     _ComponentSystems.push_back(sysSprite);
     _ComponentSystemsByType[S_SCENE_OBJECT_COM_SPRITE] = sysSprite;
 
-    SSceneSystemPlane* sysPlane = new SSceneSystemPlane();
-    _ComponentSystems.push_back(sysPlane);
-    _ComponentSystemsByType[S_SCENE_OBJECT_COM_PLANE] = sysPlane;
+    SSceneSystemCollider* sysCollider = new SSceneSystemCollider();
+    _ComponentSystems.push_back(sysCollider);
+    _ComponentSystemsByType[S_SCENE_OBJECT_COM_COLLIDER] = sysCollider;
 
     SSceneSystemLuaScript* sysLua = new SSceneSystemLuaScript();
     _ComponentSystems.push_back(sysLua);
