@@ -131,35 +131,35 @@ void SSceneSystemSprite::tickSpriteAnimation(SSceneComSprite* sprite, float delt
 }
 
 void SSceneSystemSprite::renderSprite(SSceneComSprite* sprite, StormRenderer* renderer) {
-    /* 
-     * Temporary rendering core. 
-     * TODO: Rewrite this. This is only used for temporary debugging
-     * */
+    Plane& plane = sprite->getRenderPlane();
+    StormVertex* vertices = plane.getVertices();
+    spStormTexture texture = sprite->getTexture();
+
     renderer->begin(S_RENDER_TRIANGLE_FAN);
-    renderer->bindTexture(sprite->getTexture().get());
+    renderer->bindTexture(texture.get());
     renderer->setColorMultiply(sprite->getColorMultiply());
     renderer->setColorAdd(sprite->getColorAdd());
-    StormVertex* vertices = sprite->getOwner()->getPlane()->getVertices();
 
     if (sprite->hasSpriteSheet()) {
-        spStormTexture txt = sprite->getTexture();
+        /* Animated sprite sheet found */
         const Rect& rect = sprite->getCurrentFrameRect();
 
-        vertices[0].uv.x = (float)rect.pos.x / (float)txt->getSize().x;
-        vertices[0].uv.y = (float)rect.pos.y / (float)txt->getSize().y;
+        vertices[0].uv.x = (float)rect.pos.x / (float)texture->getSize().x;
+        vertices[0].uv.y = (float)rect.pos.y / (float)texture->getSize().y;
 
-        vertices[1].uv.x = ((float)rect.pos.x / (float)txt->getSize().x) + ((float)rect.size.x / (float)txt->getSize().x);
-        vertices[1].uv.y = (float)rect.pos.y / (float)txt->getSize().y;
+        vertices[1].uv.x = ((float)rect.pos.x / (float)texture->getSize().x) + ((float)rect.size.x / (float)texture->getSize().x);
+        vertices[1].uv.y = vertices[0].uv.y;
 
-        vertices[2].uv.x = ((float)rect.pos.x / (float)txt->getSize().x) + ((float)rect.size.x / (float)txt->getSize().x);
-        vertices[2].uv.y = ((float)rect.pos.y / (float)txt->getSize().y) + ((float)rect.size.y / (float)txt->getSize().y);
+        vertices[2].uv.x = vertices[1].uv.x;
+        vertices[2].uv.y = ((float)rect.pos.y / (float)texture->getSize().y) + ((float)rect.size.y / (float)texture->getSize().y);
 
-        vertices[3].uv.x = (float)rect.pos.x / (float)txt->getSize().x;
-        vertices[3].uv.y = ((float)rect.pos.y / (float)txt->getSize().y) + ((float)rect.size.y / (float)txt->getSize().y);
+        vertices[3].uv.x = vertices[0].uv.x;
+        vertices[3].uv.y = vertices[2].uv.y;
     }
 
-    renderer->bindVertexData(sprite->getOwner()->getPlane()->getVertices(), 4);
+    renderer->bindVertexData(vertices, 4);
     
+    /* TODO: Dont bind indices like this */
     uint32_t indices[] = {0, 1, 2, 3};
     renderer->bindIndexData(indices, 4);
     

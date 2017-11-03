@@ -1,6 +1,6 @@
 #include "SSceneComSprite.h"
-#include "SSceneComPlane.h"
 #include "SSceneSystemSprite.h"
+#include "SSceneComTransform.h"
 #include "../StormSceneObject.h"
 #include "../../StormTextureManager.h"
 #include "../../StormEngine.h"
@@ -42,6 +42,9 @@ void SSceneComSprite::serializeXml(pugi::xml_node& node) {
     node.append_attribute("color_add_b").set_value((int)_ColorAdd.b);
     node.append_attribute("color_add_a").set_value((int)_ColorAdd.a);
 
+    node.append_attribute("width").set_value(_RenderPlane.getSizeX());
+    node.append_attribute("height").set_value(_RenderPlane.getSizeY());
+    
     if (_AnimationSpeed != 1.0f) {
         node.append_attribute("animation_speed").set_value(_AnimationSpeed);
     }
@@ -64,6 +67,19 @@ int SSceneComSprite::deserializeXml(pugi::xml_node& node) {
     _ColorAdd.b = (uint8_t)node.attribute("color_add_b").as_int(0);
     _ColorAdd.a = (uint8_t)node.attribute("color_add_a").as_int(0);
 
+    /* Custom plane size can be specified in XML */
+    _RenderPlane.setSizeX(node.attribute("width").as_float(-1.0f));
+    _RenderPlane.setSizeY(node.attribute("height").as_float(-1.0f));
+
+    if (_RenderPlane.getSizeX() < 0.0f) {
+        _RenderPlane.setSizeX(50.0f);
+        LOG(WARNING) << "No width specified for sprite. Using default. OBJ ID: " << getOwner()->getId();
+    }
+    if (_RenderPlane.getSizeY() < 0.0f) {
+        _RenderPlane.setSizeY(50.0f);
+        LOG(WARNING) << "No height specified for sprite. Using default. OBJ ID: " << getOwner()->getId();
+    }
+    
     _AnimationSpeed = node.attribute("animation_speed").as_float(1.0f);
 
     _SpriteSheetFilename = node.attribute("sprite_sheet").as_string("");
@@ -79,6 +95,8 @@ int SSceneComSprite::deserializeXml(pugi::xml_node& node) {
 }
 
 int SSceneComSprite::initialize(SSceneComponentSystem* system) {
+    S_OBSERVER_ADD(_Owner, this, S_OBSERVER_EVENT_TRANSFORM_UPDATED, SSceneComSprite::observeTransformChanged);
+
     if (_SpriteSheetFilename == "") {
         /* Set to nullptr again, just in case */
         _SpriteSheet = nullptr;
@@ -98,6 +116,26 @@ int SSceneComSprite::initialize(SSceneComponentSystem* system) {
 
     _FrameTime = 1000.0f / (float)_SpriteSheet->fps;
     return 1;
+}
+
+void SSceneComSprite::observeTransformChanged(void* data) {
+    SSceneComTransform* transform = _Owner->getTransform();
+    if (!transform) {
+        LOG(ERROR) << "Sprite component exists on scene object without transform";
+        return;
+    }
+
+    /* Store oritinal size for backup */
+    const Vector2 originalSize = _RenderPlane.getSize();
+    /* Scale size by transform scale */
+    _RenderPlane.setSize(originalSize.mult(transform->getScale()));
+    
+    _RenderPlane.setPosition(transform->getPositionAbs());
+    _RenderPlane.setAngle(transform->getAngle());
+    _RenderPlane.transform();
+
+    /* Restore original size after transformation */
+    _RenderPlane.setSize(originalSize);
 }
 
 void SSceneComSprite::setTexture(spStormTexture texture) {
@@ -172,6 +210,10 @@ std::reference_wrapper<const Rect> SSceneComSprite::getCurrentFrameRect() const 
     }
 
     return _SpriteSheet->frames[(int)getCurrentFrame()];
+}
+
+std::reference_wrapper<Plane> SSceneComSprite::getRenderPlane() {
+    return _RenderPlane;
 }
 
 const std::string& SSceneComSprite::getSpriteSheetFilename() {

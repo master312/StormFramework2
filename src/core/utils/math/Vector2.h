@@ -44,6 +44,7 @@ public:
     inline T getY() { return y; }
     inline void set(VectorT2<T> vec) {x = vec.x; y = vec.y;}
     inline void setZero() {x = 0; y = 0;}
+    inline bool isZero() { return x == 0 && y == 0; }
     inline VectorT2<T> get() { return *this; }
 
     template <class R>

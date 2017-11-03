@@ -3,6 +3,7 @@
 #include "../../core/graphics/StormTexture.h"
 #include "../../core/graphics/StormRenderer.h"
 #include "../../core/utils/math/Rect.h"
+#include "../../core/utils/Plane.h"
 
 /* Component for drawing sprites on the screen */
 
@@ -22,6 +23,10 @@ public:
     virtual int deserializeXml(pugi::xml_node& node);
 
     virtual int initialize(SSceneComponentSystem* system);
+
+    /* Observer method. Called when transform component fires event.
+     * Used to handle plane transformations. */
+    void observeTransformChanged(void* data);
 
     void setTexture(spStormTexture texture);
     spStormTexture getTexture();
@@ -64,16 +69,26 @@ public:
      * if not, rect will be set to size of whole texture. */
     std::reference_wrapper<const Rect> getCurrentFrameRect() const;
 
+    /* Returns reference to plane with abs coordinates on which 
+     * animation frame should be rendered. */
+    std::reference_wrapper<Plane> getRenderPlane();
+
     const std::string& getSpriteSheetFilename();
+
+    /* Returns pointer to sprite sheet object, or nullptr if not found */
     SComSpriteSheet* getSpriteSheet();
-    
+
 private:
     spStormTexture _Texture;
+
     /* Texture filename loaded from XML */
     std::string _OriginalTextureName;
 
     Color _ColorMultiply;
     Color _ColorAdd;
+
+    /* Plane on which sprite will be rendered */ 
+    Plane _RenderPlane;
 
     /* File name of sprite sheet xml. */
     std::string _SpriteSheetFilename;
