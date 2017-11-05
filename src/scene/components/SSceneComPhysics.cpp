@@ -95,6 +95,11 @@ int SSceneComPhysics::initialize(SSceneComponentSystem* system) {
         LOG(ERROR) << "Initializing physics component without geometry";
         return -1;
     }
+    if (_Owner->getTransform()) {
+        Vector2 scale = _Owner->getTransform()->getScaleAbs();
+        _GeometrySize.x *= scale.x;
+        _GeometrySize.y *= scale.y;
+    }
 
     observeTransformChanged(nullptr);
     S_OBSERVER_ADD(_Owner, this, S_OBSERVER_EVENT_TRANSFORM_UPDATED, SSceneComPhysics::observeTransformChanged);
