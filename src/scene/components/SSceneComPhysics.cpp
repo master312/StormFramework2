@@ -76,8 +76,9 @@ int SSceneComPhysics::initialize(SSceneComponentSystem* system) {
         LOG(ERROR) << "Initializing physics component without geometry";
         return -1;
     }
-    if (_Owner->getTransform()) {
-        Vector2 scale = _Owner->getTransform()->getScaleAbs();
+    SSceneComTransform* transform = _Owner->getTransform();
+    if (transform) {
+        Vector2 scale = transform->getScaleAbs();
         _GeometrySize.x *= scale.x;
         _GeometrySize.y *= scale.y;
     }
