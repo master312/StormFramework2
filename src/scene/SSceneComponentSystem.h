@@ -28,11 +28,15 @@ public:
 
     SSceneComponentType getType() const;
 
+    bool getIsInitialized();
+
 protected:
     SSceneComponentType _Type;
     
     std::vector<SSceneComponent*> _Components;
     
+    bool _IsInitialized;
+
     /* Returns true if component is matches type, and has owner. 
      * Otherwise returns false and logs error. */
     virtual bool validateComponent(SSceneComponent* com, SSceneComponentType type);

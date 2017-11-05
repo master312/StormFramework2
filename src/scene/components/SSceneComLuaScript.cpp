@@ -75,6 +75,19 @@ int SSceneComLuaScript::initialize(SSceneComponentSystem* system) {
     }
     _LuaHandler = fun(entityObject);
 
+    if (_Owner->getIsCreatedAtRuntime()) {
+        /* Lua system is already initialized. 
+         * Bind all components on for SceneObject to lua */
+        for (SSceneComponent* component : _Owner->getComponents()) {
+            if (component == this) {
+                continue;
+            }
+            component->bindToScript(luaSystem->getLuaState());
+        }
+        executeOnLoad();
+        executeOnStart();
+    }
+
     LOG(DEBUG) << "Lua script: '" << scriptFile->getFilename() << "' loaded";
 
     return 1;

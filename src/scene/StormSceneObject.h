@@ -47,6 +47,12 @@ public:
     /* Adds component to the object */
     void addComponent(SSceneComponent* component);
 
+    void setIsCreatedAtRuntime(bool value);
+
+    /* Returns true if this object has been created 
+     * at runtime, and not loaded from scene file */
+    bool getIsCreatedAtRuntime();
+    
     /* Returns component of specefied type */
     SSceneComponent* getComponent(SSceneComponentType type);
 
@@ -82,6 +88,10 @@ private:
 
     /* Pointer to lua script component */
     SSceneComLuaScript* _ComponentLuaScript;
+
+    /* Set to true if this object is created at runtime,
+     * and not loaded from scene file */
+    bool _IsCreatedAtRuntime;
 
     /* Removes this object from parent's @_Components array and clears @_Parent pointer */
     void clearParent();

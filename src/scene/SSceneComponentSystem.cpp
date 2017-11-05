@@ -3,6 +3,7 @@
 
 SSceneComponentSystem::SSceneComponentSystem() {
     _Type = S_SCENE_OBJECT_COM_UNDEFINED;
+    _IsInitialized = false;
 }
 
 SSceneComponentSystem::~SSceneComponentSystem() {
@@ -12,6 +13,7 @@ void SSceneComponentSystem::initialize(StormScene* ownerScene /* = nullptr*/) {
     for (SSceneComponent* component : _Components) {
         component->initialize(this);
     }
+    _IsInitialized = true;
 }
 
 void SSceneComponentSystem::render(StormRenderer* renderer) {
@@ -30,6 +32,10 @@ int SSceneComponentSystem::bindToLua(sol::state& luaState) {
 
 SSceneComponentType SSceneComponentSystem::getType() const {
     return _Type;
+}
+
+bool SSceneComponentSystem::getIsInitialized() {
+    return _IsInitialized;
 }
 
 bool SSceneComponentSystem::validateComponent(SSceneComponent* com, SSceneComponentType type) {

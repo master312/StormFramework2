@@ -9,6 +9,7 @@ StormSceneObject::StormSceneObject(uint32_t id /* = 0 */) {
     _Parent = nullptr;
     _ComponentTransform = nullptr;
     _ComponentLuaScript = nullptr;
+    _IsCreatedAtRuntime = false;
 }
 
 StormSceneObject::StormSceneObject(uint32_t id, const std::string& name) : 
@@ -62,6 +63,14 @@ int StormSceneObject::deserializeXml(pugi::xml_node& node) {
     }
 
     return 1;
+}
+
+bool StormSceneObject::getIsCreatedAtRuntime() {
+    return _IsCreatedAtRuntime;
+}
+
+void StormSceneObject::setIsCreatedAtRuntime(bool value) {
+    _IsCreatedAtRuntime = value;
 }
 
 void StormSceneObject::setId(uint32_t id) {

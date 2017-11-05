@@ -5,7 +5,6 @@
 #include "components/SSceneSystemSprite.h"
 #include "components/SSceneSystemTransform.h"
 #include "components/SSceneSystemLuaScript.h"
-#include "components/SSceneComLuaScript.h"
 
 #include "../StormEngine.h"
 #include "../core/graphics/StormRenderer.h"
@@ -198,6 +197,7 @@ StormSceneObject* StormScene::instantiatePrefab(const std::string& prefabName,
     }
 
     _MaxObjectId++;
+    object->setIsCreatedAtRuntime(true);
     object->setId(_MaxObjectId);
     object->setName(objectName);
 
@@ -220,28 +220,6 @@ void StormScene::initializeObject(StormSceneObject* object) {
         if (component) {
             component->initialize(comSystem);
         }
-    }
-
-    SSceneSystemLuaScript* systemScript = nullptr;
-    systemScript = dynamic_cast<SSceneSystemLuaScript*>(_ComponentSystemsByType[S_SCENE_OBJECT_COM_SCRIPT]);
-    if (!systemScript) {
-        return;
-    }
-    /* After all components are initialized, bind them to script */
-    SSceneComLuaScript* scriptComponent = nullptr;
-    for (SSceneComponent* component : object->getComponents()) {
-        if (component->getType() == S_SCENE_OBJECT_COM_SCRIPT) {
-            scriptComponent = dynamic_cast<SSceneComLuaScript*>(component);
-            continue;
-        }
-        component->bindToScript(systemScript->getLuaState());
-    }
-
-    if (scriptComponent) {
-        /* Since object has just now be created, execute onLoad and onStart
-         * script functions immediately */
-        scriptComponent->executeOnLoad();
-        scriptComponent->executeOnStart();
     }
 }
 
