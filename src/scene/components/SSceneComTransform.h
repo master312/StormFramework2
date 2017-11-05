@@ -110,6 +110,9 @@ public:
     /* Observer method. Called when parent's transform has been changed */
     void observeParentTransformChanged(void* data);
 
+    /* Binds this component to Scene Object's lua interface. */
+    virtual void bindToScript(sol::state& luaState);
+
 private:
     /* Pointer to parent object's transform component */
     SSceneComTransform* _ParentTransform;

@@ -11,6 +11,8 @@ SSceneComponent::SSceneComponent(StormSceneObject* owner) {
     _Type = S_SCENE_OBJECT_COM_UNDEFINED;
     _Owner = owner;
     _IsInitialized = false;
+    _IsBindedToScript = false;
+    _ScriptHandlerName = "";
 }
 
 SSceneComponent::~SSceneComponent() {
@@ -36,6 +38,34 @@ int SSceneComponent::initialize(SSceneComponentSystem* system) {
 
 bool SSceneComponent::getIsInitialized() {
     return _IsInitialized;
+}
+
+void SSceneComponent::bindToScript(sol::state& luaState) {
+    LOG(ERROR) << "SSceneComponent::bindToScript Must be overriden!";
+}
+
+sol::table SSceneComponent::getOwnerLuaHandle(sol::state& luaState) {
+    if (!getOwner()->getLuaScript()) {
+        /* Parent object dose not have script attatched */
+        return sol::table();
+    }
+
+    if (_ScriptHandlerName == "") {
+        LOG(ERROR) << "Could not bind component to script. Script handler name is not set";
+        return sol::table();
+    }
+    
+    sol::table handle = luaState["Handles"][getOwner()->getId()];
+    if (!handle.valid() || !handle || !handle["isValid"]) {
+        LOG(ERROR) << "Component tryed to bind to invalid script object handle";
+        return sol::table();
+    }
+
+    return handle;
+}
+
+bool SSceneComponent::getIsBindedToScript() {
+     return _IsBindedToScript;
 }
 
 void SSceneComponent::setOwner(StormSceneObject* owner) {

@@ -31,10 +31,5 @@ private:
     /* Set to false when this system ticks first time
      * Used for handling @onScriptStart(...) method */
     bool _IsFirstTick;
-
-    /* Called right after script has been loaded and initialized */
-    void onScriptLoad(SSceneComLuaScript* component);
     
-    /* Called on just before first tick */
-    void onScriptStart(SSceneComLuaScript* component);
 };

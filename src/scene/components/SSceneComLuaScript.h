@@ -29,6 +29,14 @@ public:
     /* Returns script filename */
     std::string& getFilename();
 
+    /* Execute onLoad script function.
+     * Should be called right after script has been loaded and initialized */
+    void executeOnLoad();
+
+    /* Execute onStart script function.
+     * Should be called on just before first tick */
+    void executeOnStart();
+
 private:
     /* Lua script filename */
     std::string _Filename;

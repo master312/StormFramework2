@@ -18,6 +18,7 @@ SSceneComSprite::SSceneComSprite(StormSceneObject* owner) : SSceneComponent(owne
     _LastFrameTime = 0;
     _AnimationSpeed = 1.0f;
 
+    _ScriptHandlerName = "sprite";
     _Type = S_SCENE_OBJECT_COM_SPRITE;
 }
 

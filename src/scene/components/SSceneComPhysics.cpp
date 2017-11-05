@@ -15,6 +15,7 @@ SSceneComPhysics::SSceneComPhysics(StormSceneObject* owner) : SSceneComponent(ow
     _BodyType = b2_staticBody;
     _GeometryType = GEOMETRY_TYPE_NONE;
     _IsTransformChanged = false;
+    _ScriptHandlerName = "body";
 }
 
 SSceneComPhysics::~SSceneComPhysics() {
@@ -234,4 +235,8 @@ bool SSceneComPhysics::isDynamic() {
 
 GeometryType SSceneComPhysics::getGeometryType() {
     return _GeometryType;
+}
+
+void SSceneComPhysics::bindToScript(sol::state& luaState) {
+    bindTypeToScript<SSceneComPhysics*>(luaState);
 }

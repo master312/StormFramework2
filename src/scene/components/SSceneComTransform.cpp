@@ -13,6 +13,7 @@ SSceneComTransform::SSceneComTransform(StormSceneObject* owner) : SSceneComponen
     _IsChanged = false;
     _InheritScale = true;
     _ParentAsPivot = false;
+    _ScriptHandlerName = "transform";
 }
 
 SSceneComTransform::~SSceneComTransform() {
@@ -250,4 +251,8 @@ void SSceneComTransform::pullParentTransform() {
 
     _ParentTransform = _Owner->getParent()->getTransform();
     _IsChanged = true;
+}
+
+void SSceneComTransform::bindToScript(sol::state& luaState) {
+    bindTypeToScript<SSceneComTransform*>(luaState);
 }

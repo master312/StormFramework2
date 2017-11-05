@@ -48,7 +48,7 @@ void SSceneSystemLuaScript::initialize(StormScene* ownerScene) {
     }
 
     for (SSceneComLuaScript* component : _ScriptComponents) {
-        onScriptLoad(component);
+        component->executeOnLoad();
     }
 }
 
@@ -57,7 +57,7 @@ void SSceneSystemLuaScript::tick(float deltaTime) {
         /* Execute script onStart method */
         _IsFirstTick = false;
         for (SSceneComLuaScript* component : _ScriptComponents) {
-            onScriptStart(component);
+            component->executeOnStart();
         }
     }
 
@@ -71,18 +71,4 @@ sol::state& SSceneSystemLuaScript::getLuaState() {
 void SSceneSystemLuaScript::addComponent(SSceneComponent* component) {
     SSceneComponentSystem::addComponent(component);
     _ScriptComponents.push_back(dynamic_cast<SSceneComLuaScript*>(component));
-}
-
-void SSceneSystemLuaScript::onScriptLoad(SSceneComLuaScript* component) {
-    sol::function function = component->getLuaHandle()["obj"]["onLoad"];
-    if (function.valid()) {
-        function();
-    }
-}
-
-void SSceneSystemLuaScript::onScriptStart(SSceneComLuaScript* component) {
-    sol::function function = component->getLuaHandle()["obj"]["onStart"];
-    if (function.valid()) {
-        function();
-    }
 }

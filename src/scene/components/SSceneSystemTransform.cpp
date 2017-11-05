@@ -47,12 +47,7 @@ int SSceneSystemTransform::bindToLua(sol::state& luaState) {
     );
     
     for (SSceneComTransform* com : _TransformComponents) {
-        sol::table handle = luaState["Handles"][com->getOwner()->getId()];
-        if (!handle.valid() || !handle || !handle["isValid"]) {
-            continue;
-        }
-
-        handle["obj"]["transform"] = com;
+        com->bindToScript(luaState);
     }
 
     return 1;

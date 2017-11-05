@@ -41,8 +41,11 @@ public:
 
     /* Returns true if this body affects transform component */
     bool isDynamic();
-
+    
     GeometryType getGeometryType();
+
+    /* Binds this component to Scene Object's lua interface. */
+    virtual void bindToScript(sol::state& luaState);
 
 private:
     GeometryType _GeometryType;

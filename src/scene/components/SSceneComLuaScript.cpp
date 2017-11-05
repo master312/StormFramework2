@@ -80,6 +80,20 @@ int SSceneComLuaScript::initialize(SSceneComponentSystem* system) {
     return 1;
 }
 
+void SSceneComLuaScript::executeOnLoad() {
+    sol::function function = getFunction("onLoad");
+    if (function.valid()) {
+        function();
+    }
+}
+
+void SSceneComLuaScript::executeOnStart() {
+    sol::function function = getFunction("onStart");
+    if (function.valid()) {
+        function();
+    }
+}
+
 sol::table& SSceneComLuaScript::getLuaHandle() {
 #ifndef PRODUCTION
     if (!_LuaHandler.valid()) {

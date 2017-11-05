@@ -129,12 +129,7 @@ int SSceneSystemPhysics::bindToLua(sol::state& luaState) {
     );
 
     for (SSceneComPhysics* com : _PhysicsComponents) {
-        sol::table handle = luaState["Handles"][com->getOwner()->getId()];
-        if (!handle.valid() || !handle || !handle["isValid"]) {
-            continue;
-        }
-
-        handle["obj"]["body"] = com;
+        com->bindToScript(luaState);
     }
 
     return 1;

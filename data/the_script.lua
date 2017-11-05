@@ -1,6 +1,7 @@
 local this = {}
 
 local isPressed = false
+this.tmpcnt = -10
 
 this.onUpdate = function(deltaTime) 
     
@@ -15,10 +16,18 @@ this.onUpdate = function(deltaTime)
         end
     end
 
+    -- this.tmpcnt = this.tmpcnt + 1
+    -- if this.tmpcnt == 5 then
+    --     this.tmpcnt = 0
+    --     local newObject = ActiveScene:instantiatePrefab("TestPrefabOne", "NigaOVJ")
+    --     newObject.transform:setPosition(mousePosition)
+    -- end
+
     if InputManager:isKeyPressed(Keyboard.I) then
         local newObject = ActiveScene:instantiatePrefab("TestPrefabOne", "NigaOVJ")
         newObject.transform:setPosition(mousePosition)
     elseif InputManager:isKeyDown(Keyboard.R) then
+        this.tmpcnt = -1;
         -- debug.log("Never forget B key " .. this.transform.angle)
         this.transform.angle = this.transform.angle + 1.2
         
