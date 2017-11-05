@@ -31,7 +31,7 @@ void Plane::transform() {
 void Plane::transformRotationAroundPivot() {
     _PivotPosition *= -1;
     
-    calculatePoints(_PivotPosition);
+    calculatePoints(_PivotPosition, true);
 
     float sin = StormScalarMath::sin((_Angle * MATH_PI) / 180.0f);
     float cos = StormScalarMath::cos((_Angle * MATH_PI) / 180.0f);
@@ -55,12 +55,12 @@ void Plane::transformRotationAroundPivot() {
 }
 
 void Plane::transformRotationAroundCenter() {
-    calculatePoints(_Position);
-    
     if (StormScalarMath::equivalent(_Angle, 0.0f)) {
         /* Plane is not rotated. Dose not need to calculate anything else */
+        calculatePoints(_Position);
         return;   
     }
+    calculatePoints(_Position, true);
     
     float sin = StormScalarMath::sin((_Angle * MATH_PI) / 180.0f);
     float cos = StormScalarMath::cos((_Angle * MATH_PI) / 180.0f);
@@ -88,8 +88,19 @@ bool Plane::containsPoint(const Vector2& point) {
            (p1_p4.dot(pwo_p_c - p1_p4) <= 0 && p1_p4.dot(pwo_p_c + p1_p4) >= 0);
 }
 
-void Plane::calculatePoints(const Vector2& center) {
+void Plane::calculatePoints(const Vector2& center, bool flipX /* = false */) {
     Vector2 size2 = _Size / 2;
+    if (flipX) {
+        _Points[1] = center - size2;
+        _Points[0] = center;
+        _Points[0].x += size2.x;
+        _Points[0].y -= size2.y;
+        _Points[3] = center + size2;
+        _Points[2] = center;
+        _Points[2].x -= size2.x;
+        _Points[2].y += size2.y;
+        return;
+    }
     _Points[0] = center - size2;
     _Points[1] = center;
     _Points[1].x += size2.x;

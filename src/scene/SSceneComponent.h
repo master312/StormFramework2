@@ -16,7 +16,7 @@ typedef enum SSceneComponentType {
     S_SCENE_OBJECT_COM_SPRITE = 2,               // Animated texture component
     S_SCENE_OBJECT_COM_SPINE = 3,                // Spine component
     S_SCENE_OBJECT_COM_SCRIPT = 4,
-    S_SCENE_OBJECT_COM_COLLIDER = 5,
+    S_SCENE_OBJECT_COM_PHYSICS = 5,
 
     S_SCENE_OBJECT_COM_TYPES_COUNT
 };
@@ -36,7 +36,7 @@ static const int SSceneComponentInitializationOrder[S_SCENE_OBJECT_COM_TYPES_COU
     S_SCENE_OBJECT_COM_TRANSFORM,
     S_SCENE_OBJECT_COM_SPRITE,
     S_SCENE_OBJECT_COM_SPINE,
-    S_SCENE_OBJECT_COM_COLLIDER,
+    S_SCENE_OBJECT_COM_PHYSICS,
     S_SCENE_OBJECT_COM_SCRIPT
 };
 
@@ -44,8 +44,7 @@ static const int SSceneComponentInitializationOrder[S_SCENE_OBJECT_COM_TYPES_COU
 static const int SSceneComponentTickingOrderCount = 6;
 static const int SSceneComponentTickingOrder[SSceneComponentTickingOrderCount] = {
     S_SCENE_OBJECT_COM_TRANSFORM,
-    S_SCENE_OBJECT_COM_COLLIDER,
-    S_SCENE_OBJECT_COM_TRANSFORM,
+    S_SCENE_OBJECT_COM_PHYSICS,
     S_SCENE_OBJECT_COM_SPRITE,
     S_SCENE_OBJECT_COM_SPINE,
     S_SCENE_OBJECT_COM_SCRIPT,

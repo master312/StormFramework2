@@ -3,6 +3,7 @@
 #include "components/SSceneComSprite.h"
 #include "components/SSceneComTransform.h"
 #include "components/SSceneComLuaScript.h"
+#include "components/SSceneComPhysics.h"
 #include "SSceneComponentSystem.h"
 #include "../core/StormCommon.h"
 
@@ -48,6 +49,9 @@ SSceneComponent* SSceneComponent::newComponent(SSceneComponentType type, StormSc
     switch(type) {
         case S_SCENE_OBJECT_COM_TRANSFORM:
             component = new SSceneComTransform(owner);
+            break;
+        case S_SCENE_OBJECT_COM_PHYSICS:
+            component = new SSceneComPhysics(owner);
             break;
         case S_SCENE_OBJECT_COM_SPRITE:
             component = new SSceneComSprite(owner);

@@ -60,5 +60,5 @@ private:
     void transformRotationAroundPivot();
     void transformRotationAroundCenter();
 
-    void calculatePoints(const Vector2& center);
+    void calculatePoints(const Vector2& center, bool flipX = false);
 };

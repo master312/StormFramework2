@@ -1,16 +1,21 @@
 local this = {}
 
 local isPressed = false
-this.cnt = 0
+this.toggle = false
+
 this.onUpdate = function(deltaTime) 
     if InputManager:isKeyPressed(Keyboard.A) then
-        this.cnt = 0
+        this.toggle = not this.toggle
     end
-    if this.cnt < 100 then
-        this.cnt = this.cnt + 1
+
+    if this.toggle then
         this.transform:setPosition(InputManager:getPointerPosition(1))
     end
     -- debug.log(InputManager:getPointerPosition(1):toString())
+end
+
+this.on_trigger_enter = function(object)
+    debug.log("COLLIDED " .. object.id)
 end
 
 return this;

@@ -30,8 +30,20 @@ public:
     /* Sets position transform
      * If parent exists, this position will be relative to parents position */
     void setPosition(const Vector2 position);
-    
+
+    /* Sets position transform
+     * If parent exists, this position will be relative to parents position */
+    void setPosition(float x, float y);
+
+    /* Sets absolute position of this transform.
+     * If transform has parent, @position will be converted to local coordinates.
+     * TODO: Not fully tested */
     void setPositionAbs(const Vector2 position);
+
+    /* Sets absolute position of this transform.
+     * If transform has parent, @position will be converted to local coordinates.
+     * TODO: Not fully tested */
+    void setPositionAbs(float x, float y);
 
     /* Sets X local position */
     void setX(float x);
@@ -40,13 +52,19 @@ public:
     void setY(float y);
 
     /* Gets local X position */
-    float getX();
+    float getX() const;
 
     /* Gets local Y position */
-    float getY();
+    float getY() const;
 
     /* Returns absolute position on scene */
     Vector2 getPositionAbs() const;
+
+    /* Gets absolute X position */
+    float getAbsX() const;
+
+    /* Gets absolute Y position */
+    float getAbsY() const;
 
     /* Returns transform scale multiplier */
     Vector2 getScale() const;

@@ -33,11 +33,12 @@ void SSceneSystemTransform::addComponent(SSceneComponent* component) {
 }
 
 int SSceneSystemTransform::bindToLua(sol::state& luaState) {
+    auto setPosFunction = sol::resolve<void(const Vector2)>(&SSceneComTransform::setPosition);
     luaState.new_usertype<SSceneComTransform>("ComTransform",
         "posAbs", sol::property(&SSceneComTransform::getPositionAbs),
-        "position", sol::property(&SSceneComTransform::getPosition, &SSceneComTransform::setPosition),
+        "position", sol::property(&SSceneComTransform::getPosition, setPosFunction),
         "getPosition", &SSceneComTransform::getPosition,
-        "setPosition", &SSceneComTransform::setPosition,
+        "setPosition", setPosFunction,
         "x", sol::property(&SSceneComTransform::getX, &SSceneComTransform::setX),
         "y", sol::property(&SSceneComTransform::getY, &SSceneComTransform::setY),
         "angle", sol::property(&SSceneComTransform::getAngle, &SSceneComTransform::setAngle),

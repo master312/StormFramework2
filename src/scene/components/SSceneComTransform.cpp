@@ -90,22 +90,32 @@ void SSceneComTransform::transform() {
         }
     }
     
-    _IsChanged = false;
     /* Notify other components that transformation has been updated */
     _Owner->notifyObservers(S_OBSERVER_EVENT_TRANSFORM_UPDATED);
-
+    
     for (auto* child : _Owner->getChildren()) {
         /* Notify all children that parent's transformation has been updated */
         child->notifyObservers(S_OBSERVER_EVENT_PARENT_TRANSFORM_UPDATED);
     }
+    
+    _IsChanged = false;
 }
 
 Vector2 SSceneComTransform::getPosition() const {
     return _Position;
 }
 
-void SSceneComTransform::setPosition(Vector2 position) {
-    _Position = position;
+void SSceneComTransform::setPosition(const Vector2 position) {
+    setPosition(position.x, position.y);
+}
+
+void SSceneComTransform::setPosition(float x, float y) {
+    if (StormScalarMath::equivalent(_Position.x, x) &&
+        StormScalarMath::equivalent(_Position.y, y)) {
+            return;
+    }
+    _Position.x = x;
+    _Position.y = y;
     _IsChanged = true;
 }
 
@@ -118,26 +128,41 @@ void SSceneComTransform::setPositionAbs(const Vector2 position) {
     setPosition(position - _ParentTransform->getPositionAbs());
 }
 
+void SSceneComTransform::setPositionAbs(float x, float y) {
+    if (!_ParentTransform) {
+        setPosition(x, y);
+        return;
+    }
+    setPosition(x - _ParentTransform->getAbsX(), 
+                y - _ParentTransform->getAbsY());
+}
+
 void SSceneComTransform::setX(float x) {
-    _Position.x = x;
-    _IsChanged = true;
+    setPosition(x, _Position.y);
 }
 
 void SSceneComTransform::setY(float y) {
-    _Position.y = y;
-    _IsChanged = true;
+    setPosition(_Position.x, y);
 }
 
-float SSceneComTransform::getX() {
+float SSceneComTransform::getX() const {
     return _Position.x;
 }
 
-float SSceneComTransform::getY() {
+float SSceneComTransform::getY() const {
     return _Position.y;
 }
 
 Vector2 SSceneComTransform::getPositionAbs() const {
     return _PositionAbs;
+}
+
+float SSceneComTransform::getAbsX() const {
+    return _PositionAbs.x;
+}
+
+float SSceneComTransform::getAbsY() const {
+    return _PositionAbs.y;
 }
 
 Vector2 SSceneComTransform::getScale() const {
@@ -149,6 +174,9 @@ Vector2 SSceneComTransform::getScaleAbs() const {
 }
 
 void SSceneComTransform::setScale(Vector2 scale) {
+    if (_Scale == scale) {
+        return;
+    }
     _Scale = scale;
     _IsChanged = true;
 }
@@ -165,11 +193,18 @@ float SSceneComTransform::getAngleAbs() {
 }
 
 void SSceneComTransform::setAngle(float angle) {
-    _Angle = StormScalarMath::clampAngle(angle);
+    angle = StormScalarMath::clampAngle(angle);
+    if (StormScalarMath::equivalent(angle, _Angle)) {
+        return;
+    }
+    _Angle = angle;
     _IsChanged = true;
 }
 
 void SSceneComTransform::setInheritScale(bool value) {
+    if (_InheritScale == value) {
+        return;
+    }
     _InheritScale = value;
     _IsChanged = true;
 }
