@@ -26,28 +26,7 @@ SSceneComPhysics::~SSceneComPhysics() {
 
 void SSceneComPhysics::serializeXml(pugi::xml_node& node) {
     SSceneComponent::serializeXml(node);
-    
-    // switch(_Geometry->getType()) {
-    //     case GEOMETRY_TYPE_PLANE: {
-    //         node.append_attribute("geometry").set_value("plane");
-    //         Plane* tmpPlane = dynamic_cast<Plane*>(_Geometry);
-    //         if (!tmpPlane) {
-    //             LOG(ERROR) << "SSceneComPhysics serialize error 01";
-    //             return;
-    //         }
-
-    //         node.append_attribute("size_x").set_value(tmpPlane->getSizeX());
-    //         node.append_attribute("size_y").set_value(tmpPlane->getSizeY());
-    //         break;
-    //     } case GEOMETRY_TYPE_CIRCLE:
-    //         node.append_attribute("geometry").set_value("circle");
-    //         break;
-    //     default:
-    //         node.append_attribute("geometry").set_value("unknown");
-    //         break;
-    // }
-
-    // node.append_attribute("is_trigger").set_value(_IsTrigger);
+    /* TODO... */
 }
 
 int SSceneComPhysics::deserializeXml(pugi::xml_node& node) {
@@ -66,6 +45,7 @@ int SSceneComPhysics::deserializeXml(pugi::xml_node& node) {
     }
 
     _IsTrigger = node.attribute("is_trigger").as_bool(false);
+
     if (!_IsTrigger) {
         std::string typeStr = node.attribute("body_type").as_string();
         if (typeStr == "kinematic") {
@@ -101,7 +81,6 @@ int SSceneComPhysics::initialize(SSceneComponentSystem* system) {
         _GeometrySize.y *= scale.y;
     }
 
-    observeTransformChanged(nullptr);
     S_OBSERVER_ADD(_Owner, this, S_OBSERVER_EVENT_TRANSFORM_UPDATED, SSceneComPhysics::observeTransformChanged);
     
     if (!generateBox2DBody(physicsSystem->getBox2DWorld())) {
@@ -150,7 +129,7 @@ void SSceneComPhysics::syncTransformAndPhysics() {
         case b2_dynamicBody:
         case b2_kinematicBody:
             {
-            if (!_IsTrigger) {
+            if (!_IsTrigger && !_IsTransformChanged) {
                 /* Body is not a trigger. Set transfrom to position of the body,
                  * And do nothing if body is trigger */
                 const b2Vec2& position = _Box2DBody->GetPosition();
@@ -218,15 +197,19 @@ bool SSceneComPhysics::generateBox2DBody(b2World* world) {
     fixture.shape = &shapePolygon;
     _Box2DFixture = _Box2DBody->CreateFixture(&fixture);
     
+    b2MassData mass;
+
     if (_IsTrigger) {
-        b2MassData mass;
         mass.mass = 0.0f;
         mass.I = 0.0f;
-        mass.center = _Box2DBody->GetLocalCenter();
-        _Box2DBody->SetMassData(&mass);
         _Box2DBody->SetGravityScale(0.0f);
+    } else {
+        mass.mass = (rand() % 2) + 0.5f;
+        mass.I = 1.5f;
     }
-
+    
+    mass.center = _Box2DBody->GetLocalCenter();
+    _Box2DBody->SetMassData(&mass);
 
     _Box2DBody->SetUserData((void*)this);
 

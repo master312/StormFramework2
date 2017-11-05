@@ -5,8 +5,9 @@ local isPressed = false
 this.onUpdate = function(deltaTime) 
     
     -- debug.log(this.object.name)
+    local mousePosition = InputManager:getPointerPosition(1)
 
-    if this.body:containsPoint(InputManager:getPointerPosition(1)) and InputManager:isPointerDown(1) then
+    if this.body:containsPoint(mousePosition) and InputManager:isPointerDown(1) then
         isPressed = true
     else
         if not InputManager:isPointerDown(1) then
@@ -14,22 +15,17 @@ this.onUpdate = function(deltaTime)
         end
     end
 
-    -- if this.collider:containsPoint(InputManager:getPointerPosition(1)) and InputManager:isPointerDown(2) then
-    --     this.transform.angle = this.transform.angle + 1.2
-    -- end
-
-    if InputManager:isKeyPressed(Keyboard.A) then
-        -- debug.log("A Key is pressed modafaka!")
+    if InputManager:isKeyPressed(Keyboard.I) then
+        local newObject = ActiveScene:instantiatePrefab("TestPrefabOne", "NigaOVJ")
+        newObject.transform:setPosition(mousePosition)
     elseif InputManager:isKeyDown(Keyboard.R) then
         -- debug.log("Never forget B key " .. this.transform.angle)
         this.transform.angle = this.transform.angle + 1.2
         
     end
-
+    
     if isPressed then
-        local pointerPosition = InputManager:getPointerPosition(1)
-        this.transform:setPosition(pointerPosition);
-        -- debug.log("modafaka ")
+        this.transform:setPosition(mousePosition);
     end
 
 -- kerberovo sranje

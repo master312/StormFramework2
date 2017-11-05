@@ -20,6 +20,7 @@ public:
     static void debugLog(const std::string& msg);
 
 private:
+    static void bindScene(sol::state& state);
     static void bindVector2(sol::state& state);
     static void bindInputManager(sol::state& state);
 };

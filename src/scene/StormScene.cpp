@@ -14,7 +14,8 @@ StormScene::StormScene() {
     _LastObjectIndex = 1;
     _Name = "";
     _IsInitialized = false;
-    
+    _MaxObjectId = 0;
+
     /* Fills @_ComponentSystemsByType array with NULL */
     memset(_ComponentSystemsByType, 0, S_SCENE_OBJECT_COM_TYPES_COUNT * sizeof(SSceneComponentSystem*));
 
@@ -35,14 +36,13 @@ StormScene::~StormScene() {
 }
 
 int StormScene::loadXml(spStormResourceFile xmlFile) {
-    pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load(xmlFile->getBuffer(), xmlFile->getBufferSize());
+    pugi::xml_parse_result result = _XmlDocument.load(xmlFile->getBuffer(), xmlFile->getBufferSize());
     if (result.status != pugi::status_ok) {
         LOG(ERROR) << "Scene XML " << xmlFile->getFilename() << " error: " << result.description();
         return -1;
     }
     
-    pugi::xml_node sceneRootNode = doc.child("scene");
+    pugi::xml_node sceneRootNode = _XmlDocument.child("scene");
     if (sceneRootNode.type() != pugi::node_element) {
         LOG(ERROR) << "Scene XML " << xmlFile->getFilename() << " error. Missing root tag.";
         return -2;
@@ -53,9 +53,20 @@ int StormScene::loadXml(spStormResourceFile xmlFile) {
      * <objectId, parentId> */
     std::map<uint32_t, uint32_t> hierarchy;
     for (pugi::xml_node objectNode = sceneRootNode.first_child(); objectNode; objectNode = objectNode.next_sibling()) {
+        if (objectNode.attribute("is_prefab").as_bool()) {
+            /* This object is used as prefab. Dont load it */
+            std::string name = objectNode.attribute("name").as_string();
+            if (!name.size()) {
+                LOG(ERROR) << "Prefab in scene file dose not have a name. It won be abe do instantiate";
+                continue;
+            }
+            _Prefabs[name] = objectNode;
+            continue;
+        }
         StormSceneObject* object = new StormSceneObject();
         if (object->deserializeXml(objectNode) < 0) {
             LOG(ERROR) << "Object XML deserialization error";
+            delete object;
             continue;
         }
         int parentId = objectNode.attribute("parent").as_int(-1);
@@ -135,8 +146,8 @@ void StormScene::initialize() {
         }
     }
     
-    _IsInitialized = true;
     LOG(INFO) << "Scene '" << _Name << "' component systems initialized";
+    _IsInitialized = true;
 }
 
 void StormScene::setName(const std::string& name) {
@@ -160,15 +171,55 @@ void StormScene::addObject(StormSceneObject* object) {
         }
     }
 
+    if (object->getId() > _MaxObjectId) {
+        _MaxObjectId = object->getId();
+    }
     _Objects.push_back(object);
 }
 
-StormSceneObject* StormScene::addNewObject(const std::string& name /* = "" */) {
-    StormSceneObject* object = new StormSceneObject(_LastObjectIndex, name);
-    _LastObjectIndex++;
+StormSceneObject* StormScene::instantiatePrefab(const std::string& prefabName, 
+                                                const std::string& objectName /* = "" */) {
+    if (prefabName == "") {
+        return nullptr;
+    }
+    auto iter = _Prefabs.find(prefabName);
+    if (iter == _Prefabs.end()) {
+        LOG(ERROR) << "Could not instantiate prefab '" << prefabName << "'. It dose not exist";
+        return nullptr;
+    }
+    pugi::xml_node prefabNode = iter->second;
+    
+    StormSceneObject* object = new StormSceneObject();
+    if (object->deserializeXml(prefabNode) < 0) {
+        LOG(ERROR) << "Object XML deserialization error";
+        delete object;
+        return nullptr;
+    }
 
-    _Objects.push_back(object);
+    _MaxObjectId++;
+    object->setId(_MaxObjectId);
+    object->setName(objectName);
+
+    addObject(object);
+    initializeObject(object);
+    
+    LOG(DEBUG) << "Instantiated new object from prefab '" << prefabName << "'. ID: " << _MaxObjectId;
+
     return object;
+}
+
+void StormScene::initializeObject(StormSceneObject* object) {
+    for (int i = 0; i < S_SCENE_OBJECT_COM_TYPES_COUNT; i++) {
+        int nextToInit = SSceneComponentInitializationOrder[i];
+        SSceneComponentSystem* comSystem = _ComponentSystemsByType[nextToInit];
+        if (!comSystem) {
+            continue;
+        }
+        SSceneComponent* component = object->getComponent((SSceneComponentType)nextToInit);
+        if (component) {
+            component->initialize(comSystem);
+        }
+    }
 }
 
 std::vector<StormSceneObject*>& StormScene::getObjects() {

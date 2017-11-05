@@ -29,7 +29,7 @@ void SSceneSystemPhysics::addComponent(SSceneComponent* component) {
 
 void SSceneSystemPhysics::initialize(StormScene* ownerScene /* = nullptr */) {
     /* Define the gravity vector. */
-    b2Vec2 gravity(0.0f, 0.9f);
+    b2Vec2 gravity(0.0f, 7.81f);
     _Box2DWorld = new b2World(gravity);
     _Box2DWorld->SetContactListener(&_ContactListener);
 

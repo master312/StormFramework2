@@ -42,8 +42,10 @@ public:
      * and memory will be freed when scene gets deleted */
     void addObject(StormSceneObject* object);
 
-    /* Adds new object to scene, and returns pointer to it */
-    StormSceneObject* addNewObject(const std::string& name = "");
+    /* Creates new script object from prefab, and return pointer to it.
+     * Returns nullptr on error */
+    StormSceneObject* instantiatePrefab(const std::string& prefabName, 
+                                        const std::string& objectName = "");
 
     /* Returns vector of all scene objects */
     std::vector<StormSceneObject*>& getObjects();
@@ -72,14 +74,26 @@ private:
     std::vector<SSceneComponentSystem*> _ComponentSystems;
     
     /* All component systems indexed by their component types.
-     * Used for faster access to systems. */
+    * Used for faster access to systems. */
     SSceneComponentSystem* _ComponentSystemsByType[S_SCENE_OBJECT_COM_TYPES_COUNT];
+    
+    /* Document from which this scene has been loaded */
+    pugi::xml_document _XmlDocument;
+
+    /* Map of all object prefabs indexed by their names */
+    std::map<std::string, pugi::xml_node> _Prefabs;
 
     /* Secne name */
     std::string _Name;
 
+    /* Holds the greatest object ID */
+    uint32_t _MaxObjectId;
+
     /* Is scene been initialized */
     bool _IsInitialized;
     
+    /* Used for initializing objects added at runtime */
+    void initializeObject(StormSceneObject* object);
+
     void initializeDefaultSystems();
 };

@@ -1,5 +1,6 @@
 #include "SLuaBinders.h"
 #include "../SSceneComTransform.h"
+#include "../../StormScene.h"
 #include "../../StormSceneObject.h"
 #include "../../SSceneComponentSystem.h"
 #include "../../../StormEngine.h"
@@ -16,6 +17,7 @@ int SLuaBinders::bindStandardTypes(sol::state& state) {
     state["debug"]["log"] = SLuaBinders::debugLog;
 
     bindVector2(state);
+    bindScene(state);
     bindInputManager(state);
 
     return 0;
@@ -40,6 +42,16 @@ void SLuaBinders::bindVector2(sol::state& state) {
         "y", &Vector2::y,
         "toString", &Vector2::toString
     );
+}
+
+void SLuaBinders::bindScene(sol::state& state) {
+    state.new_usertype<StormScene>("Scene", 
+        "name", sol::property(&StormScene::getName),
+        "instantiatePrefab", &StormScene::instantiatePrefab,
+        "getObjectById", &StormScene::getObjectById
+    );
+    
+    state["ActiveScene"] = StormEngine::getActiveScene();
 }
 
 void SLuaBinders::bindInputManager(sol::state& state) {

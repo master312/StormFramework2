@@ -73,6 +73,8 @@ public:
     /* Called after all components and scene have been loaded */
     virtual int initialize(SSceneComponentSystem* system);
 
+    bool getIsInitialized();
+
     /* Produces new component of @SSceneComponentType and return pointer to it */
     static SSceneComponent* newComponent(SSceneComponentType type, StormSceneObject* owner);
 
@@ -82,4 +84,6 @@ protected:
 
     /* Scene object that is owning this component */
     StormSceneObject* _Owner;
+
+    bool _IsInitialized;
 };

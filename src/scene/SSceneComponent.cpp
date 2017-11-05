@@ -10,6 +10,7 @@
 SSceneComponent::SSceneComponent(StormSceneObject* owner) {
     _Type = S_SCENE_OBJECT_COM_UNDEFINED;
     _Owner = owner;
+    _IsInitialized = false;
 }
 
 SSceneComponent::~SSceneComponent() {
@@ -29,7 +30,12 @@ int SSceneComponent::deserializeXml(pugi::xml_node& node) {
 }
 
 int SSceneComponent::initialize(SSceneComponentSystem* system) {
+    _IsInitialized = true;
     return 1;
+}
+
+bool SSceneComponent::getIsInitialized() {
+    return _IsInitialized;
 }
 
 void SSceneComponent::setOwner(StormSceneObject* owner) {
