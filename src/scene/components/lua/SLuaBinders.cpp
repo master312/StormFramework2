@@ -1,4 +1,6 @@
 #include "SLuaBinders.h"
+#include "../SSceneComTransform.h"
+#include "../../StormSceneObject.h"
 #include "../../SSceneComponentSystem.h"
 #include "../../../StormEngine.h"
 #include "../../../core/utils/math/Vector2.h"
@@ -9,7 +11,7 @@ SLuaBinders::SLuaBinders() {
 SLuaBinders::~SLuaBinders() {
 }
 
-int SLuaBinders::bind(sol::state& state) { 
+int SLuaBinders::bindStandardTypes(sol::state& state) { 
     state.create_table("debug");
     state["debug"]["log"] = SLuaBinders::debugLog;
 
@@ -17,6 +19,15 @@ int SLuaBinders::bind(sol::state& state) {
     bindInputManager(state);
 
     return 0;
+}
+
+void SLuaBinders::bindSceneObject(sol::state& state) {
+    state.new_usertype<StormSceneObject>("SceneObject", 
+        "id", sol::property(&StormSceneObject::getId),
+        "name", sol::property(&StormSceneObject::getName, &StormSceneObject::setName),
+        "parent", sol::property(&StormSceneObject::getParent, &StormSceneObject::setParent),
+        "transform", sol::property(&StormSceneObject::getTransform)
+    );
 }
 
 void SLuaBinders::debugLog(const std::string& msg) {

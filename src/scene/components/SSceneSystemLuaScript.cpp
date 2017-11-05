@@ -20,7 +20,7 @@ SSceneSystemLuaScript::~SSceneSystemLuaScript() {
 void SSceneSystemLuaScript::initialize(StormScene* ownerScene) {
     _LuaState.open_libraries(sol::lib::base, sol::lib::os);
 
-    if (SLuaBinders::bind(_LuaState) < 0) {
+    if (SLuaBinders::bindStandardTypes(_LuaState) < 0) {
         LOG(ERROR) << "Could not bind lua functions";
         return;
     }
@@ -33,6 +33,8 @@ void SSceneSystemLuaScript::initialize(StormScene* ownerScene) {
 
     /* Load common script(s) */
     _LuaState.script(resFile->getBuffer());
+    
+    SLuaBinders::bindSceneObject(_LuaState);
 
     SSceneComponentSystem::initialize(ownerScene);
     
@@ -44,7 +46,7 @@ void SSceneSystemLuaScript::initialize(StormScene* ownerScene) {
             LOG(ERROR) << "System could not be binded to lua script";
         }
     }
-    
+
     for (SSceneComLuaScript* component : _ScriptComponents) {
         onScriptLoad(component);
     }

@@ -29,8 +29,10 @@ public:
 
     /* Sets position transform
      * If parent exists, this position will be relative to parents position */
-    void setPosition(Vector2 position);
+    void setPosition(const Vector2 position);
     
+    void setPositionAbs(const Vector2 position);
+
     /* Sets X local position */
     void setX(float x);
 

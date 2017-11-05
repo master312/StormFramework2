@@ -7,6 +7,7 @@
 #include "../core/utils/SObservable.h"
 
 class SSceneComTransform;
+class SSceneComLuaScript;
 
 class StormSceneObject : public SObservable<SSceneObjectEventType, SSceneComponent> {
 public:
@@ -56,6 +57,10 @@ public:
      * Used for easy access to transform component, since its used offen */
     SSceneComTransform* getTransform() const;
 
+    /* Returns pointer to lua component. Used for faster access.
+     * Retunrs nullptr if there is no lua component. */
+    SSceneComLuaScript* getLuaScript() const;
+
 private:
     /* Unique object identifier */
     uint32_t _Id;
@@ -74,6 +79,9 @@ private:
 
     /* Pointer to transform component */
     SSceneComTransform* _ComponentTransform;
+
+    /* Pointer to lua script component */
+    SSceneComLuaScript* _ComponentLuaScript;
 
     /* Removes this object from parent's @_Components array and clears @_Parent pointer */
     void clearParent();

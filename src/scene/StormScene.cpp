@@ -1,7 +1,6 @@
 #include "StormScene.h"
 #include "StormSceneObject.h"
 
-#include "components/SSceneSystemCollider.h"
 #include "components/SSceneSystemSprite.h"
 #include "components/SSceneSystemTransform.h"
 #include "components/SSceneSystemLuaScript.h"
@@ -195,8 +194,11 @@ void StormScene::render(StormRenderer* renderer) {
 }
 
 void StormScene::tick(float deltaTime) {
-    for (unsigned int i = 0; i < _ComponentSystems.size(); i++) {
-        _ComponentSystems[i]->tick(deltaTime);
+    for (unsigned int i = 0; i < SSceneComponentTickingOrderCount; i++) {
+        int typeToTick = SSceneComponentTickingOrder[i];
+        if (_ComponentSystemsByType[typeToTick]) {
+            _ComponentSystemsByType[typeToTick]->tick(deltaTime);
+        }
     }
 }
 
@@ -208,10 +210,6 @@ void StormScene::initializeDefaultSystems() {
     SSceneSystemSprite* sysSprite = new SSceneSystemSprite();
     _ComponentSystems.push_back(sysSprite);
     _ComponentSystemsByType[S_SCENE_OBJECT_COM_SPRITE] = sysSprite;
-
-    SSceneSystemCollider* sysCollider = new SSceneSystemCollider();
-    _ComponentSystems.push_back(sysCollider);
-    _ComponentSystemsByType[S_SCENE_OBJECT_COM_COLLIDER] = sysCollider;
 
     SSceneSystemLuaScript* sysLua = new SSceneSystemLuaScript();
     _ComponentSystems.push_back(sysLua);

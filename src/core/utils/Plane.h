@@ -39,10 +39,10 @@ public:
     /* Returns true if plane contains point @point */
     virtual bool containsPoint(const Vector2& point);
 
-    /* Returns all 4 plane vertices.
+    /* Retunrs 4 points representing palne.
      * Make sure to use Plane::transform() to update vertices position.
      * [0] -> Top Left, [1] -> Top Right, [2] -> Bottom right */
-    StormVertex* getVertices();
+    Vector2* getPoints();
     
 private:
     Vector2 _Size;
@@ -54,10 +54,11 @@ private:
     
     float _PivotAngle;
 
-    StormVertex _Vertices[4];
+    /* 4 points representing plane */
+    Vector2 _Points[4];
     
     void transformRotationAroundPivot();
     void transformRotationAroundCenter();
 
-    void calculateVertices(const Vector2& center);
+    void calculatePoints(const Vector2& center);
 };

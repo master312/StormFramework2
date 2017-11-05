@@ -10,8 +10,11 @@ public:
 
     /* Bind all script functions and classes to lua state @state 
      * Returns < 0 on error */
-    static int bind(sol::state& state);
+    static int bindStandardTypes(sol::state& state);
 
+    /* Binds StormSceneObject usertype to lua state.
+     * REMAINDER: Should be binded after standard types */
+    static void bindSceneObject(sol::state& state);
 
     /* Lua debug methods */
     static void debugLog(const std::string& msg);

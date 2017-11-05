@@ -109,6 +109,15 @@ void SSceneComTransform::setPosition(Vector2 position) {
     _IsChanged = true;
 }
 
+void SSceneComTransform::setPositionAbs(const Vector2 position) {
+    if (!_ParentTransform) {
+        setPosition(position);
+        return;
+    }
+    
+    setPosition(position - _ParentTransform->getPositionAbs());
+}
+
 void SSceneComTransform::setX(float x) {
     _Position.x = x;
     _IsChanged = true;

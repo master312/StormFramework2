@@ -46,6 +46,7 @@
         "vector": "cpp",
         "typeindex": "cpp",
         "atomic": "cpp",
-        "string_view": "cpp"
+        "string_view": "cpp",
+        "*.ipp": "cpp"
     }
 }

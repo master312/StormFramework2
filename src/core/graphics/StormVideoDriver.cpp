@@ -6,6 +6,7 @@
 StormVideoDriver::StormVideoDriver() {
     _ClearColor = Color(0, 0, 200);
     _VirtualViewSize.set(0.0f, 0.0f);
+    _PixelsPerMeter = 115.0f;
 }
 
 StormVideoDriver::~StormVideoDriver() {
@@ -37,12 +38,21 @@ void StormVideoDriver::setClearColor(Color color) {
 
 void StormVideoDriver::setVirtualViewSize(float width, float height) {
     _VirtualViewSize.set(width, height);
+    _VirtualViewSize = _VirtualViewSize / _PixelsPerMeter;
 }
 
-void StormVideoDriver::setVirtualViewSize(Vector2 size) {
-    _VirtualViewSize = size;
+void StormVideoDriver::setVirtualViewSize(const Vector2 size) {
+    setVirtualViewSize(size.x, size.y);
 }
 
 Vector2 StormVideoDriver::getVirtualViewSize() const {
     return _VirtualViewSize;
+}
+
+float StormVideoDriver::getPixelsMeterScale() const {
+    return _PixelsPerMeter;
+}
+
+void StormVideoDriver::setPixelsMeterScale(float scale) {
+    _PixelsPerMeter = scale;
 }

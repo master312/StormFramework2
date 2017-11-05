@@ -1,5 +1,6 @@
 #include "StormSceneObject.h"
 #include "components/SSceneComTransform.h"
+#include "components/SSceneComLuaScript.h"
 #include "../core/StormCommon.h"
 
 StormSceneObject::StormSceneObject(uint32_t id /* = 0 */) {
@@ -7,6 +8,7 @@ StormSceneObject::StormSceneObject(uint32_t id /* = 0 */) {
     _Name = "";
     _Parent = nullptr;
     _ComponentTransform = nullptr;
+    _ComponentLuaScript = nullptr;
 }
 
 StormSceneObject::StormSceneObject(uint32_t id, const std::string& name) : 
@@ -116,6 +118,9 @@ void StormSceneObject::addComponent(SSceneComponent* component) {
             }
             _ComponentTransform = dynamic_cast<SSceneComTransform*>(component);
             break;
+        case S_SCENE_OBJECT_COM_SCRIPT:
+            _ComponentLuaScript = dynamic_cast<SSceneComLuaScript*>(component);
+            break;
         default:
             break;
     }
@@ -135,11 +140,17 @@ std::vector<SSceneComponent*>& StormSceneObject::getComponents() {
 }
 
 SSceneComTransform* StormSceneObject::getTransform() const {
+#ifndef PRODUCTION
     if (!_ComponentTransform) {
-        LOG(ERROR) << "Tryed to get transfrom from scene object that dose not have transform component";
+        LOG(WARNING) << "Tryed to get transfrom from scene object that dose not have transform component";
         return nullptr;
     }
+#endif
     return _ComponentTransform;
+}
+
+SSceneComLuaScript* StormSceneObject::getLuaScript() const {
+    return _ComponentLuaScript;
 }
 
 void StormSceneObject::clearParent() {

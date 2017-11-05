@@ -63,11 +63,9 @@ int SSceneComLuaScript::initialize(SSceneComponentSystem* system) {
         LOG(ERROR) << "Invalid entity lua table. ID: " << _Owner->getId();
         return -4;
     }
+
     entityObject["id"] = _Owner->getId();
-    entityObject["hasParent"] = _Owner->getParent() ? true : false;
-    if (_Owner->getParent()) {
-        entityObject["parent"] = luaState["Handles"][_Owner->getParent()->getId()];
-    }
+    entityObject["object"] = _Owner;
 
     /* Adds object's table to lua handler */
     sol::function fun = luaState["createObjectHandle"];
@@ -83,12 +81,17 @@ int SSceneComLuaScript::initialize(SSceneComponentSystem* system) {
 }
 
 sol::table& SSceneComLuaScript::getLuaHandle() {
-#ifdef _DEBUG
+#ifndef PRODUCTION
     if (!_LuaHandler.valid()) {
         LOG(ERROR) << "Getting invalid lua handler for object " << _Owner->getId();
     }
 #endif
     return _LuaHandler;
+}
+
+sol::function SSceneComLuaScript::getFunction(const std::string& name) {
+    sol::function function = getLuaHandle()["obj"][name];
+    return function;
 }
 
 std::string& SSceneComLuaScript::getFilename() {

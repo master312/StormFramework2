@@ -72,11 +72,11 @@ int SSceneComSprite::deserializeXml(pugi::xml_node& node) {
     _RenderPlane.setSizeY(node.attribute("height").as_float(-1.0f));
 
     if (_RenderPlane.getSizeX() < 0.0f) {
-        _RenderPlane.setSizeX(50.0f);
+        _RenderPlane.setSizeX(0.5f);
         LOG(WARNING) << "No width specified for sprite. Using default. OBJ ID: " << getOwner()->getId();
     }
     if (_RenderPlane.getSizeY() < 0.0f) {
-        _RenderPlane.setSizeY(50.0f);
+        _RenderPlane.setSizeY(0.5f);
         LOG(WARNING) << "No height specified for sprite. Using default. OBJ ID: " << getOwner()->getId();
     }
     

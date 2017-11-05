@@ -40,6 +40,17 @@ static const int SSceneComponentInitializationOrder[S_SCENE_OBJECT_COM_TYPES_COU
     S_SCENE_OBJECT_COM_SCRIPT
 };
 
+/* Order in which component systems will tick  */
+static const int SSceneComponentTickingOrderCount = 6;
+static const int SSceneComponentTickingOrder[SSceneComponentTickingOrderCount] = {
+    S_SCENE_OBJECT_COM_TRANSFORM,
+    S_SCENE_OBJECT_COM_COLLIDER,
+    S_SCENE_OBJECT_COM_TRANSFORM,
+    S_SCENE_OBJECT_COM_SPRITE,
+    S_SCENE_OBJECT_COM_SPINE,
+    S_SCENE_OBJECT_COM_SCRIPT,
+};
+
 class StormSceneObject;
 class SSceneComponentSystem;
 

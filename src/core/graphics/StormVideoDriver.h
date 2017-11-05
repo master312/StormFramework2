@@ -25,12 +25,22 @@ public:
 
     /* Sets size of virtual coordinate system that will be fit on the game window */
     void setVirtualViewSize(float width, float height);
-    void setVirtualViewSize(Vector2 size);
+    void setVirtualViewSize(const Vector2 size);
 
     Vector2 getVirtualViewSize() const;
+    
+    /* Gets how many pixels are representing one meter */
+    float getPixelsMeterScale() const;
+
+    /* Sets how many pixels are representing one meter */
+    void setPixelsMeterScale(float scale);
+
 private:
     Color _ClearColor;
     
     /* Virtual drawing space size */
     Vector2 _VirtualViewSize;
+
+    /* Number of pixels per meter. */
+    float _PixelsPerMeter;
 };

@@ -130,8 +130,14 @@ void SSceneSystemSprite::tickSpriteAnimation(SSceneComSprite* sprite, float delt
 }
 
 void SSceneSystemSprite::renderSprite(SSceneComSprite* sprite, StormRenderer* renderer) {
+    /* TODO: Rewrite this. This is only prototype code */
+
     Plane& plane = sprite->getRenderPlane();
-    StormVertex* vertices = plane.getVertices();
+    Vector2* points = plane.getPoints();
+    static StormVertex vertices[4];
+    for (int i = 0; i < 4; i++) {
+        vertices[i].position = points[i];
+    }
     spStormTexture texture = sprite->getTexture();
 
     renderer->begin(S_RENDER_TRIANGLE_FAN);
@@ -155,6 +161,12 @@ void SSceneSystemSprite::renderSprite(SSceneComSprite* sprite, StormRenderer* re
 
         vertices[3].uv.x = vertices[0].uv.x;
         vertices[3].uv.y = vertices[2].uv.y;
+    } else {
+        /* No sprite animation found. Render whole texture */
+        vertices[0].uv.set(0.0f, 0.0f);
+        vertices[1].uv.set(1.0f, 0.0f);
+        vertices[2].uv.set(1.0f, 1.0f);
+        vertices[3].uv.set(0.0f, 1.0f);
     }
 
     renderer->bindVertexData(vertices, 4);

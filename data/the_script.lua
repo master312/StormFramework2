@@ -4,23 +4,27 @@ local isPressed = false
 
 this.onUpdate = function(deltaTime) 
     
-    if this.collider:containsPoint(InputManager:getPointerPosition(1)) and InputManager:isPointerDown(1) then
-        isPressed = true
-    else
-        if not InputManager:isPointerDown(1) then
-            isPressed = false
-        end
-    end
+    -- debug.log(this.object.name)
 
-    if this.collider:containsPoint(InputManager:getPointerPosition(1)) and InputManager:isPointerDown(2) then
-        this.transform.angle = this.transform.angle + 1.2
-    end
+    -- if this.collider:containsPoint(InputManager:getPointerPosition(1)) and InputManager:isPointerDown(1) then
+    --     isPressed = true
+    -- else
+    --     if not InputManager:isPointerDown(1) then
+    --         isPressed = false
+    --     end
+    -- end
+
+    -- if this.collider:containsPoint(InputManager:getPointerPosition(1)) and InputManager:isPointerDown(2) then
+    --     this.transform.angle = this.transform.angle + 1.2
+    -- end
     
 
     if InputManager:isKeyPressed(Keyboard.A) then
         debug.log("A Key is pressed modafaka!")
     elseif InputManager:isKeyDown(Keyboard.B) then
         debug.log("Never forget B key")
+        this.transform.angle = this.transform.angle + 1.2
+        
     end
 
     if isPressed then
@@ -31,9 +35,13 @@ this.onUpdate = function(deltaTime)
 
 -- kerberovo sranje
 
-    local position = this.transform.position
+    -- local position = this.transform.position
     -- debug.log(position:toString())	
 
+end
+
+this.on_trigger_collided = function(object)
+    debug.log("COLLIDED " .. object.id)
 end
 
 return this;

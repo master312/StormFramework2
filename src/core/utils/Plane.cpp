@@ -6,11 +6,6 @@ Plane::Plane() {
     _Angle = 0.0f;
     _PivotAngle = 0.0f;
 
-    /* Set default UV coordinates */
-    _Vertices[0].uv.set(0.0f, 0.0f);
-    _Vertices[1].uv.set(1.0f, 0.0f);
-    _Vertices[2].uv.set(1.0f, 1.0f);
-    _Vertices[3].uv.set(0.0f, 1.0f);
     _Type = GEOMETRY_TYPE_PLANE;
 }
 
@@ -36,30 +31,31 @@ void Plane::transform() {
 void Plane::transformRotationAroundPivot() {
     _PivotPosition *= -1;
     
-    calculateVertices(_PivotPosition);
+    calculatePoints(_PivotPosition);
 
     float sin = StormScalarMath::sin((_Angle * MATH_PI) / 180.0f);
     float cos = StormScalarMath::cos((_Angle * MATH_PI) / 180.0f);
     float pivotSin = StormScalarMath::sin((_PivotAngle * MATH_PI) / 180.0f);
     float pivotCos = StormScalarMath::cos((_PivotAngle * MATH_PI) / 180.0f);
+
     for (int i = 0; i < 4; i++) {
-        Vector2 tmpPoint = _Vertices[i].position;
+        Vector2 tmpPoint = _Points[i];
         tmpPoint.x = _PivotPosition.x - tmpPoint.x;
         tmpPoint.y -= _PivotPosition.y;
 
         Vector2 tmpPoint2;
-        tmpPoint2.x = (tmpPoint.x * cos - tmpPoint.y * sin) + _PivotPosition.x;
-        tmpPoint2.y = (tmpPoint.y * cos + tmpPoint.x * sin) + _PivotPosition.y;
+        tmpPoint2.x = (tmpPoint.x * cos - tmpPoint.y * sin);
+        tmpPoint2.y = (tmpPoint.y * cos + tmpPoint.x * sin);
 
-        _Vertices[i].position.x = (tmpPoint2.x * pivotCos - tmpPoint2.y * pivotSin) + _Position.x;
-        _Vertices[i].position.y = (tmpPoint2.y * pivotCos + tmpPoint2.x * pivotSin) + _Position.y;
+        _Points[i].x = (tmpPoint2.x * pivotCos - tmpPoint2.y * pivotSin) + _Position.x;
+        _Points[i].y = (tmpPoint2.y * pivotCos + tmpPoint2.x * pivotSin) + _Position.y;
     }
 
     _PivotPosition *= -1;
 }
 
 void Plane::transformRotationAroundCenter() {
-    calculateVertices(_Position);
+    calculatePoints(_Position);
     
     if (StormScalarMath::equivalent(_Angle, 0.0f)) {
         /* Plane is not rotated. Dose not need to calculate anything else */
@@ -69,19 +65,19 @@ void Plane::transformRotationAroundCenter() {
     float sin = StormScalarMath::sin((_Angle * MATH_PI) / 180.0f);
     float cos = StormScalarMath::cos((_Angle * MATH_PI) / 180.0f);
     for (int i = 0; i < 4; i++) {
-        Vector2 tmpPoint = _Vertices[i].position;
+        Vector2 tmpPoint = _Points[i];
         tmpPoint.x = _Position.x - tmpPoint.x;
         tmpPoint.y -= _Position.y;
-        _Vertices[i].position.x = (tmpPoint.x * cos - tmpPoint.y * sin) + _Position.x;
-        _Vertices[i].position.y = (tmpPoint.y * cos + tmpPoint.x * sin) + _Position.y;
+        _Points[i].x = (tmpPoint.x * cos - tmpPoint.y * sin) + _Position.x;
+        _Points[i].y = (tmpPoint.y * cos + tmpPoint.x * sin) + _Position.y;
     }
 }
 
 bool Plane::containsPoint(const Vector2& point) {
-    Vector2& p1 = _Vertices[0].position;
-    Vector2& p2 = _Vertices[1].position;
-    Vector2& p3 = _Vertices[2].position;
-    Vector2& p4 = _Vertices[3].position;
+    Vector2& p1 = _Points[0];
+    Vector2& p2 = _Points[1];
+    Vector2& p3 = _Points[2];
+    Vector2& p4 = _Points[3];
 
     Vector2 p1_p4 = p1 - p4;
     Vector2 p3_p4 = p3 - p4;
@@ -92,16 +88,16 @@ bool Plane::containsPoint(const Vector2& point) {
            (p1_p4.dot(pwo_p_c - p1_p4) <= 0 && p1_p4.dot(pwo_p_c + p1_p4) >= 0);
 }
 
-void Plane::calculateVertices(const Vector2& center) {
+void Plane::calculatePoints(const Vector2& center) {
     Vector2 size2 = _Size / 2;
-    _Vertices[0].position = center - size2;
-    _Vertices[1].position = center;
-    _Vertices[1].position.x += size2.x;
-    _Vertices[1].position.y -= size2.y;
-    _Vertices[2].position = center + size2;
-    _Vertices[3].position = center;
-    _Vertices[3].position.x -= size2.x;
-    _Vertices[3].position.y += size2.y;
+    _Points[0] = center - size2;
+    _Points[1] = center;
+    _Points[1].x += size2.x;
+    _Points[1].y -= size2.y;
+    _Points[2] = center + size2;
+    _Points[3] = center;
+    _Points[3].x -= size2.x;
+    _Points[3].y += size2.y;
 }
 
 void Plane::setPivot(const Vector2& position) {
@@ -176,6 +172,6 @@ float Plane::getPivotAngle() {
     return _PivotAngle;
 }
 
-StormVertex* Plane::getVertices() {
-    return _Vertices;
+Vector2* Plane::getPoints() {
+    return _Points;
 }
