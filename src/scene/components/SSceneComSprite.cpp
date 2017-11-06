@@ -89,7 +89,7 @@ int SSceneComSprite::deserializeXml(pugi::xml_node& node) {
     if (_OriginalTextureName == "" && _SpriteSheetFilename == "") {
         LOG(WARNING) << "Texture and sprite name not specified in XML file for SSceneComSprite. Object ID " << getOwner()->getId();
     } else if (_OriginalTextureName != "") {
-        _Texture = StormEngine::getModule<StormTextureManager>()->getTexture(_OriginalTextureName);
+        _Texture = StormEngine::getTexture(_OriginalTextureName);
     }
 
     return 1;
@@ -112,9 +112,12 @@ int SSceneComSprite::initialize(SSceneComponentSystem* system) {
     }
 
     _SpriteSheet = sysSprite->getSpriteSheet(_SpriteSheetFilename);
+    if (!_SpriteSheet) {
+        return -2;
+    }
     _LastFrameTime = StormEngine::getTimeMs();
     if (!_Texture) {
-        _Texture = StormEngine::getModule<StormTextureManager>()->getTexture(_SpriteSheet->textureName);
+        _Texture = StormEngine::getTexture(_SpriteSheet->textureName);
     }
 
     _FrameTime = 1000.0f / (float)_SpriteSheet->fps;
@@ -214,10 +217,9 @@ void SSceneComSprite::setLastFrameTime(uint32_t time) {
 }
 
 std::reference_wrapper<const Rect> SSceneComSprite::getCurrentFrameRect() const {
-    if (!_SpriteSheet) {
+    if (!_SpriteSheet || !_SpriteSheet->frames.size()) {
         return _Texture->getArea();
     }
-
     return _SpriteSheet->frames[(int)getCurrentFrame()];
 }
 

@@ -20,6 +20,10 @@ StormTextureManager::~StormTextureManager() {
 }
 
 spStormTexture StormTextureManager::getTexture(const std::string& filename) {
+    if (filename == "") {
+        LOG(ERROR) << "Tryed to get texture, but texture name was empty";
+        return nullptr;
+    }
     int filenameHash = StormMiscTools::hashString(filename);
     
     auto iter = _LoadedTextures.find(filenameHash);

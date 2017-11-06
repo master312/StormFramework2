@@ -68,13 +68,13 @@ int SSceneSystemSprite::loadSpriteSheetFromXml(spStormResourceFile file) {
     pugi::xml_parse_result result = doc.load(file->getBuffer(), file->getBufferSize());
     if (result.status != pugi::status_ok) {
         LOG(ERROR) << "Sprite XML " << file->getFilename() << " error: " << result.description();
-        return -4;
+        return -1;
     }
 
     pugi::xml_node rootNode = doc.child("sprite");
     if (rootNode.type() != pugi::node_element) {
         LOG(ERROR) << "Sprite XML " << file->getFilename() << " error. Missing root tag.";
-        return -5;
+        return -2;
     }
 
     sprite.fps = rootNode.attribute("fps").as_float(0.0f);
@@ -88,29 +88,21 @@ int SSceneSystemSprite::loadSpriteSheetFromXml(spStormResourceFile file) {
         LOG(WARNING) << "Sprite animation '" << sprite.filename << "' no texture specified";
     }
 #endif
-
-    for (pugi::xml_node frameNode = rootNode.first_child(); frameNode; frameNode = frameNode.next_sibling()) {
-        if (frameNode.type() != pugi::node_element) {
-            continue;
+    Point frameSize;
+    frameSize.x = rootNode.attribute("frame_width").as_int(0);
+    frameSize.y = rootNode.attribute("frame_height").as_int(0);
+    if (frameSize.x > 0 && frameSize.y > 0) {
+        /* There are no custom frames specified. 
+         * Sprite texture is divided on equal portions */
+        std::string direction = rootNode.attribute("direction").as_string("x");
+        if (sprite.generateSpriteFramesFromSize(frameSize, direction == "x") < 0) {
+            return -3;
         }
-
-        int id = frameNode.attribute("id").as_int(-1);
-        if (id < 0) {
-            LOG(ERROR) << "Error 1 while parsing sprite sheet xml file.";
-            return -1;
+    } else {
+        pugi::xml_node child = rootNode.first_child();
+        if (sprite.loadSpriteFrames(child) < 0) {
+            return -4;
         }
-
-        Rect rect;
-        rect.pos.x = frameNode.attribute("startX").as_int(-1);
-        rect.pos.y = frameNode.attribute("startY").as_int(-1);
-        rect.size.x = frameNode.attribute("width").as_int(-1);
-        rect.size.y = frameNode.attribute("height").as_int(-1);
-        if (rect.size.x < 0 || rect.size.y < 0 || rect.pos.x < 0 || rect.pos.y < 0) {
-            LOG(ERROR) << "Error 2 while parsing sprite sheet xml file.";
-            return -2;
-        }
-        
-        sprite.frames.push_back(rect);
     }
 
     _SpriteSheets[sprite.filename] = sprite;
@@ -139,6 +131,9 @@ void SSceneSystemSprite::renderSprite(SSceneComSprite* sprite, StormRenderer* re
         vertices[i].position = points[i];
     }
     spStormTexture texture = sprite->getTexture();
+    if (!texture) {
+        return;
+    }
 
     renderer->begin(S_RENDER_TRIANGLE_FAN);
     renderer->bindTexture(texture.get());
@@ -176,4 +171,62 @@ void SSceneSystemSprite::renderSprite(SSceneComSprite* sprite, StormRenderer* re
     renderer->bindIndexData(indices, 4);
     
     renderer->draw();
+}
+
+
+int SComSpriteSheet::loadSpriteFrames(pugi::xml_node& node) {
+    for (pugi::xml_node frameNode = node; frameNode; frameNode = frameNode.next_sibling()) {
+        if (frameNode.type() != pugi::node_element) {
+            continue;
+        }
+
+        int id = frameNode.attribute("id").as_int(-1);
+        if (id < 0) {
+            LOG(ERROR) << "Error 1 while parsing sprite sheet xml file.";
+            return -1;
+        }
+
+        Rect rect;
+        rect.pos.x = frameNode.attribute("startX").as_int(-1);
+        rect.pos.y = frameNode.attribute("startY").as_int(-1);
+        rect.size.x = frameNode.attribute("width").as_int(-1);
+        rect.size.y = frameNode.attribute("height").as_int(-1);
+        if (rect.size.x < 0 || rect.size.y < 0 || rect.pos.x < 0 || rect.pos.y < 0) {
+            LOG(ERROR) << "Error 2 while parsing sprite sheet xml file.";
+            return -2;
+        }
+        
+        frames.push_back(rect);
+    }
+    return 1;
+}
+
+int SComSpriteSheet::generateSpriteFramesFromSize(const Point& frameSize, bool directionX) {
+    spStormTexture texture = StormEngine::getTexture(textureName);
+    if (!texture) {
+        LOG(ERROR) << "Could not load sprite. Texture not found";
+        return -1;
+    }
+
+    const Point& textureSize = texture->getSize();
+    Point framesCount(textureSize.x / frameSize.x, textureSize.y / frameSize.y);
+
+    if (!directionX) {
+        std::swap(framesCount.x, framesCount.y);
+    }
+    
+    for (int i = 0; i < framesCount.y; i++) {
+        for (int j = 0; j < framesCount.x; j++) {
+            Rect rect;
+            if (directionX) {
+                rect.pos.set(j * frameSize.x, i * frameSize.y);
+            } else {
+                rect.pos.set(i * frameSize.x, j * frameSize.y);
+            }
+            rect.size = frameSize;
+            frames.push_back(rect);
+        }
+    }
+
+    return 1;
 }

@@ -74,6 +74,6 @@ void SWidgetComStaticTexture::resourceChanged() {
         return;
     }
 
-    spStormTexture texture = StormEngine::getModule<StormTextureManager>()->getTexture(filename);
+    spStormTexture texture = StormEngine::getTexture(filename);
     _TextureComponent->setTexture(texture);
 }

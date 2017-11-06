@@ -145,6 +145,10 @@ StormInputManager* StormEngine::getInputManager() {
     return instance()->_ModPlatform->getInputManager();
 }
 
+spStormTexture StormEngine::getTexture(const std::string& filename) {
+    return instance()->_ModTextureManager->getTexture(filename);
+}
+
 StormScene* StormEngine::getActiveScene() {
     return instance()->_ModSceneManager->getActiveScene();
 }

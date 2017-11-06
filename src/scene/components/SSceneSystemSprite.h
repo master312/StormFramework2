@@ -26,6 +26,17 @@ struct SComSpriteSheet {
     SComSpriteSheet(const std::string& _filename, float _fps = 0.0f) : 
         filename(_filename), fps(_fps), textureName("") { }
     
+    /* Load all frames (child nodes) from &node and add them to @sprite.
+     * Returns < 0 on error */
+    int loadSpriteFrames(pugi::xml_node& node);
+    
+    /* Generate sprite frames from frame size and texture size.
+     * Texture filename must be set before using this method.
+     * if @directionX parameter is set, then frames are going in order on X axes. 
+     * If not, then do the same thing on y axes.
+     * Returns < 0 on error */
+    int generateSpriteFramesFromSize(const Point& textureSize, bool directionX);
+
     /* Retunrs count of frames in this sprite sheet */
     inline uint32_t count() { static_cast<uint32_t>(frames.size()); }
 };

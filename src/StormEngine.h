@@ -42,6 +42,9 @@ public:
     /* Returns imput manager object */
     static StormInputManager* getInputManager();
 
+    /* Returns texture named @filename, or nullptr if not found. */
+    static spStormTexture getTexture(const std::string& filename);
+
     /* Returns currently active scene */
     static StormScene* getActiveScene();
 
