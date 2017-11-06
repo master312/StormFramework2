@@ -1,5 +1,6 @@
 Handles = {}
 
+-- This :_str method is unfunctional...
 function Vector2:_str()
     return "'X:" .. self.x .. " Y:" .. self.y .. "'"
 end

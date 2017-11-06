@@ -8,18 +8,18 @@ SSceneManager::SSceneManager() {
 SSceneManager::~SSceneManager() {
 }
 
-int SSceneManager::loadScene(const std::string& filename) {
+StormScene* SSceneManager::loadScene(const std::string& filename, bool reloadActive /* = false */) {
     spStormResourceFile sceneFile = StormEngine::getResource(filename);
     if (!sceneFile) {
         LOG(ERROR) << "Could not load scene file " << filename;
-        return -1;
+        return nullptr;
     }
 
     StormScene* scene = new StormScene();
     if (scene->loadXml(sceneFile) < 0) {
         /* Error occured while loading scene */
         delete scene;
-        return -2;
+        return nullptr;
     }
     const std::string sceneName = scene->getName();
 
@@ -29,21 +29,24 @@ int SSceneManager::loadScene(const std::string& filename) {
     if (iter != _LoadedScenes.end()) {
         /* Scene with same name already exists in loaded scenes map */
         LOG(WARNING) << "Scene '" << sceneName << "' already laoded. Reloading...";
-        if (_ActiveScene == iter->second) {
+        if (_ActiveScene == iter->second && !reloadActive) {
             /* Scene is active. Can not reload scene while active */
             LOG(ERROR) << "Could not reload scene '" << sceneName << "'. Scene is currently active";
             delete scene;
-            return -1;
+            return nullptr;
+        } else if (reloadActive) {
+            _ActiveScene = nullptr;
+            LOG(DEBUG) << "Reloading active scene";
         }
         delete iter->second;
         iter->second = nullptr;
         _LoadedScenes[sceneName] = scene;
-        return 2;
+        return scene;
     }
     
     _LoadedScenes[sceneName] = scene;
 
-    return 1;
+    return scene;
 }
 
 StormScene* SSceneManager::getActiveScene() {

@@ -10,8 +10,10 @@ public:
     ~SSceneManager();
 
     /* Loads single scene file into memory.
-     * Returns < 0 on failure */
-    int loadScene(const std::string& filename);
+     * If scene is already loaded, it will be reloaded.
+     * reloadActive is set to true, scene will be reloaded even if its currently active
+     * Returns pointer to just loaded scene, or nullptr on error. */
+    StormScene* loadScene(const std::string& filename, bool reloadActive = false);
 
     /* Switches to specified scene. 
      * @sceneName is name of scene specified in scene file 

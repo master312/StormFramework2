@@ -53,16 +53,6 @@ int StormScene::loadXml(spStormResourceFile xmlFile) {
      * <objectId, parentId> */
     std::map<uint32_t, uint32_t> hierarchy;
     for (pugi::xml_node objectNode = sceneRootNode.first_child(); objectNode; objectNode = objectNode.next_sibling()) {
-        if (objectNode.attribute("is_prefab").as_bool()) {
-            /* This object is used as prefab. Dont load it */
-            std::string name = objectNode.attribute("name").as_string();
-            if (!name.size()) {
-                LOG(ERROR) << "Prefab in scene file dose not have a name. It won be abe do instantiate";
-                continue;
-            }
-            _Prefabs[name] = objectNode;
-            continue;
-        }
         StormSceneObject* object = new StormSceneObject();
         if (object->deserializeXml(objectNode) < 0) {
             LOG(ERROR) << "Object XML deserialization error";
@@ -76,6 +66,18 @@ int StormScene::loadXml(spStormResourceFile xmlFile) {
         }
 
         addObject(object);
+    }
+
+    pugi::xml_node prefabsRootNode = _XmlDocument.child("prefabs");
+    for (pugi::xml_node prefabNode = prefabsRootNode.first_child(); prefabNode; prefabNode = prefabNode.next_sibling()) {
+        /* This object is used as prefab. Dont load it */
+        std::string name = prefabNode.attribute("name").as_string();
+        if (!name.size()) {
+            LOG(ERROR) << "Prefab in scene file dose not have a name. It won be abe do instantiate";
+            continue;
+        }
+        _Prefabs[name] = prefabNode;
+        continue;
     }
 
     /* Assign parents objects */
@@ -122,6 +124,11 @@ void StormScene::saveXml(std::string path /* = "" */) {
         object->serializeXml(objectNode);
     }
 
+    pugi::xml_node prefabRootNode = doc.append_child("prefabs");
+    for (auto& iter : _Prefabs) {
+        prefabRootNode.append_copy(iter.second);
+    }
+
     std::stringstream ss;
     doc.save(ss);
     
@@ -154,7 +161,7 @@ void StormScene::setName(const std::string& name) {
     _Name = name;
 }
 
-std::string StormScene::getName() const {
+std::reference_wrapper<const std::string> StormScene::getName() const {
     return _Name;
 }
 

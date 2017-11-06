@@ -44,6 +44,12 @@ public:
     
     GeometryType getGeometryType();
 
+    /* Apply force to the center of the obect */
+    void applyForce(const Vector2& force);
+
+    /* Apply linuar impulse force to center of object */
+    void applyLinearImpulse(const Vector2& force);
+
     /* Binds this component to Scene Object's lua interface. */
     virtual void bindToScript(sol::state& luaState);
 

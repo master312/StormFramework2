@@ -5,6 +5,15 @@
 #include "../StormSceneObject.h"
 #include "../../core/utils/Plane.h"
 #include <algorithm>
+#include <array>
+
+/* Array of body type names, indexed by b2BodyType */
+std::array<std::string, 4> bodyTypesString = {
+    "static",
+    "kinematic",
+    "dynamic",
+};
+
 
 SSceneComPhysics::SSceneComPhysics(StormSceneObject* owner) : SSceneComponent(owner) {
     _Type = S_SCENE_OBJECT_COM_PHYSICS;
@@ -27,7 +36,24 @@ SSceneComPhysics::~SSceneComPhysics() {
 
 void SSceneComPhysics::serializeXml(pugi::xml_node& node) {
     SSceneComponent::serializeXml(node);
-    /* TODO... */
+    
+    switch (_GeometryType) {
+        case GEOMETRY_TYPE_PLANE:
+            node.append_attribute("geometry").set_value("plane");
+            node.append_attribute("size_x").set_value(_GeometrySize.x);
+            node.append_attribute("size_y").set_value(_GeometrySize.y);
+            break;
+        default:
+            LOG(ERROR) << "Invalid shape while serializing ComPhysics";
+            break;
+    }
+
+    if (_IsTrigger) {
+        node.append_attribute("is_trigger").set_value(true);
+    }
+    
+    const std::string& typeStr = bodyTypesString[_BodyType];
+    node.append_attribute("body_type").set_value(typeStr.c_str());
 }
 
 int SSceneComPhysics::deserializeXml(pugi::xml_node& node) {
@@ -49,13 +75,16 @@ int SSceneComPhysics::deserializeXml(pugi::xml_node& node) {
 
     if (!_IsTrigger) {
         std::string typeStr = node.attribute("body_type").as_string();
-        if (typeStr == "kinematic") {
-            _BodyType = b2_kinematicBody;
-        } else if (typeStr == "dynamic") {
-            _BodyType = b2_dynamicBody;
-        } else if (typeStr == "static") {
-            _BodyType = b2_staticBody;
-        } else {
+        bool isFound = false;
+        for (size_t i = 0; i < bodyTypesString.size(); i++) {
+            const std::string& bodyStr = bodyTypesString[i];
+            if (bodyStr == typeStr) {
+                _BodyType = (int)i;
+                isFound = true;
+                break;
+            }
+        }
+        if (!isFound) {
             LOG(ERROR) << "Invalid body type specified for physics component. OBJ ID: " << getOwner()->getId();
             _BodyType = b2_staticBody;
         }
@@ -236,6 +265,22 @@ bool SSceneComPhysics::isDynamic() {
 
 GeometryType SSceneComPhysics::getGeometryType() {
     return _GeometryType;
+}
+
+void SSceneComPhysics::applyForce(const Vector2& force) {
+    if (!_Box2DBody) {
+        return;
+    }
+    b2Vec2 b2Force(force.x, force.y);
+    _Box2DBody->ApplyForceToCenter(b2Force, true);
+}
+
+void SSceneComPhysics::applyLinearImpulse(const Vector2& force) {
+    if (!_Box2DBody) {
+        return;
+    }
+    b2Vec2 b2Force(force.x, force.y);
+    _Box2DBody->ApplyLinearImpulseToCenter(b2Force, true);
 }
 
 void SSceneComPhysics::bindToScript(sol::state& luaState) {

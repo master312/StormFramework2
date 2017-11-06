@@ -18,7 +18,8 @@ SSceneSystemLuaScript::~SSceneSystemLuaScript() {
 }
 
 void SSceneSystemLuaScript::initialize(StormScene* ownerScene) {
-    _LuaState.open_libraries(sol::lib::base, sol::lib::os);
+    _LuaState.open_libraries(sol::lib::base, sol::lib::os, 
+                             sol::lib::math, sol::lib::io, sol::lib::count);
 
     if (SLuaBinders::bindStandardTypes(_LuaState) < 0) {
         LOG(ERROR) << "Could not bind lua functions";

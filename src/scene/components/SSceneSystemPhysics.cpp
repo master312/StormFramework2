@@ -4,6 +4,7 @@
 #include "SSceneComTransform.h"
 #include "SSceneComLuaScript.h"
 #include "../StormSceneObject.h"
+#include "../../StormDebug.h"
 #include "../../core/graphics/StormRenderer.h"
 #include "../../core/utils/StormVertex.h"
 #include "../../core/utils/Plane.h"
@@ -100,7 +101,13 @@ void SSceneSystemPhysics::render(StormRenderer* renderer) {
 
 void SSceneSystemPhysics::tick(float deltaTime) {
     /* TODO: Move to fixed tick */
+#ifndef PRODUCTION
+    if (StormDebug::shouldTickPhysics()) {
+        _Box2DWorld->Step(deltaTime, 2, 6);
+    }
+#else
     _Box2DWorld->Step(deltaTime, 2, 6);
+#endif
 
     for (size_t i = 0; i < _PhysicsComponents.size(); i++) {
         SSceneComPhysics* collider = _PhysicsComponents[i];
@@ -125,7 +132,9 @@ void SSceneSystemPhysics::handleTriggerCollision(SSceneComPhysics* comTriggered,
 
 int SSceneSystemPhysics::bindToLua(sol::state& luaState) {
     luaState.new_usertype<SSceneComPhysics>("ComPhysics",
-        "containsPoint", &SSceneComPhysics::containsPoint
+        "containsPoint", &SSceneComPhysics::containsPoint,
+        "applyForce", &SSceneComPhysics::applyForce,
+        "applyLinearImpulse", &SSceneComPhysics::applyLinearImpulse
     );
 
     for (SSceneComPhysics* com : _PhysicsComponents) {

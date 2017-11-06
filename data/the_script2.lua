@@ -5,7 +5,8 @@ this.toggle = false
 
 this.onUpdate = function(deltaTime) 
     if InputManager:isKeyPressed(Keyboard.A) then
-        this.toggle = not this.toggle
+        -- this.toggle = not this.toggle
+        this.body:applyForce(Vector2:new(200.0, -300.0));
     end
 
     if this.toggle then

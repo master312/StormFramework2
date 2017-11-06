@@ -2,6 +2,7 @@
 #include "core/StormCommon.h"
 #include "scene/SSceneManager.h"
 #include "SEngineModuleFactory.h"
+#include "StormDebug.h"
 
 const std::string StormEngine::DEFAULT_SHADER_NAME = "color";
 
@@ -126,11 +127,15 @@ void StormEngine::renderTick() {
 }
 
 void StormEngine::updateTick(float deltaTime) {
-    _ModSceneManager->tick(deltaTime);
+#ifndef PRODUCTION
+    StormDebug::instance()->processInput();
     
-    if (_ModPlatform->getInputManager()->isKeyDown(S_KEY_ESCAPE)) {
-        quit();
+    if (StormDebug::shouldTickLogic()) {
+        _ModSceneManager->tick(deltaTime);
     }
+#else
+    _ModSceneManager->tick(deltaTime);
+#endif
 }
 
 /**** Commonly used module methods for easy access ****/

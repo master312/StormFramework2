@@ -32,7 +32,7 @@ public:
     void setName(const std::string& name);
 
     /* Gets scene name */
-    std::string getName() const;
+    std::reference_wrapper<const std::string> getName() const;
 
     /* Returns true if scene is initialized */
     bool isInitialized();

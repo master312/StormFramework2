@@ -37,7 +37,8 @@ void SLuaBinders::debugLog(const std::string& msg) {
 }
 
 void SLuaBinders::bindVector2(sol::state& state) {
-    state.new_usertype<Vector2>("Vector2", 
+    state.new_usertype<Vector2>("Vector2",
+        sol::constructors<Vector2(), Vector2(float, float)>(),
         "x", &Vector2::x,
         "y", &Vector2::y,
         "toString", &Vector2::toString
