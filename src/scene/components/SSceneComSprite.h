@@ -31,15 +31,11 @@ public:
     void setTexture(spStormTexture texture);
     spStormTexture getTexture();
 
-    void setColorMultiply(Color color);
+    void setColorMultiply(const Color& color);
     Color getColorMultiply();
-    /* Method used by editor. */
-    Color* getColorMultiplyPtr();
 
-    void setColorAdd(Color color);
+    void setColorAdd(const Color& color);
     Color getColorAdd();
-    /* Method used by editor. */
-    Color* getColorAddPtr();
 
     /* Returns true if there is sprite sheet attatched to this sprite component */
     bool hasSpriteSheet();

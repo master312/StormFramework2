@@ -1,6 +1,7 @@
 #pragma once
 #include <QWidget>
 #include <QLabel>
+#include <QTimer>
 #include "SWidgetComponent.h"
 
 /* Base class for everty component property type. E.X: Color, Vector, Point, etc... */
@@ -14,10 +15,17 @@ public:
 
     virtual void refresh();
 
+public slots:
+    /* Signal fiered from timer to update values */
+    virtual void refreshValues();
+
 protected:
     virtual void enterEvent(QEvent* event);
     virtual void leaveEvent(QEvent* event);
     virtual void paintEvent(QPaintEvent* event);
+
+    /* Timer that ticks at interval to refresh values */
+    QTimer* _RefreshTimer;
 
     /* Name string of this vector variable that will be displayed in gui */
     std::string _Name;

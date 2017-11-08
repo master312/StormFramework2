@@ -158,7 +158,7 @@ spStormTexture SSceneComSprite::getTexture() {
     return _Texture;
 }
 
-void SSceneComSprite::setColorMultiply(Color color) {
+void SSceneComSprite::setColorMultiply(const Color& color) {
     _ColorMultiply = color;
 }
 
@@ -166,20 +166,12 @@ Color SSceneComSprite::getColorMultiply() {
     return _ColorMultiply;
 }
 
-Color* SSceneComSprite::getColorMultiplyPtr() {
-    return &_ColorMultiply;
-}
-
-void SSceneComSprite::setColorAdd(Color color) {
+void SSceneComSprite::setColorAdd(const Color& color) {
     _ColorAdd = color;
 }
 
 Color SSceneComSprite::getColorAdd() {
     return _ColorAdd;
-}
-
-Color* SSceneComSprite::getColorAddPtr() {
-    return &_ColorAdd;
 }
 
 bool SSceneComSprite::hasSpriteSheet() {

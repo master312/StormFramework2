@@ -33,7 +33,7 @@ SWidgetPropertyVec2::SWidgetPropertyVec2(SWidgetComponent* parent, const std::st
     connect(_XPosEdit, SIGNAL(editingFinished()), this, SLOT(editingFinished()));
     connect(_YPosEdit, SIGNAL(editingFinished()), this, SLOT(editingFinished()));
 
-    setDragFactor(1.0f);
+    setDragFactor(0.005f);
     setLayout(layout);
 }
 

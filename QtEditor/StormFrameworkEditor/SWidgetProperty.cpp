@@ -6,13 +6,19 @@ SWidgetProperty::SWidgetProperty(SWidgetComponent* parent, const std::string& na
     _Name = name;
     _ComponentWidgetParent = parent;
     _BackgroundOpacity = 0.15f;
+    _RefreshTimer = new QTimer(this);
+    _RefreshTimer->start(250);
+    connect(_RefreshTimer, SIGNAL(timeout()), this, SLOT(refreshValues()));
 }
 
 SWidgetProperty::~SWidgetProperty() {
-
 }
 
 void SWidgetProperty::refresh() {
+}
+
+void SWidgetProperty::refreshValues() {
+    refresh();
 }
 
 void SWidgetProperty::enterEvent(QEvent* event) {
