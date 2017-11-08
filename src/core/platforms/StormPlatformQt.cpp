@@ -46,6 +46,11 @@ uint32_t StormPlatformQt::getTimeMs() {
     return static_cast<uint32_t>(_Time->elapsed());
 }
 
+uint64_t StormPlatformQt::getTimeNs() {
+    /* TODO: NOT IMPLEMENTED IN QT PLATFORM */
+    return 0;
+}
+
 void StormPlatformQt::mainTick() {
     float deltaTime = (float)(getTimeMs() - _LastTickTime) / 1000.0f;
 

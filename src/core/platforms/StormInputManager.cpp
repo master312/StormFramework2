@@ -114,16 +114,16 @@ void StormInputManager::processPointerButton(int pointerIndex, bool isDown) {
 
 const char* StormInputManager::keyToString(const StormKey key) {
     switch (key) {
-        case SDLK_0: return "0";
-        case SDLK_1: return "1";
-        case SDLK_2: return "2";
-        case SDLK_3: return "3";
-        case SDLK_4: return "4";
-        case SDLK_5: return "5";
-        case SDLK_6: return "6";
-        case SDLK_7: return "7";
-        case SDLK_8: return "8";
-        case SDLK_9: return "9";
+        case SDLK_0: return "KEY_0";
+        case SDLK_1: return "KEY_1";
+        case SDLK_2: return "KEY_2";
+        case SDLK_3: return "KEY_3";
+        case SDLK_4: return "KEY_4";
+        case SDLK_5: return "KEY_5";
+        case SDLK_6: return "KEY_6";
+        case SDLK_7: return "KEY_7";
+        case SDLK_8: return "KEY_8";
+        case SDLK_9: return "KEY_9";
         case SDLK_a: return "A";
         case SDLK_AC_HOME: return "Home";
         case SDLK_QUOTE: return "'";

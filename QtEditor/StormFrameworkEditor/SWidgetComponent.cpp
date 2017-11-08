@@ -1,7 +1,5 @@
 #include "SWidgetComponent.h"
 #include "componentWidgets/SWidgetComTransform.h"
-#include "componentWidgets/SWidgetComPlane.h"
-#include "componentWidgets/SWidgetComStaticTexture.h"
 #include "componentWidgets/SWidgetComScript.h"
 #include "../../src/scene/SSceneComponent.h"
 #include <QVBoxLayout>
@@ -107,11 +105,7 @@ SWidgetComponent* SWidgetComponent::newWidget(StormSceneObject* object, SSceneCo
 
     /* Component is specified */
     switch (component->getType()) {
-        case S_SCENE_OBJECT_COM_PLANE:
-            widget = new SWidgetComPlane(parent);
-            break;
-        case S_SCENE_OBJECT_COM_STATIC_TEXTURE:
-            widget = new SWidgetComStaticTexture(parent);
+        case S_SCENE_OBJECT_COM_SPRITE:
             break;
         case S_SCENE_OBJECT_COM_TRANSFORM:
             widget = new SWidgetComTransform(parent);

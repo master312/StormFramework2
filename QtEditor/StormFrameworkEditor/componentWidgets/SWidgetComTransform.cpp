@@ -2,7 +2,7 @@
 #include "../propertyWidgets/SWidgetPropertyVec2.h"
 #include "../propertyWidgets/SWidgetPropertyFloat.h"
 #include "../../src/StormEngine.h"
-#include "../../src/scene/components/SSceneComPlane.h"
+#include "../../src/scene/components/SSceneComPhysics.h"
 #include "../../src/scene/components/SSceneComTransform.h"
 #include "../../src/scene/StormSceneObject.h"
 #include <QLayout>
@@ -28,8 +28,8 @@ void SWidgetComTransform::initialize() {
 
     /* Create position widget */
     SWidgetPropertyVec2* positionWidget = new SWidgetPropertyVec2(this, "Position");
-    positionWidget->setVectorGetter(std::bind(&SSceneComTransform::getPosition, _ComTransform));
-    positionWidget->setVectorSetter(std::bind(&SSceneComTransform::setPosition, _ComTransform, std::placeholders::_1));
+    positionWidget->setVectorGetter([=]() { return _ComTransform->getPosition(); });
+    positionWidget->setVectorSetter([=](Vector2 pos) { _ComTransform->setPosition(pos); });
     layout()->addWidget(positionWidget);
 
     /* Create scale widget */

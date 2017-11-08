@@ -30,6 +30,9 @@ public:
     /* Returns time since program start in milliseconds (ms) */
     virtual uint32_t getTimeMs();
 
+    /* Returns time since program start in nanosecounds (ns) */
+    virtual uint64_t getTimeNs();
+
     /* Called from QT timer, to tick engine */
     void mainTick();
 
