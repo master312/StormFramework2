@@ -30,8 +30,11 @@ public:
     /* Clear render buffers and clear memory */
     void deinitialize();
 
-    /* Sets render perspective */
-    void setPerspective(float left, float top, float right, float bottom, float near = -1.0f, float far = 1.0f);
+    /* Sets render view matrix */
+    void setViewMatrix(const Vector2& topLeft, const Vector2& bottomRight, float near = -1.0f, float far = 1.0f);
+
+    /* Sets render view matrix */
+    void setViewMatrix(float left, float top, float right, float bottom, float near = -1.0f, float far = 1.0f);
 
     /* Load and compile shader. Returns < 0 on error
      * @vsData = vertex shader code, @fsData = fragment shader code */
@@ -114,14 +117,14 @@ private:
     /* Current render mode */
     StormRenderMode _RenderMode;
 
-    /* Perspective matrix. Used for managing virtual screen dimensions */
-    Matrix _Perspective;
+    /* View matrix. Used for managing virtual screen dimensions */
+    Matrix _ViewMatrix;
 
-    /* Set to true if perspective was changed and uniform should be updated */
-    bool _IsPerspectiveChanged;
+    /* Set to true if view matrix was changed and uniform should be updated */
+    bool _IsViewChanged;
     
-    /* Binds @_Perspective matrix to uniform in shader */
-    void bindPerspectiveMatrix();
+    /* Binds @_ViewMatrix matrix to uniform in shader */
+    void bindViewMatrix();
     
     /* Binds @_ColorOverlay to uniform in shader */
     void bindColorUniforms();

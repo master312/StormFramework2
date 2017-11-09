@@ -27,10 +27,10 @@ struct StormWindowSettings {
     StormWindowSettings(int w, int h, bool fs, const std::string& wTitle, bool vsync = false) : 
             width(w), height(h), isFullscreen(fs), title(wTitle), useVsync(vsync) { }
     
-    Point getSizePoint() {
+    const Point getSizePoint() {
         return Point(width, height);
     }
-    Vector2 getSizeVec2() {
+    const Vector2 getSizeVec2() {
         return Vector2((float)width, (float)height);
     }
 };

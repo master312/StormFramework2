@@ -76,6 +76,13 @@
            <number>1</number>
           </property>
           <item>
+           <widget class="QPushButton" name="btn_Save">
+            <property name="text">
+             <string>Save</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="pushButton">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -92,6 +99,13 @@
            <widget class="QPushButton" name="pushButton_2">
             <property name="text">
              <string>Toggle Ticking</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_InstantiatePrefab">
+            <property name="text">
+             <string>Instantiate prefab</string>
             </property>
            </widget>
           </item>

@@ -9,9 +9,9 @@ StormRenderer::StormRenderer() {
     _GLTextureSimplerUniform = 0;
     _Shader = nullptr;
     _BindedTexture = nullptr;
-    _Perspective.identity();
+    _ViewMatrix.identity();
     _RenderMode = S_RENDER_TRIANGLE_FAN;
-    _IsPerspectiveChanged = false;
+    _IsViewChanged = false;
     
     resetColorsOverlay();
 }
@@ -48,7 +48,7 @@ int StormRenderer::initialize() {
 
 void StormRenderer::deinitialize() {
    _Shader = nullptr;
-   _Perspective.identity();
+   _ViewMatrix.identity();
 
    /* Destroy GL buffers */
    if (_GLVaoId != 0) {
@@ -65,7 +65,11 @@ void StormRenderer::deinitialize() {
    }
 }
 
-void StormRenderer::setPerspective(float left, float top, float right, float bottom, float near /* = -1.0f */, float far /* = 1.0f */) {
+void StormRenderer::setViewMatrix(const Vector2& topLeft, const Vector2& bottomRight, float near /* = -1.0f */, float far /* = 1.0f */) {
+    setViewMatrix(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y, near, far);
+}
+
+void StormRenderer::setViewMatrix(float left, float top, float right, float bottom, float near /* = -1.0f */, float far /* = 1.0f */) {
     Matrix newPerspective = Matrix(
             2.0 / (right - left), 0, 0, 0,
             0, 2.0 / (top - bottom), 0, 0,
@@ -73,9 +77,9 @@ void StormRenderer::setPerspective(float left, float top, float right, float bot
             -(right + left) / (right - left), -(top + bottom) / (top - bottom), -(far + near) / (far - near), 1
         );
         
-    if (_Perspective != newPerspective) {
-        _Perspective = newPerspective;
-        _IsPerspectiveChanged = true;
+    if (_ViewMatrix != newPerspective) {
+        _ViewMatrix = newPerspective;
+        _IsViewChanged = true;
     }
 }
 
@@ -87,9 +91,9 @@ void StormRenderer::startRendering() {
     glBindBuffer(GL_ARRAY_BUFFER, _GLVertexBufferId);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _GLIndicesBufferId);
 
-    if (_IsPerspectiveChanged) {
-        _IsPerspectiveChanged = false;
-        bindPerspectiveMatrix();
+    if (_IsViewChanged) {
+        _IsViewChanged = false;
+        bindViewMatrix();
     }
 }
 
@@ -177,18 +181,18 @@ void StormRenderer::setActiveShader(const std::string& name) {
     _Shader->bindAttribute("vertexColor");
     _GLTextureSimplerUniform = _Shader->getUniformLocation("textureUnit");
 
-    bindPerspectiveMatrix();
+    bindViewMatrix();
     bindColorUniforms();
 
     glActiveTexture(GL_TEXTURE0);
     glUniform1i(_GLTextureSimplerUniform, 0);
 }
 
-void StormRenderer::bindPerspectiveMatrix() {
+void StormRenderer::bindViewMatrix() {
     if (!_Shader) {
         return;
     }
-    _Shader->setUniformMatrix4("perspective", _Perspective);
+    _Shader->setUniformMatrix4("viewMatrix", _ViewMatrix);
 }
 
 void StormRenderer::bindColorUniforms() {

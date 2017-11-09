@@ -129,7 +129,8 @@ SOURCES += \
     ../../libs/Box2D/Rope/b2Rope.cpp \
     ../../src/core/utils/Geometry.cpp \
     ../../src/scene/components/SSceneComPhysics.cpp \
-    ../../libs/sol2/sol/compatibility/5.x.x.inl
+    ../../libs/sol2/sol/compatibility/5.x.x.inl \
+    selectprefab.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -323,9 +324,11 @@ HEADERS += \
     ../../libs/sol2/sol/variadic_args.hpp \
     ../../libs/sol2/sol/variadic_results.hpp \
     ../../libs/sol2/sol/wrapper.hpp \
-    ../../libs/sol2/sol.hpp
+    ../../libs/sol2/sol.hpp \
+    selectprefab.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    selectprefab.ui
 
 DISTFILES +=

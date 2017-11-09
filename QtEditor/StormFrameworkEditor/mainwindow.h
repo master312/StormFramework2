@@ -20,6 +20,10 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_btn_InstantiatePrefab_clicked();
+
+    void on_btn_Save_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

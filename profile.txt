@@ -378,7 +378,7 @@ index % time    self  children    called     name
 [94]     0.0    0.00    0.00       6         StormObjectPool<StormRenderCommand, DefaultMemoryAllocator>::_Node::~_Node() [94]
                 0.00    0.00       6/7           DefaultMemoryAllocator::Deallocate(void*, unsigned long) [91]
 -----------------------------------------------
-                0.00    0.00       1/2           StormRenderer::setPerspective(float, float, float, float, float, float) [102]
+                0.00    0.00       1/2           StormRenderer::setViewMatrix(float, float, float, float, float, float) [102]
                 0.00    0.00       1/2           StormRenderer::setShader(StormShader*) [104]
 [95]     0.0    0.00    0.00       2         StormRenderer::bindPerspectiveMatrix() [95]
 -----------------------------------------------
@@ -406,7 +406,7 @@ index % time    self  children    called     name
 [101]    0.0    0.00    0.00       1         StormRenderer::initialize() [101]
 -----------------------------------------------
                 0.00    0.00       1/1           StormEngine::initializeComponents() [200]
-[102]    0.0    0.00    0.00       1         StormRenderer::setPerspective(float, float, float, float, float, float) [102]
+[102]    0.0    0.00    0.00       1         StormRenderer::setViewMatrix(float, float, float, float, float, float) [102]
                 0.00    0.00       1/1           MatrixT<float>::MatrixT(float, float, float, float, float, float, float, float, float, float, float, float, float, float, float, float) [115]
                 0.00    0.00       1/2           StormRenderer::bindPerspectiveMatrix() [95]
 -----------------------------------------------
@@ -459,7 +459,7 @@ index % time    self  children    called     name
                 0.00    0.00       1/1           StormRenderer::StormRenderer() [105]
 [114]    0.0    0.00    0.00       1         Color::set(unsigned char, unsigned char, unsigned char, unsigned char) [114]
 -----------------------------------------------
-                0.00    0.00       1/1           StormRenderer::setPerspective(float, float, float, float, float, float) [102]
+                0.00    0.00       1/1           StormRenderer::setViewMatrix(float, float, float, float, float, float) [102]
 [115]    0.0    0.00    0.00       1         MatrixT<float>::MatrixT(float, float, float, float, float, float, float, float, float, float, float, float, float, float, float, float) [115]
 -----------------------------------------------
                 0.00    0.00       1/1           StormRenderer::StormRenderer() [105]
@@ -674,7 +674,7 @@ Index by function name
    [7] StormRenderer::queueCommand(StormRenderCommand*) [118] __gnu_cxx::new_allocator<StormRenderCommand*>::~new_allocator() [141] std::_Sp_counted_ptr<el::base::Storage*, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr()
   [51] StormRenderer::bindIndexData(unsigned int*, unsigned int) [54] __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >::__normal_iterator(StormRenderCommand** const&) [81] std::allocator_traits<std::allocator<StormRenderCommand*> >::deallocate(std::allocator<StormRenderCommand*>&, StormRenderCommand**, unsigned long)
   [21] StormRenderer::bindVertexData(StormVertex*, unsigned int) [20] __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >::operator++() [82] std::allocator_traits<std::allocator<StormRenderCommand*> >::allocate(std::allocator<StormRenderCommand*>&, unsigned long)
- [102] StormRenderer::setPerspective(float, float, float, float, float, float) [12] bool __gnu_cxx::operator!=<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >(__gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > > const&, __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > > const&) [72] std::allocator_traits<std::allocator<StormRenderCommand*> >::max_size(std::allocator<StormRenderCommand*> const&)
+ [102] StormRenderer::setViewMatrix(float, float, float, float, float, float) [12] bool __gnu_cxx::operator!=<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >(__gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > > const&, __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > > const&) [72] std::allocator_traits<std::allocator<StormRenderCommand*> >::max_size(std::allocator<StormRenderCommand*> const&)
  [103] StormRenderer::bindColorUniform() [9] StormIntrusivePtr<StormTexture>::get() const [10] _ZNSt16allocator_traitsISaIP18StormRenderCommandEE9constructIS1_IRKS1_EEEvRS2_PT_DpOT0_
   [95] StormRenderer::bindPerspectiveMatrix() [64] __gnu_cxx::new_allocator<StormRenderCommand*>::max_size() const [83] StormRenderCommand** std::__uninitialized_copy<true>::__uninit_copy<std::move_iterator<StormRenderCommand**>, StormRenderCommand**>(std::move_iterator<StormRenderCommand**>, std::move_iterator<StormRenderCommand**>, StormRenderCommand**)
    [2] StormRenderer::flush() [48] __gnu_cxx::__normal_iterator<StormRenderCommand**, std::vector<StormRenderCommand*, std::allocator<StormRenderCommand*> > >::base() const [25] void std::_Bind<std::_Mem_fn<void (StormEngine::*)(float)> (StormEngine*, std::_Placeholder<1>)>::__call<void, float&&, 0ul, 1ul>(std::tuple<float&&>&&, std::_Index_tuple<0ul, 1ul>)

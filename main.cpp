@@ -103,7 +103,7 @@ int main(int argc, char* argv[]) {
     // shader->linkShaders();
     // shader->use();
 
-    // renderer->setPerspective(0.0f, 0.0f, 800.0f * 1.3, 768.0f * 1.3);
+    // renderer->setViewMatrix(0.0f, 0.0f, 800.0f * 1.3, 768.0f * 1.3);
     // platform->getInputManager()->calculatePointerScaling(Vector2(800*1.3f, 768*1.3f));
     
     // renderer->setShader(shader);

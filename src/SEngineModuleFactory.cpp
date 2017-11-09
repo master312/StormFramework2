@@ -79,7 +79,7 @@ StormRenderer* SEngineModuleFactory::initRenderer(const std::string& defaultShad
     }
     renderer->setActiveShader(defaultShaderName);
 
-    renderer->setPerspective(0.0f, 0.0f, StormEngine::instance()->_ModVideoDriver->getVirtualViewSize().x, StormEngine::instance()->_ModVideoDriver->getVirtualViewSize().y);
+    renderer->setViewMatrix(0.0f, 0.0f, StormEngine::instance()->_ModVideoDriver->getVirtualViewSize().x, StormEngine::instance()->_ModVideoDriver->getVirtualViewSize().y);
 
     return renderer;
 }

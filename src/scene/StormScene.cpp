@@ -247,6 +247,10 @@ std::vector<SSceneComponentSystem*>& StormScene::getSystems() {
     return _ComponentSystems;
 }
 
+std::map<std::string, pugi::xml_node>& StormScene::getPrefabs() {
+    return _Prefabs;
+}
+
 void StormScene::render(StormRenderer* renderer) {
     for (unsigned int i = 0; i < _ComponentSystems.size(); i++) {
         _ComponentSystems[i]->render(renderer);

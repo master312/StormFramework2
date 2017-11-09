@@ -56,6 +56,9 @@ public:
     /* Retnurns reference to rector containing all component systems */
     std::vector<SSceneComponentSystem*>& getSystems();
 
+    /* Returns reference to map containing all prefabs. */
+    std::map<std::string, pugi::xml_node>& getPrefabs();
+
     /* Renders scene */
     void render(StormRenderer* renderer);
 
