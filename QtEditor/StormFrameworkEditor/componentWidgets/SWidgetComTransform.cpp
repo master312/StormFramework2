@@ -2,8 +2,8 @@
 #include "../propertyWidgets/SWidgetPropertyVec2.h"
 #include "../propertyWidgets/SWidgetPropertyFloat.h"
 #include "../../src/StormEngine.h"
-#include "../../src/scene/components/SSceneComPhysics.h"
-#include "../../src/scene/components/SSceneComTransform.h"
+#include "../../src/scene/components/physics/SSceneComPhysics.h"
+#include "../../src/scene/components/transform/SSceneComTransform.h"
 #include "../../src/scene/StormSceneObject.h"
 #include <QLayout>
 

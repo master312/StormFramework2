@@ -3,7 +3,7 @@
 #include <map>
 #include "StormSceneObject.h"
 #include "SSceneComponentSystem.h"
-#include "../core/resources/StormResourceFile.h"
+#include "resources/StormResourceFile.h"
 
 class StormRenderer;
 

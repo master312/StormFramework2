@@ -4,7 +4,7 @@
 #include <functional>
 #include "SSceneComponent.h"
 #include "SSceneObjectEventTypes.h"
-#include "../core/utils/SObservable.h"
+#include "utils/SObservable.h"
 
 class SSceneComTransform;
 class SSceneComLuaScript;

@@ -1,14 +1,14 @@
 #include "StormScene.h"
 #include "StormSceneObject.h"
 
-#include "components/SSceneSystemPhysics.h"
-#include "components/SSceneSystemSprite.h"
-#include "components/SSceneSystemTransform.h"
-#include "components/SSceneSystemLuaScript.h"
+#include "components/physics/SSceneSystemPhysics.h"
+#include "components/sprite/SSceneSystemSprite.h"
+#include "components/transform/SSceneSystemTransform.h"
+#include "components/luaScript/SSceneSystemLuaScript.h"
 
-#include "../StormEngine.h"
-#include "../core/graphics/StormRenderer.h"
-#include "../core/resources/StormFileSystem.h"
+#include "StormEngine.h"
+#include "graphics/StormRenderer.h"
+#include "resources/StormFileSystem.h"
 
 StormScene::StormScene() {
     _LastObjectIndex = 1;

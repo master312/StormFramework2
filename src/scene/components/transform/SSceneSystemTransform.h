@@ -1,5 +1,5 @@
 #pragma once
-#include "../SSceneComponentSystem.h"
+#include "../../SSceneComponentSystem.h"
 
 class SSceneComTransform;
 

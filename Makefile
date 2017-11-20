@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS  = -g -Wall -std=c++14 -DSTORM_BUILD_PLATFORM_SDL2 -D_DEBUG -I"/usr/include/lua5.1/" -I"/usr/lib/" -I"libs/sol2/" -I"libs/" #-pg
+CFLAGS  = -g -Wall -std=c++14 -DSTORM_BUILD_PLATFORM_SDL2 -D_DEBUG -I"/usr/include/lua5.1/" -I"/usr/lib/" -I"libs/sol2/" -I"libs/" -I"src/" -I"src/core/" #-pg
 LIBS = -w -lSDL2 -lSDL2_image -lGLEW -lGL -lGLU -llua5.1
 OBJDIR = objects
 EXNAME = a.out

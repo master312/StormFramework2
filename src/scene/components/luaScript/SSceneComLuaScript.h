@@ -1,5 +1,5 @@
 #pragma once
-#include "../SSceneComponent.h"
+#include "../../SSceneComponent.h"
 #include "sol.hpp"
 
 /* This component holds lua script stuff */

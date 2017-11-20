@@ -1,7 +1,7 @@
 #include "StormSceneObject.h"
-#include "components/SSceneComTransform.h"
-#include "components/SSceneComLuaScript.h"
-#include "../core/StormCommon.h"
+#include "StormCommon.h"
+#include "components/transform/SSceneComTransform.h"
+#include "components/luaScript/SSceneComLuaScript.h"
 
 StormSceneObject::StormSceneObject(uint32_t id /* = 0 */) {
     _Id = id;

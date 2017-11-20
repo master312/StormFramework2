@@ -1,6 +1,6 @@
 #pragma once
-#include "../SSceneComponent.h"
-#include "../../core/utils/math/Vector2.h"
+#include "../../SSceneComponent.h"
+#include "utils/math/Vector2.h"
 
 /* This component holds scene object tranform info - Position, rotation and scale.
  * Parent transformation calculations are also handled here. */

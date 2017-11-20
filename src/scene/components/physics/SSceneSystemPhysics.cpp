@@ -1,13 +1,13 @@
 #include "sol.hpp"
 #include "SSceneSystemPhysics.h"
 #include "SSceneComPhysics.h"
-#include "SSceneComTransform.h"
-#include "SSceneComLuaScript.h"
-#include "../StormSceneObject.h"
-#include "../../StormDebug.h"
-#include "../../core/graphics/StormRenderer.h"
-#include "../../core/utils/StormVertex.h"
-#include "../../core/utils/Plane.h"
+#include "StormDebug.h"
+#include "../transform/SSceneComTransform.h"
+#include "../luaScript/SSceneComLuaScript.h"
+#include "scene/StormSceneObject.h"
+#include "graphics/StormRenderer.h"
+#include "utils/StormVertex.h"
+#include "utils/Plane.h"
 
 SSceneSystemPhysics::SSceneSystemPhysics() : _ContactListener(*this) {
     _Type = S_SCENE_OBJECT_COM_PHYSICS;

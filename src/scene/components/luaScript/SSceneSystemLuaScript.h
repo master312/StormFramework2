@@ -1,5 +1,5 @@
 #pragma once
-#include "../SSceneComponentSystem.h"
+#include "../../SSceneComponentSystem.h"
 #include "sol.hpp"
 
 /* System used for rendering planes in debug mode

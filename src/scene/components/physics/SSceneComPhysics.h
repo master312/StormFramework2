@@ -1,6 +1,6 @@
 #pragma once
-#include "../SSceneComponent.h"
-#include "../../core/utils/Geometry.h"
+#include "../../SSceneComponent.h"
+#include "utils/Geometry.h"
 
 /* Linked objects can ONLY be static bodyes ! */
 

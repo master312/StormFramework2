@@ -1,9 +1,9 @@
 #pragma once
-#include "../SSceneComponent.h"
-#include "../../core/graphics/StormTexture.h"
-#include "../../core/graphics/StormRenderer.h"
-#include "../../core/utils/math/Rect.h"
-#include "../../core/utils/Plane.h"
+#include "../../SSceneComponent.h"
+#include "graphics/StormTexture.h"
+#include "graphics/StormRenderer.h"
+#include "utils/math/Rect.h"
+#include "utils/Plane.h"
 
 /* Component for drawing sprites on the screen */
 

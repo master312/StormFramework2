@@ -1,5 +1,5 @@
 #pragma once
-#include "../../libs/pugixml/pugixml.hpp"
+#include "pugixml/pugixml.hpp"
 #include "sol.hpp"
 
 /* Base class for all scene object components.

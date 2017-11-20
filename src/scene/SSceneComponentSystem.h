@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "SSceneComponent.h"
-#include "../core/StormCommon.h"
+#include "StormCommon.h"
 #include "sol.hpp"
 
 /* Base class for all component systems.

@@ -1,9 +1,9 @@
 #include "SSceneComPhysics.h"
 #include "SSceneSystemPhysics.h"
-#include "SSceneComTransform.h"
+#include "../transform/SSceneComTransform.h"
 #include "Box2D/Box2D.h"
-#include "../StormSceneObject.h"
-#include "../../core/utils/Plane.h"
+#include "scene/StormSceneObject.h"
+#include "utils/Plane.h"
 #include <algorithm>
 #include <array>
 

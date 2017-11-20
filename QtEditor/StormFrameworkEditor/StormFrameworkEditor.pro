@@ -30,34 +30,14 @@ INCLUDEPATH += /usr/include/lua5.1/
 INCLUDEPATH += /usr/lib/
 INCLUDEPATH += ../../libs/sol2/
 INCLUDEPATH += ../../libs/
+INCLUDEPATH += ../../src/
+INCLUDEPATH += ../../src/core
 
 LIBS += -lSDL2 -lSDL2_image -lGLEW -lGL -lGLU -llua5.1
 
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    ../../src/core/graphics/StormRenderer.cpp \
-    ../../src/core/graphics/StormShader.cpp \
-    ../../src/core/graphics/StormTexture.cpp \
-    ../../src/core/graphics/StormVideoDriver.cpp \
-    ../../src/core/platforms/StormInputManager.cpp \
-    ../../src/core/platforms/StormPlatform.cpp \
-    ../../src/core/platforms/StormPlatformSDL2.cpp \
-    ../../src/core/resources/StormFileSystem.cpp \
-    ../../src/core/resources/StormResourceFile.cpp \
-    ../../src/core/utils/Plane.cpp \
-    ../../src/core/utils/StormMiscTools.cpp \
-    ../../src/scene/components/SSceneComSprite.cpp \
-    ../../src/scene/components/SSceneSystemSprite.cpp \
-    ../../src/scene/SSceneComponent.cpp \
-    ../../src/scene/SSceneComponentSystem.cpp \
-    ../../src/scene/StormScene.cpp \
-    ../../src/scene/StormSceneObject.cpp \
-    ../../src/StormEngine.cpp \
-    ../../src/StormDebug.cpp \
-    ../../src/StormTextureManager.cpp \
-    ../../libs/pugixml/pugixml.cpp \
-    ../../src/core/platforms/StormPlatformQt.cpp \
     StormOpenGlWidget.cpp \
     SceneObjectsTreeWidget.cpp \
     SNumberLineEdit.cpp \
@@ -70,17 +50,40 @@ SOURCES += \
     SceneObjectTreeWidgetItem.cpp \
     propertyWidgets/SWidgetPropertyColor.cpp \
     componentWidgets/SWidgetComTransform.cpp \
-    ../../src/scene/components/SSceneSystemTransform.cpp \
-    ../../src/scene/components/SSceneSystemPhysics.cpp \
-    ../../src/scene/components/SSceneSystemLuaScript.cpp \
-    ../../src/scene/components/SSceneComTransform.cpp \
-    ../../src/scene/components/SSceneComLuaScript.cpp \
     propertyWidgets/SWidgetPropertyBoolean.cpp \
-    ../../src/scene/SSceneManager.cpp \
-    ../../src/SEngineModuleFactory.cpp \
-    ../../src/scene/components/lua/SLuaBinders.cpp \
-    ../../libs/easyloggingpp/easylogging++.cpp \
     componentWidgets/SWidgetComScript.cpp \
+    selectprefab.cpp \
+    ../../src/core/graphics/StormRenderer.cpp \
+    ../../src/core/graphics/StormShader.cpp \
+    ../../src/core/graphics/StormTexture.cpp \
+    ../../src/core/graphics/StormVideoDriver.cpp \
+    ../../src/core/platforms/StormInputManager.cpp \
+    ../../src/core/platforms/StormPlatform.cpp \
+    ../../src/core/platforms/StormPlatformQt.cpp \
+    ../../src/core/platforms/StormPlatformSDL2.cpp \
+    ../../src/core/resources/StormFileSystem.cpp \
+    ../../src/core/resources/StormResourceFile.cpp \
+    ../../src/core/utils/Geometry.cpp \
+    ../../src/core/utils/Plane.cpp \
+    ../../src/core/utils/StormMiscTools.cpp \
+    ../../src/scene/components/luaScript/SLuaBinders.cpp \
+    ../../src/scene/components/luaScript/SSceneComLuaScript.cpp \
+    ../../src/scene/components/luaScript/SSceneSystemLuaScript.cpp \
+    ../../src/scene/components/physics/SSceneComPhysics.cpp \
+    ../../src/scene/components/physics/SSceneSystemPhysics.cpp \
+    ../../src/scene/components/sprite/SSceneComSprite.cpp \
+    ../../src/scene/components/sprite/SSceneSystemSprite.cpp \
+    ../../src/scene/components/transform/SSceneComTransform.cpp \
+    ../../src/scene/components/transform/SSceneSystemTransform.cpp \
+    ../../src/scene/SSceneComponent.cpp \
+    ../../src/scene/SSceneComponentSystem.cpp \
+    ../../src/scene/SSceneManager.cpp \
+    ../../src/scene/StormScene.cpp \
+    ../../src/scene/StormSceneObject.cpp \
+    ../../src/SEngineModuleFactory.cpp \
+    ../../src/StormDebug.cpp \
+    ../../src/StormEngine.cpp \
+    ../../src/StormTextureManager.cpp \
     ../../libs/Box2D/Collision/Shapes/b2ChainShape.cpp \
     ../../libs/Box2D/Collision/Shapes/b2CircleShape.cpp \
     ../../libs/Box2D/Collision/Shapes/b2EdgeShape.cpp \
@@ -127,13 +130,48 @@ SOURCES += \
     ../../libs/Box2D/Dynamics/b2World.cpp \
     ../../libs/Box2D/Dynamics/b2WorldCallbacks.cpp \
     ../../libs/Box2D/Rope/b2Rope.cpp \
-    ../../src/core/utils/Geometry.cpp \
-    ../../src/scene/components/SSceneComPhysics.cpp \
-    ../../libs/sol2/sol/compatibility/5.x.x.inl \
-    selectprefab.cpp
+    ../../libs/easyloggingpp/easylogging++.cpp \
+    ../../libs/imgui/imgui.cpp \
+    ../../libs/imgui/imgui_demo.cpp \
+    ../../libs/imgui/imgui_draw.cpp \
+    ../../libs/pugixml/pugixml.cpp
 
 HEADERS += \
         mainwindow.h \
+    StormOpenGlWidget.h \
+    SceneObjectsTreeWidget.h \
+    StormQtHelperFunctions.h \
+    SNumberLineEdit.h \
+    propertyWidgets/SWidgetPropertyFloat.h \
+    propertyWidgets/SWidgetPropertyVec2.h \
+    propertyWidgets/SWidgetPropertyResource.h \
+    SWidgetProperty.h \
+    componentWidgets/SWidgetComStaticTexture.h \
+    SWidgetComponent.h \
+    SResourceLineEdit.h \
+    SceneObjectTreeWidgetItem.h \
+    propertyWidgets/SWidgetPropertyColor.h \
+    componentWidgets/SWidgetComTransform.h \
+    propertyWidgets/SWidgetPropertyBoolean.h \
+    componentWidgets/SWidgetComScript.h \
+    selectprefab.h \
+    componentWidgets/SWidgetComScript.h \
+    componentWidgets/SWidgetComTransform.h \
+    propertyWidgets/SWidgetPropertyBoolean.h \
+    propertyWidgets/SWidgetPropertyColor.h \
+    propertyWidgets/SWidgetPropertyFloat.h \
+    propertyWidgets/SWidgetPropertyResource.h \
+    propertyWidgets/SWidgetPropertyVec2.h \
+    mainwindow.h \
+    SceneObjectsTreeWidget.h \
+    SceneObjectTreeWidgetItem.h \
+    selectprefab.h \
+    SNumberLineEdit.h \
+    SResourceLineEdit.h \
+    StormOpenGlWidget.h \
+    StormQtHelperFunctions.h \
+    SWidgetComponent.h \
+    SWidgetProperty.h \
     ../../src/core/graphics/StormRenderer.h \
     ../../src/core/graphics/StormShader.h \
     ../../src/core/graphics/StormTexture.h \
@@ -141,6 +179,7 @@ HEADERS += \
     ../../src/core/platforms/StormInputManager.h \
     ../../src/core/platforms/StormKeys.h \
     ../../src/core/platforms/StormPlatform.h \
+    ../../src/core/platforms/StormPlatformQt.h \
     ../../src/core/platforms/StormPlatformSDL2.h \
     ../../src/core/resources/StormFileSystem.h \
     ../../src/core/resources/StormResourceFile.h \
@@ -154,49 +193,32 @@ HEADERS += \
     ../../src/core/utils/math/Vector4.h \
     ../../src/core/utils/Geometry.h \
     ../../src/core/utils/Plane.h \
+    ../../src/core/utils/SObservable.h \
     ../../src/core/utils/StormIntrusivePtr.h \
     ../../src/core/utils/StormMiscTools.h \
     ../../src/core/utils/StormObjectPool.h \
     ../../src/core/utils/StormRefCounter.h \
     ../../src/core/utils/StormVertex.h \
     ../../src/core/StormCommon.h \
-    ../../src/scene/components/SSceneComSprite.h \
-    ../../src/scene/components/SSceneSystemSprite.h \
+    ../../src/scene/components/luaScript/SLuaBinders.h \
+    ../../src/scene/components/luaScript/SSceneComLuaScript.h \
+    ../../src/scene/components/luaScript/SSceneSystemLuaScript.h \
+    ../../src/scene/components/physics/SSceneComPhysics.h \
+    ../../src/scene/components/physics/SSceneSystemPhysics.h \
+    ../../src/scene/components/sprite/SSceneComSprite.h \
+    ../../src/scene/components/sprite/SSceneSystemSprite.h \
+    ../../src/scene/components/transform/SSceneComTransform.h \
+    ../../src/scene/components/transform/SSceneSystemTransform.h \
     ../../src/scene/SSceneComponent.h \
     ../../src/scene/SSceneComponentSystem.h \
+    ../../src/scene/SSceneManager.h \
+    ../../src/scene/SSceneObjectEventTypes.h \
     ../../src/scene/StormScene.h \
     ../../src/scene/StormSceneObject.h \
-    ../../src/StormEngine.h \
-    ../../src/StormDebug.h \
-    ../../src/StormTextureManager.h \
-    ../../libs/pugixml/pugiconfig.hpp \
-    ../../libs/pugixml/pugixml.hpp \
-    ../../src/core/platforms/StormPlatformQt.h \
-    StormOpenGlWidget.h \
-    SceneObjectsTreeWidget.h \
-    StormQtHelperFunctions.h \
-    SNumberLineEdit.h \
-    propertyWidgets/SWidgetPropertyFloat.h \
-    propertyWidgets/SWidgetPropertyVec2.h \
-    propertyWidgets/SWidgetPropertyResource.h \
-    SWidgetProperty.h \
-    componentWidgets/SWidgetComStaticTexture.h \
-    SWidgetComponent.h \
-    SResourceLineEdit.h \
-    SceneObjectTreeWidgetItem.h \
-    ../../src/scene/components/SSceneSystemPhysics.h \
-    propertyWidgets/SWidgetPropertyColor.h \
-    componentWidgets/SWidgetComTransform.h \
-    ../../src/scene/components/SSceneSystemTransform.h \
-    ../../src/scene/components/SSceneSystemLuaScript.h \
-    ../../src/scene/components/SSceneComTransform.h \
-    ../../src/scene/components/SSceneComPhysics.h \
-    propertyWidgets/SWidgetPropertyBoolean.h \
-    ../../src/scene/SSceneManager.h \
     ../../src/SEngineModuleFactory.h \
-    ../../src/scene/components/lua/SLuaBinders.h \
-    ../../src/scene/SSceneObjectEventTypes.h \
-    componentWidgets/SWidgetComScript.h \
+    ../../src/StormDebug.h \
+    ../../src/StormEngine.h \
+    ../../src/StormTextureManager.h \
     ../../libs/Box2D/Collision/Shapes/b2ChainShape.h \
     ../../libs/Box2D/Collision/Shapes/b2CircleShape.h \
     ../../libs/Box2D/Collision/Shapes/b2EdgeShape.h \
@@ -244,6 +266,15 @@ HEADERS += \
     ../../libs/Box2D/Dynamics/b2WorldCallbacks.h \
     ../../libs/Box2D/Rope/b2Rope.h \
     ../../libs/Box2D/Box2D.h \
+    ../../libs/easyloggingpp/easylogging++.h \
+    ../../libs/imgui/imconfig.h \
+    ../../libs/imgui/imgui.h \
+    ../../libs/imgui/imgui_internal.h \
+    ../../libs/imgui/stb_rect_pack.h \
+    ../../libs/imgui/stb_textedit.h \
+    ../../libs/imgui/stb_truetype.h \
+    ../../libs/pugixml/pugiconfig.hpp \
+    ../../libs/pugixml/pugixml.hpp \
     ../../libs/sol2/sol/compatibility/5.0.0.h \
     ../../libs/sol2/sol/compatibility/5.1.0.h \
     ../../libs/sol2/sol/compatibility/5.2.0.h \
@@ -324,8 +355,7 @@ HEADERS += \
     ../../libs/sol2/sol/variadic_args.hpp \
     ../../libs/sol2/sol/variadic_results.hpp \
     ../../libs/sol2/sol/wrapper.hpp \
-    ../../libs/sol2/sol.hpp \
-    selectprefab.h
+    ../../libs/sol2/sol.hpp
 
 FORMS += \
         mainwindow.ui \

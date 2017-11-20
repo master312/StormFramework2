@@ -1,6 +1,6 @@
 #include "StormSceneElement.h"
 #include "../core/graphics/StormRenderer.h"
-#include "../StormEngine.h"
+#include "StormEngine.h"
 
 StormSceneElement::StormSceneElement() {
     _Plane.setPosition(Vector2(100, 100));

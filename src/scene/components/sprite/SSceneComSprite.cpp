@@ -1,10 +1,10 @@
 #include "SSceneComSprite.h"
 #include "SSceneSystemSprite.h"
-#include "SSceneComTransform.h"
-#include "../StormSceneObject.h"
-#include "../../StormTextureManager.h"
-#include "../../StormEngine.h"
-#include "../../core/utils/math/ScalarMath.h"
+#include "StormEngine.h"
+#include "StormTextureManager.h"
+#include "../transform/SSceneComTransform.h"
+#include "scene/StormSceneObject.h"
+#include "utils/math/ScalarMath.h"
 
 SSceneComSprite::SSceneComSprite(StormSceneObject* owner) : SSceneComponent(owner) {
     _Texture = nullptr;

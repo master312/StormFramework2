@@ -1,10 +1,10 @@
 #pragma once
 #include <vector>
 #include <map>
-#include "../SSceneComponentSystem.h"
-#include "../../core/resources/StormResourceFile.h"
-#include "../../core/utils/math/Rect.h"
-#include "../../libs/pugixml/pugixml.hpp"
+#include "../../SSceneComponentSystem.h"
+#include "resources/StormResourceFile.h"
+#include "utils/math/Rect.h"
+#include "pugixml/pugixml.hpp"
 
 /* System used for rendering sprites.
  * TODO: Optimize: Create sperated std::vector for animated sprites

@@ -1,10 +1,10 @@
 #include "SLuaBinders.h"
-#include "../SSceneComTransform.h"
-#include "../../StormScene.h"
-#include "../../StormSceneObject.h"
-#include "../../SSceneComponentSystem.h"
-#include "../../../StormEngine.h"
-#include "../../../core/utils/math/Vector2.h"
+#include "StormEngine.h"
+#include "scene/StormScene.h"
+#include "scene/StormSceneObject.h"
+#include "scene/SSceneComponentSystem.h"
+#include "utils/math/Vector2.h"
+#include "../transform/SSceneComTransform.h"
 
 SLuaBinders::SLuaBinders() {
 }

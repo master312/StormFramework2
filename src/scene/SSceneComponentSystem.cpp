@@ -1,5 +1,5 @@
 #include "SSceneComponentSystem.h"
-#include "../core/graphics/StormRenderer.h"
+#include "graphics/StormRenderer.h"
 
 SSceneComponentSystem::SSceneComponentSystem() {
     _Type = S_SCENE_OBJECT_COM_UNDEFINED;

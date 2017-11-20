@@ -1,6 +1,6 @@
 #include "SSceneManager.h"
-#include "../StormEngine.h"
-#include "../core/graphics/StormRenderer.h"
+#include "StormEngine.h"
+#include "graphics/StormRenderer.h"
 
 SSceneManager::SSceneManager() {
 }

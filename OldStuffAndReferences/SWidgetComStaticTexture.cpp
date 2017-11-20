@@ -1,7 +1,7 @@
 #include "SWidgetComStaticTexture.h"
 #include "../../src/StormEngine.h"
 #include "../../src/StormTextureManager.h"
-#include "../../src/scene/components/SSceneComSprite.h"
+#include "../../src/scene/components/sprite/SSceneComSprite.h"
 #include "../propertyWidgets/SWidgetPropertyFloat.h"
 #include "../propertyWidgets/SWidgetPropertyResource.h"
 #include "../propertyWidgets/SWidgetPropertyColor.h"

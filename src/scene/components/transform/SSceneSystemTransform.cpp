@@ -1,6 +1,6 @@
 #include "SSceneSystemTransform.h"
 #include "SSceneComTransform.h"
-#include "../StormSceneObject.h"
+#include "scene/StormSceneObject.h"
 
 SSceneSystemTransform::SSceneSystemTransform() {
     _Type = S_SCENE_OBJECT_COM_TRANSFORM;

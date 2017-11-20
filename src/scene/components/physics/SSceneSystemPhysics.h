@@ -1,7 +1,7 @@
 #pragma once
-#include "../SSceneComponentSystem.h"
-#include "../../core/utils/StormVertex.h"
-#include "../../core/utils/math/ScalarMath.h"
+#include "../../SSceneComponentSystem.h"
+#include "utils/StormVertex.h"
+#include "utils/math/ScalarMath.h"
 #include "Box2D/Box2D.h"
 
 /* System used for handling colliders */

@@ -1,9 +1,9 @@
 #include "SSceneSystemLuaScript.h" 
 #include "SSceneComLuaScript.h"
-#include "lua/SLuaBinders.h"
-#include "../StormScene.h"
-#include "../../StormEngine.h"
-#include "../../core/utils/math/Vector2.h"
+#include "SLuaBinders.h"
+#include "StormEngine.h"
+#include "scene/StormScene.h"
+#include "utils/math/Vector2.h"
 
 /*
     Component load script and holds pointer to table

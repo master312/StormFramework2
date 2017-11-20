@@ -1,7 +1,7 @@
 #include "SWidgetComScript.h"
 #include "../../src/core/StormCommon.h"
 #include "../../src/StormEngine.h"
-#include "../../src/scene/components/SSceneComLuaScript.h"
+#include "../../src/scene/components/luaScript/SSceneComLuaScript.h"
 #include "../propertyWidgets/SWidgetPropertyResource.h"
 #include <QVBoxLayout>
 

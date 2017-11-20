@@ -1,11 +1,11 @@
 #include "SSceneComponent.h"
 #include "StormSceneObject.h"
-#include "components/SSceneComSprite.h"
-#include "components/SSceneComTransform.h"
-#include "components/SSceneComLuaScript.h"
-#include "components/SSceneComPhysics.h"
+#include "components/sprite/SSceneComSprite.h"
+#include "components/transform/SSceneComTransform.h"
+#include "components/luaScript/SSceneComLuaScript.h"
+#include "components/physics/SSceneComPhysics.h"
+#include "core/StormCommon.h"
 #include "SSceneComponentSystem.h"
-#include "../core/StormCommon.h"
 
 SSceneComponent::SSceneComponent(StormSceneObject* owner) {
     _Type = S_SCENE_OBJECT_COM_UNDEFINED;
