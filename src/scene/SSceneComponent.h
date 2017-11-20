@@ -116,7 +116,7 @@ protected:
         sol::table handle = getOwnerLuaHandle(luaState);
         if (!handle.valid()) return;
 
-        handle["obj"][_ScriptHandlerName] = dynamic_cast<T>(this);
+        handle["script"][_ScriptHandlerName] = dynamic_cast<T>(this);
         _IsBindedToScript = true;
     }
 };

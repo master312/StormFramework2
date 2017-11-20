@@ -2,6 +2,7 @@
 #include "SSceneComLuaScript.h"
 #include "SLuaBinders.h"
 #include "StormEngine.h"
+#include "scene/StormSceneObject.h"
 #include "scene/StormScene.h"
 #include "utils/math/Vector2.h"
 
@@ -37,6 +38,11 @@ void SSceneSystemLuaScript::initialize(StormScene* ownerScene) {
     
     SLuaBinders::bindSceneObject(_LuaState);
 
+    /* Bind all scene objects to script */
+    for (StormSceneObject* object : ownerScene->getObjects()) {
+        createSceneObjectHandle(object);
+    }
+
     SSceneComponentSystem::initialize(ownerScene);
     
     for (SSceneComponentSystem* system : ownerScene->getSystems()) {
@@ -67,6 +73,18 @@ void SSceneSystemLuaScript::tick(float deltaTime) {
 
 sol::state& SSceneSystemLuaScript::getLuaState() {
     return _LuaState;
+}
+
+sol::table& SSceneSystemLuaScript::createSceneObjectHandle(StormSceneObject* object) {
+    if (!object) {
+        LOG(ERROR) << "Tryed to create lua handle for null object";
+    }
+    sol::function fun = _LuaState["createObjectHandle"];
+    if (!fun.valid()) {
+        LOG(FATAL) << "LUA createHandle function not found.";
+    }
+    sol::table handle = fun(object);
+    return handle;
 }
 
 void SSceneSystemLuaScript::addComponent(SSceneComponent* component) {

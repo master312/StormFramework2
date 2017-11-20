@@ -2,10 +2,8 @@
 #include "../../SSceneComponentSystem.h"
 #include "sol.hpp"
 
-/* System used for rendering planes in debug mode
- * And might be used for something more one day. */
-
 class SSceneComLuaScript;
+class StormSceneObject;
 
 class SSceneSystemLuaScript : public SSceneComponentSystem {
 public:
@@ -32,4 +30,7 @@ private:
      * Used for handling @onScriptStart(...) method */
     bool _IsFirstTick;
     
+    /* Creates script handle for scene object @object.
+     * Returns handle table */
+    sol::table& createSceneObjectHandle(StormSceneObject* object);
 };

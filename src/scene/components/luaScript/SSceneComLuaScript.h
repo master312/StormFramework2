@@ -19,9 +19,6 @@ public:
     /* Loads script file, bind all storm components to lua and 
      * add script object to lua handler. */ 
     virtual int initialize(SSceneComponentSystem* system);
-    
-    /* Returns lua handler for this script */
-    sol::table& getLuaHandle();
 
     /* Returns lua function defined in this script object */
     sol::function getFunction(const std::string& name);
@@ -42,5 +39,8 @@ private:
     std::string _Filename;
 
     /* Pointer to lua table containing owner's Scene Object */
-    sol::table _LuaHandler;
+    sol::table _LuaHandle;
+
+    /* Returns lua handler for this script */
+    sol::table& getLuaHandle();
 };

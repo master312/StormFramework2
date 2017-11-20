@@ -58,22 +58,19 @@ int SSceneComLuaScript::initialize(SSceneComponentSystem* system) {
     }
 
     /* Creates temporary table 'this' */
-    sol::table entityObject = luaState.script(scriptFile->getBuffer());
-    if (!entityObject.valid()) {
-        LOG(ERROR) << "Invalid entity lua table. ID: " << _Owner->getId();
+    sol::table scriptContent = luaState.script(scriptFile->getBuffer());
+    if (!scriptContent.valid()) {
+        LOG(ERROR) << "Invalid lua script table content for entity ID: " << _Owner->getId();
         return -4;
     }
+    
+    _LuaHandle = luaState["Handles"][_Owner->getId()];
 
-    entityObject["id"] = _Owner->getId();
-    entityObject["object"] = _Owner;
-
-    /* Adds object's table to lua handler */
-    sol::function fun = luaState["createObjectHandle"];
-    if (!fun.valid()) {
-        LOG(ERROR) << "LUA createHandle function not found.";
-        return -5;
+    if (!_LuaHandle || !_LuaHandle.valid()) {
+        LOG(ERROR) << "Invalid lua handle for object ID: " << _Owner->getId();
     }
-    _LuaHandler = fun(entityObject);
+
+    _LuaHandle["script"] = scriptContent;
 
     if (_Owner->getIsCreatedAtRuntime()) {
         /* Lua system is already initialized. 
@@ -109,15 +106,15 @@ void SSceneComLuaScript::executeOnStart() {
 
 sol::table& SSceneComLuaScript::getLuaHandle() {
 #ifndef PRODUCTION
-    if (!_LuaHandler.valid()) {
+    if (!_LuaHandle.valid()) {
         LOG(ERROR) << "Getting invalid lua handler for object " << _Owner->getId();
     }
 #endif
-    return _LuaHandler;
+    return _LuaHandle;
 }
 
 sol::function SSceneComLuaScript::getFunction(const std::string& name) {
-    sol::function function = getLuaHandle()["obj"][name];
+    sol::function function = getLuaHandle()[name];
     return function;
 }
 
