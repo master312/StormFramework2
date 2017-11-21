@@ -36,6 +36,8 @@
                 "/usr/include/lua5.1/",
                 "${workspaceRoot}/libs/sol2/",
                 "${workspaceRoot}/libs",
+                "${workspaceRoot}/src",
+                "${workspaceRoot}/src/core",
                 "${workspaceRoot}"
             ],
             "defines": [],

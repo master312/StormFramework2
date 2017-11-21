@@ -64,10 +64,14 @@ int SSceneComLuaScript::initialize(SSceneComponentSystem* system) {
         return -4;
     }
     
-    _LuaHandle = luaState["Handles"][_Owner->getId()];
+    _LuaHandle = luaSystem->getObjectHandle(_Owner->getId());
 
     if (!_LuaHandle || !_LuaHandle.valid()) {
-        LOG(ERROR) << "Invalid lua handle for object ID: " << _Owner->getId();
+        LOG(WARNING) << "Invalid lua handle for object ID: " << _Owner->getId() << " Creating new handle";
+
+        /* TODO: To remove after task "6lCfGmKb" */
+        luaSystem->registerSceneObjectHandle(_Owner);
+        _LuaHandle = luaSystem->getObjectHandle(_Owner->getId());
     }
 
     _LuaHandle["script"] = scriptContent;

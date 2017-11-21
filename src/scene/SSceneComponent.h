@@ -85,9 +85,6 @@ public:
     /* Has this component been binded to script */
     bool getIsBindedToScript();
 
-    /* Returns owner's lua handle table */
-    sol::table getOwnerLuaHandle(sol::state& luaState);
-
     /* Produces new component of @SSceneComponentType and return pointer to it */
     static SSceneComponent* newComponent(SSceneComponentType type, StormSceneObject* owner);
 
@@ -119,4 +116,8 @@ protected:
         handle["script"][_ScriptHandlerName] = dynamic_cast<T>(this);
         _IsBindedToScript = true;
     }
+
+private:
+        /* Returns owner's lua handle table */
+    sol::table getOwnerLuaHandle(sol::state& luaState);
 };

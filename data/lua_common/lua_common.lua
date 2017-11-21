@@ -1,7 +1,7 @@
 Handles = {}
 
 -- This :_str method is unfunctional...
-function Vector2:_str()
+function Vector2:__tostring()
     return "'X:" .. self.x .. " Y:" .. self.y .. "'"
 end
 
@@ -27,6 +27,7 @@ function createObjectHandle(cppRef)
     return handle
 end
 
+-- Returns handle for object @id
 function getObjectHandle(id)
     local handle = Handles[id]
     if not handle.isValid then 

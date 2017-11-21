@@ -20,7 +20,8 @@ SSceneSystemLuaScript::~SSceneSystemLuaScript() {
 
 void SSceneSystemLuaScript::initialize(StormScene* ownerScene) {
     _LuaState.open_libraries(sol::lib::base, sol::lib::os, 
-                             sol::lib::math, sol::lib::io, sol::lib::count);
+                             sol::lib::math, sol::lib::io,
+                             sol::lib::count, sol::lib::package);
 
     if (SLuaBinders::bindStandardTypes(_LuaState) < 0) {
         LOG(ERROR) << "Could not bind lua functions";
@@ -40,7 +41,7 @@ void SSceneSystemLuaScript::initialize(StormScene* ownerScene) {
 
     /* Bind all scene objects to script */
     for (StormSceneObject* object : ownerScene->getObjects()) {
-        createSceneObjectHandle(object);
+        registerSceneObjectHandle(object);
     }
 
     SSceneComponentSystem::initialize(ownerScene);
@@ -75,16 +76,29 @@ sol::state& SSceneSystemLuaScript::getLuaState() {
     return _LuaState;
 }
 
-sol::table& SSceneSystemLuaScript::createSceneObjectHandle(StormSceneObject* object) {
+sol::table SSceneSystemLuaScript::getObjectHandle(uint32_t id) {
+#ifndef PRODUCTION
+    sol::table handle = _LuaState["Handles"][id];
+    if (!handle || !handle.valid()) {
+        LOG(WARNING) << "Getting non existing lua handler for object ID: " << id;
+    }
+    return handle;
+#else
+    return _LuaState["Handles"][id];
+#endif
+}
+
+void SSceneSystemLuaScript::registerSceneObjectHandle(StormSceneObject* object) {
     if (!object) {
         LOG(ERROR) << "Tryed to create lua handle for null object";
+        return;
     }
     sol::function fun = _LuaState["createObjectHandle"];
     if (!fun.valid()) {
         LOG(FATAL) << "LUA createHandle function not found.";
+        return;
     }
-    sol::table handle = fun(object);
-    return handle;
+    fun(object);
 }
 
 void SSceneSystemLuaScript::addComponent(SSceneComponent* component) {
