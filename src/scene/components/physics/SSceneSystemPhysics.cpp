@@ -9,7 +9,8 @@
 #include "utils/StormVertex.h"
 #include "utils/Plane.h"
 
-SSceneSystemPhysics::SSceneSystemPhysics() : _ContactListener(*this) {
+SSceneSystemPhysics::SSceneSystemPhysics(StormScene* scene) : SSceneComponentSystem(scene), 
+                                                              _ContactListener(*this) {
     _Type = S_SCENE_OBJECT_COM_PHYSICS;
     _Box2DWorld = nullptr;
 }
@@ -28,13 +29,13 @@ void SSceneSystemPhysics::addComponent(SSceneComponent* component) {
     _PhysicsComponents.push_back(physicsCom);
 }
 
-void SSceneSystemPhysics::initialize(StormScene* ownerScene /* = nullptr */) {
+void SSceneSystemPhysics::initialize() {
     /* Define the gravity vector. */
     b2Vec2 gravity(0.0f, 7.81f);
     _Box2DWorld = new b2World(gravity);
     _Box2DWorld->SetContactListener(&_ContactListener);
 
-    SSceneComponentSystem::initialize(ownerScene);
+    SSceneComponentSystem::initialize();
 }
 
 void SSceneSystemPhysics::render(StormRenderer* renderer) {

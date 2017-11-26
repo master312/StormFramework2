@@ -7,13 +7,13 @@ class StormSceneObject;
 
 class SSceneSystemLuaScript : public SSceneComponentSystem {
 public:
-    SSceneSystemLuaScript();
+    SSceneSystemLuaScript(StormScene* scene);
     virtual ~SSceneSystemLuaScript();
 
     virtual void addComponent(SSceneComponent* component);
 
     /* Load all scripts and execute initial methods */
-    virtual void initialize(StormScene* ownerScene = nullptr);
+    virtual void initialize();
     
     virtual void tick(float deltaTime);
 

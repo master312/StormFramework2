@@ -3,7 +3,7 @@
 #include "StormEngine.h"
 #include "scene/StormSceneObject.h"
 
-SSceneSystemSprite::SSceneSystemSprite() {
+SSceneSystemSprite::SSceneSystemSprite(StormScene* scene) : SSceneComponentSystem(scene) {
     _Type = S_SCENE_OBJECT_COM_SPRITE;
 }
 

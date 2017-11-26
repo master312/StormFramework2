@@ -2,7 +2,7 @@
 #include "SSceneComTransform.h"
 #include "scene/StormSceneObject.h"
 
-SSceneSystemTransform::SSceneSystemTransform() {
+SSceneSystemTransform::SSceneSystemTransform(StormScene* scene) : SSceneComponentSystem(scene){
     _Type = S_SCENE_OBJECT_COM_TRANSFORM;
 }
 

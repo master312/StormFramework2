@@ -13,10 +13,10 @@ class StormScene;
 
 class SSceneComponentSystem {
 public:
-    SSceneComponentSystem();
+    SSceneComponentSystem(StormScene* scene);
     virtual ~SSceneComponentSystem();
     
-    virtual void initialize(StormScene* ownerScene = nullptr);
+    virtual void initialize();
 
     virtual void render(StormRenderer* renderer);
 
@@ -32,6 +32,8 @@ public:
 
 protected:
     SSceneComponentType _Type;
+    
+    StormScene* _OwnerScene;
     
     std::vector<SSceneComponent*> _Components;
     

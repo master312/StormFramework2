@@ -5,7 +5,7 @@ class SSceneComTransform;
 
 class SSceneSystemTransform : public SSceneComponentSystem {
 public:
-    SSceneSystemTransform();
+    SSceneSystemTransform(StormScene* scene);
     virtual ~SSceneSystemTransform();
 
     virtual void tick(float deltaTime);

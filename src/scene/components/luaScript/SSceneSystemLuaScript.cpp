@@ -11,7 +11,7 @@
     Component load script and holds pointer to table
 */
 
-SSceneSystemLuaScript::SSceneSystemLuaScript() {
+SSceneSystemLuaScript::SSceneSystemLuaScript(StormScene* scene) : SSceneComponentSystem(scene) {
     _Type = S_SCENE_OBJECT_COM_SCRIPT;
     _IsFirstTick = true;
 }
@@ -19,7 +19,7 @@ SSceneSystemLuaScript::SSceneSystemLuaScript() {
 SSceneSystemLuaScript::~SSceneSystemLuaScript() {
 }
 
-void SSceneSystemLuaScript::initialize(StormScene* ownerScene) {
+void SSceneSystemLuaScript::initialize() {
     _LuaState.open_libraries(sol::lib::base, sol::lib::os, 
                              sol::lib::math, sol::lib::io,
                              sol::lib::count, sol::lib::package,
@@ -47,13 +47,13 @@ void SSceneSystemLuaScript::initialize(StormScene* ownerScene) {
     SLuaBinders::bindSceneObject(_LuaState);
 
     /* Bind all scene objects to script */
-    for (StormSceneObject* object : ownerScene->getObjects()) {
+    for (StormSceneObject* object : _OwnerScene->getObjects()) {
         registerSceneObjectHandle(object);
     }
 
-    SSceneComponentSystem::initialize(ownerScene);
+    SSceneComponentSystem::initialize();
     
-    for (SSceneComponentSystem* system : ownerScene->getSystems()) {
+    for (SSceneComponentSystem* system : _OwnerScene->getSystems()) {
         if (system == this) {
             continue;
         }

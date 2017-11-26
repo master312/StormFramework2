@@ -149,7 +149,7 @@ void StormScene::initialize() {
         int nextToInit = SSceneComponentInitializationOrder[i];
         if (_ComponentSystemsByType[nextToInit]) {
             /* Component system exists */
-            _ComponentSystemsByType[nextToInit]->initialize(this);
+            _ComponentSystemsByType[nextToInit]->initialize();
         }
     }
     
@@ -271,19 +271,19 @@ void StormScene::tick(float deltaTime) {
 }
 
 void StormScene::initializeDefaultSystems() {
-    SSceneSystemTransform* sysTransform = new SSceneSystemTransform();
+    SSceneSystemTransform* sysTransform = new SSceneSystemTransform(this);
     _ComponentSystems.push_back(sysTransform);
     _ComponentSystemsByType[S_SCENE_OBJECT_COM_TRANSFORM] = sysTransform;
 
-    SSceneSystemSprite* sysSprite = new SSceneSystemSprite();
+    SSceneSystemSprite* sysSprite = new SSceneSystemSprite(this);
     _ComponentSystems.push_back(sysSprite);
     _ComponentSystemsByType[S_SCENE_OBJECT_COM_SPRITE] = sysSprite;
 
-    SSceneSystemPhysics* sysCollider = new SSceneSystemPhysics();
+    SSceneSystemPhysics* sysCollider = new SSceneSystemPhysics(this);
     _ComponentSystems.push_back(sysCollider);
     _ComponentSystemsByType[S_SCENE_OBJECT_COM_PHYSICS] = sysCollider;
 
-    SSceneSystemLuaScript* sysLua = new SSceneSystemLuaScript();
+    SSceneSystemLuaScript* sysLua = new SSceneSystemLuaScript(this);
     _ComponentSystems.push_back(sysLua);
     _ComponentSystemsByType[S_SCENE_OBJECT_COM_SCRIPT] = sysLua;
 }

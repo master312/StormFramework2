@@ -1,15 +1,16 @@
 #include "SSceneComponentSystem.h"
 #include "graphics/StormRenderer.h"
 
-SSceneComponentSystem::SSceneComponentSystem() {
+SSceneComponentSystem::SSceneComponentSystem(StormScene* scene) {
     _Type = S_SCENE_OBJECT_COM_UNDEFINED;
     _IsInitialized = false;
+    _OwnerScene = scene;
 }
 
 SSceneComponentSystem::~SSceneComponentSystem() {
 }
 
-void SSceneComponentSystem::initialize(StormScene* ownerScene /* = nullptr*/) {
+void SSceneComponentSystem::initialize() {
     for (SSceneComponent* component : _Components) {
         component->initialize(this);
     }
