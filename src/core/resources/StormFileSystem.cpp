@@ -1,5 +1,7 @@
 #include "StormFileSystem.h"
 #include "../StormCommon.h"
+#include <sys/types.h>
+#include <dirent.h>
 #include <fstream>
 
 StormFileSystem::StormFileSystem() {
@@ -106,6 +108,37 @@ void StormFileSystem::freeResource(spStormResourceFile resource, bool forceUnloa
 
 std::string StormFileSystem::getRootPath() const {
     return _RootPath;
+}
+
+std::vector<std::string> StormFileSystem::getFilesList(const std::string& path /* = "" */, 
+                                                       const std::string& ext /* = "" */,
+                                                       bool fullPath /* = true */) {
+    /* TODO: Only temporary solution. Rework this */
+    std::vector<std::string> filesList;
+
+    std::string fullDirPath = getRootPath() + path;
+    DIR* dirp = opendir(fullDirPath.c_str());
+    struct dirent* dp;
+    int extSize = ext.size();
+    while ((dp = readdir(dirp)) != NULL) {
+        if (ext != "") {
+            std::string extension = dp->d_name;
+            if (extension.size() <= extSize) {
+                continue;
+            }
+            extension = extension.substr(extension.length() - extSize);
+            if (extension.compare(ext) != 0) {
+                continue;
+            }
+        }
+        if (fullPath) {
+            filesList.push_back(path + std::string(dp->d_name));
+        } else {
+            filesList.push_back(dp->d_name);
+        }
+    }
+    closedir(dirp);
+    return filesList;
 }
 
 bool StormFileSystem::checkIfFileExists(const std::string& filename) const {

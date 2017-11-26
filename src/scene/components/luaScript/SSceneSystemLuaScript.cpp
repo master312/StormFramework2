@@ -35,14 +35,17 @@ void SSceneSystemLuaScript::initialize() {
         return;
     }
 
-    spStormResourceFile resFile = StormEngine::getResource("lua_common/lua_common.lua");
-    if (!resFile) {
-        LOG(FATAL) << "Failed to initialize script engine. No common scripts found";
-        return;
+    std::vector<std::string> commonList = fileSystem->getFilesList("lua_common/", "lua");
+    for (std::string& filename : commonList) {
+        spStormResourceFile resFile = StormEngine::getResource(filename);
+        if (!resFile) {
+            LOG(ERROR) << "Failed to load common lua script '" << filename << "'";
+            continue;
+        }
+        /* Load common script */
+        _LuaState.script(resFile->getBuffer());
+        LOG(DEBUG) << "Common lua script '" << resFile << "' loaded";
     }
-
-    /* Load common script(s) */
-    _LuaState.script(resFile->getBuffer());
     
     SLuaBinders::bindSceneObject(_LuaState);
 

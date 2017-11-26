@@ -50,6 +50,15 @@ public:
      * with '/' char at the end */
     std::string getRootPath() const;
 
+    /* Returns vector of files in directory @path.
+     * If @ext parameter is specified, only filenames of specified extension will be returned.
+     * Extension should be specified without dot.
+     * If @fullPath is set to false, only filenames will be returned.
+     * If @fullPath is set to true, that path will be relative to filesystem root path.
+     * If path is empty, root filesystem path will be used */ 
+    std::vector<std::string> getFilesList(const std::string& path = "", 
+                                          const std::string& ext = "", bool fullPath = true);
+
     /* Checks if file @filename exists on the filesystem. */
     bool checkIfFileExists(const std::string& filename) const;
 

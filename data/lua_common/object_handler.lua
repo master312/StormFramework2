@@ -1,15 +1,5 @@
 Handles = {}
 
-function Scene:instantiatePrefab(prefabName, newObjectName)
-    cppObject = self:intInstantiatePrefab(prefabName, newObjectName)
-    return getObjectHandle(cppObject.id)
-end
-
--- This :_str method is unfunctional...
-function Vector2:__tostring()
-    return "'X:" .. self.x .. " Y:" .. self.y .. "'"
-end
-
 -- Meta table used for handle
 local HandleMT = {}
 HandleMT.__index = function(handle, key)
