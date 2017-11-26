@@ -4,6 +4,7 @@
 #include "StormEngine.h"
 #include "scene/StormSceneObject.h"
 #include "scene/StormScene.h"
+#include "core/resources/StormFileSystem.h"
 #include "utils/math/Vector2.h"
 
 /*
@@ -21,7 +22,13 @@ SSceneSystemLuaScript::~SSceneSystemLuaScript() {
 void SSceneSystemLuaScript::initialize(StormScene* ownerScene) {
     _LuaState.open_libraries(sol::lib::base, sol::lib::os, 
                              sol::lib::math, sol::lib::io,
-                             sol::lib::count, sol::lib::package);
+                             sol::lib::count, sol::lib::package,
+                             sol::lib::string, sol::lib::table);
+
+    /* Sets root path for lua require() function */
+    StormFileSystem* fileSystem = StormEngine::getModule<StormFileSystem>();
+    std::string path = _LuaState["package"]["path"];
+    _LuaState["package"]["path"] = path + ";" + fileSystem->getRootPath() + "/?.lua";
 
     if (SLuaBinders::bindStandardTypes(_LuaState) < 0) {
         LOG(ERROR) << "Could not bind lua functions";

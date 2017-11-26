@@ -1,9 +1,12 @@
 #include "StormSceneObject.h"
 #include "StormCommon.h"
+#include "StormScene.h"
 #include "components/transform/SSceneComTransform.h"
+#include "components/luaScript/SSceneSystemLuaScript.h"
 #include "components/luaScript/SSceneComLuaScript.h"
 
-StormSceneObject::StormSceneObject(uint32_t id /* = 0 */) {
+StormSceneObject::StormSceneObject(StormScene* scene, uint32_t id /* = 0 */) {
+    _Scene = scene;
     _Id = id;
     _Name = "";
     _Parent = nullptr;
@@ -12,8 +15,8 @@ StormSceneObject::StormSceneObject(uint32_t id /* = 0 */) {
     _IsCreatedAtRuntime = false;
 }
 
-StormSceneObject::StormSceneObject(uint32_t id, const std::string& name) : 
-    StormSceneObject(id) {
+StormSceneObject::StormSceneObject(StormScene* scene, uint32_t id, const std::string& name) : 
+    StormSceneObject(scene, id) {
     _Name = name;
 }
 
@@ -23,6 +26,7 @@ StormSceneObject::~StormSceneObject() {
     }
     _Components.clear();
     _Parent = nullptr;
+    _Scene = nullptr;
     _Children.clear();
 }
 
@@ -160,6 +164,15 @@ SSceneComTransform* StormSceneObject::getTransform() const {
 
 SSceneComLuaScript* StormSceneObject::getLuaScript() const {
     return _ComponentLuaScript;
+}
+
+sol::table StormSceneObject::getLuaHandle() {
+    SSceneSystemLuaScript* luaSystem = dynamic_cast<SSceneSystemLuaScript*>(
+                            _Scene->getSystemByType(S_SCENE_OBJECT_COM_SCRIPT));
+    if (!luaSystem) {
+        return sol::table();
+    }
+    return luaSystem->getObjectHandle(_Id);
 }
 
 void StormSceneObject::clearParent() {

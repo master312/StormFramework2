@@ -69,12 +69,20 @@ int SSceneComLuaScript::initialize(SSceneComponentSystem* system) {
     if (!_LuaHandle || !_LuaHandle.valid()) {
         LOG(WARNING) << "Invalid lua handle for object ID: " << _Owner->getId() << " Creating new handle";
 
-        /* TODO: To remove after task "6lCfGmKb" */
+        /* Creates object handle if there already is not one.
+         * TODO: Remove, and return error, after task "6lCfGmKb" */
         luaSystem->registerSceneObjectHandle(_Owner);
         _LuaHandle = luaSystem->getObjectHandle(_Owner->getId());
     }
 
+    /* Bind script to handle */
     _LuaHandle["script"] = scriptContent;
+    
+    /* Execute method to let the lua know that script has just been loaded */
+    sol::function handleOnScriptLoaded = luaState["handleOnScriptLoaded"];
+    if (handleOnScriptLoaded && handleOnScriptLoaded.valid()) {
+        handleOnScriptLoaded(scriptContent, _LuaHandle);
+    }
 
     if (_Owner->getIsCreatedAtRuntime()) {
         /* Lua system is already initialized. 
@@ -111,7 +119,7 @@ void SSceneComLuaScript::executeOnStart() {
 sol::table& SSceneComLuaScript::getLuaHandle() {
 #ifndef PRODUCTION
     if (!_LuaHandle.valid()) {
-        LOG(ERROR) << "Getting invalid lua handler for object " << _Owner->getId();
+    LOG(ERROR) << "Getting invalid lua handler for object " << _Owner->getId();
     }
 #endif
     return _LuaHandle;

@@ -53,7 +53,7 @@ int StormScene::loadXml(spStormResourceFile xmlFile) {
      * <objectId, parentId> */
     std::map<uint32_t, uint32_t> hierarchy;
     for (pugi::xml_node objectNode = sceneRootNode.first_child(); objectNode; objectNode = objectNode.next_sibling()) {
-        StormSceneObject* object = new StormSceneObject();
+        StormSceneObject* object = new StormSceneObject(this);
         if (object->deserializeXml(objectNode) < 0) {
             LOG(ERROR) << "Object XML deserialization error";
             delete object;
@@ -196,7 +196,7 @@ StormSceneObject* StormScene::instantiatePrefab(const std::string& prefabName,
     }
     pugi::xml_node prefabNode = iter->second;
     
-    StormSceneObject* object = new StormSceneObject();
+    StormSceneObject* object = new StormSceneObject(this);
     if (object->deserializeXml(prefabNode) < 0) {
         LOG(ERROR) << "Object XML deserialization error";
         delete object;
@@ -245,6 +245,10 @@ StormSceneObject* StormScene::getObjectById(uint32_t id) {
 
 std::vector<SSceneComponentSystem*>& StormScene::getSystems() {
     return _ComponentSystems;
+}
+
+SSceneComponentSystem* StormScene::getSystemByType(SSceneComponentType type) {
+    return _ComponentSystemsByType[(int)type];
 }
 
 std::map<std::string, pugi::xml_node>& StormScene::getPrefabs() {

@@ -115,21 +115,6 @@ void SSceneSystemPhysics::tick(float deltaTime) {
     }
 }
 
-void SSceneSystemPhysics::handleTriggerCollision(SSceneComPhysics* comTriggered, SSceneComPhysics* comCollided) {
-    if (!comTriggered->isTrigger()) {
-        return; 
-    }
-    SSceneComLuaScript* script = comTriggered->getOwner()->getLuaScript();
-    if (!script) {
-        return;
-    }
-    sol::function function = script->getFunction("on_trigger_enter");
-    if (!function.valid()) {
-        return;
-    }
-    function(comCollided->getOwner());
-}
-
 int SSceneSystemPhysics::bindToLua(sol::state& luaState) {
     luaState.new_usertype<SSceneComPhysics>("ComPhysics",
         "containsPoint", &SSceneComPhysics::containsPoint,
@@ -173,12 +158,8 @@ void SSceneSystemPhysics::ContactListener::BeginContact(b2Contact* contact) {
         return;
     }
 
-    if (fixture1->IsSensor()) {
-        _System.handleTriggerCollision(component1, component2);
-    }
-    if (fixture2->IsSensor()) {
-        _System.handleTriggerCollision(component2, component1);
-    }
+    component1->handleCollision(component2);
+    component2->handleCollision(component1);
 }
 
 void SSceneSystemPhysics::ContactListener::EndContact(b2Contact* contact) {

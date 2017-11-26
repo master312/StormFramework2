@@ -42,10 +42,7 @@ private:
 
     /* Box2D world object. Holds and simulate rigid bodyes */
     b2World* _Box2DWorld;
-
+    
     ContactListener _ContactListener;
-
-    /* Handles collision of trigger colliders */
-    void handleTriggerCollision(SSceneComPhysics* comTriggered, SSceneComPhysics* comCollided);
 };
  

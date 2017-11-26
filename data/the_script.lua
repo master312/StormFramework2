@@ -3,6 +3,10 @@ local this = {}
 local isPressed = false
 this.tmpcnt = -10
 
+this.onLoad = function()
+    debug.log("CALLBACK the_script.lua loaded");
+end
+
 this.onUpdate = function(deltaTime) 
     
     -- debug.log(this.object.name)
@@ -15,22 +19,11 @@ this.onUpdate = function(deltaTime)
             isPressed = false
         end
     end
-    local asd = Vector2:new()
-    asd.x = 123;
-    asd.y = 123;
-    -- this.tmpcnt = this.tmpcnt + 1
-    -- if this.tmpcnt == 5 then
-    --     this.tmpcnt = 0
-    --     local newObject = ActiveScene:instantiatePrefab("TestPrefabOne", "NigaOVJ")
-    --     newObject.transform:setPosition(mousePosition)
-    -- end
 
     if InputManager:isKeyPressed(Keyboard.I) then
 
-
         local newObject = ActiveScene:instantiatePrefab("TestPrefabOne", "NigaOVJ")
         newObject.transform:setPosition(mousePosition)
-
 
     elseif InputManager:isKeyDown(Keyboard.R) then
         this.tmpcnt = -1;

@@ -1,6 +1,6 @@
 #include "SSceneComPhysics.h"
 #include "SSceneSystemPhysics.h"
-#include "../transform/SSceneComTransform.h"
+#include "scene/components/transform/SSceneComTransform.h"
 #include "Box2D/Box2D.h"
 #include "scene/StormSceneObject.h"
 #include "utils/Plane.h"
@@ -183,6 +183,23 @@ bool SSceneComPhysics::containsPoint(const Vector2& point) {
     }
     b2Vec2 boxPoint(point.x, point.y);
     return _Box2DFixture->TestPoint(boxPoint);
+}
+
+void SSceneComPhysics::handleCollision(SSceneComPhysics* collidedWith) {
+    if (!isTrigger()) {
+        /* We do nothing if body is not a trigger, for now */
+        return;
+    }
+    if (!collidedWith) {
+        return;
+    }
+
+    sol::function onTriggerEnter = getOwner()->getLuaHandle()["on_trigger_enter"];
+    if (!onTriggerEnter || !onTriggerEnter.valid()) {
+        return;
+    }
+
+    onTriggerEnter(collidedWith->getOwner()->getLuaHandle());
 }
 
 bool SSceneComPhysics::generateBox2DBody(b2World* world) { 

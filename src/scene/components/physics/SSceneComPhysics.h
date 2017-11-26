@@ -50,6 +50,9 @@ public:
     /* Apply linuar impulse force to center of object */
     void applyLinearImpulse(const Vector2& force);
 
+    /* Called every time this object collides with some other object */
+    void handleCollision(SSceneComPhysics* collidedWith);
+
     /* Binds this component to Scene Object's lua interface. */
     virtual void bindToScript(sol::state& luaState);
 

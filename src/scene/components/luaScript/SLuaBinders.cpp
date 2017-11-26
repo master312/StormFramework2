@@ -45,10 +45,13 @@ void SLuaBinders::bindVector2(sol::state& state) {
     );
 }
 
+
+
 void SLuaBinders::bindScene(sol::state& state) {
     state.new_usertype<StormScene>("Scene", 
         "name", sol::property(&StormScene::getName),
-        "instantiatePrefab", &StormScene::instantiatePrefab,
+        /* Do not use this method. Use method defined in lua script */
+        "intInstantiatePrefab", &StormScene::instantiatePrefab,
         "getObjectById", &StormScene::getObjectById
     );
     

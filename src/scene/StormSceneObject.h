@@ -8,11 +8,12 @@
 
 class SSceneComTransform;
 class SSceneComLuaScript;
+class StormScene;
 
 class StormSceneObject : public SObservable<SSceneObjectEventType, SSceneComponent> {
 public:
-    StormSceneObject(uint32_t id = 0);
-    StormSceneObject(uint32_t id, const std::string& name);
+    StormSceneObject(StormScene* scene, uint32_t id = 0);
+    StormSceneObject(StormScene* scene, uint32_t id, const std::string& name);
     virtual ~StormSceneObject();
 
     /* Saves object and all it's component data to @node */
@@ -67,12 +68,18 @@ public:
      * Retunrs nullptr if there is no lua component. */
     SSceneComLuaScript* getLuaScript() const;
 
+    /* Returns lua handle for this scene object */
+    sol::table getLuaHandle();
+
 private:
     /* Unique object identifier */
     uint32_t _Id;
 
     /* Object name */
     std::string _Name;
+
+    /* Pointer to object's owner scene */
+    StormScene* _Scene;
 
     /* Pointer to parent object */
     StormSceneObject* _Parent;
