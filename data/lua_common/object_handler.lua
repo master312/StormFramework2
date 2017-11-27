@@ -10,18 +10,10 @@ HandleMT.__index = function(handle, key)
         debug.log(debug.traceback())
         return nil
     end
-    
-    debugga = 0
-    if key == "on_trigger_enter" then
-        debugga = 1
-    end
 
     cppRefMember = handle.cppRef[key]
     if cppRefMember ~= nil then
         -- Try to find member in cpp reff usertype object
-        if debugga == 1 then
-            debug.log("TEST 1")
-        end
         if type(cppRefMember) ~= "function" then 
             return cppRefMember 
         else
