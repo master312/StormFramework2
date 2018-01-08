@@ -1,6 +1,6 @@
 #pragma once
 #include "pugixml/pugixml.hpp"
-#include "sol.hpp"
+#include "sol2/sol.hpp"
 
 /* Base class for all scene object components.
  * Most components are managed by proper component system.

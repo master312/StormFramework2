@@ -15,6 +15,7 @@
 //
 #ifndef EASYLOGGINGPP_H
 #define EASYLOGGINGPP_H
+#pragma GCC system_header // Disable build warnings for this file
 
 #define ELPP_DISABLE_DEBUG_LOGS 1   // Disables debug logs - Master312
 

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<scene name="the_scene">
+	<object id="1" name="TestNameOne">
+		<component type="1" pos_x="4.74" pos_y="3.2" scale_x="1.0" scale_y="1.0" angle="0.0" />
+		<component type="2" sprite_sheet="test_lion_sheet.xml" width="1.5" height="1.5" animation_speed="2.5" color_mult_r="255" color_mult_g="253" color_mult_b="255" color_mult_a="255" />
+		<component type="5" size_x="1.5" size_y="1.5" geometry="plane" is_trigger="false" body_type="dynamic" />
+		<component type="4" filename="the_script.lua" />
+	</object>
+	<object id="2" parent="1">
+		<component type="1" pos_x="1.5" pos_y="1.5" scale_x="1.3" scale_y="1.0" angle="0.34" parent_as_pivot="true" />
+		<component type="2" texture="icon.png" color_mult_r="195" color_mult_g="183" color_mult_b="255" color_mult_a="225" width="1" height="1" />
+		<component type="5" size_x="1" size_y="1" geometry="plane" body_type="dynamic"/>
+		<component type="4" filename="the_script2.lua" />
+	</object>
+	<object id="3" >
+		<component type="1" pos_x="5" pos_y="6" scale_x="10.0" scale_y="1.0" angle="0.0" />
+		<component type="2" texture="souya_tex_01.jpg" color_mult_r="255" color_mult_g="255" color_mult_b="255" color_mult_a="255" width="1" height="1" />
+		<component type="5" size_x="1" size_y="1" geometry="plane" body_type="static"/>
+		<!-- <component type="5" filename="the_script.lua" />  -->
+	</object>
+	<object id="4">
+		<component type="1" pos_x="4.3" pos_y="4.3" scale_x="1.3" scale_y="1.0" angle="0.01" />
+		<component type="2" texture="icon.png" color_mult_r="165" color_mult_g="213" color_mult_b="105" color_mult_a="225" />
+		<component type="5" size_x="0.5" size_y="0.5" geometry="plane" body_type="dynamic"/>
+		<!-- <component type="4" filename="the_script2.lua" /> -->
+	</object>
+</scene>
+
+<prefabs>
+	<prefab name="TestPrefabOne" >
+		<component type="1" pos_x="1.3" pos_y="2.3" scale_x="0.8" scale_y="0.8" angle="0.0" />
+		<component type="2" texture="icon.png" color_mult_r="165" color_mult_g="213" color_mult_b="105" color_mult_a="225" width="1.0" height="1.0" />
+		<component type="5" size_x="1" size_y="1" geometry="plane" body_type="dynamic" />
+		<component type="4" filename="the_script3.lua" />
+	</prefab>
+
+</prefabs>

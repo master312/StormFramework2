@@ -2,7 +2,7 @@
 #include <vector>
 #include "SSceneComponent.h"
 #include "StormCommon.h"
-#include "sol.hpp"
+#include "sol2/sol.hpp"
 
 /* Base class for all component systems.
  * TODO: Create system for checking for double component entrys in _Components. 

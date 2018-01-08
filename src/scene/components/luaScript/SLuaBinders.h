@@ -1,5 +1,5 @@
 #pragma once
-#include "sol.hpp"
+#include "sol2/sol.hpp"
 
 /* Class used to bind c++ stuff to lua */
 

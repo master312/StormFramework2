@@ -1,4 +1,4 @@
-#include "sol.hpp"
+#include "sol2/sol.hpp"
 #include "SSceneSystemPhysics.h"
 #include "SSceneComPhysics.h"
 #include "StormDebug.h"

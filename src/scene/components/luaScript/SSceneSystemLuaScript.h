@@ -1,6 +1,6 @@
 #pragma once
 #include "../../SSceneComponentSystem.h"
-#include "sol.hpp"
+#include "sol2/sol.hpp"
 
 class SSceneComLuaScript;
 class StormSceneObject;

@@ -1,0 +1,140 @@
+set(INC_ROOT ${LIB_BOX2D_ROOT}/)
+set(SRC_ROOT ${LIB_BOX2D_ROOT}/)
+
+set(BOX2D_COLLISION_SRCS
+        ${SRC_ROOT}/Collision/b2BroadPhase.cpp
+        ${SRC_ROOT}/Collision/b2CollideCircle.cpp
+        ${SRC_ROOT}/Collision/b2CollideEdge.cpp
+        ${SRC_ROOT}/Collision/b2CollidePolygon.cpp
+        ${SRC_ROOT}/Collision/b2Collision.cpp
+        ${SRC_ROOT}/Collision/b2Distance.cpp
+        ${SRC_ROOT}/Collision/b2DynamicTree.cpp
+        ${SRC_ROOT}/Collision/b2TimeOfImpact.cpp
+        )
+set(BOX2D_COLLISION_HDRS
+        ${INC_ROOT}/Collision/b2BroadPhase.hpp
+        ${INC_ROOT}/Collision/b2Collision.hpp
+        ${INC_ROOT}/Collision/b2Distance.hpp
+        ${INC_ROOT}/Collision/b2DynamicTree.hpp
+        ${INC_ROOT}/Collision/b2TimeOfImpact.hpp
+        )
+set(BOX2D_SHAPES_SRCS
+        ${SRC_ROOT}/Collision/Shapes/b2CircleShape.cpp
+        ${SRC_ROOT}/Collision/Shapes/b2EdgeShape.cpp
+        ${SRC_ROOT}/Collision/Shapes/b2ChainShape.cpp
+        ${SRC_ROOT}/Collision/Shapes/b2PolygonShape.cpp
+        )
+set(BOX2D_SHAPES_HDRS
+        ${INC_ROOT}/Collision/Shapes/b2CircleShape.hpp
+        ${INC_ROOT}/Collision/Shapes/b2EdgeShape.hpp
+        ${INC_ROOT}/Collision/Shapes/b2ChainShape.hpp
+        ${INC_ROOT}/Collision/Shapes/b2PolygonShape.hpp
+        ${INC_ROOT}/Collision/Shapes/b2Shape.hpp
+        )
+set(BOX2D_COMMON_SRCS
+        ${SRC_ROOT}/Common/b2BlockAllocator.cpp
+        ${SRC_ROOT}/Common/b2Draw.cpp
+        ${SRC_ROOT}/Common/b2Math.cpp
+        ${SRC_ROOT}/Common/b2Settings.cpp
+        ${SRC_ROOT}/Common/b2StackAllocator.cpp
+        ${SRC_ROOT}/Common/b2Timer.cpp
+        )
+set(BOX2D_COMMON_HDRS
+        ${INC_ROOT}/Common/b2BlockAllocator.hpp
+        ${INC_ROOT}/Common/b2Draw.hpp
+        ${INC_ROOT}/Common/b2GrowableStack.hpp
+        ${INC_ROOT}/Common/b2Math.hpp
+        ${INC_ROOT}/Common/b2Settings.hpp
+        ${INC_ROOT}/Common/b2StackAllocator.hpp
+        ${INC_ROOT}/Common/b2Timer.hpp
+        )
+set(BOX2D_DYNAMICS_SRCS
+        ${SRC_ROOT}/Dynamics/b2Body.cpp
+        ${SRC_ROOT}/Dynamics/b2ContactManager.cpp
+        ${SRC_ROOT}/Dynamics/b2Fixture.cpp
+        ${SRC_ROOT}/Dynamics/b2Island.cpp
+        ${SRC_ROOT}/Dynamics/b2World.cpp
+        ${SRC_ROOT}/Dynamics/b2WorldCallbacks.cpp
+        )
+set(BOX2D_DYNAMICS_HDRS
+        ${INC_ROOT}/Dynamics/b2Body.hpp
+        ${INC_ROOT}/Dynamics/b2ContactManager.hpp
+        ${INC_ROOT}/Dynamics/b2Fixture.hpp
+        ${INC_ROOT}/Dynamics/b2Island.hpp
+        ${INC_ROOT}/Dynamics/b2TimeStep.hpp
+        ${INC_ROOT}/Dynamics/b2World.hpp
+        ${INC_ROOT}/Dynamics/b2WorldCallbacks.hpp
+        )
+set(BOX2D_CONTACTS_SRCS
+        ${SRC_ROOT}/Dynamics/Contacts/b2CircleContact.cpp
+        ${SRC_ROOT}/Dynamics/Contacts/b2Contact.cpp
+        ${SRC_ROOT}/Dynamics/Contacts/b2ContactSolver.cpp
+        ${SRC_ROOT}/Dynamics/Contacts/b2PolygonAndCircleContact.cpp
+        ${SRC_ROOT}/Dynamics/Contacts/b2EdgeAndCircleContact.cpp
+        ${SRC_ROOT}/Dynamics/Contacts/b2EdgeAndPolygonContact.cpp
+        ${SRC_ROOT}/Dynamics/Contacts/b2ChainAndCircleContact.cpp
+        ${SRC_ROOT}/Dynamics/Contacts/b2ChainAndPolygonContact.cpp
+        ${SRC_ROOT}/Dynamics/Contacts/b2PolygonContact.cpp
+        )
+set(BOX2D_CONTACTS_HDRS
+        ${INC_ROOT}/Dynamics/Contacts/b2CircleContact.hpp
+        ${INC_ROOT}/Dynamics/Contacts/b2Contact.hpp
+        ${INC_ROOT}/Dynamics/Contacts/b2ContactSolver.hpp
+        ${INC_ROOT}/Dynamics/Contacts/b2PolygonAndCircleContact.hpp
+        ${INC_ROOT}/Dynamics/Contacts/b2EdgeAndCircleContact.hpp
+        ${INC_ROOT}/Dynamics/Contacts/b2EdgeAndPolygonContact.hpp
+        ${INC_ROOT}/Dynamics/Contacts/b2ChainAndCircleContact.hpp
+        ${INC_ROOT}/Dynamics/Contacts/b2ChainAndPolygonContact.hpp
+        ${INC_ROOT}/Dynamics/Contacts/b2PolygonContact.hpp
+        )
+set(BOX2D_JOINTS_SRCS
+        ${SRC_ROOT}/Dynamics/Joints/b2DistanceJoint.cpp
+        ${SRC_ROOT}/Dynamics/Joints/b2FrictionJoint.cpp
+        ${SRC_ROOT}/Dynamics/Joints/b2GearJoint.cpp
+        ${SRC_ROOT}/Dynamics/Joints/b2Joint.cpp
+        ${SRC_ROOT}/Dynamics/Joints/b2MotorJoint.cpp
+        ${SRC_ROOT}/Dynamics/Joints/b2MouseJoint.cpp
+        ${SRC_ROOT}/Dynamics/Joints/b2PrismaticJoint.cpp
+        ${SRC_ROOT}/Dynamics/Joints/b2PulleyJoint.cpp
+        ${SRC_ROOT}/Dynamics/Joints/b2RevoluteJoint.cpp
+        ${SRC_ROOT}/Dynamics/Joints/b2RopeJoint.cpp
+        ${SRC_ROOT}/Dynamics/Joints/b2WeldJoint.cpp
+        ${SRC_ROOT}/Dynamics/Joints/b2WheelJoint.cpp
+        )
+set(BOX2D_JOINTS_HDRS
+        ${INC_ROOT}/Dynamics/Joints/b2DistanceJoint.hpp
+        ${INC_ROOT}/Dynamics/Joints/b2FrictionJoint.hpp
+        ${INC_ROOT}/Dynamics/Joints/b2GearJoint.hpp
+        ${INC_ROOT}/Dynamics/Joints/b2Joint.hpp
+        ${INC_ROOT}/Dynamics/Joints/b2MotorJoint.hpp
+        ${INC_ROOT}/Dynamics/Joints/b2MouseJoint.hpp
+        ${INC_ROOT}/Dynamics/Joints/b2PrismaticJoint.hpp
+        ${INC_ROOT}/Dynamics/Joints/b2PulleyJoint.hpp
+        ${INC_ROOT}/Dynamics/Joints/b2RevoluteJoint.hpp
+        ${INC_ROOT}/Dynamics/Joints/b2RopeJoint.hpp
+        ${INC_ROOT}/Dynamics/Joints/b2WeldJoint.hpp
+        ${INC_ROOT}/Dynamics/Joints/b2WheelJoint.hpp
+        )
+set(BOX2D_ROPE_SRCS
+        ${SRC_ROOT}/Rope/b2Rope.cpp
+        )
+set(BOX2D_ROPE_HDRS
+        ${INC_ROOT}/Rope/b2Rope.hpp
+        )
+set(BOX2D_GENERAL_HDRS
+        ${INC_ROOT}/Box2D.hpp
+        )
+
+# Library to build
+set(BOX2D_LIB "Box2D")
+
+
+add_library(${BOX2D_LIB} STATIC
+        ${BOX2D_JOINTS_SRCS}
+        ${BOX2D_CONTACTS_SRCS}
+        ${BOX2D_DYNAMICS_SRCS}
+        ${BOX2D_COMMON_SRCS}
+        ${BOX2D_SHAPES_SRCS}
+        ${BOX2D_COLLISION_SRCS}
+        ${BOX2D_ROPE_SRCS}
+        )
