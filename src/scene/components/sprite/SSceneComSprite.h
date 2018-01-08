@@ -12,7 +12,7 @@ struct SComSpriteSheet;
 
 class SSceneComSprite : public SSceneComponent {
 public:
-    SSceneComSprite(StormSceneObject* owner);
+    SSceneComSprite(SSceneObject* owner);
     virtual ~SSceneComSprite();
 
     /* Saves component data to @node */

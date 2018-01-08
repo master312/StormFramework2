@@ -3,11 +3,11 @@
 #include "sol2/sol.hpp"
 
 class SSceneComLuaScript;
-class StormSceneObject;
+class SSceneObject;
 
 class SSceneSystemLuaScript : public SSceneComponentSystem {
 public:
-    SSceneSystemLuaScript(StormScene* scene);
+    SSceneSystemLuaScript(SScene* scene);
     virtual ~SSceneSystemLuaScript();
 
     virtual void addComponent(SSceneComponent* component);
@@ -23,7 +23,7 @@ public:
     sol::table getObjectHandle(uint32_t id);
 
     /* Creates script handle for scene object @object. */
-    void registerSceneObjectHandle(StormSceneObject* object);
+    void registerSceneObjectHandle(SSceneObject* object);
 
 private:
     /* Vector containing all components. Used for faster component access. */

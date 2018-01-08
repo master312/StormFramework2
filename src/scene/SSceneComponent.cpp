@@ -1,5 +1,5 @@
 #include "SSceneComponent.h"
-#include "StormSceneObject.h"
+#include "SSceneObject.h"
 #include "components/sprite/SSceneComSprite.h"
 #include "components/transform/SSceneComTransform.h"
 #include "components/luaScript/SSceneComLuaScript.h"
@@ -7,7 +7,7 @@
 #include "core/StormCommon.h"
 #include "SSceneComponentSystem.h"
 
-SSceneComponent::SSceneComponent(StormSceneObject* owner) {
+SSceneComponent::SSceneComponent(SSceneObject* owner) {
     _Type = S_SCENE_OBJECT_COM_UNDEFINED;
     _Owner = owner;
     _IsInitialized = false;
@@ -69,19 +69,19 @@ bool SSceneComponent::getIsBindedToScript() {
      return _IsBindedToScript;
 }
 
-void SSceneComponent::setOwner(StormSceneObject* owner) {
+void SSceneComponent::setOwner(SSceneObject* owner) {
     if (_Owner) {
         LOG(WARNING) << "Changing owner of scene component. This is not supported and might fail";
     }
     _Owner = owner;
 }
 
-StormSceneObject* SSceneComponent::getOwner() {
+SSceneObject* SSceneComponent::getOwner() {
     return _Owner;
 }
 
 /* Static component producer method */
-SSceneComponent* SSceneComponent::newComponent(SSceneComponentType type, StormSceneObject* owner) {
+SSceneComponent* SSceneComponent::newComponent(SSceneComponentType type, SSceneObject* owner) {
     SSceneComponent* component = nullptr;
     switch(type) {
         case S_SCENE_OBJECT_COM_TRANSFORM:

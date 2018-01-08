@@ -167,7 +167,7 @@ spStormTexture StormEngine::getTexture(const std::string& filename) {
     return instance()->_ModTextureManager->getTexture(filename);
 }
 
-StormScene* StormEngine::getActiveScene() {
+SScene* StormEngine::getActiveScene() {
     return instance()->_ModSceneManager->getActiveScene();
 }
 

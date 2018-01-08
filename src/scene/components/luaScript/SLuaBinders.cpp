@@ -1,7 +1,7 @@
 #include "SLuaBinders.h"
 #include "StormEngine.h"
-#include "scene/StormScene.h"
-#include "scene/StormSceneObject.h"
+#include "scene/SScene.h"
+#include "scene/SSceneObject.h"
 #include "scene/SSceneComponentSystem.h"
 #include "utils/math/Vector2.h"
 #include "../transform/SSceneComTransform.h"
@@ -24,11 +24,11 @@ int SLuaBinders::bindStandardTypes(sol::state& state) {
 }
 
 void SLuaBinders::bindSceneObject(sol::state& state) {
-    state.new_usertype<StormSceneObject>("SceneObject", 
-        "id", sol::property(&StormSceneObject::getId),
-        "name", sol::property(&StormSceneObject::getName, &StormSceneObject::setName),
-        "parent", sol::property(&StormSceneObject::getParent, &StormSceneObject::setParent),
-        "transform", sol::property(&StormSceneObject::getTransform)
+    state.new_usertype<SSceneObject>("SceneObject",
+        "id", sol::property(&SSceneObject::getId),
+        "name", sol::property(&SSceneObject::getName, &SSceneObject::setName),
+        "parent", sol::property(&SSceneObject::getParent, &SSceneObject::setParent),
+        "transform", sol::property(&SSceneObject::getTransform)
     );
 }
 
@@ -48,11 +48,11 @@ void SLuaBinders::bindVector2(sol::state& state) {
 
 
 void SLuaBinders::bindScene(sol::state& state) {
-    state.new_usertype<StormScene>("Scene", 
-        "name", sol::property(&StormScene::getName),
+    state.new_usertype<SScene>("Scene",
+        "name", sol::property(&SScene::getName),
         /* Do not use this method. Use method defined in lua script */
-        "intInstantiatePrefab", &StormScene::instantiatePrefab,
-        "getObjectById", &StormScene::getObjectById
+        "intInstantiatePrefab", &SScene::instantiatePrefab,
+        "getObjectById", &SScene::getObjectById
     );
     
     state["ActiveScene"] = StormEngine::getActiveScene();

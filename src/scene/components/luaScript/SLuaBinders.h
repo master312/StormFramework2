@@ -12,7 +12,7 @@ public:
      * Returns < 0 on error */
     static int bindStandardTypes(sol::state& state);
 
-    /* Binds StormSceneObject usertype to lua state.
+    /* Binds SSceneObject usertype to lua state.
      * REMAINDER: Should be binded after standard types */
     static void bindSceneObject(sol::state& state);
 

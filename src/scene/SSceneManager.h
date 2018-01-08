@@ -1,6 +1,6 @@
 #pragma once
 #include <map>
-#include "StormScene.h"
+#include "SScene.h"
 
 class StormRenderer;
 
@@ -13,7 +13,7 @@ public:
      * If scene is already loaded, it will be reloaded.
      * reloadActive is set to true, scene will be reloaded even if its currently active
      * Returns pointer to just loaded scene, or nullptr on error. */
-    StormScene* loadScene(const std::string& filename, bool reloadActive = false);
+    SScene* loadScene(const std::string& filename, bool reloadActive = false);
 
     /* Switches to specified scene. 
      * @sceneName is name of scene specified in scene file 
@@ -21,7 +21,7 @@ public:
     void switchScene(const std::string& sceneName);
 
     /* Returns currently active scene, or nullptr if no scene is active */
-    StormScene* getActiveScene();
+    SScene* getActiveScene();
 
     /* Renders currently active scene */
     void render(StormRenderer* renderer);
@@ -31,8 +31,8 @@ public:
 
 private:
     /* Map of all loaded scenes, indexed by their names */
-    std::map<std::string, StormScene*> _LoadedScenes;
+    std::map<std::string, SScene*> _LoadedScenes;
     
     /* Currently active scene */
-    StormScene* _ActiveScene;
+    SScene* _ActiveScene;
 };

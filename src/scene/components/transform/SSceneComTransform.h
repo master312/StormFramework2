@@ -7,7 +7,7 @@
 
 class SSceneComTransform : public SSceneComponent {
 public:
-    SSceneComTransform(StormSceneObject* owner);
+    SSceneComTransform(SSceneObject* owner);
     virtual ~SSceneComTransform();
 
     /* Saves component data to @node */

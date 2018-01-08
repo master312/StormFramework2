@@ -1,11 +1,11 @@
-#include "StormSceneObject.h"
+#include "SSceneObject.h"
 #include "StormCommon.h"
-#include "StormScene.h"
+#include "SScene.h"
 #include "components/transform/SSceneComTransform.h"
 #include "components/luaScript/SSceneSystemLuaScript.h"
 #include "components/luaScript/SSceneComLuaScript.h"
 
-StormSceneObject::StormSceneObject(StormScene* scene, uint32_t id /* = 0 */) {
+SSceneObject::SSceneObject(SScene* scene, uint32_t id /* = 0 */) {
     _Scene = scene;
     _Id = id;
     _Name = "";
@@ -15,12 +15,12 @@ StormSceneObject::StormSceneObject(StormScene* scene, uint32_t id /* = 0 */) {
     _IsCreatedAtRuntime = false;
 }
 
-StormSceneObject::StormSceneObject(StormScene* scene, uint32_t id, const std::string& name) : 
-    StormSceneObject(scene, id) {
+SSceneObject::SSceneObject(SScene* scene, uint32_t id, const std::string& name) :
+    SSceneObject(scene, id) {
     _Name = name;
 }
 
-StormSceneObject::~StormSceneObject() {
+SSceneObject::~SSceneObject() {
     for (size_t i = 0; i < _Components.size(); i++) {
         delete _Components[i];
     }
@@ -30,7 +30,7 @@ StormSceneObject::~StormSceneObject() {
     _Children.clear();
 }
 
-void StormSceneObject::serializeXml(pugi::xml_node& node) {
+void SSceneObject::serializeXml(pugi::xml_node& node) {
     node.append_attribute("id").set_value(_Id);
     node.append_attribute("name").set_value(_Name.c_str());
 
@@ -47,7 +47,7 @@ void StormSceneObject::serializeXml(pugi::xml_node& node) {
     LOG(DEBUG) << "Object id:" << _Id << " saved to xml";
 }
 
-int StormSceneObject::deserializeXml(pugi::xml_node& node) {
+int SSceneObject::deserializeXml(pugi::xml_node& node) {
     _Id = node.attribute("id").as_int(0);
     _Name = node.attribute("name").as_string("");
 
@@ -69,27 +69,27 @@ int StormSceneObject::deserializeXml(pugi::xml_node& node) {
     return 1;
 }
 
-bool StormSceneObject::getIsCreatedAtRuntime() {
+bool SSceneObject::getIsCreatedAtRuntime() {
     return _IsCreatedAtRuntime;
 }
 
-void StormSceneObject::setIsCreatedAtRuntime(bool value) {
+void SSceneObject::setIsCreatedAtRuntime(bool value) {
     _IsCreatedAtRuntime = value;
 }
 
-void StormSceneObject::setId(uint32_t id) {
+void SSceneObject::setId(uint32_t id) {
     _Id = id;
 }
 
-uint32_t StormSceneObject::getId() {
+uint32_t SSceneObject::getId() {
     return _Id;
 }
 
-std::string& StormSceneObject::getName() {
+std::string& SSceneObject::getName() {
     return _Name;
 }
 
-void StormSceneObject::setParent(StormSceneObject* parent) {
+void SSceneObject::setParent(SSceneObject* parent) {
     if (_Parent == parent) {
         LOG(DEBUG) << "ERROR: Setting same parent to object " << getId();
         return;
@@ -109,19 +109,19 @@ void StormSceneObject::setParent(StormSceneObject* parent) {
     notifyObservers(S_OBSERVER_EVENT_PARENT_CHANGED);
 }
 
-StormSceneObject* StormSceneObject::getParent() {
+SSceneObject* SSceneObject::getParent() {
     return _Parent;
 }
 
-std::vector<StormSceneObject*>& StormSceneObject::getChildren() {
+std::vector<SSceneObject*>& SSceneObject::getChildren() {
     return _Children;
 }
 
-void StormSceneObject::setName(const std::string& name) {
+void SSceneObject::setName(const std::string& name) {
     _Name = name;
 }
 
-void StormSceneObject::addComponent(SSceneComponent* component) {
+void SSceneObject::addComponent(SSceneComponent* component) {
     _Components.push_back(component);
 
     switch (component->getType()) {
@@ -139,7 +139,7 @@ void StormSceneObject::addComponent(SSceneComponent* component) {
     }
 }
 
-SSceneComponent* StormSceneObject::getComponent(SSceneComponentType type) {
+SSceneComponent* SSceneObject::getComponent(SSceneComponentType type) {
     for (SSceneComponent* com : _Components) {
         if (com->getType() == type) {
             return com;
@@ -148,11 +148,11 @@ SSceneComponent* StormSceneObject::getComponent(SSceneComponentType type) {
     return nullptr;
 }
 
-std::vector<SSceneComponent*>& StormSceneObject::getComponents() {
+std::vector<SSceneComponent*>& SSceneObject::getComponents() {
     return _Components;
 }
 
-SSceneComTransform* StormSceneObject::getTransform() const {
+SSceneComTransform* SSceneObject::getTransform() const {
 #ifndef PRODUCTION
     if (!_ComponentTransform) {
         LOG(WARNING) << "Tryed to get transfrom from scene object that dose not have transform component";
@@ -162,11 +162,11 @@ SSceneComTransform* StormSceneObject::getTransform() const {
     return _ComponentTransform;
 }
 
-SSceneComLuaScript* StormSceneObject::getLuaScript() const {
+SSceneComLuaScript* SSceneObject::getLuaScript() const {
     return _ComponentLuaScript;
 }
 
-sol::table StormSceneObject::getLuaHandle() {
+sol::table SSceneObject::getLuaHandle() {
     SSceneSystemLuaScript* luaSystem = dynamic_cast<SSceneSystemLuaScript*>(
                             _Scene->getSystemByType(S_SCENE_OBJECT_COM_SCRIPT));
     if (!luaSystem) {
@@ -175,12 +175,12 @@ sol::table StormSceneObject::getLuaHandle() {
     return luaSystem->getObjectHandle(_Id);
 }
 
-void StormSceneObject::clearParent() {
+void SSceneObject::clearParent() {
     if (!_Parent) {
         return;
     }
 
-    std::vector<StormSceneObject*>& children = _Parent->_Children;
+    std::vector<SSceneObject*>& children = _Parent->_Children;
     for (size_t i = 0; i < children.size(); i++) {
         if (children[i] == this) {
             children.erase(children.begin() + i);

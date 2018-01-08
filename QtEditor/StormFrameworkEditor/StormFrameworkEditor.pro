@@ -78,8 +78,8 @@ SOURCES += \
     ../../src/scene/SSceneComponent.cpp \
     ../../src/scene/SSceneComponentSystem.cpp \
     ../../src/scene/SSceneManager.cpp \
-    ../../src/scene/StormScene.cpp \
-    ../../src/scene/StormSceneObject.cpp \
+    ../../src/scene/SScene.cpp \
+    ../../src/scene/SSceneObject.cpp \
     ../../src/SEngineModuleFactory.cpp \
     ../../src/StormDebug.cpp \
     ../../src/StormEngine.cpp \
@@ -213,8 +213,8 @@ HEADERS += \
     ../../src/scene/SSceneComponentSystem.h \
     ../../src/scene/SSceneManager.h \
     ../../src/scene/SSceneObjectEventTypes.h \
-    ../../src/scene/StormScene.h \
-    ../../src/scene/StormSceneObject.h \
+    ../../src/scene/SScene.h \
+    ../../src/scene/SSceneObject.h \
     ../../src/SEngineModuleFactory.h \
     ../../src/StormDebug.h \
     ../../src/StormEngine.h \

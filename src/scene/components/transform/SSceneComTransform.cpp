@@ -1,8 +1,8 @@
 #include "SSceneComTransform.h"
-#include "scene/StormSceneObject.h"
+#include "scene/SSceneObject.h"
 #include "utils/math/ScalarMath.h"
 
-SSceneComTransform::SSceneComTransform(StormSceneObject* owner) : SSceneComponent(owner) {
+SSceneComTransform::SSceneComTransform(SSceneObject* owner) : SSceneComponent(owner) {
     _Type = S_SCENE_OBJECT_COM_TRANSFORM;
 
     _ParentTransform = nullptr;    

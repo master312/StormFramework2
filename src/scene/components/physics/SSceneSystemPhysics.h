@@ -12,7 +12,7 @@ class b2ContactListener;
 
 class SSceneSystemPhysics : public SSceneComponentSystem {
 public:
-    SSceneSystemPhysics(StormScene* scene);
+    SSceneSystemPhysics(SScene* scene);
     virtual ~SSceneSystemPhysics();
 
     virtual void addComponent(SSceneComponent* component);

@@ -1,9 +1,9 @@
 #include "SSceneComLuaScript.h"
 #include "SSceneSystemLuaScript.h"
 #include "StormEngine.h"
-#include "scene/StormSceneObject.h"
+#include "scene/SSceneObject.h"
 
-SSceneComLuaScript::SSceneComLuaScript(StormSceneObject* owner) : SSceneComponent(owner) {
+SSceneComLuaScript::SSceneComLuaScript(SSceneObject* owner) : SSceneComponent(owner) {
     _Type = S_SCENE_OBJECT_COM_SCRIPT;
     
     _Filename = "";

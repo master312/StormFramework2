@@ -10,7 +10,7 @@ typedef enum {
     S_OBSERVER_EVENT_PARENT_TRANSFORM_UPDATED,
 
 
-    /* Fired from StormSceneObject it self when parent changes */
+    /* Fired from SSceneObject it self when parent changes */
     S_OBSERVER_EVENT_PARENT_CHANGED,
 
 } SSceneObjectEventType;

@@ -1,7 +1,7 @@
 #include "SSceneComponentSystem.h"
 #include "graphics/StormRenderer.h"
 
-SSceneComponentSystem::SSceneComponentSystem(StormScene* scene) {
+SSceneComponentSystem::SSceneComponentSystem(SScene* scene) {
     _Type = S_SCENE_OBJECT_COM_UNDEFINED;
     _IsInitialized = false;
     _OwnerScene = scene;

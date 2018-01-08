@@ -3,10 +3,10 @@
 #include "StormEngine.h"
 #include "StormTextureManager.h"
 #include "../transform/SSceneComTransform.h"
-#include "scene/StormSceneObject.h"
+#include "scene/SSceneObject.h"
 #include "utils/math/ScalarMath.h"
 
-SSceneComSprite::SSceneComSprite(StormSceneObject* owner) : SSceneComponent(owner) {
+SSceneComSprite::SSceneComSprite(SSceneObject* owner) : SSceneComponent(owner) {
     _Texture = nullptr;
     _ColorMultiply.set(255, 255, 255, 255);
     _ColorAdd.set(0, 0, 0, 0);

@@ -9,11 +9,11 @@
  *     : In SSceneComponentSystem::initialize method, handle errors returned by componets. */
 
 class StormRenderer;
-class StormScene;
+class SScene;
 
 class SSceneComponentSystem {
 public:
-    SSceneComponentSystem(StormScene* scene);
+    SSceneComponentSystem(SScene* scene);
     virtual ~SSceneComponentSystem();
     
     virtual void initialize();
@@ -33,7 +33,7 @@ public:
 protected:
     SSceneComponentType _Type;
     
-    StormScene* _OwnerScene;
+    SScene* _OwnerScene;
     
     std::vector<SSceneComponent*> _Components;
     

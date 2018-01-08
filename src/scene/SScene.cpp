@@ -1,5 +1,5 @@
-#include "StormScene.h"
-#include "StormSceneObject.h"
+#include "SScene.h"
+#include "SSceneObject.h"
 
 #include "components/physics/SSceneSystemPhysics.h"
 #include "components/sprite/SSceneSystemSprite.h"
@@ -9,7 +9,7 @@
 #include "StormEngine.h"
 #include "graphics/StormRenderer.h"
 
-StormScene::StormScene() {
+SScene::SScene() {
     _LastObjectIndex = 1;
     _Name = "";
     _IsInitialized = false;
@@ -21,7 +21,7 @@ StormScene::StormScene() {
     initializeDefaultSystems();
 }
 
-StormScene::~StormScene() {
+SScene::~SScene() {
     for (size_t i = 0; i < _Objects.size(); i++) {
         delete _Objects[i];
     }
@@ -34,7 +34,7 @@ StormScene::~StormScene() {
     memset(_ComponentSystemsByType, 0, S_SCENE_OBJECT_COM_TYPES_COUNT * sizeof(SSceneComponentSystem*));
 }
 
-int StormScene::loadXml(spStormResourceFile xmlFile) {
+int SScene::loadXml(spStormResourceFile xmlFile) {
     pugi::xml_parse_result result = _XmlDocument.load(xmlFile->getBuffer(), xmlFile->getBufferSize());
     if (result.status != pugi::status_ok) {
         LOG(ERROR) << "Scene XML " << xmlFile->getFilename() << " error: " << result.description();
@@ -52,7 +52,7 @@ int StormScene::loadXml(spStormResourceFile xmlFile) {
      * <objectId, parentId> */
     std::map<uint32_t, uint32_t> hierarchy;
     for (pugi::xml_node objectNode = sceneRootNode.first_child(); objectNode; objectNode = objectNode.next_sibling()) {
-        StormSceneObject* object = new StormSceneObject(this);
+        SSceneObject* object = new SSceneObject(this);
         if (object->deserializeXml(objectNode) < 0) {
             LOG(ERROR) << "Object XML deserialization error";
             delete object;
@@ -85,8 +85,8 @@ int StormScene::loadXml(spStormResourceFile xmlFile) {
             LOG(ERROR) << "Error in scene XML file. Object " << iter.first << " have it self as parent.";
             continue;
         }
-        StormSceneObject* child = getObjectById(iter.first);
-        StormSceneObject* parent = getObjectById(iter.second);
+        SSceneObject* child = getObjectById(iter.first);
+        SSceneObject* parent = getObjectById(iter.second);
         if (!child) {
             LOG(ERROR) << "Error in scene XML file. Object " << iter.first << " not found.";
             continue;
@@ -103,7 +103,7 @@ int StormScene::loadXml(spStormResourceFile xmlFile) {
     return 1;
 }
 
-void StormScene::saveXml(std::string path /* = "" */) {
+void SScene::saveXml(std::string path /* = "" */) {
     if (path == "") {
         if (_Name != "") {
             path = "scenes/" + _Name + ".xml";
@@ -118,7 +118,7 @@ void StormScene::saveXml(std::string path /* = "" */) {
 
     sceneRootNode.append_attribute("name").set_value(_Name.c_str());
 
-    for (StormSceneObject* object : _Objects) {
+    for (SSceneObject* object : _Objects) {
         pugi::xml_node objectNode = sceneRootNode.append_child("object");
         object->serializeXml(objectNode);
     }
@@ -143,7 +143,7 @@ void StormScene::saveXml(std::string path /* = "" */) {
     }
 }
 
-void StormScene::initialize() {
+void SScene::initialize() {
     for (int i = 0; i < S_SCENE_OBJECT_COM_TYPES_COUNT; i++) {
         int nextToInit = SSceneComponentInitializationOrder[i];
         if (_ComponentSystemsByType[nextToInit]) {
@@ -156,19 +156,19 @@ void StormScene::initialize() {
     _IsInitialized = true;
 }
 
-void StormScene::setName(const std::string& name) {
+void SScene::setName(const std::string& name) {
     _Name = name;
 }
 
-std::reference_wrapper<const std::string> StormScene::getName() const {
+std::reference_wrapper<const std::string> SScene::getName() const {
     return _Name;
 }
 
-bool StormScene::isInitialized() {
+bool SScene::isInitialized() {
     return _IsInitialized;
 }
 
-void StormScene::addObject(StormSceneObject* object) {
+void SScene::addObject(SSceneObject* object) {
     for (SSceneComponent* com : object->getComponents()) {
         SSceneComponentSystem* comSystem = _ComponentSystemsByType[com->getType()];
         if (comSystem) {
@@ -183,7 +183,7 @@ void StormScene::addObject(StormSceneObject* object) {
     _Objects.push_back(object);
 }
 
-StormSceneObject* StormScene::instantiatePrefab(const std::string& prefabName, 
+SSceneObject* SScene::instantiatePrefab(const std::string& prefabName,
                                                 const std::string& objectName /* = "" */) {
     if (prefabName == "") {
         return nullptr;
@@ -195,7 +195,7 @@ StormSceneObject* StormScene::instantiatePrefab(const std::string& prefabName,
     }
     pugi::xml_node prefabNode = iter->second;
     
-    StormSceneObject* object = new StormSceneObject(this);
+    SSceneObject* object = new SSceneObject(this);
     if (object->deserializeXml(prefabNode) < 0) {
         LOG(ERROR) << "Object XML deserialization error";
         delete object;
@@ -215,7 +215,7 @@ StormSceneObject* StormScene::instantiatePrefab(const std::string& prefabName,
     return object;
 }
 
-void StormScene::initializeObject(StormSceneObject* object) {
+void SScene::initializeObject(SSceneObject* object) {
     for (int i = 0; i < S_SCENE_OBJECT_COM_TYPES_COUNT; i++) {
         int nextToInit = SSceneComponentInitializationOrder[i];
         SSceneComponentSystem* comSystem = _ComponentSystemsByType[nextToInit];
@@ -229,12 +229,12 @@ void StormScene::initializeObject(StormSceneObject* object) {
     }
 }
 
-std::vector<StormSceneObject*>& StormScene::getObjects() {
+std::vector<SSceneObject*>& SScene::getObjects() {
     return _Objects;
 }
 
-StormSceneObject* StormScene::getObjectById(uint32_t id) {
-    for (StormSceneObject* object : _Objects) {
+SSceneObject* SScene::getObjectById(uint32_t id) {
+    for (SSceneObject* object : _Objects) {
         if (object->getId() == id) {
             return object;
         }
@@ -242,25 +242,25 @@ StormSceneObject* StormScene::getObjectById(uint32_t id) {
     return nullptr;
 }
 
-std::vector<SSceneComponentSystem*>& StormScene::getSystems() {
+std::vector<SSceneComponentSystem*>& SScene::getSystems() {
     return _ComponentSystems;
 }
 
-SSceneComponentSystem* StormScene::getSystemByType(SSceneComponentType type) {
+SSceneComponentSystem* SScene::getSystemByType(SSceneComponentType type) {
     return _ComponentSystemsByType[(int)type];
 }
 
-std::map<std::string, pugi::xml_node>& StormScene::getPrefabs() {
+std::map<std::string, pugi::xml_node>& SScene::getPrefabs() {
     return _Prefabs;
 }
 
-void StormScene::render(StormRenderer* renderer) {
+void SScene::render(StormRenderer* renderer) {
     for (unsigned int i = 0; i < _ComponentSystems.size(); i++) {
         _ComponentSystems[i]->render(renderer);
     }
 }
 
-void StormScene::tick(float deltaTime) {
+void SScene::tick(float deltaTime) {
     for (unsigned int i = 0; i < SSceneComponentTickingOrderCount; i++) {
         int typeToTick = SSceneComponentTickingOrder[i];
         if (_ComponentSystemsByType[typeToTick]) {
@@ -269,7 +269,7 @@ void StormScene::tick(float deltaTime) {
     }
 }
 
-void StormScene::initializeDefaultSystems() {
+void SScene::initializeDefaultSystems() {
     SSceneSystemTransform* sysTransform = new SSceneSystemTransform(this);
     _ComponentSystems.push_back(sysTransform);
     _ComponentSystemsByType[S_SCENE_OBJECT_COM_TRANSFORM] = sysTransform;

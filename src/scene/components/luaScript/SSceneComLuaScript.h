@@ -6,7 +6,7 @@
 
 class SSceneComLuaScript : public SSceneComponent {
 public:
-    SSceneComLuaScript(StormSceneObject* owner);
+    SSceneComLuaScript(SSceneObject* owner);
     virtual ~SSceneComLuaScript();
 
     /* Saves component data to @node */

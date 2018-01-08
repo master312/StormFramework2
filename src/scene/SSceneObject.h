@@ -8,13 +8,13 @@
 
 class SSceneComTransform;
 class SSceneComLuaScript;
-class StormScene;
+class SScene;
 
-class StormSceneObject : public SObservable<SSceneObjectEventType, SSceneComponent> {
+class SSceneObject : public SObservable<SSceneObjectEventType, SSceneComponent> {
 public:
-    StormSceneObject(StormScene* scene, uint32_t id = 0);
-    StormSceneObject(StormScene* scene, uint32_t id, const std::string& name);
-    virtual ~StormSceneObject();
+    SSceneObject(SScene* scene, uint32_t id = 0);
+    SSceneObject(SScene* scene, uint32_t id, const std::string& name);
+    virtual ~SSceneObject();
 
     /* Saves object and all it's component data to @node */
     void serializeXml(pugi::xml_node& node);
@@ -37,13 +37,13 @@ public:
 
     /* Assign parent to object, or clear parent if @parent = nullptr.
      * If there is already a parent set, it will be replased */
-    void setParent(StormSceneObject* parent);
+    void setParent(SSceneObject* parent);
 
     /* Return parent of this object, or nullptr if none */
-    StormSceneObject* getParent();
+    SSceneObject* getParent();
 
     /* Returns vector of all child objects */
-    std::vector<StormSceneObject*>& getChildren();
+    std::vector<SSceneObject*>& getChildren();
 
     /* Adds component to the object */
     void addComponent(SSceneComponent* component);
@@ -79,13 +79,13 @@ private:
     std::string _Name;
 
     /* Pointer to object's owner scene */
-    StormScene* _Scene;
+    SScene* _Scene;
 
     /* Pointer to parent object */
-    StormSceneObject* _Parent;
+    SSceneObject* _Parent;
 
     /* Vector of all children child objects */
-    std::vector<StormSceneObject*> _Children;
+    std::vector<SSceneObject*> _Children;
 
     /* All components attached to object */
     std::vector<SSceneComponent*> _Components;

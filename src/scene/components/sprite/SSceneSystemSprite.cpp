@@ -1,9 +1,9 @@
 #include "SSceneSystemSprite.h"
 #include "SSceneComSprite.h"
 #include "StormEngine.h"
-#include "scene/StormSceneObject.h"
+#include "scene/SSceneObject.h"
 
-SSceneSystemSprite::SSceneSystemSprite(StormScene* scene) : SSceneComponentSystem(scene) {
+SSceneSystemSprite::SSceneSystemSprite(SScene* scene) : SSceneComponentSystem(scene) {
     _Type = S_SCENE_OBJECT_COM_SPRITE;
 }
 

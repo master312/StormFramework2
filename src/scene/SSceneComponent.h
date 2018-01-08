@@ -51,16 +51,16 @@ static const int SSceneComponentTickingOrder[SSceneComponentTickingOrderCount] =
     S_SCENE_OBJECT_COM_SCRIPT,
 };
 
-class StormSceneObject;
+class SSceneObject;
 class SSceneComponentSystem;
 
 class SSceneComponent {
 public:
-    SSceneComponent(StormSceneObject* owner);
+    SSceneComponent(SSceneObject* owner);
     virtual ~SSceneComponent();
     
-    void setOwner(StormSceneObject* owner);
-    StormSceneObject* getOwner();
+    void setOwner(SSceneObject* owner);
+    SSceneObject* getOwner();
 
     SSceneComponentType getType() const;
 
@@ -86,14 +86,14 @@ public:
     bool getIsBindedToScript();
 
     /* Produces new component of @SSceneComponentType and return pointer to it */
-    static SSceneComponent* newComponent(SSceneComponentType type, StormSceneObject* owner);
+    static SSceneComponent* newComponent(SSceneComponentType type, SSceneObject* owner);
 
 protected:
     /* Type of scene object component */
     SSceneComponentType _Type;
 
     /* Scene object that is owning this component */
-    StormSceneObject* _Owner;
+    SSceneObject* _Owner;
 
     bool _IsInitialized;
 

@@ -9,7 +9,7 @@
 class StormVideoDriver;
 class StormRenderer;
 class SSceneManager;
-class StormScene;
+class SScene;
 class StormInputManager;
 
 class StormEngine {
@@ -46,7 +46,7 @@ public:
     static spStormTexture getTexture(const std::string& filename);
 
     /* Returns currently active scene */
-    static StormScene* getActiveScene();
+    static SScene* getActiveScene();
 
     /* Get time in milliseconds (ms), how long was program running */
     static uint32_t getTimeMs();

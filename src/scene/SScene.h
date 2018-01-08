@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <map>
-#include "StormSceneObject.h"
+#include "SSceneObject.h"
 #include "SSceneComponentSystem.h"
 #include "resources/StormResourceFile.h"
 
@@ -10,10 +10,10 @@ class StormRenderer;
 /* TODO - OPTIMIZATION: Split components into 2 vectors. Tickable and untickable, so we dont 
  * have to iterate trought all components on render if some of them are unrenerable. */
 
-class StormScene {
+class SScene {
 public:
-    StormScene();
-    ~StormScene();
+    SScene();
+    ~SScene();
 
     /* Loads scene from XML file. 
      * Returns < 0 on error. */
@@ -38,20 +38,20 @@ public:
     bool isInitialized();
 
     /* Adds new element to this scene. Ownership of the @object pointer
-     * will be transfered to StormScene class, 
+     * will be transfered to SScene class,
      * and memory will be freed when scene gets deleted */
-    void addObject(StormSceneObject* object);
+    void addObject(SSceneObject* object);
 
     /* Creates new script object from prefab, and return pointer to it.
      * Returns nullptr on error */
-    StormSceneObject* instantiatePrefab(const std::string& prefabName, 
+    SSceneObject* instantiatePrefab(const std::string& prefabName,
                                         const std::string& objectName = "");
 
     /* Returns vector of all scene objects */
-    std::vector<StormSceneObject*>& getObjects();
+    std::vector<SSceneObject*>& getObjects();
 
     /* Returns pointer to object with ID */
-    StormSceneObject* getObjectById(uint32_t id);
+    SSceneObject* getObjectById(uint32_t id);
 
     /* Retnurns reference to rector containing all component systems */
     std::vector<SSceneComponentSystem*>& getSystems();
@@ -74,7 +74,7 @@ private:
     uint32_t _LastObjectIndex;
 
     /* Vector containing all scene objects */
-    std::vector<StormSceneObject*> _Objects;
+    std::vector<SSceneObject*> _Objects;
     
     /* Vector containt various systems for managing scene object component logic */
     std::vector<SSceneComponentSystem*> _ComponentSystems;
@@ -99,7 +99,7 @@ private:
     bool _IsInitialized;
     
     /* Used for initializing objects added at runtime */
-    void initializeObject(StormSceneObject* object);
+    void initializeObject(SSceneObject* object);
 
     void initializeDefaultSystems();
 };

@@ -3,7 +3,7 @@
 #include <QPushButton>
 #include <QtWidgets/QScrollArea>
 #include "../src/StormEngine.h"
-#include "../src/scene/StormScene.h"
+#include "scene/SScene.h"
 
 SelectPrefab::SelectPrefab(QWidget *parent) :
     QDialog(parent),

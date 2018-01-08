@@ -2,7 +2,7 @@
 #include "SceneObjectTreeWidgetItem.h"
 #include "SWidgetComponent.h"
 #include "StormQtHelperFunctions.h"
-#include "../../src/scene/StormScene.h"
+#include "scene/SScene.h"
 #include "../../src/scene/SSceneComponent.h"
 #include <QApplication>
 #include <QDropEvent>

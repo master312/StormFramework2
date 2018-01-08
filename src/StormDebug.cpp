@@ -1,6 +1,6 @@
 #include "StormDebug.h"
 #include "StormEngine.h"
-#include "scene/StormScene.h"
+#include "scene/SScene.h"
 #include "scene/SSceneManager.h"
 
 StormDebug::StormDebug() {
@@ -49,7 +49,7 @@ bool StormDebug::shouldTickPhysics() {
 }
 
 void StormDebug::saveCurrentScene() {
-    StormScene* scene = StormEngine::getActiveScene();
+    SScene* scene = StormEngine::getActiveScene();
     if (scene) {
         _SceneSavesCount++;
         std::stringstream ss;
@@ -68,7 +68,7 @@ void StormDebug::loadMostRecentScene() {
         return;
     }
     SSceneManager* manager = StormEngine::getModule<SSceneManager>();
-    StormScene* scene = manager->loadScene(_LastSavedSceneName, true);
+    SScene* scene = manager->loadScene(_LastSavedSceneName, true);
     if (scene) {
         manager->switchScene(scene->getName());
     }

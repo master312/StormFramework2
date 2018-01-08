@@ -2,7 +2,7 @@
 #include "SSceneSystemPhysics.h"
 #include "scene/components/transform/SSceneComTransform.h"
 #include "Box2D/Box2D.h"
-#include "scene/StormSceneObject.h"
+#include "scene/SSceneObject.h"
 #include "utils/Plane.h"
 #include <algorithm>
 #include <array>
@@ -15,7 +15,7 @@ std::array<std::string, 4> bodyTypesString = {
 };
 
 
-SSceneComPhysics::SSceneComPhysics(StormSceneObject* owner) : SSceneComponent(owner) {
+SSceneComPhysics::SSceneComPhysics(SSceneObject* owner) : SSceneComponent(owner) {
     _Type = S_SCENE_OBJECT_COM_PHYSICS;
     _IsTrigger = false;
 

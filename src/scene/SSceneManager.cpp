@@ -8,14 +8,14 @@ SSceneManager::SSceneManager() {
 SSceneManager::~SSceneManager() {
 }
 
-StormScene* SSceneManager::loadScene(const std::string& filename, bool reloadActive /* = false */) {
+SScene* SSceneManager::loadScene(const std::string& filename, bool reloadActive /* = false */) {
     spStormResourceFile sceneFile = StormEngine::getResource(filename);
     if (!sceneFile) {
         LOG(ERROR) << "Could not load scene file " << filename;
         return nullptr;
     }
 
-    StormScene* scene = new StormScene();
+    SScene* scene = new SScene();
     if (scene->loadXml(sceneFile) < 0) {
         /* Error occured while loading scene */
         delete scene;
@@ -49,7 +49,7 @@ StormScene* SSceneManager::loadScene(const std::string& filename, bool reloadAct
     return scene;
 }
 
-StormScene* SSceneManager::getActiveScene() {
+SScene* SSceneManager::getActiveScene() {
     return _ActiveScene;
 }
 

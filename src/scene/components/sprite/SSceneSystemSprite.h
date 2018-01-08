@@ -43,7 +43,7 @@ struct SComSpriteSheet {
 
 class SSceneSystemSprite : public SSceneComponentSystem {
 public:
-    SSceneSystemSprite(StormScene* scene);
+    SSceneSystemSprite(SScene* scene);
     virtual ~SSceneSystemSprite();
 
     virtual void addComponent(SSceneComponent* component);

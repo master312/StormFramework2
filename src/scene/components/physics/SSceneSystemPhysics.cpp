@@ -4,12 +4,12 @@
 #include "StormDebug.h"
 #include "../transform/SSceneComTransform.h"
 #include "../luaScript/SSceneComLuaScript.h"
-#include "scene/StormSceneObject.h"
+#include "scene/SSceneObject.h"
 #include "graphics/StormRenderer.h"
 #include "utils/StormVertex.h"
 #include "utils/Plane.h"
 
-SSceneSystemPhysics::SSceneSystemPhysics(StormScene* scene) : SSceneComponentSystem(scene), 
+SSceneSystemPhysics::SSceneSystemPhysics(SScene* scene) : SSceneComponentSystem(scene),
                                                               _ContactListener(*this) {
     _Type = S_SCENE_OBJECT_COM_PHYSICS;
     _Box2DWorld = nullptr;

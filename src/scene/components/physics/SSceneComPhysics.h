@@ -10,7 +10,7 @@ class b2Fixture;
 
 class SSceneComPhysics : public SSceneComponent {
 public:
-    SSceneComPhysics(StormSceneObject* owner);
+    SSceneComPhysics(SSceneObject* owner);
     virtual ~SSceneComPhysics();
 
     virtual void serializeXml(pugi::xml_node& node);

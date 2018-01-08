@@ -5,8 +5,8 @@
 #include <QFileDialog>
 #include "../../src/StormEngine.h"
 #include "../../src/StormDebug.h"
-#include "../../src/scene/StormScene.h"
-#include "../../src/scene/StormSceneObject.h"
+#include "scene/SScene.h"
+#include "scene/SSceneObject.h"
 #include "../../src/core/resources/StormFileSystem.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
