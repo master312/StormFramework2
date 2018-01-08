@@ -9,7 +9,7 @@
  * deleted when SceneObject (@_Owner) is destroyed. */
 
 /* Enum contains type of all components */
-typedef enum SSceneComponentType {
+typedef enum {
     S_SCENE_OBJECT_COM_UNDEFINED = 0,
     
     S_SCENE_OBJECT_COM_TRANSFORM = 1,            // Transformation component
@@ -19,7 +19,7 @@ typedef enum SSceneComponentType {
     S_SCENE_OBJECT_COM_PHYSICS = 5,
 
     S_SCENE_OBJECT_COM_TYPES_COUNT
-};
+} SSceneComponentType;
 
 /* Contain string names of all components. */
 static const std::string SSceneComponentTypeString[S_SCENE_OBJECT_COM_TYPES_COUNT] = {

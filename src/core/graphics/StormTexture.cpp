@@ -46,16 +46,25 @@ int StormTexture::loadFromBuffer(unsigned char* buffer, int width, int height, i
     }
 
     glTexImage2D(GL_TEXTURE_2D, 0, mode, width, height, 0, mode, GL_UNSIGNED_BYTE, buffer);
+    if (glGetError() != GL_NO_ERROR) {
+        glBindTexture(GL_TEXTURE_2D, 0);
+        LOG(ERROR) << "Error in glTexImage2D function.";
+        return -1;
+    }
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
 
     if (_GLTextureId > 0) {
         LOG(DEBUG) << "GL texture generated from pixel buffer";
     } else {
         LOG(ERROR) << "Could not generate GL texture from pixel buffer";
+        return -2;
     }
-    glBindTexture(GL_TEXTURE_2D, 0);
+
+    return 1;
 }
 
 uint32_t StormTexture::getOpenGLTextureId() {

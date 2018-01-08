@@ -100,7 +100,7 @@ int StormShader::bindAttribute(const std::string& attributeName) {
 
 int32_t StormShader::getUniformLocation(const std::string& uniformName) const {
     GLint location = glGetUniformLocation(_ProgramId, uniformName.c_str());
-    if (location == GL_INVALID_INDEX) {
+    if (location < 0) {
         LOG(ERROR) << "Uniform " << uniformName << " not found in shader";
         return 0;
     }

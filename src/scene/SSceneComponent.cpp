@@ -29,6 +29,7 @@ void SSceneComponent::serializeXml(pugi::xml_node& node) {
 }
 
 int SSceneComponent::deserializeXml(pugi::xml_node& node) {
+    return 0;
 }
 
 int SSceneComponent::initialize(SSceneComponentSystem* system) {

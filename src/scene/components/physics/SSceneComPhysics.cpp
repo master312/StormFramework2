@@ -235,8 +235,8 @@ bool SSceneComPhysics::generateBox2DBody(b2World* world) {
             float angle = (transform->getAngleAbs() * b2_pi) / 180.0f;
             shapePolygon.SetAsBox(size, shapeCenter, angle);
             break; }
-        case GEOMETRY_TYPE_CIRCLE:
-            /* TODO: */
+        default:
+            LOG(ERROR) << "SSceneComPhysics::generateBox2DBody invalid geometry type";
             break;
     }
 

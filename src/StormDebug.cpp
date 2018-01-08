@@ -32,11 +32,11 @@ void StormDebug::processInput() {
     }
 }
 
-bool StormDebug::setShouldTickLogic(bool value) {
+void StormDebug::setShouldTickLogic(bool value) {
     instance()->_ShouldTickLogic = value;
 }
 
-bool StormDebug::setShouldTickPhysics(bool value) {
+void StormDebug::setShouldTickPhysics(bool value) {
     instance()->_ShouldTickPhysics = value;
 }
 

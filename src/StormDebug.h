@@ -12,8 +12,8 @@ public:
     
     void processInput();
 
-    static bool setShouldTickLogic(bool value);
-    static bool setShouldTickPhysics(bool value);
+    static void setShouldTickLogic(bool value);
+    static void setShouldTickPhysics(bool value);
 
     static bool shouldTickLogic();
     static bool shouldTickPhysics();

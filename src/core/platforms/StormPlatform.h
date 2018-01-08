@@ -25,7 +25,7 @@ struct StormWindowSettings {
 
     StormWindowSettings() : width(0), height(0), isFullscreen(false), useVsync(false) { }
     StormWindowSettings(int w, int h, bool fs, const std::string& wTitle, bool vsync = false) : 
-            width(w), height(h), isFullscreen(fs), title(wTitle), useVsync(vsync) { }
+            width(w), height(h), isFullscreen(fs), useVsync(vsync), title(wTitle) { }
     
     const Point getSizePoint() {
         return Point(width, height);

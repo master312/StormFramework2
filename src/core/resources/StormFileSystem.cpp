@@ -119,7 +119,7 @@ std::vector<std::string> StormFileSystem::getFilesList(const std::string& path /
     std::string fullDirPath = getRootPath() + path;
     DIR* dirp = opendir(fullDirPath.c_str());
     struct dirent* dp;
-    int extSize = ext.size();
+    size_t extSize = ext.size();
     while ((dp = readdir(dirp)) != NULL) {
         if (ext != "") {
             std::string extension = dp->d_name;

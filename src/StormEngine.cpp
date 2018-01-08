@@ -14,7 +14,7 @@ StormEngine::StormEngine() {
     _ModResources = nullptr;
     _ModSceneManager = nullptr;
 
-    _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.15", true);
+    _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.16", true);
 }
 
 StormEngine::~StormEngine() {
@@ -103,17 +103,27 @@ void StormEngine::mainTickingMethod(float deltaTime) {
 
 void StormEngine::windowEventListener(StormWindowEventType event) {
     switch (event) {
-        case STORM_EVENT_WINDOW_RESIZED:
+        case STORM_EVENT_WINDOW_RESIZED: {
             const Vector2 windowSize = _ModPlatform->getWindowSettings().getSizeVec2();
-            
+
             _ModVideoDriver->setVirtualViewSize(windowSize);
             const Vector2 viewSize = _ModVideoDriver->getVirtualViewSize();
 
             _ModPlatform->getInputManager()->setRealWindowSize(windowSize);
             _ModPlatform->getInputManager()->calculatePointerScaling(viewSize);
-            
+
             _ModRenderer->setViewMatrix(Vector2(0.0f, 0.0f), viewSize);
             LOG(DEBUG) << "Window resized to: " << windowSize;
+            } break;
+        case STORM_EVENT_WINDOW_SHOWN:
+            break;
+        case STORM_EVENT_WINDOW_HIDDEN:
+            break;
+        case STORM_EVENT_WINDOW_MOVED:
+            break;
+        case STORM_EVENT_WINDOW_FOCUS_GAINED:
+            break;
+        case STORM_EVENT_WINDOW_FOCUS_LOST:
             break;
     }
 }

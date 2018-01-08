@@ -75,7 +75,7 @@ void Plane::transformRotationAroundCenter() {
 
 bool Plane::containsPoint(const Vector2& point) {
     Vector2& p1 = _Points[0];
-    Vector2& p2 = _Points[1];
+    //Vector2& p2 = _Points[1];
     Vector2& p3 = _Points[2];
     Vector2& p4 = _Points[3];
 

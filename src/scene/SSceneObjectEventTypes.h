@@ -1,6 +1,6 @@
 #pragma once
 
-typedef enum SSceneObjectEventType {
+typedef enum {
     S_OBSERVER_EVENT_UNDEFINED = 0,
 
     /* Fired from SSceneComTransform when transformation has been updated */
@@ -12,4 +12,5 @@ typedef enum SSceneObjectEventType {
 
     /* Fired from StormSceneObject it self when parent changes */
     S_OBSERVER_EVENT_PARENT_CHANGED,
-};
+
+} SSceneObjectEventType;

@@ -38,7 +38,7 @@ struct SComSpriteSheet {
     int generateSpriteFramesFromSize(const Point& textureSize, bool directionX);
 
     /* Retunrs count of frames in this sprite sheet */
-    inline uint32_t count() { static_cast<uint32_t>(frames.size()); }
+    inline uint32_t count() { return static_cast<uint32_t>(frames.size()); }
 };
 
 class SSceneSystemSprite : public SSceneComponentSystem {

@@ -10,13 +10,13 @@
 
 /* This class queues and executes render commands. */
 
-typedef enum StormRenderMode {
+typedef enum {
     S_RENDER_TRIANGLE_STRIP     = GL_TRIANGLE_STRIP,
     S_RENDER_TRIANGLE_FAN       = GL_TRIANGLE_FAN,
     S_RENDER_TRIANGLES          = GL_TRIANGLES,
     S_RENDER_LINES              = GL_LINES,
     S_RENDER_LINES_LOOP         = GL_LINE_LOOP
-};
+} StormRenderMode;
 
 class StormRenderer {    
 public:

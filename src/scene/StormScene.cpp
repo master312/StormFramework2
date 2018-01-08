@@ -8,7 +8,6 @@
 
 #include "StormEngine.h"
 #include "graphics/StormRenderer.h"
-#include "resources/StormFileSystem.h"
 
 StormScene::StormScene() {
     _LastObjectIndex = 1;
