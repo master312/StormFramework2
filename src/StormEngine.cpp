@@ -56,8 +56,8 @@ void StormEngine::initialize(StormPlatformType platformType) {
     
 
     /* Initialize texture manager module */
-    _ModTextureManager = new StormTextureManager();
-    _ModulesByType[typeid(StormTextureManager)] = (void*)_ModTextureManager;
+    _ModTextureManager = new STextureManager();
+    _ModulesByType[typeid(STextureManager)] = (void*)_ModTextureManager;
 
 
     /* Initialize scene manager, and load test scene */

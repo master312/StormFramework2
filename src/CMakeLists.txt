@@ -13,8 +13,8 @@ set(STORM_ENGINE_SOURCE_FILES
     ${SOURCES_PATH_PREFIX}/SEngineModuleFactory.cpp
     ${SOURCES_PATH_PREFIX}/StormDebug.h     #TODO: dont include debug stuff on production mode
     ${SOURCES_PATH_PREFIX}/StormDebug.cpp
-    ${SOURCES_PATH_PREFIX}/StormTextureManager.h
-    ${SOURCES_PATH_PREFIX}/StormTextureManager.cpp
+    ${SOURCES_PATH_PREFIX}/STextureManager.h
+    ${SOURCES_PATH_PREFIX}/STextureManager.cpp
 
     # Scene and component files
     ${STORM_ENGINE_SCENE_FILES}

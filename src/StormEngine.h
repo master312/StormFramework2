@@ -2,7 +2,7 @@
 #include <typeindex>
 #include "core/platforms/StormPlatform.h"
 #include "core/resources/StormFileSystem.h"
-#include "StormTextureManager.h"
+#include "STextureManager.h"
 
 /* Singleton class responsible for initialization and deinitialization of all engine modules */
 
@@ -77,8 +77,8 @@ private:
      * and manipulating shader stuff */
     StormRenderer* _ModRenderer;
 
-    /* StormTextureManager modue, used for handling texture resources. */
-    StormTextureManager* _ModTextureManager;
+    /* STextureManager modue, used for handling texture resources. */
+    STextureManager* _ModTextureManager;
 
     /* StormFileSystem module, used for handling game resource files (textures/scenes/etc..) */
     StormFileSystem* _ModResources;

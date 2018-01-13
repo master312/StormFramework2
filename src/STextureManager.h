@@ -11,10 +11,10 @@
 
 class StormFileSystem;
 
-class StormTextureManager {
+class STextureManager {
 public:
-    StormTextureManager();
-    ~StormTextureManager();
+    STextureManager();
+    ~STextureManager();
 
     /* Returns texture from resource on filesystem.
      * If resource is not found, default texture will be returned and error logged. 

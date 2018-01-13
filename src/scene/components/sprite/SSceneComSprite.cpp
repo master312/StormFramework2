@@ -1,7 +1,7 @@
 #include "SSceneComSprite.h"
 #include "SSceneSystemSprite.h"
 #include "StormEngine.h"
-#include "StormTextureManager.h"
+#include "STextureManager.h"
 #include "../transform/SSceneComTransform.h"
 #include "scene/SSceneObject.h"
 #include "utils/math/ScalarMath.h"

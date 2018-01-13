@@ -1,9 +1,9 @@
-#include "StormTextureManager.h"
+#include "STextureManager.h"
 #include "core/StormCommon.h"
 #include "StormEngine.h"
 #include "core/resources/StormFileSystem.h"
 
-StormTextureManager::StormTextureManager() {
+STextureManager::STextureManager() {
     _Filesystem = StormEngine::getModule<StormFileSystem>();
     
     /* Load default texture */
@@ -15,11 +15,11 @@ StormTextureManager::StormTextureManager() {
     }
 }
 
-StormTextureManager::~StormTextureManager() {
+STextureManager::~STextureManager() {
     /* Since all textures are smart pointers, there is not need to delete */
 }
 
-spStormTexture StormTextureManager::getTexture(const std::string& filename) {
+spStormTexture STextureManager::getTexture(const std::string& filename) {
     if (filename == "") {
         LOG(ERROR) << "Tryed to get texture, but texture name was empty";
         return nullptr;
@@ -43,7 +43,7 @@ spStormTexture StormTextureManager::getTexture(const std::string& filename) {
     return tmpTexture;
 }
 
-void StormTextureManager::freeAllUnusedTextures() {
+void STextureManager::freeAllUnusedTextures() {
     for (auto iter : _LoadedTextures) {
         if (iter.second->_RefCounter <= 1) {
             /* Texture is smart pointer. 
@@ -53,7 +53,7 @@ void StormTextureManager::freeAllUnusedTextures() {
     }
 }
 
-spStormTexture StormTextureManager::loadTextureResource(const std::string& filename) {
+spStormTexture STextureManager::loadTextureResource(const std::string& filename) {
     if (!_Filesystem) {
         LOG(ERROR) << "Could not load texture resource. No filesystem specified";
         return nullptr;
