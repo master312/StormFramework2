@@ -2,6 +2,7 @@
 #include <iostream>
 #include <map>
 #include "core/graphics/StormTexture.h"
+#include "core/StormModuleBase.h"
 
 /*
     * TODO:
@@ -11,10 +12,10 @@
 
 class StormFileSystem;
 
-class STextureManager {
+class STextureManager : public StormModuleBase {
 public:
     STextureManager();
-    ~STextureManager();
+    virtual ~STextureManager();
 
     /* Returns texture from resource on filesystem.
      * If resource is not found, default texture will be returned and error logged. 

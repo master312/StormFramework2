@@ -1,7 +1,8 @@
 #pragma once
+#include <map>
 #include "StormResourceFile.h"
 #include "../utils/StormMiscTools.h"
-#include <map>
+#include "../StormModuleBase.h"
 
 /* Filesystem class that handles loading/saving/unloading/deletion of resource files. 
  * INFO: All paths written in format: "c:\test\game\" will be converted to "c:/test/game/'.
@@ -17,11 +18,11 @@
  - Some kind of XML file that indexes all resource by identifiers for easyer acces 
 */
 
-class StormFileSystem {
+class StormFileSystem : public StormModuleBase {
 public:
     StormFileSystem();
     StormFileSystem(const std::string& path);
-    ~StormFileSystem();
+    virtual ~StormFileSystem();
 
     /* Sets folder that will be used as root of this filesystem. 
      * @path is full path to folder. */

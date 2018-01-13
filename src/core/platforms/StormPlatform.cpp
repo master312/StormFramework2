@@ -1,7 +1,7 @@
 #include "StormPlatform.h"
 #include "../StormCommon.h"
 
-StormPlatform::StormPlatform() {
+StormPlatform::StormPlatform() : StormModuleBase("StormPlatform") {
     _IsInitialized = false;
     _PlatformType = STORM_PLATFORM_NONE;
     _InputManager = nullptr;

@@ -1,7 +1,7 @@
 #include "StormRenderer.h"
 #include "../StormCommon.h"
 
-StormRenderer::StormRenderer() {
+StormRenderer::StormRenderer() : StormModuleBase("StormRenderer2D") {
     _GLVaoId = 0;
     _GLVertexBufferId = 0;
     _GLIndicesBufferId = 0;

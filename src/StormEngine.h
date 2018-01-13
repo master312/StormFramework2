@@ -87,7 +87,7 @@ private:
     SSceneManager* _ModSceneManager;
 
     /* Map of all engine modules maped by their type id */
-    std::map<std::type_index, void*> _ModulesByType;
+    std::map<std::type_index, StormModuleBase*> _ModulesByType;
 
     /***** END OF ENGINE MODULES *****/
 

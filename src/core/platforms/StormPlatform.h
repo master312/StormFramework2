@@ -3,6 +3,7 @@
 #include <functional>
 #include "StormInputManager.h"
 #include "../utils/math/Vector2.h"
+#include "../StormModuleBase.h"
 
 /* Base class for platform related stuff, like
  * window creation, and event handling. */
@@ -45,7 +46,7 @@ enum StormWindowEventType {
     /* etc.... */
 };
 
-class StormPlatform {
+class StormPlatform : public StormModuleBase {
 public:
     StormPlatform();
     virtual ~StormPlatform();

@@ -2,6 +2,7 @@
 #include "../utils/StormObjectPool.h"
 #include "../utils/StormVertex.h"
 #include "../utils/math/Matrix.h"
+#include "../StormModuleBase.h"
 #include "StormShader.h"
 #include "StormTexture.h"
 #include <GL/glew.h>
@@ -18,10 +19,10 @@ typedef enum {
     S_RENDER_LINES_LOOP         = GL_LINE_LOOP
 } StormRenderMode;
 
-class StormRenderer {    
+class StormRenderer : public StormModuleBase {
 public:
     StormRenderer();
-    ~StormRenderer();
+    virtual ~StormRenderer();
 
     /* Initialize renderer. Create default buffers, shaders and command pools. 
      * Returns < 0 on error. */

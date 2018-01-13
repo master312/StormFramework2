@@ -1,13 +1,14 @@
 #pragma once
 #include <map>
 #include "SScene.h"
+#include "core/StormModuleBase.h"
 
 class StormRenderer;
 
-class SSceneManager {
+class SSceneManager : public StormModuleBase {
 public:
     SSceneManager();
-    ~SSceneManager();
+    virtual ~SSceneManager();
 
     /* Loads single scene file into memory.
      * If scene is already loaded, it will be reloaded.

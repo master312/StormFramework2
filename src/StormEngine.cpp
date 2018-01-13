@@ -1,5 +1,4 @@
 #include "StormEngine.h"
-#include "core/StormCommon.h"
 #include "scene/SSceneManager.h"
 #include "SEngineModuleFactory.h"
 #include "StormDebug.h"
@@ -28,7 +27,7 @@ StormEngine* StormEngine::instance() {
 void StormEngine::initialize(StormPlatformType platformType) {
     /* Initialize filesystem module */
     _ModResources = new StormFileSystem("data/");
-    _ModulesByType[typeid(StormFileSystem)] = (void*)_ModResources;
+    _ModulesByType[typeid(StormFileSystem)] = _ModResources->getModuleBase();
 
     
     /* Initialize platform module */
@@ -36,7 +35,7 @@ void StormEngine::initialize(StormPlatformType platformType) {
     if (!_ModPlatform) {
         return;
     }
-    _ModulesByType[typeid(StormPlatform)] = (void*)_ModPlatform;
+    _ModulesByType[typeid(StormPlatform)] = _ModPlatform->getModuleBase();
 
 
     /* Initialize video driver module */
@@ -44,7 +43,7 @@ void StormEngine::initialize(StormPlatformType platformType) {
     if (!_ModVideoDriver) {
         return;
     }
-    _ModulesByType[typeid(StormVideoDriver)] = (void*)_ModVideoDriver;
+    _ModulesByType[typeid(StormVideoDriver)] = _ModVideoDriver->getModuleBase();
 
 
     /* Initialize renderer module */
@@ -52,19 +51,19 @@ void StormEngine::initialize(StormPlatformType platformType) {
     if (!_ModRenderer) {
         return;
     }
-    _ModulesByType[typeid(StormRenderer)] = (void*)_ModRenderer;
+    _ModulesByType[typeid(StormRenderer)] = _ModRenderer->getModuleBase();
     
 
     /* Initialize texture manager module */
     _ModTextureManager = new STextureManager();
-    _ModulesByType[typeid(STextureManager)] = (void*)_ModTextureManager;
+    _ModulesByType[typeid(STextureManager)] = _ModTextureManager->getModuleBase();
 
 
     /* Initialize scene manager, and load test scene */
     _ModSceneManager = new SSceneManager();
     _ModSceneManager->loadScene("scenes/the_scene.xml");
     _ModSceneManager->switchScene("the_scene");
-    _ModulesByType[typeid(SSceneManager)] = (void*)_ModSceneManager;
+    _ModulesByType[typeid(SSceneManager)] = _ModSceneManager->getModuleBase();
 
 
     /* Bind ticking and event methods to platform module.

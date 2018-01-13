@@ -1,12 +1,13 @@
 #pragma once
 #include "../utils/math/Rect.h"
 #include "../utils/math/Color.h"
+#include "../StormModuleBase.h"
 
 /* Video driver manager. Currently works with GLES
  * REMAINDER: If porting to some other platform (non-glsl) this class needs to
  * be used as base class for all other platforms */
 
-class StormVideoDriver {
+class StormVideoDriver : public StormModuleBase {
 public:
     StormVideoDriver();
     virtual ~StormVideoDriver();

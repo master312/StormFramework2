@@ -7,6 +7,7 @@ include(${CORE_PATH_PREFIX}/utils/CMakeLists.txt)
 
 set(STORM_CORE_FILES
     ${CORE_PATH_PREFIX}/StormCommon.h
+    ${CORE_PATH_PREFIX}/StormModuleBase.h
 
     ${STORM_CORE_PLATFORM_FILES}
     ${STORM_CORE_RESOURCE_FILES}

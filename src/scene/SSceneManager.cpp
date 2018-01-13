@@ -2,7 +2,7 @@
 #include "StormEngine.h"
 #include "graphics/StormRenderer.h"
 
-SSceneManager::SSceneManager() {
+SSceneManager::SSceneManager() : StormModuleBase("StormSceneManager") {
 }
 
 SSceneManager::~SSceneManager() {

@@ -3,7 +3,7 @@
 #include "StormEngine.h"
 #include "core/resources/StormFileSystem.h"
 
-STextureManager::STextureManager() {
+STextureManager::STextureManager() : StormModuleBase("StormTextureManager") {
     _Filesystem = StormEngine::getModule<StormFileSystem>();
     
     /* Load default texture */

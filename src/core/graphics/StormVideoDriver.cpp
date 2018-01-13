@@ -3,7 +3,7 @@
 #include "../StormCommon.h"
 #include "../utils/math/ScalarMath.h"
 
-StormVideoDriver::StormVideoDriver() {
+StormVideoDriver::StormVideoDriver() : StormModuleBase("StormVideoDriver") {
     _ClearColor = Color(0, 0, 200);
     _VirtualViewSize.set(0.0f, 0.0f);
     _PixelsPerMeter = 115.0f;

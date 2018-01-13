@@ -4,11 +4,11 @@
 #include <dirent.h>
 #include <fstream>
 
-StormFileSystem::StormFileSystem() {
+StormFileSystem::StormFileSystem() : StormModuleBase("StormFileSystem") {
     _RootPath = "";
 }
 
-StormFileSystem::StormFileSystem(const std::string& path) {
+StormFileSystem::StormFileSystem(const std::string& path) : StormModuleBase("StormFileSystem") {
     _RootPath = path;
 }
 
