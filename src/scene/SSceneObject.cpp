@@ -18,6 +18,7 @@ SSceneObject::SSceneObject(SScene* scene, uint32_t id /* = 0 */) {
 SSceneObject::SSceneObject(SScene* scene, uint32_t id, const std::string& name) :
     SSceneObject(scene, id) {
     _Name = name;
+    StormMiscTools::trimSpacesBeginEnd(_Name);
 }
 
 SSceneObject::~SSceneObject() {
@@ -50,6 +51,7 @@ void SSceneObject::serializeXml(pugi::xml_node& node) {
 int SSceneObject::deserializeXml(pugi::xml_node& node) {
     _Id = node.attribute("id").as_int(0);
     _Name = node.attribute("name").as_string("");
+    StormMiscTools::trimSpacesBeginEnd(_Name);
 
     /* Load components */
     for (pugi::xml_node comNode = node.first_child(); comNode; comNode = comNode.next_sibling()) {
@@ -119,6 +121,7 @@ std::vector<SSceneObject*>& SSceneObject::getChildren() {
 
 void SSceneObject::setName(const std::string& name) {
     _Name = name;
+    StormMiscTools::trimSpacesBeginEnd(_Name);
 }
 
 void SSceneObject::addComponent(SSceneComponent* component) {
