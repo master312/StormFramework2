@@ -116,6 +116,12 @@ void Plane::setPivot(const Vector2& position) {
     _HasChanged = true;
 }
 
+void Plane::clearPivot() {
+    _PivotPosition.setZero();
+    _PivotAngle = 0.0f;
+    _HasChanged = true;
+}
+
 void Plane::setPivotX(float x) {
     _PivotPosition.x = x;
     _HasChanged = true;

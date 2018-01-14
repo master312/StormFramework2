@@ -74,6 +74,14 @@ public:
     /* Returns scene which owns this object */
     SScene* getScene();
 
+    /* Unlinks object from parent (if any).
+     * Removes this object from parent's @_Children array and clears @_Parent pointer.
+     * If @dontNotifyObervers is set to true, "ParentRemoved" event wont be fired.*/
+    void clearParent(bool dontNotifyObervers = false);
+
+    /* Unlink every child from this element */
+    void clearChildren();
+
 private:
     /* Unique object identifier */
     uint32_t _Id;
@@ -102,7 +110,4 @@ private:
     /* Set to true if this object is created at runtime,
      * and not loaded from scene file */
     bool _IsCreatedAtRuntime;
-
-    /* Removes this object from parent's @_Components array and clears @_Parent pointer */
-    void clearParent();
 };

@@ -142,6 +142,9 @@ void SSceneComSprite::observeTransformChanged(void* data) {
     if (transform->getParentAsPivot()) {
         _RenderPlane.setPivot(transform->getPosition() * -1);
         _RenderPlane.setPivotAngle(transform->getAngleAbs());
+    } else {
+        /* TODO: Micro - Optimization, dont clear pivot every time. */
+        _RenderPlane.clearPivot();
     }
     
     _RenderPlane.transform();

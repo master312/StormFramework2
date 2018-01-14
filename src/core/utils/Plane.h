@@ -12,6 +12,7 @@ public:
 
     /* Sets pivot position. This position is relative to plane position. */
     void setPivot(const Vector2& position);
+    void clearPivot();
     void setPivotX(float x);
     void setPivotY(float y);
 

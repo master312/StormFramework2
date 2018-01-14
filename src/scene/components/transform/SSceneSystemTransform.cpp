@@ -3,7 +3,7 @@
 #include "scene/SScene.h"
 #include "scene/components/luaScript/SSceneSystemLuaScript.h"
 
-SSceneSystemTransform::SSceneSystemTransform(SScene* scene) : SSceneComponentSystem(scene){
+SSceneSystemTransform::SSceneSystemTransform(SScene* scene) : SSceneComponentSystem(scene) {
     _Type = S_SCENE_OBJECT_COM_TRANSFORM;
 }
 

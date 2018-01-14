@@ -238,6 +238,12 @@ void SSceneComTransform::pullParentTransform() {
     if (!_Owner->getParent()) {
         /* Parent has been cleared */
         if (_ParentTransform) {
+            /* Parent was set before this. */
+            _Position = getPositionAbs();
+            _Scale = getScaleAbs();
+            _Angle = getAngleAbs();
+            _ParentAsPivot = false;
+
             _ParentTransform = nullptr;
             _IsChanged = true;
         }

@@ -21,13 +21,13 @@ SSceneObject::SSceneObject(SScene* scene, uint32_t id, const std::string& name) 
 }
 
 SSceneObject::~SSceneObject() {
+    clearParent();
+    clearChildren();
     for (size_t i = 0; i < _Components.size(); i++) {
         delete _Components[i];
     }
     _Components.clear();
-    _Parent = nullptr;
     _Scene = nullptr;
-    _Children.clear();
 }
 
 void SSceneObject::serializeXml(pugi::xml_node& node) {
@@ -94,9 +94,9 @@ void SSceneObject::setParent(SSceneObject* parent) {
         LOG(DEBUG) << "ERROR: Setting same parent to object " << getId();
         return;
     }
-    if (_Parent) {
+    if (_Parent && parent) {
         /* Object already have parent set */
-        clearParent();
+        clearParent(true);
     }
     
     _Parent = parent;
@@ -176,7 +176,7 @@ SScene* SSceneObject::getScene() {
     return _Scene;
 }
 
-void SSceneObject::clearParent() {
+void SSceneObject::clearParent(bool dontNotifyObervers /* = false */) {
     if (!_Parent) {
         return;
     }
@@ -185,10 +185,19 @@ void SSceneObject::clearParent() {
     for (size_t i = 0; i < children.size(); i++) {
         if (children[i] == this) {
             children.erase(children.begin() + i);
-            _Parent = nullptr;
-            return;
+            break;
         }
     }
 
+    if (!dontNotifyObervers) {
+        notifyObservers(S_OBSERVER_EVENT_PARENT_CHANGED);
+    }
     _Parent = nullptr;
+}
+
+void SSceneObject::clearChildren() {
+    for (size_t i = 0; i < _Children.size(); i++) {
+        _Children[i]->setParent(nullptr);
+    }
+    _Children.clear();
 }
