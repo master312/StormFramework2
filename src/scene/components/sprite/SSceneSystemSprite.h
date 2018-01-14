@@ -64,6 +64,10 @@ private:
     /* All sprite sheets, indexed by filename */
     std::map<std::string, SComSpriteSheet> _SpriteSheets;
 
+
+    /* Sort @_SpriteComponents by transform's Z coordinate */
+    void sortComponentsByZ();
+
     /* Load sprite sheet from xml file @file, and add
      * it to @_SpriteSheets map.
      * Return < 0 on error */

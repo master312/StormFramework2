@@ -229,3 +229,7 @@ const std::string& SSceneComSprite::getSpriteSheetFilename() {
 SComSpriteSheet* SSceneComSprite::getSpriteSheet() {
     return _SpriteSheet;
 }
+
+int SSceneComSprite::getZ() const {
+    return (_Owner->getTransform()->getAbsZ());
+}

@@ -19,6 +19,8 @@ this.onUpdate = function(deltaTime)
             isPressed = false
         end
     end
+    
+    this.transform.z = -10
 
     if InputManager:isKeyPressed(Keyboard.I) then
 

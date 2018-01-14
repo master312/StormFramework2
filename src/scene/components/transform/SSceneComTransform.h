@@ -77,11 +77,24 @@ public:
     /* Sets scale multiplier */
     void setScale(Vector2 scale);
 
+    /* Returns Z depth of this component.
+     * Z depth is mostly used to deside render priority for sprites and other
+     * renderable components. */
+    int getZ() const;
+
+    /* Returns Z depth of this component, with parent transform calculated in.
+     * Z depth is mostly used to deside render priority for sprites and other
+     * renderable components. */
+    int getAbsZ() const;
+
+    /* Sets Z depth */
+    void setZ(int value);
+
     /* Returns rotation angle */
-    float getAngle();
+    float getAngle() const;
 
     /* Get absolute angle, with parent transformations included */
-    float getAngleAbs();
+    float getAngleAbs() const;
 
     /* Sets rotation angle */
     void setAngle(float angle);
@@ -126,6 +139,9 @@ private:
 
     /* Scale multiplier with parent scale calculated in */
     Vector2 _ScaleAbs;
+
+    /* Z coordinate. Mostly used as render priority for sprites */
+    int _ZPriority;
 
     /* Rotation angle */
     float _Angle;

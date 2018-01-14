@@ -106,7 +106,7 @@ private:
 
     /* Pointer to lua script component */
     SSceneComLuaScript* _ComponentLuaScript;
-
+ 
     /* Set to true if this object is created at runtime,
      * and not loaded from scene file */
     bool _IsCreatedAtRuntime;

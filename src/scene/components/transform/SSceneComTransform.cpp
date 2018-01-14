@@ -14,6 +14,7 @@ SSceneComTransform::SSceneComTransform(SSceneObject* owner) : SSceneComponent(ow
     _InheritScale = true;
     _ParentAsPivot = false;
     _ScriptHandlerName = "transform";
+    _ZPriority = 0;
 }
 
 SSceneComTransform::~SSceneComTransform() {
@@ -25,6 +26,7 @@ void SSceneComTransform::serializeXml(pugi::xml_node& node) {
 
     node.append_attribute("pos_x").set_value(_Position.x);
     node.append_attribute("pos_y").set_value(_Position.y);
+    node.append_attribute("pos_z").set_value(_ZPriority);
     node.append_attribute("scale_x").set_value(_Scale.x);
     node.append_attribute("scale_y").set_value(_Scale.y);
     node.append_attribute("angle").set_value(_Angle);
@@ -37,6 +39,7 @@ int SSceneComTransform::deserializeXml(pugi::xml_node& node) {
 
     _Position.x = node.attribute("pos_x").as_float(0.0f);
     _Position.y = node.attribute("pos_y").as_float(0.0f);
+    _ZPriority = node.attribute("pos_z").as_int(0);
     _Scale.x = node.attribute("scale_x").as_float(0.0f);
     _Scale.y = node.attribute("scale_y").as_float(0.0f);
     _Angle = node.attribute("angle").as_float(0.0f);
@@ -182,11 +185,26 @@ void SSceneComTransform::setScale(Vector2 scale) {
     _IsChanged = true;
 }
 
-float SSceneComTransform::getAngle() {
+int SSceneComTransform::getZ() const {
+    return _ZPriority;
+}
+
+int SSceneComTransform::getAbsZ() const {
+    if (!_ParentTransform) {
+        return _ZPriority;
+    }
+    return _ZPriority + _ParentTransform->getZ();
+}
+
+void SSceneComTransform::setZ(int value) {
+    _ZPriority = value;
+}
+
+float SSceneComTransform::getAngle() const {
     return _Angle;
 }
 
-float SSceneComTransform::getAngleAbs() {
+float SSceneComTransform::getAngleAbs() const {
     if (_ParentTransform) {
         return StormScalarMath::clampAngle(_ParentTransform->getAngleAbs() + _Angle);
     }

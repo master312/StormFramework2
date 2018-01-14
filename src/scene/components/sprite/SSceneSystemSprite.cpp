@@ -20,6 +20,8 @@ void SSceneSystemSprite::tick(float deltaTime) {
 }
 
 void SSceneSystemSprite::render(StormRenderer* renderer) {
+    /* Sort sprites before rendering */
+    sortComponentsByZ();
     for (size_t i = 0; i < _SpriteComponents.size(); i++) {
         renderSprite(_SpriteComponents[i], renderer);
     }
@@ -180,6 +182,15 @@ void SSceneSystemSprite::renderSprite(SSceneComSprite* sprite, StormRenderer* re
     renderer->draw();
 }
 
+
+void SSceneSystemSprite::sortComponentsByZ() {
+    static struct sortStruct {
+        bool operator() (SSceneComSprite* i, SSceneComSprite* j) {
+            return i->getZ() < j->getZ();
+        }
+    } sortObj;
+    std::sort(_SpriteComponents.begin(), _SpriteComponents.end(), sortObj);
+}
 
 int SComSpriteSheet::loadSpriteFrames(pugi::xml_node& node) {
     for (pugi::xml_node frameNode = node; frameNode; frameNode = frameNode.next_sibling()) {

@@ -74,6 +74,9 @@ public:
     /* Returns pointer to sprite sheet object, or nullptr if not found */
     SComSpriteSheet* getSpriteSheet();
 
+    /* Returns render priority of this sprite. Pulled from transform component */
+    int getZ() const;
+
 private:
     spStormTexture _Texture;
 
