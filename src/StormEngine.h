@@ -34,7 +34,7 @@ public:
     /* Stops engine */
     void quit();
 
-    /**** Commonly used module methods for easy access ****/
+    /**** Often used module methods for easy access ****/
     /* Returns resource file from default filesystem,
      * or nullptr if not found */
     static spStormResourceFile getResource(const std::string& filename);    
@@ -117,11 +117,8 @@ public:
             LOG(ERROR) << "Requested engine module not found";
             return nullptr;
         }
-        T* tmpPtr = static_cast<T*>(iter->second);
-        if (!tmpPtr) {
-            LOG(ERROR) << "StormEngine::getModule casting error";
-            return nullptr;
-        }
+        T* tmpPtr = dynamic_cast<T*>(iter->second);
+        S_ASSERT(tmpPtr)
         return tmpPtr;
     }
  

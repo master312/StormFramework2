@@ -9,3 +9,11 @@
 #include "../../libs/easyloggingpp/easylogging++.h"
 #include "utils/StormMiscTools.h"
 #include "utils/StormRefCounter.h"
+
+#define S_ASSERT(condition) { if(!(condition)) { LOG(FATAL) << "Assertion failed at " << __FILE__ << ":" << __LINE__ << " inside " << __FUNCTION__ << " Condition: " << condition; } }
+
+#ifdef PRODUCTION
+    #define S_ASSERT_WARNING(condition) (condition)
+#else
+    #define S_ASSERT_WARNING(condition) { if(!(condition)) { LOG(WARNING) << "Assertion warning at " << __FILE__ << ":" << __LINE__ << " inside " << __FUNCTION__ << " Condition: " << condition; } }
+#endif

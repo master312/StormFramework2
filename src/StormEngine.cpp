@@ -29,28 +29,21 @@ void StormEngine::initialize(StormPlatformType platformType) {
     _ModResources = new StormFileSystem("data/");
     _ModulesByType[typeid(StormFileSystem)] = _ModResources->getModuleBase();
 
-    
     /* Initialize platform module */
     _ModPlatform = SEngineModuleFactory::initPlatform(platformType);
-    if (!_ModPlatform) {
-        return;
-    }
+    S_ASSERT(_ModPlatform);
     _ModulesByType[typeid(StormPlatform)] = _ModPlatform->getModuleBase();
 
 
     /* Initialize video driver module */
     _ModVideoDriver = SEngineModuleFactory::initVideoDriver();
-    if (!_ModVideoDriver) {
-        return;
-    }
+    S_ASSERT(_ModVideoDriver);
     _ModulesByType[typeid(StormVideoDriver)] = _ModVideoDriver->getModuleBase();
 
 
     /* Initialize renderer module */
     _ModRenderer = SEngineModuleFactory::initRenderer(DEFAULT_SHADER_NAME);
-    if (!_ModRenderer) {
-        return;
-    }
+    S_ASSERT(_ModRenderer);
     _ModulesByType[typeid(StormRenderer)] = _ModRenderer->getModuleBase();
     
 
@@ -150,7 +143,7 @@ void StormEngine::updateTick(float deltaTime) {
 #endif
 }
 
-/**** Commonly used module methods for easy access ****/
+/**** Often used module methods for easy access ****/
 spStormResourceFile StormEngine::getResource(const std::string& filename) {
     return instance()->_ModResources->getResourceByFilename(filename);
 }
