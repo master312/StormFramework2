@@ -28,6 +28,8 @@ public:
 
     virtual void bindComponentsToLua(SSceneSystemLuaScript* luaSystem);
 
+    virtual void onComponentRemoved(SSceneComponent* component);
+
     b2World* getBox2DWorld();
 
 private:

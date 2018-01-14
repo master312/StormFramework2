@@ -52,6 +52,8 @@ public:
     
     virtual void render(StormRenderer* renderer);
 
+    virtual void onComponentRemoved(SSceneComponent* component);
+
     /* Returns pointer to sprite sheet object, or nullptr if not found */
     SComSpriteSheet* getSpriteSheet(const std::string& filename);
 

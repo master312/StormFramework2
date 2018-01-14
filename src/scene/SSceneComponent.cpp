@@ -4,7 +4,7 @@
 #include "components/transform/SSceneComTransform.h"
 #include "components/luaScript/SSceneComLuaScript.h"
 #include "components/physics/SSceneComPhysics.h"
-#include "core/StormCommon.h"
+#include "scene/SScene.h"
 #include "SSceneComponentSystem.h"
 
 SSceneComponent::SSceneComponent(SSceneObject* owner) {
@@ -17,6 +17,10 @@ SSceneComponent::SSceneComponent(SSceneObject* owner) {
 
 SSceneComponent::~SSceneComponent() {
     S_OBSERVER_REMOVE_ALL(_Owner, this);
+    SSceneComponentSystem* system = _Owner->getScene()->getSystemByType(_Type);
+    if (system) {
+        system->removeComponent(this);
+    }
     _Owner = nullptr;
 }
 

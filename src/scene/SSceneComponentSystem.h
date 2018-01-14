@@ -24,6 +24,12 @@ public:
 
     virtual void addComponent(SSceneComponent* component);
 
+    /* Called when component has been removed from the system */
+    virtual void onComponentRemoved(SSceneComponent* component);
+
+    /* Removes component from the system */
+    void removeComponent(SSceneComponent* component);
+
     SSceneComponentType getType() const;
 
     /* Called from SSceneSystemLua class to create LUA user type(s) for the system. */

@@ -6,7 +6,7 @@ this.tmpcnt = -10
 this.onLoad = function()
     debug.log("CALLBACK the_script.lua loaded");
 end
-
+local lastId = 0
 this.onUpdate = function(deltaTime) 
     
     -- debug.log(this.object.name)
@@ -24,11 +24,12 @@ this.onUpdate = function(deltaTime)
 
         local newObject = ActiveScene:instantiatePrefab("TestPrefabOne", "NigaOVJ")
         newObject.transform:setPosition(mousePosition)
-
+        lastId = newObject.id
     elseif InputManager:isKeyDown(Keyboard.R) then
-        this.tmpcnt = -1;
+        ActiveScene:destroyObject(lastId)
+        --this.tmpcnt = -1;
         -- debug.log("Never forget B key " .. this.transform.angle)
-        this.transform.angle = this.transform.angle + 1.2
+        --this.transform.angle = this.transform.angle + 1.2
         
     end
     

@@ -103,11 +103,20 @@ function getObjectHandle(id)
     return handle
 end
 
+-- Called from engine just before SceneObject gets destroyed
+function destroyObjectHandle(cppRef)
+    handle = Handles[cppRef.id]
+    if not handle then return end
+    handle.isValid = false
+    handle.script = nil
+    debug.log("Object handle destroyed. " .. cppRef.id)
+end
+
 -- Execute this.onUpdate methods for all objects
 function tickObjects(deltaTime) 
     for key,value in pairs(Handles) do
         local handle = Handles[key]
-        if handle.hasScript then
+        if handle.isValid and handle.hasScript then
             handle.onUpdate(deltaTime)
         end
     end

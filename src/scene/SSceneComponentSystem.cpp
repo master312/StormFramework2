@@ -27,6 +27,19 @@ void SSceneComponentSystem::addComponent(SSceneComponent* component) {
     _Components.push_back(component);
 }
 
+void SSceneComponentSystem::removeComponent(SSceneComponent* component) {
+    for (size_t i = 0; i < _Components.size(); i++) {
+        if (_Components[i] == component) {
+            _Components.erase(_Components.begin() + i);
+            onComponentRemoved(component);
+            return;
+        }
+    }
+}
+
+void SSceneComponentSystem::onComponentRemoved(SSceneComponent* component) {
+}
+
 void SSceneComponentSystem::initializeLua(sol::state& luaState) {
 }
 

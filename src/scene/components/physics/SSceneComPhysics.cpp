@@ -29,6 +29,7 @@ SSceneComPhysics::SSceneComPhysics(SSceneObject* owner) : SSceneComponent(owner)
 
 SSceneComPhysics::~SSceneComPhysics() {
     if (_Box2DBody) {
+        _Box2DBody->GetWorld()->DestroyBody(_Box2DBody);
         _Box2DBody->SetUserData(nullptr);
         _Box2DBody = nullptr;
     }
@@ -148,8 +149,7 @@ void SSceneComPhysics::syncTransformAndPhysics() {
     }
 
     switch (_BodyType) {
-        case b2_staticBody: 
-            {
+        case b2_staticBody: {
             if (!_IsTransformChanged) {
                 break;
             }
@@ -158,8 +158,7 @@ void SSceneComPhysics::syncTransformAndPhysics() {
             _Box2DBody->SetTransform(position, (transform->getAngleAbs() * b2_pi) / 180.0f);
             break; }
         case b2_dynamicBody:
-        case b2_kinematicBody:
-            {
+        case b2_kinematicBody: {
             if (!_IsTrigger && !_IsTransformChanged) {
                 /* Body is not a trigger. Set transfrom to position of the body,
                  * And do nothing if body is trigger */

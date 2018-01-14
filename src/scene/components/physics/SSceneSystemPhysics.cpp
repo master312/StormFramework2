@@ -128,6 +128,15 @@ void SSceneSystemPhysics::bindComponentsToLua(SSceneSystemLuaScript* luaSystem) 
     }
 }
 
+void SSceneSystemPhysics::onComponentRemoved(SSceneComponent* component) {
+    for (size_t i = 0; i < _PhysicsComponents.size(); i++) {
+        if (_PhysicsComponents[i] == component) {
+            _PhysicsComponents.erase(_PhysicsComponents.begin() + i);
+            return;
+        }
+    }
+}
+
 b2World* SSceneSystemPhysics::getBox2DWorld() {
     return _Box2DWorld;
 }

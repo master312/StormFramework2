@@ -20,7 +20,8 @@ void SSceneSystemLuaScript::initialize() {
     _LuaState.open_libraries(sol::lib::base, sol::lib::os, 
                              sol::lib::math, sol::lib::io,
                              sol::lib::count, sol::lib::package,
-                             sol::lib::string, sol::lib::table);
+                             sol::lib::string, sol::lib::table,
+                             sol::lib::debug);
 
     /* Sets root path for lua require() function */
     StormFileSystem* fileSystem = StormEngine::getModule<StormFileSystem>();
@@ -104,7 +105,19 @@ void SSceneSystemLuaScript::registerSceneObjectHandle(SSceneObject* object) {
     }
     sol::function fun = _LuaState["createObjectHandle"];
     if (!fun.valid()) {
-        LOG(FATAL) << "LUA createHandle function not found.";
+        LOG(FATAL) << "LUA createObjectHandle function not found.";
+        return;
+    }
+    fun(object);
+}
+
+void SSceneSystemLuaScript::destroyObjectHandle(SSceneObject* object) {
+    if (!object) {
+        return;
+    }
+    sol::function fun = _LuaState["destroyObjectHandle"];
+    if (!fun.valid()) {
+        LOG(FATAL) << "LUA destroyObjectHandle function not found.";
         return;
     }
     fun(object);

@@ -172,6 +172,10 @@ sol::table SSceneObject::getLuaHandle() {
     return luaSystem->getObjectHandle(_Id);
 }
 
+SScene* SSceneObject::getScene() {
+    return _Scene;
+}
+
 void SSceneObject::clearParent() {
     if (!_Parent) {
         return;

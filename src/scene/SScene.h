@@ -43,10 +43,13 @@ public:
      * and memory will be freed when scene gets deleted */
     void addObject(SSceneObject* object);
 
+    /* Completely destroys object with ID @objectId */
+    void destroyObject(uint32_t objectId);
+
     /* Creates new script object from prefab, and return pointer to it.
      * Returns nullptr on error */
     SSceneObject* instantiatePrefab(const std::string& prefabName,
-                                        const std::string& objectName = "");
+                                    const std::string& objectName = "");
 
     /* Returns vector of all scene objects */
     std::vector<SSceneObject*>& getObjects();

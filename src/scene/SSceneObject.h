@@ -71,6 +71,9 @@ public:
     /* Returns lua handle for this scene object */
     sol::table getLuaHandle();
 
+    /* Returns scene which owns this object */
+    SScene* getScene();
+
 private:
     /* Unique object identifier */
     uint32_t _Id;

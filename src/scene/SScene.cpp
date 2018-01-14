@@ -183,6 +183,23 @@ void SScene::addObject(SSceneObject* object) {
     _Objects.push_back(object);
 }
 
+void SScene::destroyObject(uint32_t objectId) {
+    SSceneObject* object = nullptr;
+    for (size_t i = 0; i < _Objects.size(); i++) {
+        if (_Objects[i]->getId() == objectId) {
+            object = _Objects[i];
+            _Objects.erase(_Objects.begin() + i);
+            break;
+        }
+    }
+    if (!object) {
+        LOG(WARNING) << "Tried to destroy non existing object";
+        return;
+    }
+    getScriptSystem()->destroyObjectHandle(object);
+    delete object;
+}
+
 SSceneObject* SScene::instantiatePrefab(const std::string& prefabName,
                                                 const std::string& objectName /* = "" */) {
     if (prefabName == "") {
@@ -219,6 +236,7 @@ void SScene::initializeNewObject(SSceneObject* object) {
     /* Loop initializes all components */
     static std::vector<SSceneComponentSystem*> addedSystems;
     addedSystems.clear();
+    SSceneSystemLuaScript* luaSystem = nullptr;
     for (int i = 0; i < S_SCENE_OBJECT_COM_TYPES_COUNT; i++) {
         int nextToInit = SSceneComponentInitializationOrder[i];
         SSceneComponent* component = object->getComponent((SSceneComponentType)nextToInit);
@@ -226,7 +244,16 @@ void SScene::initializeNewObject(SSceneObject* object) {
             SSceneComponentSystem* comSystem = _ComponentSystemsByType[nextToInit];
             component->initialize(comSystem);
             addedSystems.push_back(comSystem);
+            if (comSystem->getType() == S_SCENE_OBJECT_COM_SCRIPT) {
+                luaSystem = static_cast<SSceneSystemLuaScript*>(comSystem);
+            }
         }
+    }
+
+    if (!luaSystem) {
+        /* There is no script component attached to this object, which mean
+         * that object's lua handle has not been created, so we create it here */
+        getScriptSystem()->registerSceneObjectHandle(object);
     }
 
     /* Now bind all components to lua script */

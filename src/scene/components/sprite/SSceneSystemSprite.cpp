@@ -44,6 +44,15 @@ void SSceneSystemSprite::render(StormRenderer* renderer) {
     }
 }
 
+void SSceneSystemSprite::onComponentRemoved(SSceneComponent* component) {
+    for (size_t i = 0; i < _SpriteComponents.size(); i++) {
+        if (_SpriteComponents[i] == component) {
+            _SpriteComponents.erase(_SpriteComponents.begin() + i);
+            return;
+        }
+    }
+}
+
 SComSpriteSheet* SSceneSystemSprite::getSpriteSheet(const std::string& filename) {
     auto iter = _SpriteSheets.find(filename);
     if (iter == _SpriteSheets.end()) {

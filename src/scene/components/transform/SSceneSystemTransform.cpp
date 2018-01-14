@@ -33,6 +33,15 @@ void SSceneSystemTransform::addComponent(SSceneComponent* component) {
     _TransformComponents.push_back(transform);
 }
 
+void SSceneSystemTransform::onComponentRemoved(SSceneComponent* component) {
+    for (size_t i = 0; i < _TransformComponents.size(); i++) {
+        if (_TransformComponents[i] == component) {
+            _TransformComponents.erase(_TransformComponents.begin() + i);
+            return;
+        }
+    }
+}
+
 void SSceneSystemTransform::initializeLua(sol::state& luaState) {
     auto setPosFunction = sol::resolve<void(const Vector2)>(&SSceneComTransform::setPosition);
     luaState.new_usertype<SSceneComTransform>("ComTransform",

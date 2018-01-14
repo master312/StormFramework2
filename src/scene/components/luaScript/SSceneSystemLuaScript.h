@@ -25,6 +25,10 @@ public:
     /* Creates script handle for scene object @object. */
     void registerSceneObjectHandle(SSceneObject* object);
 
+    /* Destroys object handle. After executing this method object will be
+     * inaccessible from script */
+    void destroyObjectHandle(SSceneObject* object);
+
     /* Binds SSceneComponent to owner's object lua handle */
     template <class T>
     void bindComponentToObject(SSceneComponent* component) {

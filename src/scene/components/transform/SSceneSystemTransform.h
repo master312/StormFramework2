@@ -16,6 +16,8 @@ public:
 
     virtual void bindComponentsToLua(SSceneSystemLuaScript* luaSystem);
 
+    virtual void onComponentRemoved(SSceneComponent* component);
+
 private:
     std::vector<SSceneComTransform*> _TransformComponents;
 

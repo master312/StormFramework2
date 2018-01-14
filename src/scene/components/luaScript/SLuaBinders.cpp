@@ -13,7 +13,7 @@ SLuaBinders::~SLuaBinders() {
 }
 
 int SLuaBinders::bindStandardTypes(sol::state& state) { 
-    state.create_table("debug");
+    //state.create_table("debug");
     state["debug"]["log"] = SLuaBinders::debugLog;
 
     bindVector2(state);
@@ -52,6 +52,7 @@ void SLuaBinders::bindScene(sol::state& state) {
         "name", sol::property(&SScene::getName),
         /* Do not use this method. Use method defined in lua script */
         "intInstantiatePrefab", &SScene::instantiatePrefab,
+        "destroyObject", &SScene::destroyObject,
         "getObjectById", &SScene::getObjectById
     );
     
