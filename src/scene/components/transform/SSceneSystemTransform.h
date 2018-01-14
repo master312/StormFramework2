@@ -10,11 +10,11 @@ public:
 
     virtual void tick(float deltaTime);
 
-    virtual void addComponent(SSceneComponent* component);
-
     virtual void initializeLua(sol::state& luaState);
 
     virtual void bindComponentsToLua(SSceneSystemLuaScript* luaSystem);
+
+    virtual void onComponentAdded(SSceneComponent* component);
 
     virtual void onComponentRemoved(SSceneComponent* component);
 

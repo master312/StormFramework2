@@ -25,6 +25,7 @@ void SSceneComponentSystem::tick(float deltaTime) {
 
 void SSceneComponentSystem::addComponent(SSceneComponent* component) {
     _Components.push_back(component);
+    onComponentAdded(component);
 }
 
 void SSceneComponentSystem::removeComponent(SSceneComponent* component) {
@@ -38,6 +39,9 @@ void SSceneComponentSystem::removeComponent(SSceneComponent* component) {
 }
 
 void SSceneComponentSystem::onComponentRemoved(SSceneComponent* component) {
+}
+
+void SSceneComponentSystem::onComponentAdded(SSceneComponent* component) {
 }
 
 void SSceneComponentSystem::initializeLua(sol::state& luaState) {

@@ -18,19 +18,11 @@ void SSceneSystemTransform::tick(float deltaTime) {
     }
 }
 
-void SSceneSystemTransform::addComponent(SSceneComponent* component) {
+void SSceneSystemTransform::onComponentAdded(SSceneComponent* component) {
     if (!validateComponent(component, S_SCENE_OBJECT_COM_TRANSFORM)) {
         return;
     }
-    SSceneComponentSystem::addComponent(component);
-
-    SSceneComTransform* transform = dynamic_cast<SSceneComTransform*>(component);
-    if (!transform) {
-        LOG(ERROR) << "Could not cast component to SSceneComTransform";
-        return;
-    }
-
-    _TransformComponents.push_back(transform);
+    _TransformComponents.push_back(static_cast<SSceneComTransform*>(component));
 }
 
 void SSceneSystemTransform::onComponentRemoved(SSceneComponent* component) {

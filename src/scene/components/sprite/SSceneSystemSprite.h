@@ -46,11 +46,11 @@ public:
     SSceneSystemSprite(SScene* scene);
     virtual ~SSceneSystemSprite();
 
-    virtual void addComponent(SSceneComponent* component);
-
     virtual void tick(float deltaTime);
     
     virtual void render(StormRenderer* renderer);
+
+    virtual void onComponentAdded(SSceneComponent* component);
 
     virtual void onComponentRemoved(SSceneComponent* component);
 

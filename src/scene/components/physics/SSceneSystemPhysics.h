@@ -15,8 +15,6 @@ public:
     SSceneSystemPhysics(SScene* scene);
     virtual ~SSceneSystemPhysics();
 
-    virtual void addComponent(SSceneComponent* component);
-
     virtual void initialize();
 
     /* Used for debug rendering */
@@ -27,6 +25,8 @@ public:
     virtual void initializeLua(sol::state& luaState);
 
     virtual void bindComponentsToLua(SSceneSystemLuaScript* luaSystem);
+
+    virtual void onComponentAdded(SSceneComponent* component);
 
     virtual void onComponentRemoved(SSceneComponent* component);
 

@@ -20,13 +20,6 @@ SSceneSystemPhysics::~SSceneSystemPhysics() {
     }
 }
 
-void SSceneSystemPhysics::addComponent(SSceneComponent* component) {
-    SSceneComponentSystem::addComponent(component);
-
-    SSceneComPhysics* physicsCom = dynamic_cast<SSceneComPhysics*>(component);
-    _PhysicsComponents.push_back(physicsCom);
-}
-
 void SSceneSystemPhysics::initialize() {
     /* Define the gravity vector. */
     b2Vec2 gravity(0.0f, 7.81f);
@@ -126,6 +119,13 @@ void SSceneSystemPhysics::bindComponentsToLua(SSceneSystemLuaScript* luaSystem) 
     for (SSceneComPhysics* com : _PhysicsComponents) {
         luaSystem->bindComponentToObject<SSceneComPhysics*>(com);
     }
+}
+
+void SSceneSystemPhysics::onComponentAdded(SSceneComponent* component) {
+    if (!validateComponent(component, S_SCENE_OBJECT_COM_PHYSICS)) {
+        return;
+    }
+    _PhysicsComponents.push_back(static_cast<SSceneComPhysics*>(component));
 }
 
 void SSceneSystemPhysics::onComponentRemoved(SSceneComponent* component) {

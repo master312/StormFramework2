@@ -15,20 +15,24 @@ class SSceneComponentSystem {
 public:
     SSceneComponentSystem(SScene* scene);
     virtual ~SSceneComponentSystem();
-    
+
+    /* Removes component from the system */
+    void removeComponent(SSceneComponent* component);
+
+    /* Adds component to system */
+    void addComponent(SSceneComponent* component);
+
     virtual void initialize();
 
     virtual void render(StormRenderer* renderer);
 
     virtual void tick(float deltaTime);
 
-    virtual void addComponent(SSceneComponent* component);
-
     /* Called when component has been removed from the system */
     virtual void onComponentRemoved(SSceneComponent* component);
 
-    /* Removes component from the system */
-    void removeComponent(SSceneComponent* component);
+    /* Called when new component has been added to the system */
+    virtual void onComponentAdded(SSceneComponent* component);
 
     SSceneComponentType getType() const;
 
@@ -41,6 +45,10 @@ public:
 
     bool getIsInitialized();
 
+    /* Returns true if component is matches type, and has owner.
+     * Otherwise returns false and logs error. */
+    static bool validateComponent(SSceneComponent* com, SSceneComponentType type);
+
 protected:
     SSceneComponentType _Type;
     
@@ -49,8 +57,4 @@ protected:
     std::vector<SSceneComponent*> _Components;
     
     bool _IsInitialized;
-
-    /* Returns true if component is matches type, and has owner. 
-     * Otherwise returns false and logs error. */
-    virtual bool validateComponent(SSceneComponent* com, SSceneComponentType type);
 };

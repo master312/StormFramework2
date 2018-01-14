@@ -10,25 +10,6 @@ SSceneSystemSprite::SSceneSystemSprite(SScene* scene) : SSceneComponentSystem(sc
 SSceneSystemSprite::~SSceneSystemSprite() {
 }
 
-void SSceneSystemSprite::addComponent(SSceneComponent* component) {
-    if (!validateComponent(component, S_SCENE_OBJECT_COM_SPRITE)) {
-        return;
-    }
-    SSceneComponentSystem::addComponent(component);
-
-    SSceneComSprite* com = dynamic_cast<SSceneComSprite*>(component);
-
-    const std::string& spriteFilename = com->getSpriteSheetFilename();
-    if (spriteFilename != "") {
-        /* This component uses sprite sheet */
-        if (loadSpriteSheetFromXml(StormEngine::getResource(spriteFilename)) < 0) {
-            LOG(ERROR) << "Could not load sprite sheet '" << spriteFilename << "'";
-        }
-    }
-    
-    _SpriteComponents.push_back(com);
-}
-
 void SSceneSystemSprite::tick(float deltaTime) {
     for (size_t i = 0; i < _SpriteComponents.size(); i++) {
         SSceneComSprite* sprite = _SpriteComponents[i];
@@ -42,6 +23,23 @@ void SSceneSystemSprite::render(StormRenderer* renderer) {
     for (size_t i = 0; i < _SpriteComponents.size(); i++) {
         renderSprite(_SpriteComponents[i], renderer);
     }
+}
+
+void SSceneSystemSprite::onComponentAdded(SSceneComponent* component) {
+    if (!validateComponent(component, S_SCENE_OBJECT_COM_SPRITE)) {
+        return;
+    }
+    SSceneComSprite* com = static_cast<SSceneComSprite*>(component);
+
+    const std::string& spriteFilename = com->getSpriteSheetFilename();
+    if (spriteFilename != "") {
+        /* This component uses sprite sheet. We load it here */
+        if (loadSpriteSheetFromXml(StormEngine::getResource(spriteFilename)) < 0) {
+            LOG(ERROR) << "Could not load sprite sheet '" << spriteFilename << "'";
+        }
+    }
+
+    _SpriteComponents.push_back(com);
 }
 
 void SSceneSystemSprite::onComponentRemoved(SSceneComponent* component) {
