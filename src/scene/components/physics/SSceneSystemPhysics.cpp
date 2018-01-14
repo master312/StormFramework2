@@ -150,13 +150,9 @@ void SSceneSystemPhysics::ContactListener::BeginContact(b2Contact* contact) {
         LOG(ERROR) << "Box2D contact fiered with body without user data!";
         return;
     }
+
     SSceneComPhysics* component1 = static_cast<SSceneComPhysics*> (userData1);
     SSceneComPhysics* component2 = static_cast<SSceneComPhysics*> (userData2);
-    if (!component1 || !component2) {
-        LOG(ERROR) << "Box2D contact, body have invalid user data.";
-        return;
-    }
-
     component1->handleCollision(component2);
     component2->handleCollision(component1);
 }
