@@ -28,10 +28,9 @@ include(cmake/CMakeLibsSettings.cmake)
 include(src/CMakeLists.txt)
 
 # Create sources list
-set(sources
+set(engine_sources
     ${STORM_ENGINE_SOURCE_FILES} # Defined in src/CMakeList.txt
     ${STORM_LIBS_SOURCE_FILES}   # Defined in CMakeLibsSettings.txt
-    main.cpp
     )
 
 
@@ -54,10 +53,13 @@ else()
 endif()
 
 
-add_executable(${PROJECT_NAME} ${sources})
+add_executable(${PROJECT_NAME} ${engine_sources} main.cpp)
 # Set libraryes
 target_link_libraries(${PROJECT_NAME} ${STORM_LIBS})
 
+
+# Include editor configuration
+include(src_editor/CMakeLists.txt)
 
 
 

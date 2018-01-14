@@ -13,7 +13,7 @@ StormEngine::StormEngine() {
     _ModResources = nullptr;
     _ModSceneManager = nullptr;
 
-    _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.16", true);
+    _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.17", true);
 }
 
 StormEngine::~StormEngine() {
