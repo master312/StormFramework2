@@ -72,7 +72,7 @@ public:
     sol::table getLuaHandle();
 
     /* Returns scene which owns this object */
-    SScene* getScene();
+    SScene* getScene() const;
 
     /* Unlinks object from parent (if any).
      * Removes this object from parent's @_Children array and clears @_Parent pointer.

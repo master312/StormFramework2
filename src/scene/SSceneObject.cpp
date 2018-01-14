@@ -175,7 +175,7 @@ sol::table SSceneObject::getLuaHandle() {
     return luaSystem->getObjectHandle(_Id);
 }
 
-SScene* SSceneObject::getScene() {
+SScene* SSceneObject::getScene() const {
     return _Scene;
 }
 
