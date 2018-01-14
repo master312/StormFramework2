@@ -208,24 +208,30 @@ SSceneObject* SScene::instantiatePrefab(const std::string& prefabName,
     object->setName(objectName);
 
     addObject(object);
-    initializeObject(object);
+    initializeNewObject(object);
     
     LOG(DEBUG) << "Instantiated new object from prefab '" << prefabName << "'. ID: " << _MaxObjectId;
 
     return object;
 }
 
-void SScene::initializeObject(SSceneObject* object) {
+void SScene::initializeNewObject(SSceneObject* object) {
+    /* Loop initializes all components */
+    static std::vector<SSceneComponentSystem*> addedSystems;
+    addedSystems.clear();
     for (int i = 0; i < S_SCENE_OBJECT_COM_TYPES_COUNT; i++) {
         int nextToInit = SSceneComponentInitializationOrder[i];
-        SSceneComponentSystem* comSystem = _ComponentSystemsByType[nextToInit];
-        if (!comSystem) {
-            continue;
-        }
         SSceneComponent* component = object->getComponent((SSceneComponentType)nextToInit);
         if (component) {
+            SSceneComponentSystem* comSystem = _ComponentSystemsByType[nextToInit];
             component->initialize(comSystem);
+            addedSystems.push_back(comSystem);
         }
+    }
+
+    /* Now bind all components to lua script */
+    for (SSceneComponentSystem* system : addedSystems) {
+        system->bindComponentsToLua(getScriptSystem());
     }
 }
 
@@ -248,6 +254,10 @@ std::vector<SSceneComponentSystem*>& SScene::getSystems() {
 
 SSceneComponentSystem* SScene::getSystemByType(SSceneComponentType type) {
     return _ComponentSystemsByType[(int)type];
+}
+
+SSceneSystemLuaScript* SScene::getScriptSystem() {
+    return dynamic_cast<SSceneSystemLuaScript*>(getSystemByType(S_SCENE_OBJECT_COM_SCRIPT));
 }
 
 std::map<std::string, pugi::xml_node>& SScene::getPrefabs() {

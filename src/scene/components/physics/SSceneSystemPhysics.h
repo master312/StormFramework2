@@ -24,7 +24,9 @@ public:
 
     virtual void tick(float deltaTime);
 
-    virtual int bindToLua(sol::state& luaState);
+    virtual void initializeLua(sol::state& luaState);
+
+    virtual void bindComponentsToLua(SSceneSystemLuaScript* luaSystem);
 
     b2World* getBox2DWorld();
 

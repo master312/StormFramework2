@@ -28,7 +28,7 @@ static const std::string SSceneComponentTypeString[S_SCENE_OBJECT_COM_TYPES_COUN
     "Sprite",
     "Spine",
     "Script",
-    "Collider",
+    "Physics",
 };
 
 /* Order of component type initialization */
@@ -41,7 +41,7 @@ static const int SSceneComponentInitializationOrder[S_SCENE_OBJECT_COM_TYPES_COU
     S_SCENE_OBJECT_COM_SCRIPT
 };
 
-/* Order in which component systems will tick  */
+/* Order in which component systems will tick. */
 static const int SSceneComponentTickingOrderCount = 6;
 static const int SSceneComponentTickingOrder[SSceneComponentTickingOrderCount] = {
     S_SCENE_OBJECT_COM_TRANSFORM,
@@ -77,13 +77,17 @@ public:
     /* Returns whether component is initialized or not */
     bool getIsInitialized();
 
-    /* Binds this component to Scene Object's lua interface. 
-     * Component should be initializes before using.
-     * Must be overriden in order to work/ */
-    virtual void bindToScript(sol::state& luaState);
-
     /* Has this component been binded to script */
     bool getIsBindedToScript();
+
+    /* Should be set to true after component gets binded to script */
+    void setIsBindedToScript(bool value);
+
+    /* Returns owner's lua handle table */
+    sol::table getOwnerLuaHandle();
+
+    /* Returns reference to LUA handle name for this SSceneComponent */
+    std::reference_wrapper<const std::string> getLuaHandleName();
 
     /* Produces new component of @SSceneComponentType and return pointer to it */
     static SSceneComponent* newComponent(SSceneComponentType type, SSceneObject* owner);
@@ -103,21 +107,4 @@ protected:
 
     /* Has this component been binded to script */
     bool _IsBindedToScript;
-
-    /* Binds this component to script. 
-     * Component should be initializes before using this. */
-    template <class T>
-    void bindTypeToScript(sol::state& luaState) {
-        if (_IsBindedToScript) return;
-        
-        sol::table handle = getOwnerLuaHandle(luaState);
-        if (!handle.valid()) return;
-
-        handle["script"][_ScriptHandlerName] = dynamic_cast<T>(this);
-        _IsBindedToScript = true;
-    }
-
-private:
-        /* Returns owner's lua handle table */
-    sol::table getOwnerLuaHandle(sol::state& luaState);
 };

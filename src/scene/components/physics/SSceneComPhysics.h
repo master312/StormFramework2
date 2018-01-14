@@ -53,9 +53,6 @@ public:
     /* Called every time this object collides with some other object */
     void handleCollision(SSceneComPhysics* collidedWith);
 
-    /* Binds this component to Scene Object's lua interface. */
-    virtual void bindToScript(sol::state& luaState);
-
 private:
     GeometryType _GeometryType;
 

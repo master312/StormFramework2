@@ -252,7 +252,3 @@ void SSceneComTransform::pullParentTransform() {
     _ParentTransform = _Owner->getParent()->getTransform();
     _IsChanged = true;
 }
-
-void SSceneComTransform::bindToScript(sol::state& luaState) {
-    bindTypeToScript<SSceneComTransform*>(luaState);
-}

@@ -299,7 +299,3 @@ void SSceneComPhysics::applyLinearImpulse(const Vector2& force) {
     b2Vec2 b2Force(force.x, force.y);
     _Box2DBody->ApplyLinearImpulseToCenter(b2Force, true);
 }
-
-void SSceneComPhysics::bindToScript(sol::state& luaState) {
-    bindTypeToScript<SSceneComPhysics*>(luaState);
-}

@@ -6,10 +6,10 @@
 
 /* Base class for all component systems.
  * TODO: Create system for checking for double component entrys in _Components. 
- *     : In SSceneComponentSystem::initialize method, handle errors returned by componets. */
-
+ *     : In SSceneComponentSystem::initialize method, handle errors returned by components. */
 class StormRenderer;
 class SScene;
+class SSceneSystemLuaScript;
 
 class SSceneComponentSystem {
 public:
@@ -23,10 +23,15 @@ public:
     virtual void tick(float deltaTime);
 
     virtual void addComponent(SSceneComponent* component);
-    
-    virtual int bindToLua(sol::state& luaState);
 
     SSceneComponentType getType() const;
+
+    /* Called from SSceneSystemLua class to create LUA user type(s) for the system. */
+    virtual void initializeLua(sol::state& luaState);
+
+    /* Binds all components to owner's LUA object (if any).
+     * Must be overriden to work. */
+    virtual void bindComponentsToLua(SSceneSystemLuaScript* luaSystem);
 
     bool getIsInitialized();
 

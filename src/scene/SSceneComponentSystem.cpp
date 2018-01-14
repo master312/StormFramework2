@@ -27,8 +27,10 @@ void SSceneComponentSystem::addComponent(SSceneComponent* component) {
     _Components.push_back(component);
 }
 
-int SSceneComponentSystem::bindToLua(sol::state& luaState) {
-    return 0;
+void SSceneComponentSystem::initializeLua(sol::state& luaState) {
+}
+
+void SSceneComponentSystem::bindComponentsToLua(SSceneSystemLuaScript* luaSystem) {
 }
 
 SSceneComponentType SSceneComponentSystem::getType() const {

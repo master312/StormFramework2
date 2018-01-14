@@ -25,6 +25,17 @@ public:
     /* Creates script handle for scene object @object. */
     void registerSceneObjectHandle(SSceneObject* object);
 
+    /* Binds SSceneComponent to owner's object lua handle */
+    template <class T>
+    void bindComponentToObject(SSceneComponent* component) {
+        if (!component || component->getIsBindedToScript()) return;
+        sol::table handle = component->getOwnerLuaHandle();
+        if (!handle.valid() || !handle["script"].valid()) return;
+        const std::string& str = component->getLuaHandleName();
+        handle["script"][str] = dynamic_cast<T>(component);
+        component->setIsBindedToScript(true);
+    }
+
 private:
     /* Vector containing all components. Used for faster component access. */
     std::vector<SSceneComLuaScript*> _ScriptComponents;

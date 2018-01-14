@@ -1,6 +1,7 @@
 #include "SSceneSystemTransform.h"
 #include "SSceneComTransform.h"
-#include "scene/SSceneObject.h"
+#include "scene/SScene.h"
+#include "scene/components/luaScript/SSceneSystemLuaScript.h"
 
 SSceneSystemTransform::SSceneSystemTransform(SScene* scene) : SSceneComponentSystem(scene){
     _Type = S_SCENE_OBJECT_COM_TRANSFORM;
@@ -32,7 +33,7 @@ void SSceneSystemTransform::addComponent(SSceneComponent* component) {
     _TransformComponents.push_back(transform);
 }
 
-int SSceneSystemTransform::bindToLua(sol::state& luaState) {
+void SSceneSystemTransform::initializeLua(sol::state& luaState) {
     auto setPosFunction = sol::resolve<void(const Vector2)>(&SSceneComTransform::setPosition);
     luaState.new_usertype<SSceneComTransform>("ComTransform",
         "posAbs", sol::property(&SSceneComTransform::getPositionAbs),
@@ -45,10 +46,10 @@ int SSceneSystemTransform::bindToLua(sol::state& luaState) {
         "inheritScale", sol::property(&SSceneComTransform::getInheritScale, &SSceneComTransform::setInheritScale),
         "parentAsPivot", sol::property(&SSceneComTransform::getParentAsPivot, &SSceneComTransform::setParentAsPivot)
     );
-    
-    for (SSceneComTransform* com : _TransformComponents) {
-        com->bindToScript(luaState);
-    }
+}
 
-    return 1;
+void SSceneSystemTransform::bindComponentsToLua(SSceneSystemLuaScript* luaSystem) {
+    for (SSceneComTransform* com : _TransformComponents) {
+        luaSystem->bindComponentToObject<SSceneComTransform*>(com);
+    }
 }

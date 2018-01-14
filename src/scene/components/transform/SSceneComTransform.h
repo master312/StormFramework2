@@ -20,7 +20,7 @@ public:
     /* Initialize component. Called after all components have been loaded */
     virtual int initialize(SSceneComponentSystem* system);
 
-    /* Do transfrom calculations. */
+    /* Do transform calculations. */
     void transform();
 
     /* Returns position relative to parent
@@ -109,9 +109,6 @@ public:
 
     /* Observer method. Called when parent's transform has been changed */
     void observeParentTransformChanged(void* data);
-
-    /* Binds this component to Scene Object's lua interface. */
-    virtual void bindToScript(sol::state& luaState);
 
 private:
     /* Pointer to parent object's transform component */

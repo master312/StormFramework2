@@ -12,7 +12,9 @@ public:
 
     virtual void addComponent(SSceneComponent* component);
 
-    virtual int bindToLua(sol::state& luaState);
+    virtual void initializeLua(sol::state& luaState);
+
+    virtual void bindComponentsToLua(SSceneSystemLuaScript* luaSystem);
 
 private:
     std::vector<SSceneComTransform*> _TransformComponents;

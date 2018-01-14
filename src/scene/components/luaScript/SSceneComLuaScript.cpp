@@ -53,7 +53,7 @@ int SSceneComLuaScript::initialize(SSceneComponentSystem* system) {
     
     if (scriptFile->getBufferSize() <= 4) {
         /* Script to short */
-        LOG(ERROR) << "Infalid script file " << _Filename;
+        LOG(ERROR) << "Invalid script file " << _Filename;
         return -3;
     }
 
@@ -63,16 +63,17 @@ int SSceneComLuaScript::initialize(SSceneComponentSystem* system) {
         LOG(ERROR) << "Invalid lua script table content for entity ID: " << _Owner->getId();
         return -4;
     }
-    
+
+    if (_Owner->getIsCreatedAtRuntime()) {
+        /* Object is created at runtime. We need new lua handle now */
+        luaSystem->registerSceneObjectHandle(_Owner);
+    }
+
     _LuaHandle = luaSystem->getObjectHandle(_Owner->getId());
 
     if (!_LuaHandle || !_LuaHandle.valid()) {
-        LOG(WARNING) << "Invalid lua handle for object ID: " << _Owner->getId() << " Creating new handle";
-
-        /* Creates object handle if there already is not one.
-         * TODO: Remove, and return error, after task "6lCfGmKb" */
-        luaSystem->registerSceneObjectHandle(_Owner);
-        _LuaHandle = luaSystem->getObjectHandle(_Owner->getId());
+        LOG(ERROR) << "Invalid lua handle for object ID: " << _Owner->getId();
+        return -5;
     }
 
     /* Bind script to handle */
@@ -85,15 +86,9 @@ int SSceneComLuaScript::initialize(SSceneComponentSystem* system) {
     }
 
     if (_Owner->getIsCreatedAtRuntime()) {
-        /* Lua system is already initialized. 
-         * Bind all components on for SceneObject to lua */
-        for (SSceneComponent* component : _Owner->getComponents()) {
-            if (component == this) {
-                continue;
-            }
-            component->bindToScript(luaSystem->getLuaState());
-        }
+        /* Object is created on runtime. So execute on load now */
         executeOnLoad();
+        /* TODO: Don't execute OnStart here. Execute if on first next update() */
         executeOnStart();
     }
 

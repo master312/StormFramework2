@@ -4,9 +4,6 @@
 #include "StormEngine.h"
 #include "scene/SSceneObject.h"
 #include "scene/SScene.h"
-#include "core/resources/StormFileSystem.h"
-#include "utils/math/Vector2.h"
-
 /*
     Component load script and holds pointer to table
 */
@@ -60,9 +57,11 @@ void SSceneSystemLuaScript::initialize() {
         if (system == this) {
             continue;
         }
-        if (system->bindToLua(_LuaState) < 0) {
-            LOG(ERROR) << "System could not be binded to lua script";
-        }
+
+        /* Bind usertype to lua */
+        system->initializeLua(_LuaState);
+        /* Bind all components to owner's script object. */
+        system->bindComponentsToLua(this);
     }
 
     for (SSceneComLuaScript* component : _ScriptComponents) {
@@ -100,7 +99,7 @@ sol::table SSceneSystemLuaScript::getObjectHandle(uint32_t id) {
 
 void SSceneSystemLuaScript::registerSceneObjectHandle(SSceneObject* object) {
     if (!object) {
-        LOG(ERROR) << "Tryed to create lua handle for null object";
+        LOG(ERROR) << "Tried to create lua handle for null object";
         return;
     }
     sol::function fun = _LuaState["createObjectHandle"];

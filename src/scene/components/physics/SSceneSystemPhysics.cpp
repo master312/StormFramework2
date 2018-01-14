@@ -2,12 +2,10 @@
 #include "SSceneSystemPhysics.h"
 #include "SSceneComPhysics.h"
 #include "StormDebug.h"
-#include "../transform/SSceneComTransform.h"
-#include "../luaScript/SSceneComLuaScript.h"
-#include "scene/SSceneObject.h"
+#include "scene/SScene.h"
+#include "scene/components/transform/SSceneComTransform.h"
+#include "scene/components/luaScript/SSceneSystemLuaScript.h"
 #include "graphics/StormRenderer.h"
-#include "utils/StormVertex.h"
-#include "utils/Plane.h"
 
 SSceneSystemPhysics::SSceneSystemPhysics(SScene* scene) : SSceneComponentSystem(scene),
                                                               _ContactListener(*this) {
@@ -116,18 +114,18 @@ void SSceneSystemPhysics::tick(float deltaTime) {
     }
 }
 
-int SSceneSystemPhysics::bindToLua(sol::state& luaState) {
+void SSceneSystemPhysics::initializeLua(sol::state& luaState) {
     luaState.new_usertype<SSceneComPhysics>("ComPhysics",
         "containsPoint", &SSceneComPhysics::containsPoint,
         "applyForce", &SSceneComPhysics::applyForce,
         "applyLinearImpulse", &SSceneComPhysics::applyLinearImpulse
     );
+}
 
+void SSceneSystemPhysics::bindComponentsToLua(SSceneSystemLuaScript* luaSystem) {
     for (SSceneComPhysics* com : _PhysicsComponents) {
-        com->bindToScript(luaState);
+        luaSystem->bindComponentToObject<SSceneComPhysics*>(com);
     }
-
-    return 1;
 }
 
 b2World* SSceneSystemPhysics::getBox2DWorld() {

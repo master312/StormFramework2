@@ -6,6 +6,7 @@
 #include "resources/StormResourceFile.h"
 
 class StormRenderer;
+class SSceneSystemLuaScript;
 
 /* TODO - OPTIMIZATION: Split components into 2 vectors. Tickable and untickable, so we dont 
  * have to iterate trought all components on render if some of them are unrenerable. */
@@ -53,11 +54,14 @@ public:
     /* Returns pointer to object with ID */
     SSceneObject* getObjectById(uint32_t id);
 
-    /* Retnurns reference to rector containing all component systems */
+    /* Returns reference to rector containing all component systems */
     std::vector<SSceneComponentSystem*>& getSystems();
 
-    /* Retuns component systme object by type */
+    /* Returns component system object by type */
     SSceneComponentSystem* getSystemByType(SSceneComponentType type);
+
+    /* Returns pointer to Script system. Used for easier access */
+    SSceneSystemLuaScript* getScriptSystem();
 
     /* Returns reference to map containing all prefabs. */
     std::map<std::string, pugi::xml_node>& getPrefabs();
@@ -76,7 +80,7 @@ private:
     /* Vector containing all scene objects */
     std::vector<SSceneObject*> _Objects;
     
-    /* Vector containt various systems for managing scene object component logic */
+    /* Vector contains various systems for managing scene object component logic */
     std::vector<SSceneComponentSystem*> _ComponentSystems;
     
     /* All component systems indexed by their component types.
@@ -99,7 +103,7 @@ private:
     bool _IsInitialized;
     
     /* Used for initializing objects added at runtime */
-    void initializeObject(SSceneObject* object);
+    void initializeNewObject(SSceneObject* object);
 
     void initializeDefaultSystems();
 };

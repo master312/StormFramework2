@@ -169,9 +169,6 @@ SSceneComLuaScript* SSceneObject::getLuaScript() const {
 sol::table SSceneObject::getLuaHandle() {
     SSceneSystemLuaScript* luaSystem = dynamic_cast<SSceneSystemLuaScript*>(
                             _Scene->getSystemByType(S_SCENE_OBJECT_COM_SCRIPT));
-    if (!luaSystem) {
-        return sol::table();
-    }
     return luaSystem->getObjectHandle(_Id);
 }
 
