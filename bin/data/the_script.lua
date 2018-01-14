@@ -26,7 +26,7 @@ this.onUpdate = function(deltaTime)
         newObject.transform:setPosition(mousePosition)
         lastId = newObject.id
     elseif InputManager:isKeyDown(Keyboard.R) then
-        ActiveScene:destroyObject(1)
+        ActiveScene:destroyObject(this)
         --this.tmpcnt = -1;
         -- debug.log("Never forget B key " .. this.transform.angle)
         --this.transform.angle = this.transform.angle + 1.2

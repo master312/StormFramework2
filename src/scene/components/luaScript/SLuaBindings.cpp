@@ -1,20 +1,17 @@
-#include "SLuaBinders.h"
+#include "SLuaBindings.h"
 #include "StormEngine.h"
 #include "scene/SScene.h"
-#include "scene/SSceneObject.h"
-#include "scene/SSceneComponentSystem.h"
-#include "utils/math/Vector2.h"
 #include "../transform/SSceneComTransform.h"
 
-SLuaBinders::SLuaBinders() {
+SLuaBindings::SLuaBindings() {
 }
 
-SLuaBinders::~SLuaBinders() {
+SLuaBindings::~SLuaBindings() {
 }
 
-int SLuaBinders::bindStandardTypes(sol::state& state) { 
+int SLuaBindings::bindStandardTypes(sol::state& state) {
     //state.create_table("debug");
-    state["debug"]["log"] = SLuaBinders::debugLog;
+    state["debug"]["log"] = SLuaBindings::debugLog;
 
     bindVector2(state);
     bindScene(state);
@@ -23,7 +20,7 @@ int SLuaBinders::bindStandardTypes(sol::state& state) {
     return 0;
 }
 
-void SLuaBinders::bindSceneObject(sol::state& state) {
+void SLuaBindings::bindSceneObject(sol::state& state) {
     state.new_usertype<SSceneObject>("SceneObject",
         "id", sol::property(&SSceneObject::getId),
         "name", sol::property(&SSceneObject::getName, &SSceneObject::setName),
@@ -32,11 +29,11 @@ void SLuaBinders::bindSceneObject(sol::state& state) {
     );
 }
 
-void SLuaBinders::debugLog(const std::string& msg) {
+void SLuaBindings::debugLog(const std::string& msg) {
     LOG(INFO) << "LUA: " << msg;
 }
 
-void SLuaBinders::bindVector2(sol::state& state) {
+void SLuaBindings::bindVector2(sol::state& state) {
     state.new_usertype<Vector2>("Vector2",
         sol::constructors<Vector2(), Vector2(float, float)>(),
         "x", &Vector2::x,
@@ -45,21 +42,20 @@ void SLuaBinders::bindVector2(sol::state& state) {
     );
 }
 
-
-
-void SLuaBinders::bindScene(sol::state& state) {
+void SLuaBindings::bindScene(sol::state& state) {
     state.new_usertype<SScene>("Scene",
         "name", sol::property(&SScene::getName),
-        /* Do not use this method. Use method defined in lua script */
+        /* Do not use 'intInstantiatePrefab' method. Use method defined in lua script */
         "intInstantiatePrefab", &SScene::instantiatePrefab,
-        "destroyObject", &SScene::destroyObject,
+        /* Do not use 'intDestroyObject' method. Use method defined in lua script */
+        "intDestroyObject", &SScene::destroyObject,
         "getObjectById", &SScene::getObjectById
     );
     
     state["ActiveScene"] = StormEngine::getActiveScene();
 }
 
-void SLuaBinders::bindInputManager(sol::state& state) {
+void SLuaBindings::bindInputManager(sol::state& state) {
     /* Bind all keys to lua */
     sol::table KeyboardLuaTable = state.create_table("Keyboard");
     for (uint32_t i = 0; i < (uint32_t)S_KEY_ASCII_END; i++) {

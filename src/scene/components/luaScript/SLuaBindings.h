@@ -3,10 +3,10 @@
 
 /* Class used to bind c++ stuff to lua */
 
-class SLuaBinders {
+class SLuaBindings {
 public:
-    SLuaBinders();
-    ~SLuaBinders();
+    SLuaBindings();
+    ~SLuaBindings();
 
     /* Bind all script functions and classes to lua state @state 
      * Returns < 0 on error */

@@ -1,6 +1,6 @@
 #include "SSceneSystemLuaScript.h" 
 #include "SSceneComLuaScript.h"
-#include "SLuaBinders.h"
+#include "SLuaBindings.h"
 #include "StormEngine.h"
 #include "scene/SSceneObject.h"
 #include "scene/SScene.h"
@@ -28,7 +28,7 @@ void SSceneSystemLuaScript::initialize() {
     std::string path = _LuaState["package"]["path"];
     _LuaState["package"]["path"] = path + ";" + fileSystem->getRootPath() + "/?.lua";
 
-    if (SLuaBinders::bindStandardTypes(_LuaState) < 0) {
+    if (SLuaBindings::bindStandardTypes(_LuaState) < 0) {
         LOG(ERROR) << "Could not bind lua functions";
         return;
     }
@@ -45,7 +45,7 @@ void SSceneSystemLuaScript::initialize() {
         LOG(DEBUG) << "Common lua script '" << resFile << "' loaded";
     }
     
-    SLuaBinders::bindSceneObject(_LuaState);
+    SLuaBindings::bindSceneObject(_LuaState);
 
     /* Bind all scene objects to script */
     for (SSceneObject* object : _OwnerScene->getObjects()) {

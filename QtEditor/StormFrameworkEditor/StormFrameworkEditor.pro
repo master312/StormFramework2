@@ -66,7 +66,7 @@ SOURCES += \
     ../../src/core/utils/Geometry.cpp \
     ../../src/core/utils/Plane.cpp \
     ../../src/core/utils/StormMiscTools.cpp \
-    ../../src/scene/components/luaScript/SLuaBinders.cpp \
+    ../../src/scene/components/luaScript/SLuaBindings.cpp \
     ../../src/scene/components/luaScript/SSceneComLuaScript.cpp \
     ../../src/scene/components/luaScript/SSceneSystemLuaScript.cpp \
     ../../src/scene/components/physics/SSceneComPhysics.cpp \
@@ -200,7 +200,7 @@ HEADERS += \
     ../../src/core/utils/StormRefCounter.h \
     ../../src/core/utils/StormVertex.h \
     ../../src/core/StormCommon.h \
-    ../../src/scene/components/luaScript/SLuaBinders.h \
+    ../../src/scene/components/luaScript/SLuaBindings.h \
     ../../src/scene/components/luaScript/SSceneComLuaScript.h \
     ../../src/scene/components/luaScript/SSceneSystemLuaScript.h \
     ../../src/scene/components/physics/SSceneComPhysics.h \
