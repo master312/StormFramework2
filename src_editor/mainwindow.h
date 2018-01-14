@@ -1,10 +1,9 @@
-
 /****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
-** This file is part of the examples of the Qt Toolkit.
+** This file is part of the demonstration applications of the Qt Toolkit.
 **
 ** $QT_BEGIN_LICENSE:BSD$
 ** Commercial License Usage
@@ -48,56 +47,35 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
 #include <QMainWindow>
-
-QT_BEGIN_NAMESPACE
-class QAction;
-class QMenu;
-class QPlainTextEdit;
-class QSessionManager;
-QT_END_NAMESPACE
-
-//! [0]
-class MainWindow : public QMainWindow
+class ToolBar;
+QT_FORWARD_DECLARE_CLASS(QMenu)
+class MAINWINDOWCLASS : public QMainWindow
 {
-    Q_OBJECT
-
+Q_OBJECT
 public:
-    MainWindow();
-
-    void loadFile(const QString &fileName);
-
-protected:
-    void closeEvent(QCloseEvent *event) override;
-
-private slots:
-    void newFile();
-    void open();
-    bool save();
-    bool saveAs();
-    void about();
-    void documentWasModified();
-#ifndef QT_NO_SESSIONMANAGER
-    void commitData(QSessionManager &);
-#endif
-
+    typedef QMap<QString, QSize> CustomSizeHintMap;
+    explicit MAINWINDOWCLASS(const CustomSizeHintMap &customSizeHints,
+                        QWidget *parent = nullptr,
+                        Qt::WindowFlags flags = 0);
+public slots:
+    void actionTriggered(QAction *action);
+    void saveLayout();
+    void loadLayout();
+    void switchLayoutDirection();
+    void setDockOptions();
+    void createDockWidget();
+    void destroyDockWidget(QAction *action);
 private:
-    void createActions();
-    void createStatusBar();
-    void readSettings();
-    void writeSettings();
-    bool maybeSave();
-    bool saveFile(const QString &fileName);
-    void setCurrentFile(const QString &fileName);
-    QString strippedName(const QString &fullFileName);
-
-    QPlainTextEdit *textEdit;
-    QString curFile;
+    void setupToolBar();
+    void setupMenuBar();
+    void setupDockWidgets(const CustomSizeHintMap &customSizeHints);
+    QList<ToolBar*> toolBars;
+    QMenu *dockWidgetMenu;
+    QMenu *mainWindowMenu;
+    QList<QDockWidget *> extraDockWidgets;
+    QMenu *destroyDockWidgetMenu;
 };
-//! [0]
-
-#endif
+#endif // MAINWINDOW_H

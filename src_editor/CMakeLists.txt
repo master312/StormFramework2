@@ -16,11 +16,25 @@ set(editor_sources
     ${SOURCES_PATH_PREFIX}/main.cpp
     ${SOURCES_PATH_PREFIX}/mainwindow.h
     ${SOURCES_PATH_PREFIX}/mainwindow.cpp
+    ${SOURCES_PATH_PREFIX}/colorswatch.h
+    ${SOURCES_PATH_PREFIX}/colorswatch.cpp
+    ${SOURCES_PATH_PREFIX}/toolbar.h
+    ${SOURCES_PATH_PREFIX}/toolbar.cpp
+    ${SOURCES_PATH_PREFIX}/MainWindow.h
+    ${SOURCES_PATH_PREFIX}/MainWindow.cpp
+
+    ${SOURCES_PATH_PREFIX}/toolbars/SEFileToolbar.h
+    ${SOURCES_PATH_PREFIX}/toolbars/SEFileToolbar.cpp
+    ${SOURCES_PATH_PREFIX}/toolbars/SEToolbarsCommon.cpp
+    ${SOURCES_PATH_PREFIX}/toolbars/SEToolbarsCommon.h
+    ${SOURCES_PATH_PREFIX}/dock_widgets/SEDockWidget.cpp
+    ${SOURCES_PATH_PREFIX}/dock_widgets/SEDockWidget.h
     )
 
 
 add_executable(${PROJECT_NAME} ${engine_sources} ${editor_sources})
 
+# Add ELPP_QT_LOGGING define for EasyLoggin API
 SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-DELPP_QT_LOGGING")
 
 target_link_libraries(${PROJECT_NAME}

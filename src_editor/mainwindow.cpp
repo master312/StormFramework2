@@ -1,10 +1,9 @@
-
 /****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
-** This file is part of the examples of the Qt Toolkit.
+** This file is part of the demonstration applications of the Qt Toolkit.
 **
 ** $QT_BEGIN_LICENSE:BSD$
 ** Commercial License Usage
@@ -48,368 +47,368 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-
-//! [0]
-#include <QtWidgets>
-
 #include "mainwindow.h"
-//! [0]
-
-//! [1]
-MainWindow::MainWindow()
-        : textEdit(new QPlainTextEdit)
-//! [1] //! [2]
-{
-    setCentralWidget(textEdit);
-
-    createActions();
-    createStatusBar();
-
-    readSettings();
-
-    connect(textEdit->document(), &QTextDocument::contentsChanged,
-            this, &MainWindow::documentWasModified);
-
-#ifndef QT_NO_SESSIONMANAGER
-    QGuiApplication::setFallbackSessionManagementEnabled(false);
-    connect(qApp, &QGuiApplication::commitDataRequest,
-            this, &MainWindow::commitData);
+#include "colorswatch.h"
+#include "toolbar.h"
+#include <QAction>
+#include <QLayout>
+#include <QMenu>
+#include <QMenuBar>
+#include <QStatusBar>
+#include <QTextEdit>
+#include <QFile>
+#include <QDataStream>
+#include <QFileDialog>
+#include <QDialogButtonBox>
+#include <QMessageBox>
+#include <QApplication>
+#include <QPainter>
+#include <QMouseEvent>
+#include <QLineEdit>
+#include <QComboBox>
+#include <QLabel>
+#include <QPushButton>
+#include <QTextEdit>
+#include <QDebug>
+#include "MainWindow.h"
+static const char message[] =
+        "<p><b>Qt Main Window Example</b></p>"
+                "<p>This is a demonstration of the QMainWindow, QToolBar and "
+                "QDockWidget classes.</p>"
+                "<p>The tool bar and dock widgets can be dragged around and rearranged "
+                "using the mouse or via the menu.</p>"
+                "<p>Each dock widget contains a colored frame and a context "
+                "(right-click) menu.</p>"
+#ifdef Q_OS_MAC
+"<p>On OS X, the \"Black\" dock widget has been created as a "
+    "<em>Drawer</em>, which is a special kind of QDockWidget.</p>"
 #endif
+;
+Q_DECLARE_METATYPE(QDockWidget::DockWidgetFeatures)
+MAINWINDOWCLASS::MAINWINDOWCLASS(const CustomSizeHintMap &customSizeHints,
+                       QWidget *parent, Qt::WindowFlags flags)
+        : QMainWindow(parent, flags)
+{
+    setObjectName("MAINWINDOWCLASS");
+    setWindowTitle("Qt Main Window Example");
+    QTextEdit *center = new QTextEdit(this);
+    center->setReadOnly(true);
+    center->setMinimumSize(400, 205);
+    setCentralWidget(center);
+    setupToolBar();
+    setupMenuBar();
+    setupDockWidgets(customSizeHints);
+    statusBar()->showMessage(tr("Status Bar"));
 
-    setCurrentFile(QString());
+    MainWindow* w = new MainWindow();
+    w->resize(1280, 768);
+    w->show();
+}
+void MAINWINDOWCLASS::actionTriggered(QAction *action)
+{
+    qDebug("action '%s' triggered", action->text().toLocal8Bit().data());
+}
+void MAINWINDOWCLASS::setupToolBar()
+{
+#ifdef Q_OS_OSX
     setUnifiedTitleAndToolBarOnMac(true);
-}
-//! [2]
-
-//! [3]
-void MainWindow::closeEvent(QCloseEvent *event)
-//! [3] //! [4]
-{
-    if (maybeSave()) {
-        writeSettings();
-        event->accept();
-    } else {
-        event->ignore();
+#endif
+    for (int i = 0; i < 3; ++i) {
+        ToolBar *tb = new ToolBar(QString::fromLatin1("Tool Bar %1").arg(i + 1), this);
+        toolBars.append(tb);
+        addToolBar(tb);
     }
 }
-//! [4]
-
-//! [5]
-void MainWindow::newFile()
-//! [5] //! [6]
+void MAINWINDOWCLASS::setupMenuBar()
 {
-    if (maybeSave()) {
-        textEdit->clear();
-        setCurrentFile(QString());
+    QMenu *menu = menuBar()->addMenu(tr("&File"));
+    menu->addAction(tr("Save layout..."), this, &MAINWINDOWCLASS::saveLayout);
+    menu->addAction(tr("Load layout..."), this, &MAINWINDOWCLASS::loadLayout);
+    menu->addAction(tr("Switch layout direction"),this, &MAINWINDOWCLASS::switchLayoutDirection);
+    menu->addSeparator();
+    menu->addAction(tr("&Quit"), this, &QWidget::close);
+    mainWindowMenu = menuBar()->addMenu(tr("Main window"));
+    QAction *action = mainWindowMenu->addAction(tr("Animated docks"));
+    action->setCheckable(true);
+    action->setChecked(dockOptions() & AnimatedDocks);
+    connect(action, &QAction::toggled, this, &MAINWINDOWCLASS::setDockOptions);
+    action = mainWindowMenu->addAction(tr("Allow nested docks"));
+    action->setCheckable(true);
+    action->setChecked(dockOptions() & AllowNestedDocks);
+    connect(action, &QAction::toggled, this, &MAINWINDOWCLASS::setDockOptions);
+    action = mainWindowMenu->addAction(tr("Allow tabbed docks"));
+    action->setCheckable(true);
+    action->setChecked(dockOptions() & AllowTabbedDocks);
+    connect(action, &QAction::toggled, this, &MAINWINDOWCLASS::setDockOptions);
+    action = mainWindowMenu->addAction(tr("Force tabbed docks"));
+    action->setCheckable(true);
+    action->setChecked(dockOptions() & ForceTabbedDocks);
+    connect(action, &QAction::toggled, this, &MAINWINDOWCLASS::setDockOptions);
+    action = mainWindowMenu->addAction(tr("Vertical tabs"));
+    action->setCheckable(true);
+    action->setChecked(dockOptions() & VerticalTabs);
+    connect(action, &QAction::toggled, this, &MAINWINDOWCLASS::setDockOptions);
+    action = mainWindowMenu->addAction(tr("Grouped dragging"));
+    action->setCheckable(true);
+    action->setChecked(dockOptions() & GroupedDragging);
+    connect(action, &QAction::toggled, this, &MAINWINDOWCLASS::setDockOptions);
+    QMenu *toolBarMenu = menuBar()->addMenu(tr("Tool bars"));
+    for (int i = 0; i < toolBars.count(); ++i)
+        toolBarMenu->addMenu(toolBars.at(i)->toolbarMenu());
+#ifdef Q_OS_OSX
+    toolBarMenu->addSeparator();
+    action = toolBarMenu->addAction(tr("Unified"));
+    action->setCheckable(true);
+    action->setChecked(unifiedTitleAndToolBarOnMac());
+    connect(action, &QAction::toggled, this, &QMainWindow::setUnifiedTitleAndToolBarOnMac);
+#endif
+    dockWidgetMenu = menuBar()->addMenu(tr("&Dock Widgets"));
+}
+void MAINWINDOWCLASS::setDockOptions()
+{
+    DockOptions opts;
+    QList<QAction*> actions = mainWindowMenu->actions();
+    if (actions.at(0)->isChecked())
+        opts |= AnimatedDocks;
+    if (actions.at(1)->isChecked())
+        opts |= AllowNestedDocks;
+    if (actions.at(2)->isChecked())
+        opts |= AllowTabbedDocks;
+    if (actions.at(3)->isChecked())
+        opts |= ForceTabbedDocks;
+    if (actions.at(4)->isChecked())
+        opts |= VerticalTabs;
+    if (actions.at(5)->isChecked())
+        opts |= GroupedDragging;
+    QMainWindow::setDockOptions(opts);
+}
+void MAINWINDOWCLASS::saveLayout()
+{
+    QString fileName
+            = QFileDialog::getSaveFileName(this, tr("Save layout"));
+    if (fileName.isEmpty())
+        return;
+    QFile file(fileName);
+    if (!file.open(QFile::WriteOnly)) {
+        QString msg = tr("Failed to open %1\n%2")
+                .arg(QDir::toNativeSeparators(fileName), file.errorString());
+        QMessageBox::warning(this, tr("Error"), msg);
+        return;
+    }
+    QByteArray geo_data = saveGeometry();
+    QByteArray layout_data = saveState();
+    bool ok = file.putChar((uchar)geo_data.size());
+    if (ok)
+        ok = file.write(geo_data) == geo_data.size();
+    if (ok)
+        ok = file.write(layout_data) == layout_data.size();
+    if (!ok) {
+        QString msg = tr("Error writing to %1\n%2")
+                .arg(QDir::toNativeSeparators(fileName), file.errorString());
+        QMessageBox::warning(this, tr("Error"), msg);
+        return;
     }
 }
-//! [6]
-
-//! [7]
-void MainWindow::open()
-//! [7] //! [8]
+void MAINWINDOWCLASS::loadLayout()
 {
-    if (maybeSave()) {
-        QString fileName = QFileDialog::getOpenFileName(this);
-        if (!fileName.isEmpty())
-            loadFile(fileName);
+    QString fileName
+            = QFileDialog::getOpenFileName(this, tr("Load layout"));
+    if (fileName.isEmpty())
+        return;
+    QFile file(fileName);
+    if (!file.open(QFile::ReadOnly)) {
+        QString msg = tr("Failed to open %1\n%2")
+                .arg(QDir::toNativeSeparators(fileName), file.errorString());
+        QMessageBox::warning(this, tr("Error"), msg);
+        return;
+    }
+    uchar geo_size;
+    QByteArray geo_data;
+    QByteArray layout_data;
+    bool ok = file.getChar((char*)&geo_size);
+    if (ok) {
+        geo_data = file.read(geo_size);
+        ok = geo_data.size() == geo_size;
+    }
+    if (ok) {
+        layout_data = file.readAll();
+        ok = layout_data.size() > 0;
+    }
+    if (ok)
+        ok = restoreGeometry(geo_data);
+    if (ok)
+        ok = restoreState(layout_data);
+    if (!ok) {
+        QString msg = tr("Error reading %1").arg(QDir::toNativeSeparators(fileName));
+        QMessageBox::warning(this, tr("Error"), msg);
+        return;
     }
 }
-//! [8]
-
-//! [9]
-bool MainWindow::save()
-//! [9] //! [10]
+static QAction *addCornerAction(const QString &text, QMainWindow *mw, QMenu *menu, QActionGroup *group,
+                                Qt::Corner c, Qt::DockWidgetArea a)
 {
-    if (curFile.isEmpty()) {
-        return saveAs();
-    } else {
-        return saveFile(curFile);
+    QAction *result = menu->addAction(text, mw, [=]() { mw->setCorner(c, a); });
+    result->setCheckable(true);
+    group->addAction(result);
+    return result;
+}
+void MAINWINDOWCLASS::setupDockWidgets(const CustomSizeHintMap &customSizeHints)
+{
+    qRegisterMetaType<QDockWidget::DockWidgetFeatures>();
+    QMenu *cornerMenu = dockWidgetMenu->addMenu(tr("Top left corner"));
+    QActionGroup *group = new QActionGroup(this);
+    group->setExclusive(true);
+    QAction *cornerAction = addCornerAction(tr("Top dock area"), this, cornerMenu, group, Qt::TopLeftCorner, Qt::TopDockWidgetArea);
+    cornerAction->setChecked(true);
+    addCornerAction(tr("Left dock area"), this, cornerMenu, group, Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
+    cornerMenu = dockWidgetMenu->addMenu(tr("Top right corner"));
+    group = new QActionGroup(this);
+    group->setExclusive(true);
+    cornerAction = addCornerAction(tr("Top dock area"), this, cornerMenu, group, Qt::TopRightCorner, Qt::TopDockWidgetArea);
+    cornerAction->setChecked(true);
+    addCornerAction(tr("Right dock area"), this, cornerMenu, group, Qt::TopRightCorner, Qt::RightDockWidgetArea);
+    cornerMenu = dockWidgetMenu->addMenu(tr("Bottom left corner"));
+    group = new QActionGroup(this);
+    group->setExclusive(true);
+    cornerAction = addCornerAction(tr("Bottom dock area"), this, cornerMenu, group, Qt::BottomLeftCorner, Qt::BottomDockWidgetArea);
+    cornerAction->setChecked(true);
+    addCornerAction(tr("Left dock area"), this, cornerMenu, group, Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
+    cornerMenu = dockWidgetMenu->addMenu(tr("Bottom right corner"));
+    group = new QActionGroup(this);
+    group->setExclusive(true);
+    cornerAction = addCornerAction(tr("Bottom dock area"), this, cornerMenu, group, Qt::BottomRightCorner, Qt::BottomDockWidgetArea);
+    cornerAction->setChecked(true);
+    addCornerAction(tr("Right dock area"), this, cornerMenu, group, Qt::BottomRightCorner, Qt::RightDockWidgetArea);
+    dockWidgetMenu->addSeparator();
+    static const struct Set {
+        const char * name;
+        uint flags;
+        Qt::DockWidgetArea area;
+    } sets [] = {
+#ifndef Q_OS_MAC
+            { "Black", 0, Qt::LeftDockWidgetArea },
+#else
+            { "Black", Qt::Drawer, Qt::LeftDockWidgetArea },
+#endif
+            { "White", 0, Qt::RightDockWidgetArea },
+            { "Red", 0, Qt::TopDockWidgetArea },
+            { "Green", 0, Qt::TopDockWidgetArea },
+            { "Blue", 0, Qt::BottomDockWidgetArea },
+            { "Yellow", 0, Qt::BottomDockWidgetArea }
+    };
+    const int setCount = sizeof(sets) / sizeof(Set);
+    const QIcon qtIcon(QPixmap(":/res/qt.png"));
+    for (int i = 0; i < setCount; ++i) {
+        ColorSwatch *swatch = new ColorSwatch(tr(sets[i].name), this, Qt::WindowFlags(sets[i].flags));
+        if (i % 2)
+            swatch->setWindowIcon(qtIcon);
+        if (qstrcmp(sets[i].name, "Blue") == 0) {
+            BlueTitleBar *titlebar = new BlueTitleBar(swatch);
+            swatch->setTitleBarWidget(titlebar);
+            connect(swatch, &QDockWidget::topLevelChanged, titlebar, &BlueTitleBar::updateMask);
+            connect(swatch, &QDockWidget::featuresChanged, titlebar, &BlueTitleBar::updateMask, Qt::QueuedConnection);
+        }
+        QString name = QString::fromLatin1(sets[i].name);
+        if (customSizeHints.contains(name))
+            swatch->setCustomSizeHint(customSizeHints.value(name));
+        addDockWidget(sets[i].area, swatch);
+        dockWidgetMenu->addMenu(swatch->colorSwatchMenu());
     }
+    destroyDockWidgetMenu = new QMenu(tr("Destroy dock widget"), this);
+    destroyDockWidgetMenu->setEnabled(false);
+    connect(destroyDockWidgetMenu, &QMenu::triggered, this, &MAINWINDOWCLASS::destroyDockWidget);
+    dockWidgetMenu->addSeparator();
+    dockWidgetMenu->addAction(tr("Add dock widget..."), this, &MAINWINDOWCLASS::createDockWidget);
+    dockWidgetMenu->addMenu(destroyDockWidgetMenu);
 }
-//! [10]
-
-//! [11]
-bool MainWindow::saveAs()
-//! [11] //! [12]
+void MAINWINDOWCLASS::switchLayoutDirection()
 {
-    QFileDialog dialog(this);
-    dialog.setWindowModality(Qt::WindowModal);
-    dialog.setAcceptMode(QFileDialog::AcceptSave);
-    if (dialog.exec() != QDialog::Accepted)
-        return false;
-    return saveFile(dialog.selectedFiles().first());
+    if (layoutDirection() == Qt::LeftToRight)
+        QApplication::setLayoutDirection(Qt::RightToLeft);
+    else
+        QApplication::setLayoutDirection(Qt::LeftToRight);
 }
-//! [12]
-
-//! [13]
-void MainWindow::about()
-//! [13] //! [14]
+class CreateDockWidgetDialog : public QDialog
 {
-    QMessageBox::about(this, tr("About Application"),
-                       tr("The <b>Application</b> example demonstrates how to "
-                                  "write modern GUI applications using Qt, with a menu bar, "
-                                  "toolbars, and a status bar."));
+public:
+    explicit CreateDockWidgetDialog(QWidget *parent = nullptr);
+    QString enteredObjectName() const { return m_objectName->text(); }
+    Qt::DockWidgetArea location() const;
+private:
+    QLineEdit *m_objectName;
+    QComboBox *m_location;
+};
+CreateDockWidgetDialog::CreateDockWidgetDialog(QWidget *parent)
+        : QDialog(parent)
+        , m_objectName(new QLineEdit(this))
+        , m_location(new QComboBox(this))
+{
+    setWindowTitle(tr("Add Dock Widget"));
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+    QGridLayout *layout = new QGridLayout(this);
+    layout->addWidget(new QLabel(tr("Object name:")), 0, 0);
+    layout->addWidget(m_objectName, 0, 1);
+    layout->addWidget(new QLabel(tr("Location:")), 1, 0);
+    m_location->setEditable(false);
+    m_location->addItem(tr("Top"));
+    m_location->addItem(tr("Left"));
+    m_location->addItem(tr("Right"));
+    m_location->addItem(tr("Bottom"));
+    m_location->addItem(tr("Restore"));
+    layout->addWidget(m_location, 1, 1);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+    layout->addWidget(buttonBox, 2, 0, 1, 2);
 }
-//! [14]
-
-//! [15]
-void MainWindow::documentWasModified()
-//! [15] //! [16]
+Qt::DockWidgetArea CreateDockWidgetDialog::location() const
 {
-    setWindowModified(textEdit->document()->isModified());
-}
-//! [16]
-
-//! [17]
-void MainWindow::createActions()
-//! [17] //! [18]
-{
-
-    QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
-    QToolBar *fileToolBar = addToolBar(tr("File"));
-    const QIcon newIcon = QIcon::fromTheme("document-new", QIcon(":/images/new.png"));
-    QAction *newAct = new QAction(newIcon, tr("&New"), this);
-    newAct->setShortcuts(QKeySequence::New);
-    newAct->setStatusTip(tr("Create a new file"));
-    connect(newAct, &QAction::triggered, this, &MainWindow::newFile);
-    fileMenu->addAction(newAct);
-    fileToolBar->addAction(newAct);
-
-//! [19]
-    const QIcon openIcon = QIcon::fromTheme("document-open", QIcon(":/images/open.png"));
-    QAction *openAct = new QAction(openIcon, tr("&Open..."), this);
-    openAct->setShortcuts(QKeySequence::Open);
-    openAct->setStatusTip(tr("Open an existing file"));
-    connect(openAct, &QAction::triggered, this, &MainWindow::open);
-    fileMenu->addAction(openAct);
-    fileToolBar->addAction(openAct);
-//! [18] //! [19]
-
-    const QIcon saveIcon = QIcon::fromTheme("document-save", QIcon(":/images/save.png"));
-    QAction *saveAct = new QAction(saveIcon, tr("&Save"), this);
-    saveAct->setShortcuts(QKeySequence::Save);
-    saveAct->setStatusTip(tr("Save the document to disk"));
-    connect(saveAct, &QAction::triggered, this, &MainWindow::save);
-    fileMenu->addAction(saveAct);
-    fileToolBar->addAction(saveAct);
-
-    const QIcon saveAsIcon = QIcon::fromTheme("document-save-as");
-    QAction *saveAsAct = fileMenu->addAction(saveAsIcon, tr("Save &As..."), this, &MainWindow::saveAs);
-    saveAsAct->setShortcuts(QKeySequence::SaveAs);
-    saveAsAct->setStatusTip(tr("Save the document under a new name"));
-
-//! [20]
-
-    fileMenu->addSeparator();
-
-    const QIcon exitIcon = QIcon::fromTheme("application-exit");
-    QAction *exitAct = fileMenu->addAction(exitIcon, tr("E&xit"), this, &QWidget::close);
-    exitAct->setShortcuts(QKeySequence::Quit);
-//! [20]
-    exitAct->setStatusTip(tr("Exit the application"));
-
-//! [21]
-    QMenu *editMenu = menuBar()->addMenu(tr("&Edit"));
-    QToolBar *editToolBar = addToolBar(tr("Edit"));
-//!
-#ifndef QT_NO_CLIPBOARD
-    const QIcon cutIcon = QIcon::fromTheme("edit-cut", QIcon(":/images/cut.png"));
-    QAction *cutAct = new QAction(cutIcon, tr("Cu&t"), this);
-//! [21]
-    cutAct->setShortcuts(QKeySequence::Cut);
-    cutAct->setStatusTip(tr("Cut the current selection's contents to the "
-                                    "clipboard"));
-    connect(cutAct, &QAction::triggered, textEdit, &QPlainTextEdit::cut);
-    editMenu->addAction(cutAct);
-    editToolBar->addAction(cutAct);
-
-    const QIcon copyIcon = QIcon::fromTheme("edit-copy", QIcon(":/images/copy.png"));
-    QAction *copyAct = new QAction(copyIcon, tr("&Copy"), this);
-    copyAct->setShortcuts(QKeySequence::Copy);
-    copyAct->setStatusTip(tr("Copy the current selection's contents to the "
-                                     "clipboard"));
-    connect(copyAct, &QAction::triggered, textEdit, &QPlainTextEdit::copy);
-    editMenu->addAction(copyAct);
-    editToolBar->addAction(copyAct);
-
-    const QIcon pasteIcon = QIcon::fromTheme("edit-paste", QIcon(":/images/paste.png"));
-    QAction *pasteAct = new QAction(pasteIcon, tr("&Paste"), this);
-    pasteAct->setShortcuts(QKeySequence::Paste);
-    pasteAct->setStatusTip(tr("Paste the clipboard's contents into the current "
-                                      "selection"));
-    connect(pasteAct, &QAction::triggered, textEdit, &QPlainTextEdit::paste);
-    editMenu->addAction(pasteAct);
-    editToolBar->addAction(pasteAct);
-
-    menuBar()->addSeparator();
-
-#endif // !QT_NO_CLIPBOARD
-
-    QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
-    QAction *aboutAct = helpMenu->addAction(tr("&About"), this, &MainWindow::about);
-    aboutAct->setStatusTip(tr("Show the application's About box"));
-
-//! [22]
-
-    QAction *aboutQtAct = helpMenu->addAction(tr("About &Qt"), qApp, &QApplication::aboutQt);
-    aboutQtAct->setStatusTip(tr("Show the Qt library's About box"));
-//! [22]
-
-//! [23]
-#ifndef QT_NO_CLIPBOARD
-    cutAct->setEnabled(false);
-//! [23] //! [24]
-    copyAct->setEnabled(false);
-    connect(textEdit, &QPlainTextEdit::copyAvailable, cutAct, &QAction::setEnabled);
-    connect(textEdit, &QPlainTextEdit::copyAvailable, copyAct, &QAction::setEnabled);
-#endif // !QT_NO_CLIPBOARD
-}
-//! [24]
-
-//! [32]
-void MainWindow::createStatusBar()
-//! [32] //! [33]
-{
-    statusBar()->showMessage(tr("Ready"));
-}
-//! [33]
-
-//! [34] //! [35]
-void MainWindow::readSettings()
-//! [34] //! [36]
-{
-    QSettings settings(QCoreApplication::organizationName(), QCoreApplication::applicationName());
-    const QByteArray geometry = settings.value("geometry", QByteArray()).toByteArray();
-    if (geometry.isEmpty()) {
-        const QRect availableGeometry = QApplication::desktop()->availableGeometry(this);
-        resize(availableGeometry.width() / 3, availableGeometry.height() / 2);
-        move((availableGeometry.width() - width()) / 2,
-             (availableGeometry.height() - height()) / 2);
-    } else {
-        restoreGeometry(geometry);
-    }
-}
-//! [35] //! [36]
-
-//! [37] //! [38]
-void MainWindow::writeSettings()
-//! [37] //! [39]
-{
-    QSettings settings(QCoreApplication::organizationName(), QCoreApplication::applicationName());
-    settings.setValue("geometry", saveGeometry());
-}
-//! [38] //! [39]
-
-//! [40]
-bool MainWindow::maybeSave()
-//! [40] //! [41]
-{
-    if (!textEdit->document()->isModified())
-        return true;
-    const QMessageBox::StandardButton ret
-            = QMessageBox::warning(this, tr("Application"),
-                                   tr("The document has been modified.\n"
-                                              "Do you want to save your changes?"),
-                                   QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
-    switch (ret) {
-        case QMessageBox::Save:
-            return save();
-        case QMessageBox::Cancel:
-            return false;
+    switch (m_location->currentIndex()) {
+        case 0: return Qt::TopDockWidgetArea;
+        case 1: return Qt::LeftDockWidgetArea;
+        case 2: return Qt::RightDockWidgetArea;
+        case 3: return Qt::BottomDockWidgetArea;
         default:
             break;
     }
-    return true;
+    return Qt::NoDockWidgetArea;
 }
-//! [41]
-
-//! [42]
-void MainWindow::loadFile(const QString &fileName)
-//! [42] //! [43]
+void MAINWINDOWCLASS::createDockWidget()
 {
-    QFile file(fileName);
-    if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        QMessageBox::warning(this, tr("Application"),
-                             tr("Cannot read file %1:\n%2.")
-                                     .arg(QDir::toNativeSeparators(fileName), file.errorString()));
+    CreateDockWidgetDialog dialog(this);
+    if (dialog.exec() == QDialog::Rejected)
         return;
+    QDockWidget *dw = new QDockWidget;
+    const QString name = dialog.enteredObjectName();
+    dw->setObjectName(name);
+    dw->setWindowTitle(name);
+    dw->setWidget(new QTextEdit);
+    Qt::DockWidgetArea area = dialog.location();
+    switch (area) {
+        case Qt::LeftDockWidgetArea:
+        case Qt::RightDockWidgetArea:
+        case Qt::TopDockWidgetArea:
+        case Qt::BottomDockWidgetArea:
+            addDockWidget(area, dw);
+            break;
+        default:
+            if (!restoreDockWidget(dw)) {
+                QMessageBox::warning(this, QString(), tr("Failed to restore dock widget"));
+                delete dw;
+                return;
+            }
+            break;
     }
-
-    QTextStream in(&file);
-#ifndef QT_NO_CURSOR
-    QApplication::setOverrideCursor(Qt::WaitCursor);
-#endif
-    textEdit->setPlainText(in.readAll());
-#ifndef QT_NO_CURSOR
-    QApplication::restoreOverrideCursor();
-#endif
-
-    setCurrentFile(fileName);
-    statusBar()->showMessage(tr("File loaded"), 2000);
+    extraDockWidgets.append(dw);
+    destroyDockWidgetMenu->setEnabled(true);
+    destroyDockWidgetMenu->addAction(new QAction(name, this));
 }
-//! [43]
-
-//! [44]
-bool MainWindow::saveFile(const QString &fileName)
-//! [44] //! [45]
+void MAINWINDOWCLASS::destroyDockWidget(QAction *action)
 {
-    QFile file(fileName);
-    if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        QMessageBox::warning(this, tr("Application"),
-                             tr("Cannot write file %1:\n%2.")
-                                     .arg(QDir::toNativeSeparators(fileName),
-                                          file.errorString()));
-        return false;
-    }
-
-    QTextStream out(&file);
-#ifndef QT_NO_CURSOR
-    QApplication::setOverrideCursor(Qt::WaitCursor);
-#endif
-    out << textEdit->toPlainText();
-#ifndef QT_NO_CURSOR
-    QApplication::restoreOverrideCursor();
-#endif
-
-    setCurrentFile(fileName);
-    statusBar()->showMessage(tr("File saved"), 2000);
-    return true;
+    int index = destroyDockWidgetMenu->actions().indexOf(action);
+    delete extraDockWidgets.takeAt(index);
+    destroyDockWidgetMenu->removeAction(action);
+    action->deleteLater();
+    if (destroyDockWidgetMenu->isEmpty())
+        destroyDockWidgetMenu->setEnabled(false);
 }
-//! [45]
-
-//! [46]
-void MainWindow::setCurrentFile(const QString &fileName)
-//! [46] //! [47]
-{
-    curFile = fileName;
-    textEdit->document()->setModified(false);
-    setWindowModified(false);
-
-    QString shownName = curFile;
-    if (curFile.isEmpty())
-        shownName = "untitled.txt";
-    setWindowFilePath(shownName);
-}
-//! [47]
-
-//! [48]
-QString MainWindow::strippedName(const QString &fullFileName)
-//! [48] //! [49]
-{
-    return QFileInfo(fullFileName).fileName();
-}
-//! [49]
-#ifndef QT_NO_SESSIONMANAGER
-void MainWindow::commitData(QSessionManager &manager)
-{
-    if (manager.allowsInteraction()) {
-        if (!maybeSave())
-            manager.cancel();
-    } else {
-        // Non-interactive: save without asking
-        if (textEdit->document()->isModified())
-            save();
-    }
-}
-#endif

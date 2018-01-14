@@ -1,3 +1,4 @@
+-- Methods that extend SScene functionality
 
 function Scene:instantiatePrefab(prefabName, newObjectName)
     cppObject = self:intInstantiatePrefab(prefabName, newObjectName)
@@ -10,6 +11,6 @@ function Scene:destroyObject(handleOrId)
     elseif handleOrId.id ~= nil then
         self:intDestroyObject(handleOrId.id)
     else
-        debug.log("Scene:destroyObject invalid argument");
+        debug.log("Scene:destroyObject invalid argument")
     end
 end
