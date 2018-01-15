@@ -18,7 +18,9 @@
 #include <QHBoxLayout>
 #include <QBitmap>
 #include <QtDebug>
-
+#include <QMenu>
+#include <QMenuBar>
+#include "../MainWindow.h"
 SEDockWidget::SEDockWidget(const QString &colorName, QMainWindow *parent, Qt::WindowFlags flags)
         : QDockWidget(parent, flags), mainWindow(parent)
 {
@@ -120,7 +122,19 @@ SEDockWidget::SEDockWidget(const QString &colorName, QMainWindow *parent, Qt::Wi
         rightAction->setShortcut(Qt::CTRL | Qt::Key_E);
         toggleViewAction()->setShortcut(Qt::CTRL | Qt::Key_R);
     }
+
+    QMenu* viewBar = dynamic_cast<MainWindow*>(parent)->getMenu("View");
+    viewMenuCheckAction = viewBar->addAction(objectName());
+    viewMenuCheckAction->setCheckable(true);
+    viewMenuCheckAction->setChecked(true);
+    connect(viewMenuCheckAction, &QAction::toggled, this, &SEDockWidget::cbViewBarToggle);
+    setFeatures(features() & ~DockWidgetFloatable);
 }
+
+void SEDockWidget::cbViewBarToggle(bool isChecked) {
+    setVisible(isChecked);
+}
+
 void SEDockWidget::updateContextMenu()
 {
     const Qt::DockWidgetArea area = mainWindow->dockWidgetArea(this);
@@ -216,6 +230,12 @@ void SEDockWidget::resizeEvent(QResizeEvent *e)
 //        btb->updateMask();
     QDockWidget::resizeEvent(e);
 }
+
+void SEDockWidget::closeEvent(QCloseEvent *event) {
+    QDockWidget::closeEvent(event);
+    viewMenuCheckAction->setChecked(false);
+}
+
 void SEDockWidget::allow(Qt::DockWidgetArea area, bool a)
 {
     Qt::DockWidgetAreas areas = allowedAreas();

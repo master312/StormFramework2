@@ -13,7 +13,10 @@ protected:
     void contextMenuEvent(QContextMenuEvent *event) override;
 #endif // QT_NO_CONTEXTMENU
     void resizeEvent(QResizeEvent *e) override;
+    void closeEvent(QCloseEvent *event) override;
 private slots:
+    void cbViewBarToggle(bool isChecked);
+
     void changeClosable(bool on);
     void changeMovable(bool on);
     void changeFloatable(bool on);
@@ -33,6 +36,7 @@ private slots:
 private:
     void allow(Qt::DockWidgetArea area, bool allow);
     void place(Qt::DockWidgetArea area, bool place);
+    QAction *viewMenuCheckAction;
     QAction *closableAction;
     QAction *movableAction;
     QAction *floatableAction;
