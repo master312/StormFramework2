@@ -50,6 +50,7 @@
 #include <StormEngine.h>
 INITIALIZE_EASYLOGGINGPP
 
+#include <QResource>
 #include "mainwindow.h"
 #include <QApplication>
 #include <QPainterPath>
@@ -178,6 +179,7 @@ int main(int argc, char **argv)
             usage();
             return 0;
     }
+    QResource::registerResource("editor_data/resources.qrc");
     MAINWINDOWCLASS mainWin(customSizeHints);
     mainWin.resize(800, 600);
     mainWin.show();

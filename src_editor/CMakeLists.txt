@@ -25,17 +25,22 @@ set(editor_sources
 
     ${SOURCES_PATH_PREFIX}/toolbars/SEFileToolbar.h
     ${SOURCES_PATH_PREFIX}/toolbars/SEFileToolbar.cpp
-    ${SOURCES_PATH_PREFIX}/toolbars/SEToolbarsCommon.cpp
-    ${SOURCES_PATH_PREFIX}/toolbars/SEToolbarsCommon.h
     ${SOURCES_PATH_PREFIX}/dock_widgets/SEDockWidget.cpp
     ${SOURCES_PATH_PREFIX}/dock_widgets/SEDockWidget.h
+    ${SOURCES_PATH_PREFIX}/toolbars/SFEditToolbar.cpp
+    ${SOURCES_PATH_PREFIX}/toolbars/SFEditToolbar.h
+    ${SOURCES_PATH_PREFIX}/toolbars/SEToolbar.cpp
+    ${SOURCES_PATH_PREFIX}/toolbars/SEToolbar.h
     )
 
+qt5_add_resources(UI_RESOURCES ${SOURCES_PATH_PREFIX}/resources.qrc)
 
-add_executable(${PROJECT_NAME} ${engine_sources} ${editor_sources})
+add_executable(${PROJECT_NAME} ${engine_sources} ${editor_sources} ${UI_RESOURCES} )
 
+# include /src_editor directory
+target_include_directories(${PROJECT_NAME} PUBLIC ${SOURCES_PATH_PREFIX})
 # Add ELPP_QT_LOGGING define for EasyLoggin API
-SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-DELPP_QT_LOGGING")
+set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-DELPP_QT_LOGGING")
 
 target_link_libraries(${PROJECT_NAME}
         ${STORM_LIBS}

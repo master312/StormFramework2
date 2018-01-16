@@ -1,8 +1,7 @@
 #pragma once
-#include <QToolBar>
-#include <QMenu>
+#include "SEToolbar.h"
 
-class SEFileToolbar : public QToolBar {
+class SEFileToolbar : public SEToolbar {
     Q_OBJECT
 public:
     SEFileToolbar(QWidget* parent);

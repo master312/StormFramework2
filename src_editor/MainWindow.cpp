@@ -1,12 +1,18 @@
 #include "MainWindow.h"
 #include "toolbars/SEFileToolbar.h"
+#include "toolbars/SFEditToolbar.h"
 #include "dock_widgets/SEDockWidget.h"
 #include <QFileDialog>
 #include <QMenuBar>
 #include <QTextEdit>
 #include <QMessageBox>
 
+/* Main windows 'fake singleton' holder for easy access */
+static MainWindow* mainWindow = nullptr;
+
 MainWindow::MainWindow() : QMainWindow(nullptr) {
+    mainWindow = this;
+
     /* Create central widget. */
     /* TODO: Should be OpenGL renderer widget */
     QTextEdit* center = new QTextEdit(this);
@@ -22,7 +28,10 @@ MainWindow::MainWindow() : QMainWindow(nullptr) {
 }
 
 MainWindow::~MainWindow() {
+}
 
+MainWindow* MainWindow::get() {
+    return mainWindow;
 }
 
 QMenu* MainWindow::getMenu(const std::string& name) {
@@ -42,31 +51,36 @@ void MainWindow::setupMenuBar() {
     _Menus["File"] = fileMenu;
 
     QMenu* viewMenu = menuBar()->addMenu(tr("&View"));
+    _Menus["ViewDocks"] = viewMenu->addMenu("Docks");
+    _Menus["ViewToolbars"] = viewMenu->addMenu("Toolbars");
+    viewMenu->addSeparator();
     viewMenu->addAction(tr("Save layout"), this, &MainWindow::cbMenuSaveLayout);
     viewMenu->addAction(tr("Load layout"), this, &MainWindow::cbMenuLoadLayout);
-    viewMenu->addSeparator();
     _Menus["View"] = viewMenu;
 }
 
 void MainWindow::setupDockedWidgets() {
-    SEDockWidget* w = new SEDockWidget("Asd", this);
-    addDockWidget(Qt::RightDockWidgetArea, w);
+    SEDockWidget* dockWidget = new SEDockWidget(this, "Object hierarchy");
+    dockWidget->setMinimumWidth(130);
+    addDockWidget(Qt::RightDockWidgetArea, dockWidget);
 
-    w = new SEDockWidget("Asd2", this);
-    addDockWidget(Qt::TopDockWidgetArea, w);
-    w = new SEDockWidget("Asd42", this);
-    addDockWidget(Qt::LeftDockWidgetArea, w);
-    w = new SEDockWidget("Asd562", this);
-    addDockWidget(Qt::LeftDockWidgetArea, w);
-    w = new SEDockWidget("As7d2", this);
-    addDockWidget(Qt::LeftDockWidgetArea, w);
-    w = new SEDockWidget("Console", this);
-    addDockWidget(Qt::BottomDockWidgetArea, w);
+    dockWidget = new SEDockWidget(this, "Object Components");
+    dockWidget->setMinimumWidth(140);
+    addDockWidget(Qt::RightDockWidgetArea, dockWidget);
+
+    dockWidget = new SEDockWidget(this, "Files Manager");
+    addDockWidget(Qt::BottomDockWidgetArea, dockWidget);
+
+    dockWidget = new SEDockWidget(this, "Some random tab");
+    addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
 }
 
 void MainWindow::setupToolbars() {
     SEFileToolbar* fileToolbar = new SEFileToolbar(this);
     addToolBar(fileToolbar);
+
+    SFEditToolbar* toolsToolbar = new SFEditToolbar(this);
+    addToolBar(toolsToolbar);
 }
 
 void MainWindow::setWindowDockingOptions() {
@@ -75,7 +89,7 @@ void MainWindow::setWindowDockingOptions() {
 
     DockOptions opts;
     opts |= AnimatedDocks;
-    opts |= VerticalTabs;
+    //opts |= VerticalTabs;
     QMainWindow::setDockOptions(opts);
 }
 

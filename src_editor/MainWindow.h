@@ -9,6 +9,8 @@ public:
     MainWindow();
     virtual ~MainWindow();
 
+    static MainWindow* get();
+
     QMenu* getMenu(const std::string& name);
 
 public slots:

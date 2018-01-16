@@ -1,0 +1,9 @@
+
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource>
+        <file alias="tool_move">../editor_data/icons/tool_move.png</file>
+        <file alias="tool_resize">../editor_data/icons/tool_resize.png</file>
+        <file alias="tool_rotate">../editor_data/icons/tool_rotate.png</file>
+    </qresource>
+</RCC>
