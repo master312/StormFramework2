@@ -14,11 +14,14 @@ static MainWindow* mainWindow = nullptr;
 MainWindow::MainWindow() : QMainWindow(nullptr) {
     mainWindow = this;
 
+    _ObjectHierarchyWidget = nullptr;
+
     setWindowDockingOptions();
 
     setupMenuBar();
     setupToolbars();
     setupDockedWidgets();
+
 }
 
 MainWindow::~MainWindow() {
@@ -34,6 +37,10 @@ QMenu* MainWindow::getMenu(const std::string& name) {
         return iter->second;
     }
     return nullptr;
+}
+
+SEDockObjectHierarchy* MainWindow::getHierarchyWidget() {
+    return _ObjectHierarchyWidget;
 }
 
 void MainWindow::setupMenuBar() {
@@ -57,9 +64,9 @@ void MainWindow::setupDockedWidgets() {
     SEDockWidget* dockWidget = new SEMainEditorDock(this);
     setCentralWidget(dockWidget);
 
-    dockWidget = new SEDockObjectHierarchy(this);
-    dockWidget->setMinimumWidth(130);
-    addDockWidget(Qt::RightDockWidgetArea, dockWidget);
+    _ObjectHierarchyWidget = new SEDockObjectHierarchy(this);
+    _ObjectHierarchyWidget->setMinimumWidth(130);
+    addDockWidget(Qt::RightDockWidgetArea, _ObjectHierarchyWidget);
 
     dockWidget = new SEDockWidget(this, "Object Components");
     dockWidget->setMinimumWidth(140);

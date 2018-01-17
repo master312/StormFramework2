@@ -87,7 +87,7 @@ uint32_t SSceneObject::getId() {
     return _Id;
 }
 
-std::string& SSceneObject::getName() {
+std::reference_wrapper<const std::string> SSceneObject::getName() const {
     return _Name;
 }
 

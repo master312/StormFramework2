@@ -33,7 +33,7 @@ public:
     void setName(const std::string& name);
 
     /* Gets object name */
-    std::string& getName();
+    std::reference_wrapper<const std::string> getName() const;
 
     /* Assign parent to object, or clear parent if @parent = nullptr.
      * If there is already a parent set, it will be replased */
