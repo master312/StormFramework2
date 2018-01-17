@@ -36,6 +36,10 @@ set(editor_sources
     ${SOURCES_PATH_PREFIX}/toolbars/SFEditToolbar.h
     ${SOURCES_PATH_PREFIX}/toolbars/SEToolbar.cpp
     ${SOURCES_PATH_PREFIX}/toolbars/SEToolbar.h
+    ${SOURCES_PATH_PREFIX}/docks/main_editor/SEMainEditorDock.cpp
+    ${SOURCES_PATH_PREFIX}/docks/main_editor/SEMainEditorDock.h
+    ${SOURCES_PATH_PREFIX}/docks/main_editor/SEStormMainWidget.cpp
+    ${SOURCES_PATH_PREFIX}/docks/main_editor/SEStormMainWidget.h
     )
 
 qt5_add_resources(UI_RESOURCES ${SOURCES_PATH_PREFIX}/resources.qrc)
@@ -45,7 +49,7 @@ add_executable(${PROJECT_NAME} ${engine_sources} ${editor_sources} ${UI_RESOURCE
 # include /src_editor directory
 target_include_directories(${PROJECT_NAME} PUBLIC ${SOURCES_PATH_PREFIX})
 # Add ELPP_QT_LOGGING define for EasyLoggin API
-set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-DELPP_QT_LOGGING")
+set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-DELPP_QT_LOGGING -DSTORM_BUILD_PLATFORM_QT")
 
 target_link_libraries(${PROJECT_NAME}
         ${STORM_LIBS}

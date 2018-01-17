@@ -18,7 +18,7 @@ StormPlatform* SEngineModuleFactory::initPlatform(StormPlatformType platformType
                 platform = nullptr;
             }
 #else
-            LOG(FATAL) << "Tryed to initialzie SDL2 platform, but engine was built without SDL2 support.";
+            LOG(FATAL) << "Tried to initialize SDL2 platform, but engine was built without SDL2 support.";
 #endif
             break; }
         case STORM_PLATFORM_QT: {

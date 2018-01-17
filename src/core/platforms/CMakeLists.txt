@@ -8,6 +8,8 @@ set(STORM_CORE_PLATFORM_FILES
     ${PATH_PREFIX}/StormKeys.h
     ${PATH_PREFIX}/StormPlatformSDL2.h
     ${PATH_PREFIX}/StormPlatformSDL2.cpp
+    ${PATH_PREFIX}/StormPlatformQt.h
+    ${PATH_PREFIX}/StormPlatformQt.cpp
     )
 
 

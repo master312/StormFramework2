@@ -34,6 +34,12 @@ set(engine_sources
     )
 
 
+
+add_executable(${PROJECT_NAME} ${engine_sources} main.cpp)
+
+# Set libraries
+target_link_libraries(${PROJECT_NAME} ${STORM_LIBS})
+
 # Set compiler parameters
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall")
 
@@ -41,7 +47,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall")
 #set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_DEBUG} -Wall") TODO: Debug and release configs
 
 if (BUILD_SDL2_SUPPORT)
-    add_definitions("-DSTORM_BUILD_PLATFORM_SDL2")
+    set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-DSTORM_BUILD_PLATFORM_SDL2")
 endif()
 
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
@@ -51,11 +57,6 @@ else()
     # Debug configuration
     add_definitions("-D_DEBUG")
 endif()
-
-
-add_executable(${PROJECT_NAME} ${engine_sources} main.cpp)
-# Set libraryes
-target_link_libraries(${PROJECT_NAME} ${STORM_LIBS})
 
 
 # Include editor configuration

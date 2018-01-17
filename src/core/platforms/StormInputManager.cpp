@@ -35,6 +35,7 @@ bool StormInputManager::isKeyDown(StormKey key) {
 bool StormInputManager::isKeyPressed(StormKey key) {
     for (int i = 0; i < MAXIMUM_KEYS_PRESSED; i++) {
         if (_KeysPressed[i] == key) {
+            _KeysPressed[i] = S_KEY_NONE;
             return true;
         }
     }

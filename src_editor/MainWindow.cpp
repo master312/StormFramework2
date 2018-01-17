@@ -1,7 +1,7 @@
 #include "MainWindow.h"
 #include "toolbars/SEFileToolbar.h"
 #include "toolbars/SFEditToolbar.h"
-#include "docks/SEDockWidget.h"
+#include "docks/main_editor/SEMainEditorDock.h"
 #include "docks/object_hierarchy/SEDockObjectHierarchy.h"
 #include <QFileDialog>
 #include <QMenuBar>
@@ -13,13 +13,6 @@ static MainWindow* mainWindow = nullptr;
 
 MainWindow::MainWindow() : QMainWindow(nullptr) {
     mainWindow = this;
-
-    /* Create central widget. */
-    /* TODO: Should be OpenGL renderer widget */
-    QTextEdit* center = new QTextEdit(this);
-    center->setReadOnly(true);
-    center->setMinimumSize(400, 205);
-    setCentralWidget(center);
 
     setWindowDockingOptions();
 
@@ -61,7 +54,10 @@ void MainWindow::setupMenuBar() {
 }
 
 void MainWindow::setupDockedWidgets() {
-    SEDockWidget* dockWidget = new SEDockObjectHierarchy(this);
+    SEDockWidget* dockWidget = new SEMainEditorDock(this);
+    setCentralWidget(dockWidget);
+
+    dockWidget = new SEDockObjectHierarchy(this);
     dockWidget->setMinimumWidth(130);
     addDockWidget(Qt::RightDockWidgetArea, dockWidget);
 
