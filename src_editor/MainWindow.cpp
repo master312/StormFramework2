@@ -1,7 +1,8 @@
 #include "MainWindow.h"
 #include "toolbars/SEFileToolbar.h"
 #include "toolbars/SFEditToolbar.h"
-#include "dock_widgets/SEDockWidget.h"
+#include "docks/SEDockWidget.h"
+#include "docks/object_hierarchy/SEDockObjectHierarchy.h"
 #include <QFileDialog>
 #include <QMenuBar>
 #include <QTextEdit>
@@ -60,7 +61,7 @@ void MainWindow::setupMenuBar() {
 }
 
 void MainWindow::setupDockedWidgets() {
-    SEDockWidget* dockWidget = new SEDockWidget(this, "Object hierarchy");
+    SEDockWidget* dockWidget = new SEDockObjectHierarchy(this);
     dockWidget->setMinimumWidth(130);
     addDockWidget(Qt::RightDockWidgetArea, dockWidget);
 

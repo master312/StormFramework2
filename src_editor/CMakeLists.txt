@@ -23,10 +23,15 @@ set(editor_sources
     ${SOURCES_PATH_PREFIX}/MainWindow.h
     ${SOURCES_PATH_PREFIX}/MainWindow.cpp
 
+    ${SOURCES_PATH_PREFIX}/docks/SEDockWidget.cpp
+    ${SOURCES_PATH_PREFIX}/docks/SEDockWidget.h
+    ${SOURCES_PATH_PREFIX}/docks/object_hierarchy/SEDockObjectHierarchy.cpp
+    ${SOURCES_PATH_PREFIX}/docks/object_hierarchy/SEDockObjectHierarchy.h
+    ${SOURCES_PATH_PREFIX}/docks/object_hierarchy/SEObjectsTreeWidget.cpp
+    ${SOURCES_PATH_PREFIX}/docks/object_hierarchy/SEObjectsTreeWidget.h
+
     ${SOURCES_PATH_PREFIX}/toolbars/SEFileToolbar.h
     ${SOURCES_PATH_PREFIX}/toolbars/SEFileToolbar.cpp
-    ${SOURCES_PATH_PREFIX}/dock_widgets/SEDockWidget.cpp
-    ${SOURCES_PATH_PREFIX}/dock_widgets/SEDockWidget.h
     ${SOURCES_PATH_PREFIX}/toolbars/SFEditToolbar.cpp
     ${SOURCES_PATH_PREFIX}/toolbars/SFEditToolbar.h
     ${SOURCES_PATH_PREFIX}/toolbars/SEToolbar.cpp
