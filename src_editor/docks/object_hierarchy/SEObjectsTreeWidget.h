@@ -20,6 +20,7 @@ protected:
 private:
     std::vector<SESceneObjectTreeItem*> _TreeItems;
 
-    void generateSceneObjectItem(SSceneObject* object);
+    /* Generate tree widget list item for @object and all children */
+    SESceneObjectTreeItem* generateSceneObjectItem(SSceneObject* object);
     virtual void dropEvent(QDropEvent* event);
 };

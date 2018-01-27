@@ -226,7 +226,7 @@ SSceneObject* SScene::instantiatePrefab(const std::string& prefabName,
 
     addObject(object);
     initializeNewObject(object);
-    
+
     LOG(DEBUG) << "Instantiated new object from prefab '" << prefabName << "'. ID: " << _MaxObjectId;
 
     return object;
