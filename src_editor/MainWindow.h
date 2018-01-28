@@ -2,7 +2,10 @@
 #include <QMainWindow>
 #include <QMenu>
 #include <map>
-#include "docks/object_hierarchy/SEDockObjectHierarchy.h"
+
+class SEDockObjectHierarchy;
+class SEDockObjectComponents;
+
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -14,7 +17,7 @@ public:
 
     QMenu* getMenu(const std::string& name);
 
-    SEDockObjectHierarchy* getHierarchyWidget();
+    SEDockObjectHierarchy* getHierarchyDock();
 
 public slots:
     void cbMenuOpenScene();
@@ -25,7 +28,9 @@ public slots:
 
 private:
     std::map<std::string, QMenu*> _Menus;
-    SEDockObjectHierarchy* _ObjectHierarchyWidget;
+
+    SEDockObjectHierarchy* _ObjectHierarchyDock;
+    SEDockObjectComponents* _ObjectComoponentsDock;
 
 
     void setupMenuBar();

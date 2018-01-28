@@ -17,6 +17,8 @@
 #include "StormEngine.h"
 #include "platforms/StormPlatformQt.h"
 
+/* Main view widget. Storm engine is initialized here */
+
 class QEvent;
 class QKeyEvent;
 class QMouseEvent;

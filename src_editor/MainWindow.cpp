@@ -3,18 +3,20 @@
 #include "toolbars/SFEditToolbar.h"
 #include "docks/main_editor/SEMainEditorDock.h"
 #include "docks/object_hierarchy/SEDockObjectHierarchy.h"
+#include "docks/object_components/SEDockObjectComponents.h"
 #include <QFileDialog>
 #include <QMenuBar>
 #include <QTextEdit>
 #include <QMessageBox>
 
-/* Main windows 'fake singleton' holder for easy access */
+/* 'fake singleton' holder for easy access to main window */
 static MainWindow* mainWindow = nullptr;
 
 MainWindow::MainWindow() : QMainWindow(nullptr) {
     mainWindow = this;
 
-    _ObjectHierarchyWidget = nullptr;
+    _ObjectHierarchyDock = nullptr;
+    _ObjectComoponentsDock = nullptr;
 
     setWindowDockingOptions();
 
@@ -39,8 +41,8 @@ QMenu* MainWindow::getMenu(const std::string& name) {
     return nullptr;
 }
 
-SEDockObjectHierarchy* MainWindow::getHierarchyWidget() {
-    return _ObjectHierarchyWidget;
+SEDockObjectHierarchy* MainWindow::getHierarchyDock() {
+    return _ObjectHierarchyDock;
 }
 
 void MainWindow::setupMenuBar() {
@@ -64,13 +66,11 @@ void MainWindow::setupDockedWidgets() {
     SEDockWidget* dockWidget = new SEMainEditorDock(this);
     setCentralWidget(dockWidget);
 
-    _ObjectHierarchyWidget = new SEDockObjectHierarchy(this);
-    _ObjectHierarchyWidget->setMinimumWidth(130);
-    addDockWidget(Qt::RightDockWidgetArea, _ObjectHierarchyWidget);
+    _ObjectHierarchyDock = new SEDockObjectHierarchy(this);
+    addDockWidget(Qt::RightDockWidgetArea, _ObjectHierarchyDock);
 
-    dockWidget = new SEDockWidget(this, "Object Components");
-    dockWidget->setMinimumWidth(140);
-    addDockWidget(Qt::RightDockWidgetArea, dockWidget);
+    _ObjectComoponentsDock = new SEDockObjectComponents(this);
+    addDockWidget(Qt::RightDockWidgetArea, _ObjectComoponentsDock);
 
     dockWidget = new SEDockWidget(this, "Files Manager");
     addDockWidget(Qt::BottomDockWidgetArea, dockWidget);

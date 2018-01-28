@@ -42,7 +42,8 @@ set(editor_sources
     ${SOURCES_PATH_PREFIX}/docks/main_editor/SEStormMainWidget.h
     ${SOURCES_PATH_PREFIX}/docks/object_hierarchy/SESceneObjectTreeItem.cpp
     ${SOURCES_PATH_PREFIX}/docks/object_hierarchy/SESceneObjectTreeItem.h
-    )
+    ${SOURCES_PATH_PREFIX}/docks/object_components/SEDockObjectComponents.cpp
+    ${SOURCES_PATH_PREFIX}/docks/object_components/SEDockObjectComponents.h)
 
 qt5_add_resources(UI_RESOURCES ${SOURCES_PATH_PREFIX}/resources.qrc)
 

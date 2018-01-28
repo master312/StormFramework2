@@ -2,18 +2,22 @@
 #include "SESceneObjectTreeItem.h"
 #include "StormEngine.h"
 #include "scene/SScene.h"
+#include "SEDockObjectHierarchy.h"
 #include <QDropEvent>
 
-SEObjectsTreeWidget::SEObjectsTreeWidget(QWidget* parent) : QTreeWidget(parent) {
+SEObjectsTreeWidget::SEObjectsTreeWidget(SEDockObjectHierarchy* parent) : QTreeWidget(parent) {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setMinimumSize(parent->width(), 200);
     setMaximumSize(2000, 2000);
+    parentDock = parent;
 
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setDragEnabled(true);
     viewport()->setAcceptDrops(true);
     setDropIndicatorShown(true);
     setDragDropMode(QAbstractItemView::InternalMove);
+
+    connect(this, &SEObjectsTreeWidget::itemClicked, this, &SEObjectsTreeWidget::objectSelected);
 }
 
 SEObjectsTreeWidget::~SEObjectsTreeWidget() {
@@ -54,8 +58,18 @@ SESceneObjectTreeItem* SEObjectsTreeWidget::generateSceneObjectItem(SSceneObject
     return item;
 }
 
-void SEObjectsTreeWidget::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected) {
+void SEObjectsTreeWidget::objectSelected(QTreeWidgetItem* item, int column) {
+    if (!item) {
+        return;
+    }
+    SESceneObjectTreeItem* treeItem = dynamic_cast<SESceneObjectTreeItem*>(item);
+    if (!treeItem) {
+        return;
+    }
+    parentDock->cbObjectSelected(treeItem->getSceneObject());
+}
 
+void SEObjectsTreeWidget::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected) {
 }
 
 void SEObjectsTreeWidget::dropEvent(QDropEvent* event) {

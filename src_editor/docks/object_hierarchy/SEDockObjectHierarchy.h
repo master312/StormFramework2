@@ -5,11 +5,22 @@
 class SScene;
 
 class SEDockObjectHierarchy : public SEDockWidget {
+    friend class SEObjectsTreeWidget;
+    Q_OBJECT
+
 public:
     SEDockObjectHierarchy(QMainWindow* parent);
     virtual ~SEDockObjectHierarchy();
 
     void setScene(SScene* scene);
+
+signals:
+    /* Fired every time new object has been selected */
+    void sceneObjectSelected(SSceneObject* selectedObject);
+
+protected:
+    /* Called from tree widget every time object is clicked in hierarchy */
+    void cbObjectSelected(SSceneObject* selectedObject);
 
 private:
     SEObjectsTreeWidget* _ObjectsTree;

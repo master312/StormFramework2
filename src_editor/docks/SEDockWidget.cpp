@@ -11,7 +11,7 @@ SEDockWidget::SEDockWidget(QMainWindow* parent, const QString& name) : QDockWidg
     setWindowTitle(name);
     _ViewMenuToggle = nullptr;
 
-    setMinimumSize(100, 100);
+    setMinimumSize(130, 100);
     setContentsMargins(1, 10, 1, 1);
 
     setFeatures(features() & ~DockWidgetFloatable);
