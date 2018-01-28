@@ -17,7 +17,7 @@ SScene* SSceneManager::loadScene(const std::string& filename, bool reloadActive 
 
     SScene* scene = new SScene();
     if (scene->loadXml(sceneFile) < 0) {
-        /* Error occured while loading scene */
+        /* Error occurred while loading scene */
         delete scene;
         return nullptr;
     }
@@ -28,7 +28,7 @@ SScene* SSceneManager::loadScene(const std::string& filename, bool reloadActive 
     auto iter = _LoadedScenes.find(sceneName);
     if (iter != _LoadedScenes.end()) {
         /* Scene with same name already exists in loaded scenes map */
-        LOG(WARNING) << "Scene '" << sceneName << "' already laoded. Reloading...";
+        LOG(WARNING) << "Scene '" << sceneName << "' already loaded. Reloading...";
         if (_ActiveScene == iter->second && !reloadActive) {
             /* Scene is active. Can not reload scene while active */
             LOG(ERROR) << "Could not reload scene '" << sceneName << "'. Scene is currently active";

@@ -3,6 +3,7 @@
 #include "core/platforms/StormPlatform.h"
 #include "core/resources/StormFileSystem.h"
 #include "STextureManager.h"
+#include "SGlobalNotifier.h"
 
 /* Singleton class responsible for initialization and deinitialization of all engine modules */
 
@@ -11,6 +12,7 @@ class StormRenderer;
 class SSceneManager;
 class SScene;
 class StormInputManager;
+class SGlobalNotifier;
 
 class StormEngine {
     friend class SEngineModuleFactory;
@@ -39,8 +41,11 @@ public:
      * or nullptr if not found */
     static spStormResourceFile getResource(const std::string& filename);    
 
-    /* Returns imput manager object */
+    /* Returns pointer input manager module */
     static StormInputManager* getInputManager();
+
+    /* Returns pointer to engine's global notifier module */
+    static SGlobalNotifier* getGlobalNotifier();
 
     /* Returns texture named @filename, or nullptr if not found. */
     static spStormTexture getTexture(const std::string& filename);
@@ -59,7 +64,7 @@ private:
 
     StormEngine();
 
-    /* Struct that holds informations about game window,
+    /* Structure that holds information about game window,
      * window size, type, title etc...*/
     StormWindowSettings _WindowInfo;
     
@@ -86,7 +91,10 @@ private:
     /* SSceneManager module, used for loading/unloading/switching scenes. */
     SSceneManager* _ModSceneManager;
 
-    /* Map of all engine modules maped by their type id */
+    /* SGlobalNotifier module. Used for sending notifications between different engine components */
+    SGlobalNotifier* _ModGlobalNotifier;
+
+    /* Map of all engine modules mapped by their type id */
     std::map<std::type_index, StormModuleBase*> _ModulesByType;
 
     /***** END OF ENGINE MODULES *****/

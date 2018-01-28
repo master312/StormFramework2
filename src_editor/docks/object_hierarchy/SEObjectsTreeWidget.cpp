@@ -1,5 +1,6 @@
 #include "SEObjectsTreeWidget.h"
 #include "SESceneObjectTreeItem.h"
+#include "StormEngine.h"
 #include "scene/SScene.h"
 #include <QDropEvent>
 
@@ -16,6 +17,16 @@ SEObjectsTreeWidget::SEObjectsTreeWidget(QWidget* parent) : QTreeWidget(parent) 
 }
 
 SEObjectsTreeWidget::~SEObjectsTreeWidget() {
+}
+
+void SEObjectsTreeWidget::newPrefabInstantiated(void* object) {
+    SSceneObject* sceneObject = static_cast<SSceneObject*>(object);
+    if (!sceneObject) {
+        LOG(WARNING) << "Could not cast void* ptr to SSceneObject";
+        return;
+    }
+
+    generateSceneObjectItem(sceneObject);
 }
 
 void SEObjectsTreeWidget::populateList(SScene* scene) {

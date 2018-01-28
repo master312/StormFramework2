@@ -12,6 +12,7 @@ StormEngine::StormEngine() {
     _ModTextureManager = nullptr;
     _ModResources = nullptr;
     _ModSceneManager = nullptr;
+    _ModGlobalNotifier = nullptr;
 
     _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.17", true);
 }
@@ -34,23 +35,23 @@ void StormEngine::initialize(StormPlatformType platformType) {
     S_ASSERT(_ModPlatform);
     _ModulesByType[typeid(StormPlatform)] = _ModPlatform->getModuleBase();
 
-
     /* Initialize video driver module */
     _ModVideoDriver = SEngineModuleFactory::initVideoDriver();
     S_ASSERT(_ModVideoDriver);
     _ModulesByType[typeid(StormVideoDriver)] = _ModVideoDriver->getModuleBase();
 
-
     /* Initialize renderer module */
     _ModRenderer = SEngineModuleFactory::initRenderer(DEFAULT_SHADER_NAME);
     S_ASSERT(_ModRenderer);
     _ModulesByType[typeid(StormRenderer)] = _ModRenderer->getModuleBase();
-    
 
     /* Initialize texture manager module */
     _ModTextureManager = new STextureManager();
     _ModulesByType[typeid(STextureManager)] = _ModTextureManager->getModuleBase();
 
+    /* Initialize global notifier module */
+    _ModGlobalNotifier = new SGlobalNotifier();
+    _ModulesByType[typeid(SGlobalNotifier)] = _ModGlobalNotifier->getModuleBase();
 
     /* Initialize scene manager, and load test scene */
     _ModSceneManager = new SSceneManager();
@@ -150,9 +151,18 @@ spStormResourceFile StormEngine::getResource(const std::string& filename) {
 
 StormInputManager* StormEngine::getInputManager() {
     if (!instance()->_ModPlatform) {
+        LOG(FATAL) << "Platform is nullptr!";
         return nullptr;
     }
     return instance()->_ModPlatform->getInputManager();
+}
+
+SGlobalNotifier* StormEngine::getGlobalNotifier() {
+    if (!instance()->_ModGlobalNotifier) {
+        LOG(FATAL) << "Global notifier is nullptr!";
+        return nullptr;
+    }
+    return instance()->_ModGlobalNotifier;
 }
 
 spStormTexture StormEngine::getTexture(const std::string& filename) {

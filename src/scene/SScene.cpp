@@ -181,6 +181,8 @@ void SScene::addObject(SSceneObject* object) {
         _MaxObjectId = object->getId();
     }
     _Objects.push_back(object);
+
+    S_FIRE_GLOBAL_NOTIFICATION(SNotificationType::SCENE_OBJECT_ADDED, object);
 }
 
 void SScene::destroyObject(uint32_t objectId) {
@@ -228,6 +230,8 @@ SSceneObject* SScene::instantiatePrefab(const std::string& prefabName,
     initializeNewObject(object);
 
     LOG(DEBUG) << "Instantiated new object from prefab '" << prefabName << "'. ID: " << _MaxObjectId;
+
+    S_FIRE_GLOBAL_NOTIFICATION(SNotificationType::SCENE_PREFAB_INSTANTIATED, object);
 
     return object;
 }

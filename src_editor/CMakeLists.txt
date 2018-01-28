@@ -51,7 +51,7 @@ add_executable(${PROJECT_NAME} ${engine_sources} ${editor_sources} ${UI_RESOURCE
 # include /src_editor directory
 target_include_directories(${PROJECT_NAME} PUBLIC ${SOURCES_PATH_PREFIX})
 # Add ELPP_QT_LOGGING define for EasyLoggin API
-set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-DELPP_QT_LOGGING -DSTORM_BUILD_PLATFORM_QT")
+set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-DELPP_QT_LOGGING -DSTORM_BUILD_PLATFORM_QT -DSTORM_EDITOR")
 
 target_link_libraries(${PROJECT_NAME}
         ${STORM_LIBS}

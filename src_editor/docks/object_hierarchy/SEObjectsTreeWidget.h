@@ -14,6 +14,9 @@ public:
     /* Populate list with scene objects hierarchy from @scene */
     void populateList(SScene* scene);
 
+    /* Called when new prefab gets instantiated. @object is pointer to newly instaniated SSceneObject */
+    void newPrefabInstantiated(void* object);
+
 protected:
     virtual void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 
