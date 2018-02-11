@@ -9,6 +9,7 @@ class SEDockObjectHierarchy;
 class SEObjectsTreeWidget : public QTreeWidget {
     friend class SEDockObjectHierarchy;
     Q_OBJECT
+
 public:
     SEObjectsTreeWidget(SEDockObjectHierarchy* parent);
     virtual ~SEObjectsTreeWidget();

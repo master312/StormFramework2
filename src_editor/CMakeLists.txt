@@ -14,12 +14,6 @@ list(APPEND THIRD_PARTY_LIBS Qt5::Widgets Qt5::Core)
 # Create sources list
 set(editor_sources
     ${SOURCES_PATH_PREFIX}/main.cpp
-    ${SOURCES_PATH_PREFIX}/mainwindow.h
-    ${SOURCES_PATH_PREFIX}/mainwindow.cpp
-    ${SOURCES_PATH_PREFIX}/colorswatch.h
-    ${SOURCES_PATH_PREFIX}/colorswatch.cpp
-    ${SOURCES_PATH_PREFIX}/toolbar.h
-    ${SOURCES_PATH_PREFIX}/toolbar.cpp
     ${SOURCES_PATH_PREFIX}/MainWindow.h
     ${SOURCES_PATH_PREFIX}/MainWindow.cpp
 
@@ -43,7 +37,9 @@ set(editor_sources
     ${SOURCES_PATH_PREFIX}/docks/object_hierarchy/SESceneObjectTreeItem.cpp
     ${SOURCES_PATH_PREFIX}/docks/object_hierarchy/SESceneObjectTreeItem.h
     ${SOURCES_PATH_PREFIX}/docks/object_components/SEDockObjectComponents.cpp
-    ${SOURCES_PATH_PREFIX}/docks/object_components/SEDockObjectComponents.h)
+    ${SOURCES_PATH_PREFIX}/docks/object_components/SEDockObjectComponents.h
+    ${SOURCES_PATH_PREFIX}/component_widgets/SEComponentWidget.cpp
+    ${SOURCES_PATH_PREFIX}/component_widgets/SEComponentWidget.h)
 
 qt5_add_resources(UI_RESOURCES ${SOURCES_PATH_PREFIX}/resources.qrc)
 

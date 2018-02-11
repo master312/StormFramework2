@@ -16,4 +16,7 @@ public slots:
     /* Executed every time object is selected in hierarchy */
     void sceneObjectSelected(SSceneObject* object);
 
+
+private:
+    QWidget* _ScrollArea;
 };

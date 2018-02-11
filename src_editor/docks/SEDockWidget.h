@@ -16,7 +16,7 @@ protected:
     QWidget* _RootWidget;
 
 
-    static QLayout* genericBoxLayout(SEDockWidget* parent);
+    static QLayout* genericBoxLayout(QWidget* parent = nullptr);
 
 private:
     QAction* _ViewMenuToggle;

@@ -5,7 +5,7 @@
 
 SEDockObjectHierarchy::SEDockObjectHierarchy(QMainWindow* parent) : SEDockWidget(parent, "Objects Hierarchy") {
 
-    QLayout* layout = SEDockWidget::genericBoxLayout(this);
+    QLayout* layout = SEDockWidget::genericBoxLayout();
     _RootWidget->setLayout(layout);
 
     _ObjectsTree = new SEObjectsTreeWidget(this);

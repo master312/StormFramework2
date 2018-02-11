@@ -32,8 +32,8 @@ void SEDockWidget::cbVisibilityChanged(bool isVisible) {
     _ViewMenuToggle->setChecked(isVisible);
 }
 
-QLayout* SEDockWidget::genericBoxLayout(SEDockWidget* parent) {
-    QVBoxLayout* layout = new QVBoxLayout();
+QLayout* SEDockWidget::genericBoxLayout(QWidget* parent /* = nullptr */) {
+    QVBoxLayout* layout = new QVBoxLayout(parent);
     layout->setSpacing(1);
     layout->setMargin(0);
     layout->setAlignment(Qt::AlignmentFlag::AlignTop);
