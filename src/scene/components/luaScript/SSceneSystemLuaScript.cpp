@@ -33,7 +33,13 @@ void SSceneSystemLuaScript::initialize() {
         return;
     }
 
+    /* TODO: Add lua common folders from some config file. */
     std::vector<std::string> commonList = fileSystem->getFilesList("lua_common/", "lua");
+#ifdef STORM_EDITOR
+    /* Loads editor common lua files */
+    std::vector<std::string> editorCommonList = fileSystem->getFilesList("lua_editor/common/", "lua");
+    commonList.insert(commonList.end(), editorCommonList.begin(), editorCommonList.end());
+#endif
     for (std::string& filename : commonList) {
         spStormResourceFile resFile = StormEngine::getResource(filename);
         if (!resFile) {

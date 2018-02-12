@@ -38,8 +38,14 @@ set(editor_sources
     ${SOURCES_PATH_PREFIX}/docks/object_hierarchy/SESceneObjectTreeItem.h
     ${SOURCES_PATH_PREFIX}/docks/object_components/SEDockObjectComponents.cpp
     ${SOURCES_PATH_PREFIX}/docks/object_components/SEDockObjectComponents.h
-    ${SOURCES_PATH_PREFIX}/component_widgets/SEComponentWidget.cpp
-    ${SOURCES_PATH_PREFIX}/component_widgets/SEComponentWidget.h)
+    ${SOURCES_PATH_PREFIX}/component_widgets/SERootComponentWidget.cpp
+    ${SOURCES_PATH_PREFIX}/component_widgets/SERootComponentWidget.h
+    ${SOURCES_PATH_PREFIX}/property_widgets/SEPropertyWidget.cpp
+    ${SOURCES_PATH_PREFIX}/property_widgets/SEPropertyWidget.h
+    ${SOURCES_PATH_PREFIX}/property_widgets/SEPropertyVector2.cpp
+    ${SOURCES_PATH_PREFIX}/property_widgets/SEPropertyVector2.h
+    ${SOURCES_PATH_PREFIX}/property_widgets/elements/SENumberLineEdit.cpp
+    ${SOURCES_PATH_PREFIX}/property_widgets/elements/SENumberLineEdit.h)
 
 qt5_add_resources(UI_RESOURCES ${SOURCES_PATH_PREFIX}/resources.qrc)
 

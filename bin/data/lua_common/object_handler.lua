@@ -1,5 +1,6 @@
 Handles = {}
 
+-- Metatable that will search for methods/variables in self.script and self.cppRef tables
 -- Meta table used for handle
 local HandleMT = {}
 HandleMT.__index = function(handle, key)
@@ -61,7 +62,7 @@ function createObjectHandle(cppObjRef)
         -- Reference to cpp object
         cppRef = cppObjRef,
         
-        -- LUA table defined in cpp object's script component
+        -- LUA table defined in object's script component
         -- Can be NULL if object dose not have scripts attatched
         script = nil,
 
