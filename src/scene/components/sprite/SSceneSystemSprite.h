@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <map>
-#include "../../SSceneComponentSystem.h"
+#include "scene/SSceneComponentSystem.h"
 #include "resources/StormResourceFile.h"
 #include "utils/math/Rect.h"
 #include "pugixml/pugixml.hpp"

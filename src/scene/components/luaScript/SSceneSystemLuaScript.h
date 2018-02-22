@@ -1,11 +1,15 @@
 #pragma once
-#include "../../SSceneComponentSystem.h"
+#include "scene/SSceneComponentSystem.h"
 #include "sol2/sol.hpp"
 
 class SSceneComLuaScript;
 class SSceneObject;
 
 class SSceneSystemLuaScript : public SSceneComponentSystem {
+#ifdef STORM_EDITOR
+    friend class SESystemLuaScript;
+#endif
+
 public:
     SSceneSystemLuaScript(SScene* scene);
     virtual ~SSceneSystemLuaScript();
@@ -50,4 +54,15 @@ private:
     /* Set to false when this system ticks first time
      * Used for handling @onScriptStart(...) method */
     bool _IsFirstTick;
+
+
+    /* Initialize lua library and bind user types */
+    virtual void initializeLua();
+
+    /* Load common scripts.
+     * @fileList are script paths from the root of the filesystem. */
+    virtual void loadCommonScripts(const std::vector<std::string>& fileList);
+
+    /* Bind other systems to lua and create object handles for all scene objects*/
+    virtual void initializeScene();
 };

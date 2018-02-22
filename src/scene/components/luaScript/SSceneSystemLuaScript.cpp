@@ -17,7 +17,21 @@ SSceneSystemLuaScript::~SSceneSystemLuaScript() {
 }
 
 void SSceneSystemLuaScript::initialize() {
-    _LuaState.open_libraries(sol::lib::base, sol::lib::os, 
+    initializeLua();
+
+    /* TODO: Read common files path from some config file */
+    StormFileSystem* fileSystem = StormEngine::getModule<StormFileSystem>();
+    loadCommonScripts(fileSystem->getFilesList("lua_common/", "lua"));
+
+    initializeScene();
+
+    for (SSceneComLuaScript* component : _ScriptComponents) {
+        component->executeOnLoad();
+    }
+}
+
+void SSceneSystemLuaScript::initializeLua() {
+    _LuaState.open_libraries(sol::lib::base, sol::lib::os,
                              sol::lib::math, sol::lib::io,
                              sol::lib::count, sol::lib::package,
                              sol::lib::string, sol::lib::table,
@@ -28,19 +42,15 @@ void SSceneSystemLuaScript::initialize() {
     std::string path = _LuaState["package"]["path"];
     _LuaState["package"]["path"] = path + ";" + fileSystem->getRootPath() + "/?.lua";
 
-    if (SLuaBindings::bindStandardTypes(_LuaState) < 0) {
-        LOG(ERROR) << "Could not bind lua functions";
+    /* Binds user types and functions to lua(like the one for SSceneObject) */
+    if (SLuaBindings::bindUserTypes(_LuaState) < 0) {
+        LOG(ERROR) << "Could not bind lua user types";
         return;
     }
+}
 
-    /* TODO: Add lua common folders from some config file. */
-    std::vector<std::string> commonList = fileSystem->getFilesList("lua_common/", "lua");
-#ifdef STORM_EDITOR
-    /* Loads editor common lua files */
-    std::vector<std::string> editorCommonList = fileSystem->getFilesList("lua_editor/common/", "lua");
-    commonList.insert(commonList.end(), editorCommonList.begin(), editorCommonList.end());
-#endif
-    for (std::string& filename : commonList) {
+void SSceneSystemLuaScript::loadCommonScripts(const std::vector<std::string>& fileList) {
+    for (const std::string& filename : fileList) {
         spStormResourceFile resFile = StormEngine::getResource(filename);
         if (!resFile) {
             LOG(ERROR) << "Failed to load common lua script '" << filename << "'";
@@ -50,16 +60,16 @@ void SSceneSystemLuaScript::initialize() {
         _LuaState.script(resFile->getBuffer());
         LOG(DEBUG) << "Common lua script '" << resFile << "' loaded";
     }
-    
-    SLuaBindings::bindSceneObject(_LuaState);
+}
 
+void SSceneSystemLuaScript::initializeScene() {
     /* Bind all scene objects to script */
     for (SSceneObject* object : _OwnerScene->getObjects()) {
         registerSceneObjectHandle(object);
     }
 
     SSceneComponentSystem::initialize();
-    
+
     for (SSceneComponentSystem* system : _OwnerScene->getSystems()) {
         if (system == this) {
             continue;
@@ -69,10 +79,6 @@ void SSceneSystemLuaScript::initialize() {
         system->initializeLua(_LuaState);
         /* Bind all components to owner's script object. */
         system->bindComponentsToLua(this);
-    }
-
-    for (SSceneComLuaScript* component : _ScriptComponents) {
-        component->executeOnLoad();
     }
 }
 

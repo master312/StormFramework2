@@ -9,6 +9,11 @@
 #include "StormEngine.h"
 #include "graphics/StormRenderer.h"
 
+#ifdef STORM_EDITOR
+#include "scene_editing/transform/SESystemTransform.h"
+#include "scene_editing/transform/SESystemLuaScript.h"
+#endif
+
 SScene::SScene() {
     _LastObjectIndex = 1;
     _Name = "";
@@ -311,7 +316,12 @@ void SScene::tick(float deltaTime) {
 }
 
 void SScene::initializeDefaultSystems() {
-    SSceneSystemTransform* sysTransform = new SSceneSystemTransform(this);
+    SSceneSystemTransform* sysTransform =
+#ifdef STORM_EDITOR
+        new SESystemTransform(this);
+#else
+        new SSceneSystemTransform(this);
+#endif
     _ComponentSystems.push_back(sysTransform);
     _ComponentSystemsByType[S_SCENE_OBJECT_COM_TRANSFORM] = sysTransform;
 
@@ -323,7 +333,13 @@ void SScene::initializeDefaultSystems() {
     _ComponentSystems.push_back(sysCollider);
     _ComponentSystemsByType[S_SCENE_OBJECT_COM_PHYSICS] = sysCollider;
 
-    SSceneSystemLuaScript* sysLua = new SSceneSystemLuaScript(this);
-    _ComponentSystems.push_back(sysLua);
-    _ComponentSystemsByType[S_SCENE_OBJECT_COM_SCRIPT] = sysLua;
+
+    SSceneSystemLuaScript* sysLuaScript =
+#ifdef STORM_EDITOR
+            new SESystemLuaScript(this);
+#else
+            new SSceneSystemLuaScript(this);
+#endif
+    _ComponentSystems.push_back(sysLuaScript);
+    _ComponentSystemsByType[S_SCENE_OBJECT_COM_SCRIPT] = sysLuaScript;
 }

@@ -1,9 +1,13 @@
 #pragma once
-#include "../../SSceneComponentSystem.h"
+#include "scene/SSceneComponentSystem.h"
 
 class SSceneComTransform;
 
 class SSceneSystemTransform : public SSceneComponentSystem {
+#ifdef STORM_EDITOR
+    friend class SESystemTransform;
+#endif
+
 public:
     SSceneSystemTransform(SScene* scene);
     virtual ~SSceneSystemTransform();

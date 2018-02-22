@@ -11,6 +11,7 @@ SEDockObjectHierarchy::SEDockObjectHierarchy(QMainWindow* parent) : SEDockWidget
     _ObjectsTree = new SEObjectsTreeWidget(this);
     layout->addWidget(_ObjectsTree);
 
+    _SelectedObject = nullptr;
 }
 
 SEDockObjectHierarchy::~SEDockObjectHierarchy() {
@@ -18,15 +19,18 @@ SEDockObjectHierarchy::~SEDockObjectHierarchy() {
 }
 
 void SEDockObjectHierarchy::cbObjectSelected(SSceneObject* selectedObject) {
-    static SSceneObject* lastSelectedObject = nullptr;
-    if (lastSelectedObject == selectedObject) {
+    if (_SelectedObject == selectedObject) {
         return;
     }
-    lastSelectedObject = selectedObject;
-    sceneObjectSelected(selectedObject);
+    _SelectedObject = selectedObject;
+    sceneObjectSelected(_SelectedObject);
 }
 
 void SEDockObjectHierarchy::setScene(SScene* scene) {
     S_ADD_GLOBAL_NOTIFICATION_LISTENER(SNotificationType::SCENE_OBJECT_ADDED, _ObjectsTree, SEObjectsTreeWidget::newPrefabInstantiated);
     _ObjectsTree->populateList(scene);
+}
+
+SSceneObject* SEDockObjectHierarchy::getSelectedObject() {
+    return _SelectedObject;
 }

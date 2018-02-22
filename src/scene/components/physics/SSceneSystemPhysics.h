@@ -1,5 +1,5 @@
 #pragma once
-#include "../../SSceneComponentSystem.h"
+#include "scene/SSceneComponentSystem.h"
 #include "utils/StormVertex.h"
 #include "utils/math/ScalarMath.h"
 #include "Box2D/Box2D.h"

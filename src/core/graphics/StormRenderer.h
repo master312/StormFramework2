@@ -69,7 +69,13 @@ public:
     
     /* Binds index data to buffer */
     void bindIndexData(uint32_t* indices, uint32_t count);
-    
+
+#ifdef STORM_EDITOR
+    /* TODO: IFDEFFED for editor because this function is shit */
+    /* Draws line from start to end position */
+    void prepareLineVertices(const Vector2& start, const Vector2& end);
+#endif
+
     /* Binds multiply color overlay to shader */
     void setColorMultiply(Color color);
 
@@ -88,6 +94,8 @@ public:
     void setLineWidth(float width);
 
 private:
+    static const int VERTICES_BUFFER_SIZE = 1000;
+
     /* OpenGL VAO index */
     uint32_t _GLVaoId;
     /* OpenGL VBO index */
@@ -120,6 +128,10 @@ private:
 
     /* View matrix. Used for managing virtual screen dimensions */
     Matrix _ViewMatrix;
+
+    /* Buffer used for storing temporary vertices */
+    StormVertex _VerticesBuffer[VERTICES_BUFFER_SIZE];
+    uint32_t _IndicesBuffer[VERTICES_BUFFER_SIZE];
 
     /* Set to true if view matrix was changed and uniform should be updated */
     bool _IsViewChanged;

@@ -29,7 +29,7 @@ SEDockObjectComponents::SEDockObjectComponents(QMainWindow* parent) : SEDockWidg
 
     vLayout->addWidget(scrollArea);
 
-    connect(MainWindow::get()->getHierarchyDock(), &SEDockObjectHierarchy::sceneObjectSelected,
+    connect(MainWindow::getHierarchyDock(), &SEDockObjectHierarchy::sceneObjectSelected,
             this, &SEDockObjectComponents::sceneObjectSelected);
 }
 

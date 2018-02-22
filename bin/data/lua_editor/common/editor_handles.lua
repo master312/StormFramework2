@@ -22,3 +22,6 @@ function createComponentWidgetHandle(cppObjRef, scriptObj)
 
     return handle
 end
+
+
+debug.log("ETITORRRR common file loaded ma man")

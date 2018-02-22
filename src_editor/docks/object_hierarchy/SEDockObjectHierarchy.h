@@ -14,6 +14,8 @@ public:
 
     void setScene(SScene* scene);
 
+    SSceneObject* getSelectedObject();
+
 signals:
     /* Fired every time new object has been selected */
     void sceneObjectSelected(SSceneObject* selectedObject);
@@ -24,4 +26,5 @@ protected:
 
 private:
     SEObjectsTreeWidget* _ObjectsTree;
+    SSceneObject* _SelectedObject;
 };

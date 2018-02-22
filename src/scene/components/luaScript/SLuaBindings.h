@@ -10,7 +10,7 @@ public:
 
     /* Bind all script functions and classes to lua state @state 
      * Returns < 0 on error */
-    static int bindStandardTypes(sol::state& state);
+    static int bindUserTypes(sol::state &state);
 
     /* Binds SSceneObject usertype to lua state.
      * REMAINDER: Should be binded after standard types */

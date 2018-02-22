@@ -42,7 +42,7 @@ QMenu* MainWindow::getMenu(const std::string& name) {
 }
 
 SEDockObjectHierarchy* MainWindow::getHierarchyDock() {
-    return _ObjectHierarchyDock;
+    return MainWindow::get()->_ObjectHierarchyDock;
 }
 
 void MainWindow::setupMenuBar() {

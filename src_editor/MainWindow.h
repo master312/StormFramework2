@@ -17,7 +17,7 @@ public:
 
     QMenu* getMenu(const std::string& name);
 
-    SEDockObjectHierarchy* getHierarchyDock();
+    static SEDockObjectHierarchy* getHierarchyDock();
 
 public slots:
     void cbMenuOpenScene();

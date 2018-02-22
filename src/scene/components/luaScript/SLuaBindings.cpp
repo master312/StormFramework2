@@ -9,13 +9,14 @@ SLuaBindings::SLuaBindings() {
 SLuaBindings::~SLuaBindings() {
 }
 
-int SLuaBindings::bindStandardTypes(sol::state& state) {
+int SLuaBindings::bindUserTypes(sol::state &state) {
     //state.create_table("debug");
     state["debug"]["log"] = SLuaBindings::debugLog;
 
     bindVector2(state);
     bindScene(state);
     bindInputManager(state);
+    bindSceneObject(state);
 
     return 0;
 }

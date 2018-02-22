@@ -12,7 +12,9 @@ StormRenderer::StormRenderer() : StormModuleBase("StormRenderer2D") {
     _ViewMatrix.identity();
     _RenderMode = S_RENDER_TRIANGLE_FAN;
     _IsViewChanged = false;
-    
+
+    memset(_IndicesBuffer, 0, VERTICES_BUFFER_SIZE);
+
     resetColorsOverlay();
 }
 
@@ -228,6 +230,19 @@ void StormRenderer::bindVertexData(StormVertex* vertices, uint32_t count) {
 void StormRenderer::bindIndexData(uint32_t* indices, uint32_t count) {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_DYNAMIC_DRAW);
 }
+
+#ifdef STORM_EDITOR
+void StormRenderer::prepareLineVertices(const Vector2& start, const Vector2& end) {
+    _VerticesBuffer[0].position.x = start.x;
+    _VerticesBuffer[0].position.y = start.y;
+    _VerticesBuffer[1].position.x = end.x;
+    _VerticesBuffer[1].position.y = end.y;
+    _IndicesBuffer[0] = 0;
+    _IndicesBuffer[1] = 1;
+    bindVertexData((StormVertex*)_VerticesBuffer, 2);
+    bindIndexData(_IndicesBuffer, 2);
+}
+#endif
 
 void StormRenderer::setColorMultiply(Color color) {
     if (_MultiplyColorOverlay == color) {
