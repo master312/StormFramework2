@@ -1,8 +1,15 @@
- 
+ IsEditor = true
+ EditorHandles = {}
+ EditorHandlesCnt = 0
+
 -- Called from c++ on new component widget creation
 -- Returns table that is used for managing component widget
 function createComponentWidgetHandle(cppObjRef, scriptObj)
+    EditorHandlesCnt = EditorHandlesCnt + 1
     local handle = {
+        -- Unique handle index
+        index = EditorHandlesCnt,
+
         -- Reference to cpp object
         cppRef = cppObjRef,
         
@@ -23,9 +30,23 @@ function createComponentWidgetHandle(cppObjRef, scriptObj)
     scriptObj.widget = handle.cppRef
     setmetatable(scriptObj, ScriptMT)
 
+    EditorHandles[EditorHandlesCnt] = handle
+
     return handle
 end
 
+function editorTickObjects(deltaTime)
+    -- Tick editor scripts
+    for key,value in pairs(EditorHandles) do
+        local handle = EditorHandles[key]
+        if handle.isValid and handle.hasScript then
+            local updateFun = handle.script.onUpdate
+            if updateFun ~= nil then
+                updateFun(deltaTime)
+            end
+        end
+    end
+end
 
 debug.log("...........6....6..................")
 debug.log("............6..6...................")

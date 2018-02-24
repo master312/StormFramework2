@@ -7,9 +7,17 @@ local this = {}
 this.onCreated = function ()
 	debug.log("Transform component widget onCreate!");
 
-	EPropVec2.new(this.widget, "Position")
-	EPropVec2.new(this.widget, "Scale")
+	local propPosition = EPropVec2.new(this.widget, "Position")
+	local propScale = EPropVec2.new(this.widget, "Scale")
+
+	-- propPosition:onValueChanged(function(newValue) 
+
+	-- end)
 end
 
+
+this.onUpdate = function()
+	-- debug.log("Com transform update")
+end
 
 return this

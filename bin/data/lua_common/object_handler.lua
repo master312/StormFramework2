@@ -121,4 +121,12 @@ function tickObjects(deltaTime)
             handle.onUpdate(deltaTime)
         end
     end
+
+    if IsEditor then
+        -- If build contains editor scripts
+        if editorTickObjects ~= nil then
+            -- Execute editor tick method
+            editorTickObjects(deltaTime)
+        end
+    end
 end
