@@ -1,9 +1,10 @@
 #pragma once
 
+#include <functional>
 #include "SEPropertyWidget.h"
 #include "elements/SENumberLineEdit.h"
 #include "utils/math/Vector2.h"
-#include <functional>
+#include "sol2/sol.hpp"
 
 class SEPropertyVector2 : public SEPropertyWidget {
     Q_OBJECT
@@ -25,6 +26,10 @@ public:
     void setDragFactor(Vector2 factor);
     void setDragFactorX(float factor);
     void setDragFactorY(float factor);
+
+    /* Sets lua method that will be called every time value
+     * has been changed from QT interface */
+    void setValueChangedLuaListener(sol::function callback);
 
 public slots:
     /* Signal when value in SNumberLineEdit fields changes */
@@ -48,6 +53,8 @@ private:
     bool _IsDragging;
     QPoint _DragStartPosition;
     Vector2 _DragVariableFactor;
+
+    sol::function _ValueChangedCallback;
 
     /* Reads values from getter and displays them in QLineEdit widgets */
     void readValues();

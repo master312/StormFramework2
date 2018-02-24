@@ -8,11 +8,13 @@ this.onCreated = function ()
 	debug.log("Transform component widget onCreate!");
 
 	local propPosition = EPropVec2.new(this.widget, "Position")
+	propPosition.value = Vector2.new(123,123)
+
 	local propScale = EPropVec2.new(this.widget, "Scale")
 
-	-- propPosition:onValueChanged(function(newValue) 
-
-	-- end)
+	propPosition:onValueChanged(function(newValue) 
+		debug.log("VALUE CHANGED VCBNBNBNB " .. newValue:toString())
+	end)
 end
 
 

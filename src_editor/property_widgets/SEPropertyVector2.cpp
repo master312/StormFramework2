@@ -76,14 +76,18 @@ void SEPropertyVector2::setDragFactor(Vector2 factor) {
     _YPosEdit->setDragFactor(factor.y);
 }
 
-void SEPropertyVector2::setDragFactorX(float factor){
+void SEPropertyVector2::setDragFactorX(float factor) {
     _DragVariableFactor.x = factor;
     _XPosEdit->setDragFactor(factor);
 }
 
-void SEPropertyVector2::setDragFactorY(float factor){
+void SEPropertyVector2::setDragFactorY(float factor) {
     _DragVariableFactor.y = factor;
     _YPosEdit->setDragFactor(factor);
+}
+
+void SEPropertyVector2::setValueChangedLuaListener(sol::function callback) {
+    _ValueChangedCallback = callback;
 }
 
 void SEPropertyVector2::valuesChanged() {
@@ -91,6 +95,10 @@ void SEPropertyVector2::valuesChanged() {
     _Value.y = _YPosEdit->text().toFloat();
 
     refresh();
+
+    if (_ValueChangedCallback.valid()) {
+        _ValueChangedCallback(_Value);
+    }
 }
 
 void SEPropertyVector2::refresh() {

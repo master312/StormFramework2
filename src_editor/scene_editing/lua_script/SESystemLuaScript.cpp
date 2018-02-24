@@ -34,9 +34,12 @@ void SESystemLuaScript::bindEditorTypes() {
     getLua().new_usertype<QWidget>("QtWidget");
     getLua().new_usertype<SERootComponentWidget>("ERootComWidget");
 
+    auto setValueFun = sol::resolve<void(const Vector2&)>(&SEPropertyVector2::setValue);
     getLua().new_usertype<SEPropertyVector2>("EPropVec2",
+        "value", sol::property(&SEPropertyVector2::getValue, setValueFun),
         "setValue", &SEPropertyVector2::setValue,
-        "getValue", &SEPropertyVector2::getValue
+        "getValue", &SEPropertyVector2::getValue,
+        "onValueChanged", &SEPropertyVector2::setValueChangedLuaListener
     );
     _LuaState["EPropVec2"]["new"] = &SEPropertyVector2::create;
 }
