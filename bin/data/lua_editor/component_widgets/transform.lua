@@ -7,18 +7,26 @@ local this = {}
 this.onCreated = function ()
 	debug.log("Transform component widget onCreate!");
 
-	local propPosition = EPropVec2.new(this.widget, "Position")
-	propPosition.value = Vector2.new(123,123)
-
-	local propScale = EPropVec2.new(this.widget, "Scale")
-
-	propPosition:onValueChanged(function(newValue) 
-		debug.log("VALUE CHANGED VCBNBNBNB " .. newValue:toString())
+	this.propPosition = EPropVec2.new(this.widget, "Position")
+	this.propPosition:onValueChanged(function(newValue) 
+		-- Callback when value in property change
+		this.component:setPosition(newValue);
+		debug.log("changedddd")
 	end)
+
+
+	this.propScale = EPropVec2.new(this.widget, "Scale")
+	this.propScale:onValueChanged(function(newValue)
+		this.component:setScale(newValue)
+	end)
+
 end
 
 
 this.onUpdate = function()
+	this.propPosition.value = this.component.position
+	this.propScale.value = this.component.scale
+
 	-- debug.log("Com transform update")
 end
 

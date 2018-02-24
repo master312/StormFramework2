@@ -35,14 +35,20 @@ function createComponentWidgetHandle(cppObjRef, scriptObj)
     return handle
 end
 
+EditorUpdateDeltaTime = 0
 function editorTickObjects(deltaTime)
     -- Tick editor scripts
-    for key,value in pairs(EditorHandles) do
-        local handle = EditorHandles[key]
-        if handle.isValid and handle.hasScript then
-            local updateFun = handle.script.onUpdate
-            if updateFun ~= nil then
-                updateFun(deltaTime)
+    EditorUpdateDeltaTime = EditorUpdateDeltaTime + deltaTime
+    if EditorUpdateDeltaTime >= 0.25 then
+        -- Editor scripts are updated 4 times per second
+        EditorUpdateDeltaTime = 0
+        for key,value in pairs(EditorHandles) do
+            local handle = EditorHandles[key]
+            if handle.isValid and handle.hasScript then
+                local updateFun = handle.script.onUpdate
+                if updateFun ~= nil then
+                    updateFun()
+                end
             end
         end
     end

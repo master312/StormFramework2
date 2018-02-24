@@ -34,13 +34,14 @@ public:
      * Returns < 0 on error */
     int initialize();
 
+    /* Adds new property widget */
+    void addPropertyWidget(SEPropertyWidget* widget);
+
 public slots:
     /* Collapse / Uncollapse this widget */
     void toggleCollapse();
 
-    void addPropertyWidget(SEPropertyWidget* widget);
-
-protected:
+private:
     QVBoxLayout* _Layout;
 
     SSceneComponent* _Component;
@@ -48,7 +49,9 @@ protected:
     /* Lua table containing this widget's lua handle */
     sol::table _LuaHandle;
 
-private:
     QPushButton* _ToggleButton;
+
+    /* Sets @_Component reference to lua script table */
+    void setSceneObjectComponentLuaRef();
 
 };

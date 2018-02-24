@@ -2,6 +2,8 @@
 #include "MainWindow.h"
 #include "docks/object_hierarchy/SEDockObjectHierarchy.h"
 #include "scene/SScene.h"
+#include "scene/components/transform/SSceneComTransform.h"
+#include "scene/components/physics/SSceneComPhysics.h"
 #include "scene_editing/lua_script/SESystemLuaScript.h"
 
 SERootComponentWidget::SERootComponentWidget(QWidget* parent) : QWidget(parent) {
@@ -42,6 +44,8 @@ int SERootComponentWidget::loadComponent(SSceneComponent* component) {
         return -1;
     }
 
+    _Component = component;
+
     std::string filename = "lua_editor/component_widgets/";
     filename += SSceneComponentTypeString[(int)component->getType()];
     filename += ".lua";
@@ -66,6 +70,8 @@ int SERootComponentWidget::loadComponent(SSceneComponent* component) {
         LOG(ERROR) << "Lua function 'createComponentWidgetHandle' not found";
         return -4;
     }
+
+    setSceneObjectComponentLuaRef();
 
     LOG(DEBUG) << "Component widget script '" << filename << "' loaded";
     return 1;
@@ -94,4 +100,22 @@ void SERootComponentWidget::toggleCollapse() {
 void SERootComponentWidget::addPropertyWidget(SEPropertyWidget* widget) {
     widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     _Layout->addWidget(widget);
+}
+
+void SERootComponentWidget::setSceneObjectComponentLuaRef() {
+    if (!_Component) {
+        return;
+    }
+    sol::table scriptTable = _LuaHandle["script"];
+    switch(_Component->getType()) {
+        case S_SCENE_OBJECT_COM_TRANSFORM:
+            scriptTable["component"] = dynamic_cast<SSceneComTransform*>(_Component);
+            break;
+        case S_SCENE_OBJECT_COM_PHYSICS:
+            scriptTable["component"] = dynamic_cast<SSceneComPhysics*>(_Component);
+            break;
+        default:
+            LOG(ERROR) << "Tried to bind sceneObjectComponentLuaRef to Editor widget, but component of type " << _Component->getType() << " is not supported yet";
+            break;
+    }
 }
