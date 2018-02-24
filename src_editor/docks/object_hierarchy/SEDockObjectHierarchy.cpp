@@ -29,6 +29,11 @@ void SEDockObjectHierarchy::cbObjectSelected(SSceneObject* selectedObject) {
 void SEDockObjectHierarchy::setScene(SScene* scene) {
     S_ADD_GLOBAL_NOTIFICATION_LISTENER(SNotificationType::SCENE_OBJECT_ADDED, _ObjectsTree, SEObjectsTreeWidget::newPrefabInstantiated);
     _ObjectsTree->populateList(scene);
+    _Scene = scene;
+}
+
+SScene* SEDockObjectHierarchy::getScene() {
+    return _Scene;
 }
 
 SSceneObject* SEDockObjectHierarchy::getSelectedObject() {

@@ -50,6 +50,16 @@ void SEPropertyVector2::setValueY(const float y) {
     refresh();
 }
 
+SEPropertyVector2* SEPropertyVector2::create(QWidget* parent, const std::string& name) {
+    SEPropertyVector2* widget = new SEPropertyVector2(parent, name);
+    if (parent) {
+        parent->layout()->addWidget(widget);
+    } else {
+        LOG(WARNING) << "SEPropertyVector2::create without parent";
+    }
+    return widget;
+}
+
 std::reference_wrapper<const Vector2> SEPropertyVector2::getValue() const {
     return _Value;
 }

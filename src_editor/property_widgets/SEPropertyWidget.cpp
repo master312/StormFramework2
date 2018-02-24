@@ -6,9 +6,10 @@ SEPropertyWidget::SEPropertyWidget(QWidget* parent, const std::string& name /* =
     _BackgroundOpacity = 0.15f;
 
     _Layout = generateVBoxLayout();
-    _Layout->addWidget(generateLabel(_Name.c_str(), this));
+    //_Layout->addWidget(generateLabel(_Name.c_str(), this));
 
     setMinimumSize(parent ? parent->minimumWidth() - 5 : 100, 15);
+    setMaximumSize(parent ? parent->maximumWidth() - 5 : 100, 200);
 }
 
 SEPropertyWidget::~SEPropertyWidget() {

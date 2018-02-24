@@ -1,6 +1,7 @@
 #include "SEStormMainWidget.h"
 #include <QApplication>
 #include <QKeyEvent>
+#include "core/resources/StormFileSystem.h"
 #include "MainWindow.h"
 #include "../object_hierarchy/SEDockObjectHierarchy.h"
 
@@ -61,6 +62,11 @@ bool SEStormMainWidget::event(QEvent* event) {
         case QEvent::KeyRelease:
             keyReleaseEvent(static_cast<QKeyEvent*>(event));
             break;
+        case QEvent::WindowActivate: {
+            LOG(DEBUG) << "Window focus restored. Reloading resources";
+            StormFileSystem* fileSystem = StormEngine::getModule<StormFileSystem>();
+            fileSystem->reloadResources();
+            } break;
         default:
             break;
     }

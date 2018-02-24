@@ -48,8 +48,8 @@ set(editor_sources
     ${SOURCES_PATH_PREFIX}/property_widgets/elements/SENumberLineEdit.h
     ${SOURCES_PATH_PREFIX}/scene_editing/transform/SESystemTransform.cpp
     ${SOURCES_PATH_PREFIX}/scene_editing/transform/SESystemTransform.h
-    ${SOURCES_PATH_PREFIX}/scene_editing/transform/SESystemLuaScript.cpp
-    ${SOURCES_PATH_PREFIX}/scene_editing/transform/SESystemLuaScript.h)
+    ${SOURCES_PATH_PREFIX}/scene_editing/lua_script/SESystemLuaScript.cpp
+    ${SOURCES_PATH_PREFIX}/scene_editing/lua_script/SESystemLuaScript.h)
 
 qt5_add_resources(UI_RESOURCES ${SOURCES_PATH_PREFIX}/resources.qrc)
 

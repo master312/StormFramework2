@@ -16,6 +16,9 @@ public:
     void setValueX(const float x);
     void setValueY(const float y);
 
+    /* Factory method for producing SEPropertyVector2 objects */
+    static SEPropertyVector2* create(QWidget* parent, const std::string& name);
+
     std::reference_wrapper<const Vector2> getValue() const;
 
     void setDragFactor(float factor);

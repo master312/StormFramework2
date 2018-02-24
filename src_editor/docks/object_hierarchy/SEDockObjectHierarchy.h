@@ -14,6 +14,9 @@ public:
 
     void setScene(SScene* scene);
 
+    /* Returns currently active scene */
+    SScene* getScene();
+
     SSceneObject* getSelectedObject();
 
 signals:
@@ -27,4 +30,7 @@ protected:
 private:
     SEObjectsTreeWidget* _ObjectsTree;
     SSceneObject* _SelectedObject;
+
+    /* Pointer to currently active scene for easy access */
+    SScene* _Scene;
 };

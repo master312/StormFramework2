@@ -45,7 +45,6 @@ void SSceneSystemLuaScript::initializeLua() {
     /* Binds user types and functions to lua(like the one for SSceneObject) */
     if (SLuaBindings::bindUserTypes(_LuaState) < 0) {
         LOG(ERROR) << "Could not bind lua user types";
-        return;
     }
 }
 
@@ -94,7 +93,7 @@ void SSceneSystemLuaScript::tick(float deltaTime) {
     _LuaState["tickObjects"](deltaTime);
 }
 
-sol::state& SSceneSystemLuaScript::getLuaState() {
+sol::state& SSceneSystemLuaScript::getLua() {
     return _LuaState;
 }
 
@@ -108,6 +107,21 @@ sol::table SSceneSystemLuaScript::getObjectHandle(uint32_t id) {
 #else
     return _LuaState["Handles"][id];
 #endif
+}
+
+sol::table SSceneSystemLuaScript::loadScriptFile(const std::string& filename) {
+    spStormResourceFile scriptFile = StormEngine::getResource(filename);
+    if (!scriptFile) {
+        LOG(ERROR) << "Lua script can not be initialized. File not found.";
+        return sol::table();
+    }
+    if (scriptFile->getBufferSize() <= 4) {
+        /* Script to short */
+        LOG(ERROR) << "Invalid script file " << filename;
+        return sol::table();
+    }
+
+    return _LuaState.script(scriptFile->getBuffer());
 }
 
 void SSceneSystemLuaScript::registerSceneObjectHandle(SSceneObject* object) {

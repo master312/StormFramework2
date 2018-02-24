@@ -12,4 +12,8 @@ public:
 
     /* Load all scripts and execute initial methods */
     virtual void initialize();
+
+
+private:
+    void bindEditorTypes();
 };

@@ -16,12 +16,31 @@ function createComponentWidgetHandle(cppObjRef, scriptObj)
     }
     setmetatable(handle, HandleMT)
 
-    script.handle = handle
-    script.cppRef = handle.cppRef
-    setmetatable(script, ScriptMT)
+    scriptObj.handle = handle
+    scriptObj.cppRef = handle.cppRef
+    -- .cppReff and .widget are the same things
+    -- .widget is only created for cleaner code
+    scriptObj.widget = handle.cppRef
+    setmetatable(scriptObj, ScriptMT)
 
     return handle
 end
 
 
+debug.log("...........6....6..................")
+debug.log("............6..6...................")
+debug.log(".............66....................")
 debug.log("ETITORRRR common file loaded ma man")
+debug.log(".............66....................")
+debug.log("............6..6...................")
+debug.log("...........6....6..................")
+
+-- local parentShitSomething = debug.getQTWidget()
+
+-- local prop = EPropVec2.new(parentShitSomething)
+-- prop:setValue(Vector2.new(100,100))
+
+-- for i=1,10 do 
+--     print(i) 
+--    -- EPropVec2.new(parentShitSomething)
+-- end

@@ -63,6 +63,9 @@ public:
     /* Checks if file @filename exists on the filesystem. */
     bool checkIfFileExists(const std::string& filename) const;
 
+    /* Reloads all cached (currently loaded) resources */
+    void reloadResources();
+
 private:
     /* Root path of filesystem. (E.X: c:/game/data/ - with'/' on the end)*/
     std::string _RootPath;

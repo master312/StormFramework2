@@ -38,27 +38,15 @@ int SSceneComLuaScript::initialize(SSceneComponentSystem* system) {
         return -9;
     }
 
-    sol::state& luaState = luaSystem->getLuaState();
+    sol::state& luaState = luaSystem->getLua();
 
     if (_Filename.size() <= 2) {
         LOG(ERROR) << "Could not initialize lua script. Filename not specified";
         return -1;
     }
 
-    spStormResourceFile scriptFile = StormEngine::getResource(_Filename);
-    if (!scriptFile) {
-        LOG(ERROR) << "Lua script can not be initialized. File not found.";
-        return -2;
-    }
-    
-    if (scriptFile->getBufferSize() <= 4) {
-        /* Script to short */
-        LOG(ERROR) << "Invalid script file " << _Filename;
-        return -3;
-    }
-
     /* Creates temporary table 'this' */
-    sol::table scriptContent = luaState.script(scriptFile->getBuffer());
+    sol::table scriptContent = luaSystem->loadScriptFile(_Filename);
     if (!scriptContent.valid()) {
         LOG(ERROR) << "Invalid lua script table content for entity ID: " << _Owner->getId();
         return -4;
@@ -83,6 +71,8 @@ int SSceneComLuaScript::initialize(SSceneComponentSystem* system) {
     sol::function handleOnScriptLoaded = luaState["handleOnScriptLoaded"];
     if (handleOnScriptLoaded && handleOnScriptLoaded.valid()) {
         handleOnScriptLoaded(scriptContent, _LuaHandle);
+    } else {
+        LOG(ERROR) << "Lua function 'handleOnScriptLoaded' not found!";
     }
 
     if (_Owner->getIsCreatedAtRuntime()) {
@@ -92,7 +82,7 @@ int SSceneComLuaScript::initialize(SSceneComponentSystem* system) {
         executeOnStart();
     }
 
-    LOG(DEBUG) << "Lua script: '" << scriptFile->getFilename() << "' loaded";
+    LOG(DEBUG) << "Lua script: '" << _Filename << "' loaded";
 
     return 1;
 }

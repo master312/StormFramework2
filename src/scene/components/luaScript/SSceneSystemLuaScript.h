@@ -21,10 +21,15 @@ public:
     
     virtual void tick(float deltaTime);
 
-    sol::state& getLuaState();
+    /* Returns reference to lua state */
+    sol::state& getLua();
 
     /* Gets lua handle for scene object */
     sol::table getObjectHandle(uint32_t id);
+
+    /* Loads lua script file @filename and returns table
+     * pointing to the return value of the script. */
+    sol::table loadScriptFile(const std::string& filename);
 
     /* Creates script handle for scene object @object. */
     void registerSceneObjectHandle(SSceneObject* object);

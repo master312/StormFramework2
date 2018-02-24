@@ -148,6 +148,22 @@ bool StormFileSystem::checkIfFileExists(const std::string& filename) const {
     return file.is_open();
 }
 
+void StormFileSystem::reloadResources() {
+    for (auto& iter : _Resources) {
+        std::string filename = iter.second->getFilenameWithPath();
+        StormResourceFile* file = loadResource(filename);
+        if (file) {
+            iter.second->freeBuffer();
+            iter.second->setBuffer(file->getBuffer(), file->getBufferSize());
+            file->setBuffer(nullptr, 0);
+            delete file;
+            LOG(DEBUG) << "Resource '" << filename << "' reloaded";
+        } else {
+            LOG(ERROR) << "Could not reload resource '" << filename << "'";
+        }
+    }
+}
+
 StormResourceFile* StormFileSystem::loadResource(const std::string& filename) {
     if (!filename.size()) {
         return nullptr;

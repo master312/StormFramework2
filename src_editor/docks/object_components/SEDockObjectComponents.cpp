@@ -15,7 +15,7 @@ SEDockObjectComponents::SEDockObjectComponents(QMainWindow* parent) : SEDockWidg
     scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     scrollArea->setAlignment(Qt::AlignmentFlag::AlignCenter);
-    scrollArea->setWidgetResizable(false);
+    scrollArea->setWidgetResizable(true);
 
     QVBoxLayout* scrollAreaVLayout = new QVBoxLayout();
     scrollAreaVLayout->setSizeConstraint(QLayout::SetFixedSize);
@@ -38,16 +38,33 @@ SEDockObjectComponents::~SEDockObjectComponents() {
 }
 
 void SEDockObjectComponents::sceneObjectSelected(SSceneObject* object) {
-    for (int i = 0; i < 10; i++) {
-        SERootComponentWidget* tmp = new SERootComponentWidget(this);
+    for (SSceneComponent* component : object->getComponents()) {
+        SERootComponentWidget* componentWidget = new SERootComponentWidget(this);
 
+        if (componentWidget->loadComponent(component) < 0) {
+            LOG(ERROR) << "Could load scene object component into widget.";
+            delete componentWidget;
+            componentWidget = nullptr;
+            continue;
+        }
+        if (componentWidget->initialize() < 0) {
+            LOG(ERROR) << "Could initialize scene object component widget.";
+            delete componentWidget;
+            componentWidget = nullptr;
+            continue;
+        }
 
-        SEPropertyVector2* wdg = new SEPropertyVector2(tmp, "THE TIELE!");
-        tmp->addPropertyWidget(wdg);
-
-
-        _ScrollArea->layout()->addWidget(tmp);
-        //_RootWidget->layout()->addWidget(tmp);
-        //scrollArea->layout()->addWidget(tmp);
+        _ScrollArea->layout()->addWidget(componentWidget);
+        LOG(DEBUG) << "Component type " << (int)component->getType() << " widget generated";
     }
+
+
+//    SEPropertyVector2* wdg = new SEPropertyVector2(tmp, "THE TIELE!");
+//    tmp->addPropertyWidget(wdg);
+//    wdg = new SEPropertyVector2(tmp, "NOT THE TIELE!");
+//    tmp->addPropertyWidget(wdg);
+
+
+//    _RootWidget->layout()->addWidget(tmp);
+//    scrollArea->layout()->addWidget(tmp);
 }

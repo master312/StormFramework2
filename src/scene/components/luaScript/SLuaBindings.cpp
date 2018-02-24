@@ -2,6 +2,7 @@
 #include "StormEngine.h"
 #include "scene/SScene.h"
 #include "../transform/SSceneComTransform.h"
+#include "../../SSceneComponent.h"
 
 SLuaBindings::SLuaBindings() {
 }
@@ -16,6 +17,7 @@ int SLuaBindings::bindUserTypes(sol::state &state) {
     bindVector2(state);
     bindScene(state);
     bindInputManager(state);
+    bindSceneObjectComponentBase(state);
     bindSceneObject(state);
 
     return 0;
@@ -27,6 +29,13 @@ void SLuaBindings::bindSceneObject(sol::state& state) {
         "name", sol::property(&SSceneObject::getName, &SSceneObject::setName),
         "parent", sol::property(&SSceneObject::getParent, &SSceneObject::setParent),
         "transform", sol::property(&SSceneObject::getTransform)
+    );
+}
+
+void SLuaBindings::bindSceneObjectComponentBase(sol::state& state) {
+    state.new_usertype<SSceneComponent>("SceneCom",
+        "type", sol::property(&SSceneComponent::getType),
+        "owner", sol::property(&SSceneComponent::getOwner)
     );
 }
 
