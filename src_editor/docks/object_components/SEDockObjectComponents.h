@@ -13,9 +13,9 @@ public:
     SEDockObjectComponents(QMainWindow* parent);
     virtual ~SEDockObjectComponents();
 
-public slots:
-    /* Executed every time object is selected in hierarchy */
-    void sceneObjectSelected(SSceneObject* object);
+    /* callback for "SNotificationType::SCENE_OBJECT_ADDED" notification.
+     * Executed every time object is selected in hierarchy */
+    void sceneObjectSelected(void* data);
 
 private:
     QWidget* _ScrollArea;

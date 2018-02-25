@@ -25,6 +25,9 @@ public slots:
     void cbMenuSaveLayout();
     void cbMenuLoadLayout();
 
+    /* Creates all docked widgets.
+     * Should be called just after engine is done initializing */
+    void setupDockedWidgets();
 
 private:
     std::map<std::string, QMenu*> _Menus;
@@ -35,6 +38,5 @@ private:
 
     void setupMenuBar();
     void setupToolbars();
-    void setupDockedWidgets();
     void setWindowDockingOptions();
 };

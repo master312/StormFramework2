@@ -54,6 +54,8 @@ set(editor_sources
     ${SOURCES_PATH_PREFIX}/property_widgets/SEPropertyNumber.h
     ${SOURCES_PATH_PREFIX}/docks/debug_settings/SEDockDebugSettings.cpp
     ${SOURCES_PATH_PREFIX}/docks/debug_settings/SEDockDebugSettings.h
+    ${SOURCES_PATH_PREFIX}/StormEngineEditing.cpp
+    ${SOURCES_PATH_PREFIX}/StormEngineEditing.h
 )
 
 qt5_add_resources(UI_RESOURCES ${SOURCES_PATH_PREFIX}/resources.qrc)

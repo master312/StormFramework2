@@ -3,6 +3,11 @@
 #include "SEngineModuleFactory.h"
 #include "StormDebug.h"
 
+#ifdef STORM_EDITOR
+#include "StormEngineEditing.h"
+#endif
+
+
 const std::string StormEngine::DEFAULT_SHADER_NAME = "color";
 
 StormEngine::StormEngine() {
@@ -21,7 +26,11 @@ StormEngine::~StormEngine() {
 }
 
 StormEngine* StormEngine::instance() {
+#ifdef STORM_EDITOR
+    static StormEngineEditing shared;
+#else
     static StormEngine shared;
+#endif
     return &shared;
 }
 

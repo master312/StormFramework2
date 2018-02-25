@@ -9,6 +9,8 @@ public:
     SEMainEditorDock(QMainWindow* parent);
     virtual ~SEMainEditorDock();
 
+    SEStormMainWidget* getMainEngineWidget();
+
 private:
     SEStormMainWidget* _MainWidget;
 };

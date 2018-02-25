@@ -41,9 +41,9 @@ void SEStormMainWidget::initializeGL() {
     StormEngine::instance()->initialize(STORM_PLATFORM_QT);
     _StormPlatform = dynamic_cast<StormPlatformQt*>(StormEngine::getModule<StormPlatform>());
 
-    MainWindow::getHierarchyDock()->setScene(StormEngine::instance()->getActiveScene());
-
     _Timer->start();
+
+    engineInitialized();
 }
 
 void SEStormMainWidget::resizeGL(int width, int height) {

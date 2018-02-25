@@ -16,6 +16,9 @@ class SGlobalNotifier;
 
 class StormEngine {
     friend class SEngineModuleFactory;
+#ifdef STORM_EDITOR
+    friend class StormEngineEditing;
+#endif
 
 public:
     virtual ~StormEngine();

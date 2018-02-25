@@ -31,6 +31,10 @@ public:
     SEStormMainWidget(QWidget* parent = nullptr);
     virtual ~SEStormMainWidget();
 
+signals:
+    /* Fired just after engine initializes */
+    void engineInitialized();
+
 public slots:
     void mainTimerTick();
 

@@ -18,7 +18,7 @@ public:
     void populateList(SScene* scene);
 
     /* Called when new prefab gets instantiated. @object is pointer to newly instaniated SSceneObject */
-    void newPrefabInstantiated(void* object);
+    void newSceneObjectAdded(void *object);
 
 public slots:
     void objectSelected(QTreeWidgetItem *item, int column);

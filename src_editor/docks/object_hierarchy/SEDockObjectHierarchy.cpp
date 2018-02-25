@@ -17,7 +17,6 @@ SEDockObjectHierarchy::SEDockObjectHierarchy(QMainWindow* parent) : SEDockWidget
 }
 
 SEDockObjectHierarchy::~SEDockObjectHierarchy() {
-    S_REMOVE_GLOBAL_NOTIFICATION_LISTENER(_ObjectsTree);
 }
 
 void SEDockObjectHierarchy::cbObjectSelected(SSceneObject* selectedObject) {
@@ -25,14 +24,11 @@ void SEDockObjectHierarchy::cbObjectSelected(SSceneObject* selectedObject) {
         return;
     }
     _SelectedObject = selectedObject;
-    sceneObjectSelected(_SelectedObject);
 
-    SESystemLuaScript* scriptSystem = dynamic_cast<SESystemLuaScript*>(_Scene->getScriptSystem());
-    scriptSystem->onObjectScelected(_SelectedObject);
+    S_FIRE_GLOBAL_NOTIFICATION(SNotificationType::EDITOR_SCENE_OBJECT_SELECTED, _SelectedObject);
 }
 
 void SEDockObjectHierarchy::setScene(SScene* scene) {
-    S_ADD_GLOBAL_NOTIFICATION_LISTENER(SNotificationType::SCENE_OBJECT_ADDED, _ObjectsTree, SEObjectsTreeWidget::newPrefabInstantiated);
     _ObjectsTree->populateList(scene);
     _Scene = scene;
 }

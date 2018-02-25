@@ -14,9 +14,10 @@ public:
     /* Load all scripts and execute initial methods */
     virtual void initialize();
 
-    /* Handles lua side of object selection changes.
+    /* Listens for 'SNotificationType::EDITOR_SCENE_OBJECT_SELECTED' notification.
+     * Handles lua side of object selection changes.
      * Called when scene object gets selected in hierarchy dock*/
-    void onObjectScelected(SSceneObject* object);
+    void sceneObjectSelected(void* data);
 
 private:
     /* Load tools script */

@@ -5,7 +5,7 @@ EditorSceneObjectSelected = nil
 -- Called from engine every time new scene object has been selected
 function sceneObjectSelected(sceneObject)
 	EditorSceneObjectSelected = sceneObject
-	
+
 	if toolHandleObjectSelected ~= nil then
 		toolHandleObjectSelected(sceneObject)
 	end

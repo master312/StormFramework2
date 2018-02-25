@@ -2,6 +2,7 @@
 #include "toolbars/SEFileToolbar.h"
 #include "toolbars/SFEditToolbar.h"
 #include "docks/main_editor/SEMainEditorDock.h"
+#include "docks/main_editor/SEStormMainWidget.h"
 #include "docks/object_hierarchy/SEDockObjectHierarchy.h"
 #include "docks/object_components/SEDockObjectComponents.h"
 #include "docks/debug_settings/SEDockDebugSettings.h"
@@ -23,8 +24,14 @@ MainWindow::MainWindow() : QMainWindow(nullptr) {
 
     setupMenuBar();
     setupToolbars();
-    setupDockedWidgets();
 
+    /* Create main widget.
+     * Engine is initialized in this widget. */
+    SEMainEditorDock* mainWidget = new SEMainEditorDock(this);
+    setCentralWidget(mainWidget);
+
+    connect(mainWidget->getMainEngineWidget(), &SEStormMainWidget::engineInitialized,
+            this, &MainWindow::setupDockedWidgets);
 }
 
 MainWindow::~MainWindow() {
@@ -64,16 +71,15 @@ void MainWindow::setupMenuBar() {
 }
 
 void MainWindow::setupDockedWidgets() {
-    SEDockWidget* dockWidget = new SEMainEditorDock(this);
-    setCentralWidget(dockWidget);
-
     _ObjectHierarchyDock = new SEDockObjectHierarchy(this);
+    /* TODO: FIX Temporary way of setting active scene to object hierarchy */
+    _ObjectHierarchyDock->setScene(StormEngine::instance()->getActiveScene());
     addDockWidget(Qt::RightDockWidgetArea, _ObjectHierarchyDock);
 
     _ObjectComoponentsDock = new SEDockObjectComponents(this);
     addDockWidget(Qt::RightDockWidgetArea, _ObjectComoponentsDock);
 
-    dockWidget = new SEDockWidget(this, "Files Manager");
+    SEDockWidget* dockWidget = new SEDockWidget(this, "Files Manager");
     addDockWidget(Qt::BottomDockWidgetArea, dockWidget);
 
     SEDockDebugSettings* debugSettingsDock = new SEDockDebugSettings(this);

@@ -1,12 +1,12 @@
 #include "SEDockObjectComponents.h"
 #include "scene/SSceneObject.h"
 #include "utils/math/Vector2.h"
+#include "StormEngineEditing.h"
 #include "../../MainWindow.h"
 #include "../object_hierarchy/SEDockObjectHierarchy.h"
 #include "component_widgets/SERootComponentWidget.h"
 #include "property_widgets/SEPropertyVector2.h"
 #include <QScrollArea>
-
 
 SEDockObjectComponents::SEDockObjectComponents(QMainWindow* parent) : SEDockWidget(parent, "Objects Components") {
     QLayout* vLayout = SEDockWidget::genericBoxLayout(_RootWidget);
@@ -29,14 +29,15 @@ SEDockObjectComponents::SEDockObjectComponents(QMainWindow* parent) : SEDockWidg
 
     vLayout->addWidget(scrollArea);
 
-    connect(MainWindow::getHierarchyDock(), &SEDockObjectHierarchy::sceneObjectSelected,
-            this, &SEDockObjectComponents::sceneObjectSelected);
+    S_ADD_GLOBAL_NOTIFICATION_LISTENER(SNotificationType::EDITOR_SCENE_OBJECT_SELECTED, this, SEDockObjectComponents::sceneObjectSelected);
 }
 
 SEDockObjectComponents::~SEDockObjectComponents() {
+    S_REMOVE_GLOBAL_NOTIFICATION_LISTENER(this);
 }
 
-void SEDockObjectComponents::sceneObjectSelected(SSceneObject* object) {
+void SEDockObjectComponents::sceneObjectSelected(void* data) {
+    SSceneObject* object = static_cast<SSceneObject*>(data);
     clearGeneratedWidgets();
 
     for (SSceneComponent* component : object->getComponents()) {

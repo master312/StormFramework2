@@ -11,7 +11,7 @@ SESystemLuaScript::SESystemLuaScript(SScene* scene) : SSceneSystemLuaScript(scen
 }
 
 SESystemLuaScript::~SESystemLuaScript() {
-
+    S_REMOVE_GLOBAL_NOTIFICATION_LISTENER(this);
 }
 
 void SESystemLuaScript::initialize() {
@@ -32,9 +32,12 @@ void SESystemLuaScript::initialize() {
     }
 
     loadToolScripts();
+
+    S_ADD_GLOBAL_NOTIFICATION_LISTENER(SNotificationType::EDITOR_SCENE_OBJECT_SELECTED, this, SESystemLuaScript::sceneObjectSelected);
 }
 
-void SESystemLuaScript::onObjectScelected(SSceneObject* object) {
+void SESystemLuaScript::sceneObjectSelected(void *data) {
+    SSceneObject* object = static_cast<SSceneObject*>(data);
     sol::function objectSelectedFun = _LuaState["sceneObjectSelected"];
     if (!objectSelectedFun.valid()) {
         LOG(ERROR) << "Could not find lua function 'sceneObjectSelected'";

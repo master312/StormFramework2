@@ -26,6 +26,11 @@ enum SNotificationType {
     /* Fired when new scene object prefab has been instantiated */
     SCENE_PREFAB_INSTANTIATED,
 
+#ifdef STORM_EDITOR
+    /* Fired when scene object gets selected in hierarchy QT widget */
+    EDITOR_SCENE_OBJECT_SELECTED,
+#endif
+
     /* Should always be last element in this enum! */
     NOTIFICATION_TYPE_LAST
 };

@@ -18,12 +18,14 @@ SEObjectsTreeWidget::SEObjectsTreeWidget(SEDockObjectHierarchy* parent) : QTreeW
     setDragDropMode(QAbstractItemView::InternalMove);
 
     connect(this, &SEObjectsTreeWidget::itemClicked, this, &SEObjectsTreeWidget::objectSelected);
+    S_ADD_GLOBAL_NOTIFICATION_LISTENER(SNotificationType::SCENE_OBJECT_ADDED, this, SEObjectsTreeWidget::newSceneObjectAdded);
 }
 
 SEObjectsTreeWidget::~SEObjectsTreeWidget() {
+    S_REMOVE_GLOBAL_NOTIFICATION_LISTENER(this);
 }
 
-void SEObjectsTreeWidget::newPrefabInstantiated(void* object) {
+void SEObjectsTreeWidget::newSceneObjectAdded(void* object) {
     SSceneObject* sceneObject = static_cast<SSceneObject*>(object);
     if (!sceneObject) {
         LOG(WARNING) << "Could not cast void* ptr to SSceneObject";

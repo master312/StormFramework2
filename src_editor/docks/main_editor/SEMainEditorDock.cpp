@@ -22,3 +22,7 @@ SEMainEditorDock::SEMainEditorDock(QMainWindow* parent) : SEDockWidget(parent, "
 
 SEMainEditorDock::~SEMainEditorDock() {
 }
+
+SEStormMainWidget* SEMainEditorDock::getMainEngineWidget() {
+    return _MainWidget;
+}
