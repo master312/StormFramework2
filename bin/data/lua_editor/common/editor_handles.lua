@@ -52,9 +52,12 @@ function editorTickObjects(deltaTime)
         for key,value in pairs(EditorHandles) do
             local handle = EditorHandles[key]
             if handle.isValid and handle.hasScript then
-                local updateFun = handle.script.onUpdate
-                if updateFun ~= nil then
-                    updateFun()
+                if handle.cppRef.isCollapsed == false then
+                    -- Tick component ONLY if its not collapsed
+                    local updateFun = handle.script.onUpdate
+                    if updateFun ~= nil then
+                        updateFun()
+                    end
                 end
             end
         end

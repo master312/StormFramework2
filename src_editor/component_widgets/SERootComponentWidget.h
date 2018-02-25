@@ -40,6 +40,9 @@ public:
     /* Text that will be written on toggle button */
     void setName(const std::string& name);
 
+    /* Returns whether this widget is collapsed */
+    bool isCollapsed();
+
 public slots:
     /* Collapse / Uncollapse this widget */
     void toggleCollapse();
@@ -53,6 +56,9 @@ private:
     sol::table _LuaHandle;
 
     QPushButton* _ToggleButton;
+
+    /* Set to true if widget is collapsed */
+    bool _IsCollapsed;
 
     /* Sets @_Component reference to lua script table */
     void setSceneObjectComponentLuaRef();

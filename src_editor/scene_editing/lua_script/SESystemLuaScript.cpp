@@ -32,7 +32,8 @@ void SESystemLuaScript::initialize() {
 void SESystemLuaScript::bindEditorTypes() {
     getLua().new_usertype<QWidget>("QtWidget");
     getLua().new_usertype<SERootComponentWidget>("ERootComWidget",
-        "setName", &SERootComponentWidget::setName
+        "setName", &SERootComponentWidget::setName,
+        "isCollapsed", sol::property(&SERootComponentWidget::isCollapsed)
     );
 
 

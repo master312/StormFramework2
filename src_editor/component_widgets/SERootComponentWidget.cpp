@@ -10,6 +10,7 @@ SERootComponentWidget::SERootComponentWidget(QWidget* parent) : QWidget(parent) 
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 
     _Component = nullptr;
+    _IsCollapsed = false;
 
     _Layout = new QVBoxLayout();
     _Layout->setSpacing(1);
@@ -102,9 +103,10 @@ int SERootComponentWidget::initialize() {
 
 void SERootComponentWidget::toggleCollapse() {
     /* Collapse (header) button click callback */
+    _IsCollapsed = !_IsCollapsed;
     foreach (QWidget* child, findChildren<QWidget*>()) {
         if (child != _ToggleButton) {
-            child->setHidden(true);
+            child->setHidden(_IsCollapsed);
         }
     }
 }
@@ -116,6 +118,10 @@ void SERootComponentWidget::addPropertyWidget(SEPropertyWidget* widget) {
 
 void SERootComponentWidget::setName(const std::string& name) {
     _ToggleButton->setText(name.c_str());
+}
+
+bool SERootComponentWidget::isCollapsed() {
+    return _IsCollapsed;
 }
 
 void SERootComponentWidget::setSceneObjectComponentLuaRef() {
