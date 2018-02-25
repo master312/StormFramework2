@@ -1,6 +1,7 @@
 #include "SEStormMainWidget.h"
 #include <QApplication>
 #include <QKeyEvent>
+#include <src/StormDebug.h>
 #include "core/resources/StormFileSystem.h"
 #include "MainWindow.h"
 #include "../object_hierarchy/SEDockObjectHierarchy.h"
@@ -14,10 +15,10 @@ SEStormMainWidget::SEStormMainWidget(QWidget* parent) : QOpenGLWidget(parent) {
 
     QSurfaceFormat glFormat;
     /* Sets minimum opengl to 3.0 */
-    glFormat.setVersion(2, 1);
+    glFormat.setVersion(3, 0);
     glFormat.setProfile(QSurfaceFormat::CoreProfile);
     this->setFormat(glFormat);
-    //grabKeyboard();
+    
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
 }

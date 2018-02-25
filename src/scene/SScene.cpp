@@ -7,6 +7,7 @@
 #include "components/luaScript/SSceneSystemLuaScript.h"
 
 #include "StormEngine.h"
+#include "StormDebug.h"
 #include "graphics/StormRenderer.h"
 
 #ifdef STORM_EDITOR
@@ -309,9 +310,17 @@ void SScene::render(StormRenderer* renderer) {
 void SScene::tick(float deltaTime) {
     for (unsigned int i = 0; i < SSceneComponentTickingOrderCount; i++) {
         int typeToTick = SSceneComponentTickingOrder[i];
-        if (_ComponentSystemsByType[typeToTick]) {
-            _ComponentSystemsByType[typeToTick]->tick(deltaTime);
+        SSceneComponentSystem* system = _ComponentSystemsByType[typeToTick];
+        if (!system) {
+            continue;
         }
+#ifndef PRODUCTION
+        if (!StormDebug::shouldTickSystem((SSceneComponentType)typeToTick) && !system->ignoreDebugDisabling()) {
+            /* Dont tick system if it's disabled using debug system */
+            continue;
+        }
+#endif
+        system->tick(deltaTime);
     }
 }
 

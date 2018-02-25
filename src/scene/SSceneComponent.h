@@ -41,8 +41,10 @@ static const int SSceneComponentInitializationOrder[S_SCENE_OBJECT_COM_TYPES_COU
     S_SCENE_OBJECT_COM_SCRIPT
 };
 
-/* Order in which component systems will tick. */
+
+/* Count is defined here because we might need some systems ticked more then once */
 static const int SSceneComponentTickingOrderCount = 6;
+/* Order in which component systems will tick. */
 static const int SSceneComponentTickingOrder[SSceneComponentTickingOrderCount] = {
     S_SCENE_OBJECT_COM_TRANSFORM,
     S_SCENE_OBJECT_COM_PHYSICS,
@@ -50,6 +52,8 @@ static const int SSceneComponentTickingOrder[SSceneComponentTickingOrderCount] =
     S_SCENE_OBJECT_COM_SPINE,
     S_SCENE_OBJECT_COM_SCRIPT,
 };
+
+
 
 class SSceneObject;
 class SSceneComponentSystem;

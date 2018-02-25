@@ -5,6 +5,10 @@ SSceneComponentSystem::SSceneComponentSystem(SScene* scene) {
     _Type = S_SCENE_OBJECT_COM_UNDEFINED;
     _IsInitialized = false;
     _OwnerScene = scene;
+
+#ifndef PRODUCTION
+    _IgnoreDebugDisable = false;
+#endif
 }
 
 SSceneComponentSystem::~SSceneComponentSystem() {
@@ -57,6 +61,12 @@ SSceneComponentType SSceneComponentSystem::getType() const {
 bool SSceneComponentSystem::getIsInitialized() {
     return _IsInitialized;
 }
+
+#ifndef PRODUCTION
+bool SSceneComponentSystem::ignoreDebugDisabling() {
+    return _IgnoreDebugDisable;
+}
+#endif
 
 bool SSceneComponentSystem::validateComponent(SSceneComponent* com, SSceneComponentType type) {
     if (com->getType() != type) {

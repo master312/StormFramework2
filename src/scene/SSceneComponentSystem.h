@@ -49,6 +49,11 @@ public:
      * Otherwise returns false and logs error. */
     static bool validateComponent(SSceneComponent* com, SSceneComponentType type);
 
+#ifndef PRODUCTION
+    /* If this method returns true, system's ticking will not be disable using debug system.*/
+    virtual bool ignoreDebugDisabling();
+#endif
+
 protected:
     SSceneComponentType _Type;
     
@@ -57,4 +62,9 @@ protected:
     std::vector<SSceneComponent*> _Components;
     
     bool _IsInitialized;
+
+#ifndef PRODUCTION
+    /* If set to true, debug 'disable system ticking' option will be ignored for this system. */
+    bool _IgnoreDebugDisable;
+#endif
 };

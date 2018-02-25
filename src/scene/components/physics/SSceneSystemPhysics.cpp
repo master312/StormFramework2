@@ -11,6 +11,13 @@ SSceneSystemPhysics::SSceneSystemPhysics(SScene* scene) : SSceneComponentSystem(
                                                               _ContactListener(*this) {
     _Type = S_SCENE_OBJECT_COM_PHYSICS;
     _Box2DWorld = nullptr;
+
+#ifndef PRODUCTION
+    /* Force debugging system to ignore 'tick disabling' option
+     * for this system. Debug tick disabling is handled
+     * within this class. */
+    _IgnoreDebugDisable = true;
+#endif
 }
 
 SSceneSystemPhysics::~SSceneSystemPhysics() {
@@ -94,7 +101,8 @@ void SSceneSystemPhysics::render(StormRenderer* renderer) {
 void SSceneSystemPhysics::tick(float deltaTime) {
     /* TODO: Move to fixed tick */
 #ifndef PRODUCTION
-    if (StormDebug::shouldTickPhysics()) {
+    if (StormDebug::shouldTickSystem(getType())) {
+        /* Tick physics only if ticking is not disabled in debug mode. */
         _Box2DWorld->Step(deltaTime, 2, 6);
     }
 #else

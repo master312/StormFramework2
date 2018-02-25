@@ -51,7 +51,10 @@ set(editor_sources
     ${SOURCES_PATH_PREFIX}/scene_editing/lua_script/SESystemLuaScript.cpp
     ${SOURCES_PATH_PREFIX}/scene_editing/lua_script/SESystemLuaScript.h
     ${SOURCES_PATH_PREFIX}/property_widgets/SEPropertyNumber.cpp
-    ${SOURCES_PATH_PREFIX}/property_widgets/SEPropertyNumber.h)
+    ${SOURCES_PATH_PREFIX}/property_widgets/SEPropertyNumber.h
+    ${SOURCES_PATH_PREFIX}/docks/debug_settings/SEDockDebugSettings.cpp
+    ${SOURCES_PATH_PREFIX}/docks/debug_settings/SEDockDebugSettings.h
+)
 
 qt5_add_resources(UI_RESOURCES ${SOURCES_PATH_PREFIX}/resources.qrc)
 

@@ -5,9 +5,12 @@
 
 StormDebug::StormDebug() {
     _ShouldTickLogic = true;
-    _ShouldTickPhysics = true;
     _SceneSavesCount = 0;
     _LastSavedSceneName = "";
+
+    for (int i = 0; i < (int)S_SCENE_OBJECT_COM_TYPES_COUNT; i++) {
+        _SystemsTickable[i] = true;
+    }
 }
 
 StormDebug::~StormDebug() {
@@ -23,8 +26,8 @@ void StormDebug::processInput() {
         _ShouldTickLogic = !_ShouldTickLogic;
         LOG(INFO) << "Toggle logic ticking: " << _ShouldTickLogic;
     } else if (StormEngine::getInputManager()->isKeyPressed(S_KEY_F4)) {
-        _ShouldTickPhysics = !_ShouldTickPhysics;
-        LOG(INFO) << "Toggle physics ticking: " << _ShouldTickPhysics;
+        setSystemTickingEnabled(S_SCENE_OBJECT_COM_PHYSICS, !_SystemsTickable[S_SCENE_OBJECT_COM_PHYSICS]);
+        LOG(INFO) << "Toggle physics ticking: " << _SystemsTickable[S_SCENE_OBJECT_COM_PHYSICS];
     } else if (StormEngine::getInputManager()->isKeyPressed(S_KEY_F9)) {
         saveCurrentScene();
     } else if (StormEngine::getInputManager()->isKeyPressed(S_KEY_F12)) {
@@ -36,16 +39,16 @@ void StormDebug::setShouldTickLogic(bool value) {
     instance()->_ShouldTickLogic = value;
 }
 
-void StormDebug::setShouldTickPhysics(bool value) {
-    instance()->_ShouldTickPhysics = value;
-}
-
 bool StormDebug::shouldTickLogic() {
     return instance()->_ShouldTickLogic;
 }
 
-bool StormDebug::shouldTickPhysics() {
-    return instance()->_ShouldTickPhysics;
+void StormDebug::setSystemTickingEnabled(SSceneComponentType type, bool isEnabled) {
+    instance()->_SystemsTickable[(int)type] = isEnabled;
+}
+
+bool StormDebug::shouldTickSystem(SSceneComponentType type) {
+    return instance()->_SystemsTickable[(int)type];
 }
 
 void StormDebug::saveCurrentScene() {

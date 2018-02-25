@@ -4,6 +4,7 @@
 #include "docks/main_editor/SEMainEditorDock.h"
 #include "docks/object_hierarchy/SEDockObjectHierarchy.h"
 #include "docks/object_components/SEDockObjectComponents.h"
+#include "docks/debug_settings/SEDockDebugSettings.h"
 #include <QFileDialog>
 #include <QMenuBar>
 #include <QTextEdit>
@@ -75,8 +76,8 @@ void MainWindow::setupDockedWidgets() {
     dockWidget = new SEDockWidget(this, "Files Manager");
     addDockWidget(Qt::BottomDockWidgetArea, dockWidget);
 
-    dockWidget = new SEDockWidget(this, "Some random tab");
-    addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
+    SEDockDebugSettings* debugSettingsDock = new SEDockDebugSettings(this);
+    addDockWidget(Qt::LeftDockWidgetArea, debugSettingsDock);
 }
 
 void MainWindow::setupToolbars() {
