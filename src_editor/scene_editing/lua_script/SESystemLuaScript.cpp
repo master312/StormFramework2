@@ -38,13 +38,17 @@ void SESystemLuaScript::initialize() {
 
 void SESystemLuaScript::sceneObjectSelected(void *data) {
     SSceneObject* object = static_cast<SSceneObject*>(data);
-    sol::function objectSelectedFun = _LuaState["sceneObjectSelected"];
+    sol::function objectSelectedFun = getGlobalFunction("sceneObjectSelected");
     if (!objectSelectedFun.valid()) {
         LOG(ERROR) << "Could not find lua function 'sceneObjectSelected'";
         return;
     }
 
     objectSelectedFun(object->getLuaHandle());
+}
+
+sol::function SESystemLuaScript::getGlobalFunction(const std::string& name) {
+    return _LuaState[name.c_str()];
 }
 
 void SESystemLuaScript::bindEditorTypes() {
@@ -78,7 +82,7 @@ void SESystemLuaScript::loadToolScripts() {
     StormFileSystem* fileSystem = StormEngine::getModule<StormFileSystem>();
     const std::vector<std::string> files = fileSystem->getFilesList("lua_editor/tools/", "lua");
 
-    sol::function toolCreateFun = _LuaState["createToolHandle"];
+    sol::function toolCreateFun = getGlobalFunction("createToolHandle");
     if (!toolCreateFun.valid()) {
         LOG(ERROR) << "Lua function 'createToolHandle' not found!";
         return;

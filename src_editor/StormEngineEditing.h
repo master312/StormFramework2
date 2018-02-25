@@ -7,6 +7,8 @@ class StormEngineEditing : public StormEngine {
 public:
     virtual ~StormEngineEditing();
 
+    static StormEngineEditing* instanceEditing();
+
     /* Activate tool with @name */
     void activateTool(const std::string& name);
 

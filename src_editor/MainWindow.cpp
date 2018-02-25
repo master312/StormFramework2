@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include "StormEngineEditing.h"
 #include "toolbars/SEFileToolbar.h"
 #include "toolbars/SFEditToolbar.h"
 #include "docks/main_editor/SEMainEditorDock.h"
@@ -84,6 +85,8 @@ void MainWindow::setupDockedWidgets() {
 
     SEDockDebugSettings* debugSettingsDock = new SEDockDebugSettings(this);
     addDockWidget(Qt::LeftDockWidgetArea, debugSettingsDock);
+    
+    // StormEngineEditing::instanceEditing()->activateTool("position");
 }
 
 void MainWindow::setupToolbars() {

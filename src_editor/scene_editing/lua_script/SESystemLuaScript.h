@@ -19,6 +19,8 @@ public:
      * Called when scene object gets selected in hierarchy dock*/
     void sceneObjectSelected(void* data);
 
+    sol::function getGlobalFunction(const std::string& name);
+
 private:
     /* Load tools script */
     void loadToolScripts();
