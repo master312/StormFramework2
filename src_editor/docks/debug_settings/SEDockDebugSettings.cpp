@@ -15,9 +15,6 @@ SEDockDebugSettings::SEDockDebugSettings(QMainWindow* parent) : SEDockWidget(par
     StormDebug::setSystemTickingEnabled(S_SCENE_OBJECT_COM_PHYSICS, false);
 
     generateSystemTickingCheckBoxes(layout);
-
-    setLayout(layout);
-
 }
 
 SEDockDebugSettings::~SEDockDebugSettings() {

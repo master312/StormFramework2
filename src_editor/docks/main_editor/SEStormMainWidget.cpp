@@ -18,7 +18,7 @@ SEStormMainWidget::SEStormMainWidget(QWidget* parent) : QOpenGLWidget(parent) {
     glFormat.setVersion(3, 0);
     glFormat.setProfile(QSurfaceFormat::CoreProfile);
     this->setFormat(glFormat);
-    
+
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
 }
