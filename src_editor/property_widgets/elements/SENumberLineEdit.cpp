@@ -16,6 +16,9 @@ SENumberLineEdit::SENumberLineEdit(QWidget* parent, SNumberLineEditValueType typ
     connect(this, SIGNAL(editingFinished()), this, SLOT(editingFinished()));
 }
 
+SENumberLineEdit::~SENumberLineEdit() {
+}
+
 void SENumberLineEdit::setValueType(SNumberLineEditValueType type) {
     _ValueType = type;
     switch (_ValueType) {

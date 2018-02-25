@@ -11,7 +11,6 @@ this.onCreated = function ()
 	this.propPosition:onValueChanged(function(newValue) 
 		-- Callback when value in property change
 		this.component:setPosition(newValue);
-		debug.log("changedddd")
 	end)
 
 

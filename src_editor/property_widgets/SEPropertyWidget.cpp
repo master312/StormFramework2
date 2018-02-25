@@ -51,9 +51,8 @@ QLayout* SEPropertyWidget::generateVBoxLayout() {
     return layout;
 }
 
-QLabel* SEPropertyWidget::generateLabel(const QString& text,
-                                        QWidget* parent /* = nullptr*/ ) {
-    QLabel* label = new QLabel(parent);
+QLabel* SEPropertyWidget::generateLabel(const QString& text) {
+    QLabel* label = new QLabel(this);
     label->setText(text + ": ");
     return label;
 }

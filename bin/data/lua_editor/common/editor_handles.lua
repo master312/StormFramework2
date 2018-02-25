@@ -35,6 +35,13 @@ function createComponentWidgetHandle(cppObjRef, scriptObj)
     return handle
 end
 
+function destroyComponentWidgetHandle(handleIndex)
+    local handle = EditorHandles[handleIndex]
+    handle.isValid = false
+    handle.cppRef = nil
+    EditorHandles[handleIndex] = nil
+end
+
 EditorUpdateDeltaTime = 0
 function editorTickObjects(deltaTime)
     -- Tick editor scripts

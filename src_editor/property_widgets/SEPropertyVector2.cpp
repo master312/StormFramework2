@@ -102,8 +102,12 @@ void SEPropertyVector2::valuesChanged() {
 }
 
 void SEPropertyVector2::refresh() {
-    _XPosEdit->setText(QString::number(_Value.x));
-    _YPosEdit->setText(QString::number(_Value.y));
+    if (!_XPosEdit->hasFocus()) {
+        _XPosEdit->setText(QString::number(_Value.x));
+    }
+    if (!_YPosEdit->hasFocus()) {
+        _YPosEdit->setText(QString::number(_Value.y));
+    }
 }
 
 void SEPropertyVector2::editingFinished() {

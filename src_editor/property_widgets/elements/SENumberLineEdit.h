@@ -14,6 +14,7 @@ class SENumberLineEdit : public QLineEdit {
 
 public:
     SENumberLineEdit(QWidget* parent = nullptr, SNumberLineEditValueType type = S_NUMBER_LINE_EDIT_FLOAT);
+    virtual ~SENumberLineEdit();
 
     void setValueType(SNumberLineEditValueType type);
     void setDragFactor(float factor);

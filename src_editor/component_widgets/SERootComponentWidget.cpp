@@ -35,6 +35,18 @@ SERootComponentWidget::SERootComponentWidget(QWidget* parent) : QWidget(parent) 
 }
 
 SERootComponentWidget::~SERootComponentWidget() {
+    SScene* scene = MainWindow::getHierarchyDock()->getScene();
+    if (!scene || !_LuaHandle.valid()) {
+        /* Not assigned to lua */
+        return;
+    }
+
+    /* Remove widget reference from LUA */
+    SESystemLuaScript* scriptSystem = static_cast<SESystemLuaScript*>(scene->getScriptSystem());
+    sol::function destroyHandle = scriptSystem->getLua()["destroyComponentWidgetHandle"];
+    if (destroyHandle.valid()) {
+        destroyHandle(_LuaHandle["index"]);
+    }
 }
 
 int SERootComponentWidget::loadComponent(SSceneComponent* component) {

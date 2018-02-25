@@ -34,10 +34,11 @@ SEDockObjectComponents::SEDockObjectComponents(QMainWindow* parent) : SEDockWidg
 }
 
 SEDockObjectComponents::~SEDockObjectComponents() {
-
 }
 
 void SEDockObjectComponents::sceneObjectSelected(SSceneObject* object) {
+    clearGeneratedWidgets();
+
     for (SSceneComponent* component : object->getComponents()) {
         SERootComponentWidget* componentWidget = new SERootComponentWidget(this);
 
@@ -54,17 +55,18 @@ void SEDockObjectComponents::sceneObjectSelected(SSceneObject* object) {
             continue;
         }
 
+        _GeneratedWidgets.push_back(componentWidget);
         _ScrollArea->layout()->addWidget(componentWidget);
         LOG(DEBUG) << "Component type " << (int)component->getType() << " widget generated";
     }
+}
 
-
-//    SEPropertyVector2* wdg = new SEPropertyVector2(tmp, "THE TIELE!");
-//    tmp->addPropertyWidget(wdg);
-//    wdg = new SEPropertyVector2(tmp, "NOT THE TIELE!");
-//    tmp->addPropertyWidget(wdg);
-
-
-//    _RootWidget->layout()->addWidget(tmp);
-//    scrollArea->layout()->addWidget(tmp);
+void SEDockObjectComponents::clearGeneratedWidgets() {
+    for (SERootComponentWidget* widget : _GeneratedWidgets) {
+        _ScrollArea->layout()->removeWidget(widget);
+        widget->setParent(nullptr);
+        widget->close();
+        delete widget;
+    }
+    _GeneratedWidgets.clear();
 }

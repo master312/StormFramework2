@@ -30,8 +30,8 @@ protected:
     virtual void leaveEvent(QEvent* event);
     virtual void paintEvent(QPaintEvent* event);
 
-    static QLayout* generateVBoxLayout();
-
     /* Generates title label with text @text */
-    static QLabel* generateLabel(const QString& text, QWidget* parent = nullptr);
+    QLabel* generateLabel(const QString& text);
+
+    static QLayout* generateVBoxLayout();
 };
