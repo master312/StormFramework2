@@ -40,7 +40,7 @@ void SLuaBindings::bindSceneObjectComponentBase(sol::state& state) {
 }
 
 void SLuaBindings::debugLog(const std::string& msg) {
-    LOG(INFO) << "LUA: " << msg;
+    LOG(INFO) << "**LUA** " << msg;
 }
 
 void SLuaBindings::bindVector2(sol::state& state) {

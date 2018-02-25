@@ -124,9 +124,9 @@ function tickObjects(deltaTime)
 
     if IsEditor then
         -- If build contains editor scripts
-        if editorTickObjects ~= nil then
+        if tickEditor ~= nil then
             -- Execute editor tick method
-            editorTickObjects(deltaTime)
+            tickEditor(deltaTime)
         end
     end
 end

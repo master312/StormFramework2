@@ -1,6 +1,8 @@
 #include "SEDockObjectHierarchy.h"
 #include <QVBoxLayout>
+#include "scene/SScene.h"
 #include "scene/SSceneObject.h"
+#include "scene_editing/lua_script/SESystemLuaScript.h"
 #include "StormEngine.h"
 
 SEDockObjectHierarchy::SEDockObjectHierarchy(QMainWindow* parent) : SEDockWidget(parent, "Objects Hierarchy") {
@@ -24,6 +26,9 @@ void SEDockObjectHierarchy::cbObjectSelected(SSceneObject* selectedObject) {
     }
     _SelectedObject = selectedObject;
     sceneObjectSelected(_SelectedObject);
+
+    SESystemLuaScript* scriptSystem = dynamic_cast<SESystemLuaScript*>(_Scene->getScriptSystem());
+    scriptSystem->onObjectScelected(_SelectedObject);
 }
 
 void SEDockObjectHierarchy::setScene(SScene* scene) {
