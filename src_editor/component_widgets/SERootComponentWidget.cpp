@@ -20,7 +20,7 @@ SERootComponentWidget::SERootComponentWidget(QWidget* parent) : QWidget(parent) 
     setMinimumSize(180, 20);
 
     _ToggleButton = new QPushButton(this);
-    _ToggleButton->setText("Ovo je sve matrix!");
+    _ToggleButton->setText("Unnamed Component 666");
     _ToggleButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     connect(_ToggleButton, SIGNAL(clicked(bool)), this, SLOT(toggleCollapse()));
     _Layout->addWidget(_ToggleButton);
@@ -112,6 +112,10 @@ void SERootComponentWidget::toggleCollapse() {
 void SERootComponentWidget::addPropertyWidget(SEPropertyWidget* widget) {
     widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     _Layout->addWidget(widget);
+}
+
+void SERootComponentWidget::setName(const std::string& name) {
+    _ToggleButton->setText(name.c_str());
 }
 
 void SERootComponentWidget::setSceneObjectComponentLuaRef() {

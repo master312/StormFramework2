@@ -15,6 +15,10 @@ SEPropertyWidget::SEPropertyWidget(QWidget* parent, const std::string& name /* =
 SEPropertyWidget::~SEPropertyWidget() {
 }
 
+void SEPropertyWidget::setValueChangedLuaListener(sol::function callback) {
+    _ValueChangedCallback = callback;
+}
+
 void SEPropertyWidget::refreshValues() {
     refresh();
 }

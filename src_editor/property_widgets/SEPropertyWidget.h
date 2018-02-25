@@ -2,6 +2,7 @@
 #include <QWidget>
 #include <QLayout>
 #include <QLabel>
+#include "sol2/sol.hpp"
 
 /* Base class for all property widgets
  * Default layout (@_Layout) is vBox layout
@@ -11,6 +12,10 @@ class SEPropertyWidget : public QWidget {
 public:
     SEPropertyWidget(QWidget* parent, const std::string& name = "Property widget");
     virtual ~SEPropertyWidget();
+
+    /* Sets lua method that will be called every time value
+     * has been changed from QT interface */
+    virtual void setValueChangedLuaListener(sol::function callback);
 
 public slots:
     /* Signal fiered to refresh property values */
@@ -22,6 +27,9 @@ protected:
 
     /* Background opacity used for hover effect */
     float _BackgroundOpacity;
+
+    /* Lua function to be executed on value change */
+    sol::function _ValueChangedCallback;
 
     /* Refresh property values */
     virtual void refresh();

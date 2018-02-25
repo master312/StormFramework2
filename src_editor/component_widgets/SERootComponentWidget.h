@@ -37,6 +37,9 @@ public:
     /* Adds new property widget */
     void addPropertyWidget(SEPropertyWidget* widget);
 
+    /* Text that will be written on toggle button */
+    void setName(const std::string& name);
+
 public slots:
     /* Collapse / Uncollapse this widget */
     void toggleCollapse();

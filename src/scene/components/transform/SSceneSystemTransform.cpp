@@ -46,6 +46,8 @@ void SSceneSystemTransform::initializeLua(sol::state& luaState) {
         "z", sol::property(&SSceneComTransform::getZ, &SSceneComTransform::setZ),
         "absZ", sol::property(&SSceneComTransform::getAbsZ),
         "angle", sol::property(&SSceneComTransform::getAngle, &SSceneComTransform::setAngle),
+        "setAngle", &SSceneComTransform::setAngle,
+        "getAngle", &SSceneComTransform::getAngle,
         "scale", sol::property(&SSceneComTransform::getScale, &SSceneComTransform::setScale),
         "getScale", &SSceneComTransform::getScale,
         "setScale", &SSceneComTransform::setScale,

@@ -13,12 +13,12 @@ public:
     SEPropertyVector2(QWidget* parent = nullptr, const std::string& name = "");
     virtual ~SEPropertyVector2();
 
+    /* Factory method for producing SEPropertyVector2 objects */
+    static SEPropertyVector2* create(QWidget* parent, const std::string& name);
+
     void setValue(const Vector2& vec);
     void setValueX(const float x);
     void setValueY(const float y);
-
-    /* Factory method for producing SEPropertyVector2 objects */
-    static SEPropertyVector2* create(QWidget* parent, const std::string& name);
 
     std::reference_wrapper<const Vector2> getValue() const;
 
@@ -26,10 +26,6 @@ public:
     void setDragFactor(Vector2 factor);
     void setDragFactorX(float factor);
     void setDragFactorY(float factor);
-
-    /* Sets lua method that will be called every time value
-     * has been changed from QT interface */
-    void setValueChangedLuaListener(sol::function callback);
 
 public slots:
     /* Signal when value in SNumberLineEdit fields changes */
@@ -53,8 +49,6 @@ private:
     bool _IsDragging;
     QPoint _DragStartPosition;
     Vector2 _DragVariableFactor;
-
-    sol::function _ValueChangedCallback;
 
     /* Reads values from getter and displays them in QLineEdit widgets */
     void readValues();

@@ -30,10 +30,22 @@ SEPropertyVector2::SEPropertyVector2(QWidget* parent, const std::string& name) :
 
     setDragFactor(0.005f);
     setLayout(layout);
+    refresh();
 }
 
 SEPropertyVector2::~SEPropertyVector2() {
 }
+
+SEPropertyVector2* SEPropertyVector2::create(QWidget* parent, const std::string& name) {
+    SEPropertyVector2* widget = new SEPropertyVector2(parent, name);
+    if (parent) {
+        parent->layout()->addWidget(widget);
+    } else {
+        LOG(WARNING) << "SEPropertyVector2::create without parent";
+    }
+    return widget;
+}
+
 
 void SEPropertyVector2::setValue(const Vector2& vec) {
     _Value.set(vec);
@@ -48,16 +60,6 @@ void SEPropertyVector2::setValueX(const float x) {
 void SEPropertyVector2::setValueY(const float y) {
     _Value.y = y;
     refresh();
-}
-
-SEPropertyVector2* SEPropertyVector2::create(QWidget* parent, const std::string& name) {
-    SEPropertyVector2* widget = new SEPropertyVector2(parent, name);
-    if (parent) {
-        parent->layout()->addWidget(widget);
-    } else {
-        LOG(WARNING) << "SEPropertyVector2::create without parent";
-    }
-    return widget;
 }
 
 std::reference_wrapper<const Vector2> SEPropertyVector2::getValue() const {
@@ -86,10 +88,6 @@ void SEPropertyVector2::setDragFactorY(float factor) {
     _YPosEdit->setDragFactor(factor);
 }
 
-void SEPropertyVector2::setValueChangedLuaListener(sol::function callback) {
-    _ValueChangedCallback = callback;
-}
-
 void SEPropertyVector2::valuesChanged() {
     _Value.x = _XPosEdit->text().toFloat();
     _Value.y = _YPosEdit->text().toFloat();
@@ -97,6 +95,7 @@ void SEPropertyVector2::valuesChanged() {
     refresh();
 
     if (_ValueChangedCallback.valid()) {
+        /* Execute LUA value changed callback */
         _ValueChangedCallback(_Value);
     }
 }

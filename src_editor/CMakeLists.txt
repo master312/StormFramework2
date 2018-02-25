@@ -49,7 +49,9 @@ set(editor_sources
     ${SOURCES_PATH_PREFIX}/scene_editing/transform/SESystemTransform.cpp
     ${SOURCES_PATH_PREFIX}/scene_editing/transform/SESystemTransform.h
     ${SOURCES_PATH_PREFIX}/scene_editing/lua_script/SESystemLuaScript.cpp
-    ${SOURCES_PATH_PREFIX}/scene_editing/lua_script/SESystemLuaScript.h)
+    ${SOURCES_PATH_PREFIX}/scene_editing/lua_script/SESystemLuaScript.h
+    ${SOURCES_PATH_PREFIX}/property_widgets/SEPropertyNumber.cpp
+    ${SOURCES_PATH_PREFIX}/property_widgets/SEPropertyNumber.h)
 
 qt5_add_resources(UI_RESOURCES ${SOURCES_PATH_PREFIX}/resources.qrc)
 
