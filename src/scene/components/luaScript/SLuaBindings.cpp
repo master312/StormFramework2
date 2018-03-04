@@ -44,11 +44,19 @@ void SLuaBindings::debugLog(const std::string& msg) {
 }
 
 void SLuaBindings::bindVector2(sol::state& state) {
+    auto addFun = [](const Vector2& v1, const Vector2& v2) -> Vector2 { return v1 + v2; };
+    auto subFun = [](const Vector2& v1, const Vector2& v2) -> Vector2 { return v1 - v2; };
+    auto absFun = [](const Vector2& v1) -> Vector2 { return Vector2(fabsf(v1.x), fabsf(v1.y)); };
+
     state.new_usertype<Vector2>("Vector2",
         sol::constructors<Vector2(), Vector2(float, float)>(),
         "x", &Vector2::x,
         "y", &Vector2::y,
-        "toString", &Vector2::toString
+        "distance", &Vector2::distance,
+        "toString", &Vector2::toString,
+        "abs", absFun,
+        sol::meta_function::addition, addFun,
+        sol::meta_function::subtraction, subFun
     );
 }
 

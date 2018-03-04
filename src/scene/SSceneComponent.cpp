@@ -57,10 +57,6 @@ bool SSceneComponent::getIsBindedToScript() {
      return _IsBindedToScript;
 }
 
-void SSceneComponent::setIsBindedToScript(bool value) {
-    _IsBindedToScript = value;
-}
-
 void SSceneComponent::setOwner(SSceneObject* owner) {
     if (_Owner) {
         LOG(WARNING) << "Changing owner of scene component. This is not supported and might fail";
@@ -70,6 +66,9 @@ void SSceneComponent::setOwner(SSceneObject* owner) {
 
 SSceneObject* SSceneComponent::getOwner() {
     return _Owner;
+}
+
+void SSceneComponent::onLuaBinded(bool hasScript) {
 }
 
 /* Static component producer method */

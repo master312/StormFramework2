@@ -38,6 +38,7 @@ void SSceneSystemTransform::initializeLua(sol::state& luaState) {
     auto setPosFunction = sol::resolve<void(const Vector2)>(&SSceneComTransform::setPosition);
     luaState.new_usertype<SSceneComTransform>("ComTransform",
         "posAbs", sol::property(&SSceneComTransform::getPositionAbs),
+        "getPosAbs", &SSceneComTransform::getPositionAbs,
         "position", sol::property(&SSceneComTransform::getPosition, setPosFunction),
         "getPosition", &SSceneComTransform::getPosition,
         "setPosition", setPosFunction,
@@ -59,6 +60,6 @@ void SSceneSystemTransform::initializeLua(sol::state& luaState) {
 
 void SSceneSystemTransform::bindComponentsToLua(SSceneSystemLuaScript* luaSystem) {
     for (SSceneComTransform* com : _TransformComponents) {
-        luaSystem->bindComponentToObject<SSceneComTransform*>(com);
+        com->bindToLuaScript<SSceneComTransform*>();
     }
 }

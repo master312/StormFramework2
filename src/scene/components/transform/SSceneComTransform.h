@@ -123,6 +123,11 @@ public:
     /* Observer method. Called when parent's transform has been changed */
     void observeParentTransformChanged(void* data);
 
+protected:
+    /* Called just after component have been binded to lua */
+    virtual void onLuaBinded(bool hasScript);
+
+
 private:
     /* Pointer to parent object's transform component */
     SSceneComTransform* _ParentTransform;

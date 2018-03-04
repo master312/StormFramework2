@@ -125,7 +125,7 @@ void SSceneSystemPhysics::initializeLua(sol::state& luaState) {
 
 void SSceneSystemPhysics::bindComponentsToLua(SSceneSystemLuaScript* luaSystem) {
     for (SSceneComPhysics* com : _PhysicsComponents) {
-        luaSystem->bindComponentToObject<SSceneComPhysics*>(com);
+        com->bindToLuaScript<SSceneComPhysics*>();
     }
 }
 

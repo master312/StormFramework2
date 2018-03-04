@@ -5,6 +5,7 @@
 #include "property_widgets/SEPropertyVector2.h"
 #include "property_widgets/SEPropertyNumber.h"
 #include "component_widgets/SERootComponentWidget.h"
+#include <QApplication>
 
 SESystemLuaScript::SESystemLuaScript(SScene* scene) : SSceneSystemLuaScript(scene) {
     _GameScriptsTicking = false;
@@ -63,13 +64,30 @@ sol::function SESystemLuaScript::getGlobalFunction(const std::string& name) {
     return _LuaState[name.c_str()];
 }
 
+/* TODO: Temporary... Fix when sperated lua bindings class is created */
+static void changeCursor(int cursor) {
+    QApplication::setOverrideCursor((Qt::CursorShape)cursor);
+}
+
+
 void SESystemLuaScript::bindEditorTypes() {
+    /* TODO: Move this function to separated class, like in engine */
     _LuaState.new_usertype<QWidget>("QtWidget");
     _LuaState.new_usertype<SERootComponentWidget>("ERootComWidget",
         "setName", &SERootComponentWidget::setName,
         "isCollapsed", sol::property(&SERootComponentWidget::isCollapsed)
     );
 
+
+    _LuaState.new_usertype<QCursor>("QtCursor");
+    _LuaState.new_usertype<QApplication>("QtApplication");
+    _LuaState["QtApplication"]["setOverrideCursor"] = &changeCursor;
+    _LuaState["QtApplication"]["SizeVerCursor"] = (int)Qt::SizeVerCursor;
+    _LuaState["QtApplication"]["SizeHorCursor"] = (int)Qt::SizeHorCursor;
+    _LuaState["QtApplication"]["SizeBDiagCursor"] = (int)Qt::SizeBDiagCursor;
+    _LuaState["QtApplication"]["SizeFDiagCursor"] = (int)Qt::SizeFDiagCursor;
+    _LuaState["QtApplication"]["SizeAllCursor"] = (int)Qt::SizeAllCursor;
+    _LuaState["QtApplication"]["ArrowCursor"] = (int)Qt::ArrowCursor;
 
     /* Bind SEPropertyVector2 to LUA */
     auto setValueFun = sol::resolve<void(const Vector2&)>(&SEPropertyVector2::setValue);

@@ -84,9 +84,6 @@ public:
     /* Has this component been binded to script */
     bool getIsBindedToScript();
 
-    /* Should be set to true after component gets binded to script */
-    void setIsBindedToScript(bool value);
-
     /* Returns owner's lua handle table */
     sol::table getOwnerLuaHandle();
 
@@ -111,4 +108,29 @@ protected:
 
     /* Has this component been binded to script */
     bool _IsBindedToScript;
+
+    /* Called just after component have been binded to lua */
+    virtual void onLuaBinded(bool hasScript);
+
+public:
+    /* Binds this component to owner's script object
+     * Returns < 0 on error*/
+    template <class T>
+    int bindToLuaScript() {
+        if (getIsBindedToScript()){
+            return 0;
+        }
+        sol::table handle = getOwnerLuaHandle();
+        if (!handle.valid() || !handle["script"].valid()) {
+            onLuaBinded(false);
+            return -1;
+        }
+        handle["script"][_ScriptHandlerName] = dynamic_cast<T>(this);
+        _IsBindedToScript = true;
+
+        onLuaBinded(true);
+
+        return 0;
+    }
+
 };

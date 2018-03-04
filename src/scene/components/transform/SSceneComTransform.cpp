@@ -252,6 +252,15 @@ void SSceneComTransform::observeParentTransformChanged(void* data) {
     _IsChanged = true;
 }
 
+void SSceneComTransform::onLuaBinded(bool hasScript) {
+    /* For easier access to position in script */
+    sol::table scriptTable = getOwnerLuaHandle();
+    if (hasScript) {
+        scriptTable = scriptTable["script"];
+    }
+    scriptTable.set_function("getPosAbs", &SSceneComTransform::getPositionAbs, this);
+}
+
 void SSceneComTransform::pullParentTransform() {
     if (!_Owner->getParent()) {
         /* Parent has been cleared */
