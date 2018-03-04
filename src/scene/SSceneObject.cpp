@@ -36,7 +36,12 @@ SSceneObject::~SSceneObject() {
 
 void SSceneObject::serializeXml(pugi::xml_node& node) {
     node.append_attribute("id").set_value(_Id);
-    node.append_attribute("name").set_value(_Name.c_str());
+    if (_Name != "") {
+        node.append_attribute("name").set_value(_Name.c_str());
+    }
+    if (_Parent) {
+        node.append_attribute("parent").set_value(_Parent->getId());
+    }
 
     if (!_Components.size()) {
         /* Object dose not have any components */

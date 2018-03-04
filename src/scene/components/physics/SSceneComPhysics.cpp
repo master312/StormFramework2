@@ -39,11 +39,12 @@ void SSceneComPhysics::serializeXml(pugi::xml_node& node) {
     SSceneComponent::serializeXml(node);
     
     switch (_GeometryType) {
-        case GEOMETRY_TYPE_PLANE:
+        case GEOMETRY_TYPE_PLANE: {
+            Vector2 scale = _Owner->getTransform()->getScaleAbs();
             node.append_attribute("geometry").set_value("plane");
-            node.append_attribute("size_x").set_value(_GeometrySize.x);
-            node.append_attribute("size_y").set_value(_GeometrySize.y);
-            break;
+            node.append_attribute("size_x").set_value(_GeometrySize.x / scale.x);
+            node.append_attribute("size_y").set_value(_GeometrySize.y / scale.y);
+            } break;
         default:
             LOG(ERROR) << "Invalid shape while serializing ComPhysics";
             break;
@@ -203,7 +204,7 @@ void SSceneComPhysics::handleCollision(SSceneComPhysics* collidedWith) {
 
 bool SSceneComPhysics::generateBox2DBody(b2World* world) { 
     if (_Box2DBody) {
-        LOG(WARNING) << "Tryed to generate multiple bodies for same physics component.";
+        LOG(WARNING) << "Tried to generate multiple bodies for same physics component.";
         return false;
     }
     SSceneComTransform* transform = _Owner->getTransform();

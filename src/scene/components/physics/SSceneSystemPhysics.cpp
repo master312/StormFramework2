@@ -101,6 +101,9 @@ void SSceneSystemPhysics::render(StormRenderer* renderer) {
 void SSceneSystemPhysics::tick(float deltaTime) {
     /* TODO: Move to fixed tick */
 #ifndef PRODUCTION
+    if (!_Box2DWorld) {
+        return;
+    }
     if (StormDebug::shouldTickSystem(getType())) {
         /* Tick physics only if ticking is not disabled in debug mode. */
         _Box2DWorld->Step(deltaTime, 2, 6);
