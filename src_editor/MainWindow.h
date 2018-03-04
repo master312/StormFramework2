@@ -19,9 +19,12 @@ public:
 
     static SEDockObjectHierarchy* getHierarchyDock();
 
+    /* Returns name of editor executable */
+    QString getExecutableName();
+
 public slots:
     void cbMenuOpenScene();
-    void cbMenuSaveScene();
+    void cbMenuSaveSceneAs();
     void cbMenuSaveLayout();
     void cbMenuLoadLayout();
 

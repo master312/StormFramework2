@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 #include "StormEngineEditing.h"
+#include "scene/SScene.h"
 #include "toolbars/SEFileToolbar.h"
 #include "toolbars/SEToolsToolbar.h"
 #include "toolbars/SEOptionsToolbar.h"
@@ -12,6 +13,7 @@
 #include <QMenuBar>
 #include <QTextEdit>
 #include <QMessageBox>
+#include <QCoreApplication>
 
 /* 'fake singleton' holder for easy access to main window */
 static MainWindow* mainWindow = nullptr;
@@ -55,10 +57,15 @@ SEDockObjectHierarchy* MainWindow::getHierarchyDock() {
     return MainWindow::get()->_ObjectHierarchyDock;
 }
 
+
+QString MainWindow::getExecutableName() {
+    return QFileInfo(QCoreApplication::applicationFilePath()).fileName();
+}
+
 void MainWindow::setupMenuBar() {
     QMenu* fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(tr("Open scene"), this, &MainWindow::cbMenuOpenScene);
-    fileMenu->addAction(tr("Save scene"), this, &MainWindow::cbMenuSaveScene);
+    fileMenu->addAction(tr("Save scene as"), this, &MainWindow::cbMenuSaveSceneAs);
     fileMenu->addSeparator();
     fileMenu->addAction(tr("&Quit"), this, &QWidget::close);
     _Menus["File"] = fileMenu;
@@ -115,7 +122,26 @@ void MainWindow::cbMenuOpenScene() {
 
 }
 
-void MainWindow::cbMenuSaveScene() {
+void MainWindow::cbMenuSaveSceneAs() {
+    /* TODO: Move this when dynamic menu system is created */
+    SScene* activeScene = StormEngine::getActiveScene();
+    if (!activeScene) {
+        LOG(ERROR) << "No active scene found!";
+        return;
+    }
+
+    const std::string& sceneName = activeScene->getName();
+    QString filter = "Extensible Markup Language (*.xml)";
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save layout"), QString(sceneName.c_str()) + ".xml", filter, &filter);
+    if (fileName.isEmpty()) {
+        return;
+    }
+
+    StormFileSystem* fileSystem = StormEngine::getModule<StormFileSystem>();
+    QDir dir = QDir(QDir::currentPath() + "/" + QString(fileSystem->getRootPath().c_str()));
+    std::string saveFilePath = dir.relativeFilePath(fileName).toStdString();
+
+    StormEngineEditing::instanceEditing()->saveActiveScene(saveFilePath);
 
 }
 

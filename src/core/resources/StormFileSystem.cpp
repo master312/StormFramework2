@@ -52,7 +52,7 @@ spStormResourceFile StormFileSystem::getResourceByFilename(const std::string& fi
 
 int StormFileSystem::saveResourceFile(spStormResourceFile file, bool keepOpen /* = false */) {
     if (!file->getBufferSize()) {
-        LOG(WARNING) << "Tryed to save resource file with buffer size of 0.";
+        LOG(WARNING) << "Tried to save resource file with buffer size of 0.";
         return -1;
     }
     

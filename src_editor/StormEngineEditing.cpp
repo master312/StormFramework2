@@ -14,6 +14,15 @@ StormEngineEditing* StormEngineEditing::instanceEditing() {
     return static_cast<StormEngineEditing*>(StormEngine::instance());
 }
 
+void StormEngineEditing::saveActiveScene(const std::string& path /* = "" */) {
+    SScene* activeScene = _ModSceneManager->getActiveScene();
+    if (!activeScene) {
+        return;
+    }
+
+    activeScene->saveXml(path);
+}
+
 void StormEngineEditing::activateTool(const std::string& name) {
     SScene* activeScene = _ModSceneManager->getActiveScene();
     if (!activeScene) {

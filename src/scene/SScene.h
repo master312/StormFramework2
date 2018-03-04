@@ -21,7 +21,7 @@ public:
     int loadXml(spStormResourceFile xmlFile);
 
     /* Saves scene to XML file.
-     * If @customPath is not set, scene will be saved in /scenes folder 
+     * If @path is not set, scene will be saved in /scenes folder
      * in file named @_Name .xml */
     void saveXml(std::string path = "");
 

@@ -59,36 +59,28 @@ void StormResourceFile::setFilename(const std::string& filename) {
     /* Convert all '\' to '/', and split filename into path, extension and filename. */
     std::string replacedFilename = filename;
     std::replace(replacedFilename.begin(), replacedFilename.end(), '\\', '/');
-    
-    size_t sep = replacedFilename.find_last_of("\\/");
-    size_t dot = replacedFilename.find_last_of(".");
-    if (sep != std::string::npos && dot != std::string::npos) {
-        _Filename = replacedFilename.substr(sep + 1, dot - (sep + 1));
-    }
-    
-    if (dot != std::string::npos) {
-        _Extension = replacedFilename.substr(dot + 1, replacedFilename.size() - dot);
-        if (sep == std::string::npos) {
-            /* No path found. Filename will be set from begining of the string, to the dot. */
-            _Filename = replacedFilename.substr(0, replacedFilename.size() - dot);
-        }
+
+    size_t filenameStart = replacedFilename.find_last_of("\\/");
+    if (filenameStart != std::string::npos) {
+        /* Path exists */
+        _Filename = replacedFilename.substr(filenameStart + 1);
+        _Path = replacedFilename.substr(0, filenameStart);
     } else {
-        LOG(WARNING) << "No extension found in resource file path '" << filename << "'";
+        /* Path dose not exists. Only filename */
+        _Filename = replacedFilename;
+        _Path = "";
+        LOG(WARNING) << "No path found in resource file path '" << _Filename << "'";
     }
 
-    if (sep != std::string::npos) {
-        _Path = replacedFilename.substr(0, sep);
-        if (dot == std::string::npos) {
-            /* If dot is not found, filename will be set from last / to the end of string */
-            _Filename = replacedFilename.substr(sep + 1, replacedFilename.size());
-        }
+    size_t extDotPosition = _Filename.find_last_of(".");
+    if (extDotPosition == std::string::npos || extDotPosition >= _Filename.size() - 1) {
+        /* Extension not specified */
+        _Extension = "";
+        LOG(WARNING) << "No extension found in resource file path '" << filename << "'";
     } else {
-        LOG(WARNING) << "No path found in resource file path '" << filename << "'";
-    }
-    
-    if (sep == std::string::npos && dot == std::string::npos) {
-        /* No extension and path found */
-        _Filename = filename;
+        /* Extension exists */
+        _Extension = _Filename.substr(extDotPosition + 1);
+        _Filename = _Filename.substr(0, extDotPosition);
     }
 }
 
