@@ -193,12 +193,12 @@ void SSceneComPhysics::handleCollision(SSceneComPhysics* collidedWith) {
         return;
     }
 
-    sol::function onTriggerEnter = getOwner()->getLuaHandle()["on_trigger_enter"];
+    sol::function onTriggerEnter = getOwner()->getLuaFunction("on_trigger_enter");
     if (!onTriggerEnter || !onTriggerEnter.valid()) {
         return;
     }
 
-    onTriggerEnter(collidedWith->getOwner()->getLuaHandle());
+    onTriggerEnter(collidedWith->getOwnerLuaHandle());
 }
 
 bool SSceneComPhysics::generateBox2DBody(b2World* world) { 

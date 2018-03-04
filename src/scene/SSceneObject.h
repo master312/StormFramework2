@@ -71,6 +71,9 @@ public:
     /* Returns lua handle for this scene object */
     sol::table getLuaHandle();
 
+    /* Returns lua function from lua script for this object */
+    sol::function getLuaFunction(const std::string& functionName);
+
     /* Returns scene which owns this object */
     SScene* getScene() const;
 

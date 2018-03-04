@@ -19,9 +19,18 @@ public:
      * Called when scene object gets selected in hierarchy dock*/
     void sceneObjectSelected(void* data);
 
+    /* Sets whether game scripts should be ticked or not.
+     * Dose not effect editor scripts. */
+    void setTickGameScripts(bool value);
+
+    /* Returns whether game scripts are ticking is enabled or not */
+    bool getTickGameScripts();
+
     sol::function getGlobalFunction(const std::string& name);
 
 private:
+    bool _GameScriptsTicking;
+
     /* Load tools script */
     void loadToolScripts();
 

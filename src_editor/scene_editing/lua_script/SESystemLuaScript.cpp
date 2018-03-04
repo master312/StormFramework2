@@ -7,7 +7,7 @@
 #include "component_widgets/SERootComponentWidget.h"
 
 SESystemLuaScript::SESystemLuaScript(SScene* scene) : SSceneSystemLuaScript(scene) {
-
+    _GameScriptsTicking = false;
 }
 
 SESystemLuaScript::~SESystemLuaScript() {
@@ -18,8 +18,11 @@ void SESystemLuaScript::initialize() {
     initializeLua();
     bindEditorTypes();
 
-    /* Sets lua "IsEditor" variable, so that script can know its beeing run from editor */
+    /* Sets lua "IsEditor" variable, so that script can know its being run from editor */
     _LuaState["IsEditor"] = true;
+
+    /* Dont tick game scripts by default */
+    setTickGameScripts(false);
 
     StormFileSystem* fileSystem = StormEngine::getModule<StormFileSystem>();
     loadCommonScripts(fileSystem->getFilesList("lua_common/", "lua"));
@@ -45,6 +48,15 @@ void SESystemLuaScript::sceneObjectSelected(void *data) {
     }
 
     objectSelectedFun(object->getLuaHandle());
+}
+
+void SESystemLuaScript::setTickGameScripts(bool value) {
+    _GameScriptsTicking = value;
+    _LuaState["TickGameScripts"] = value;
+}
+
+bool SESystemLuaScript::getTickGameScripts() {
+    return _GameScriptsTicking;
 }
 
 sol::function SESystemLuaScript::getGlobalFunction(const std::string& name) {

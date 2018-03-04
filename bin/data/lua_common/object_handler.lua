@@ -115,10 +115,12 @@ end
 
 -- Execute this.onUpdate methods for all objects
 function tickObjects(deltaTime) 
-    for key,value in pairs(Handles) do
-        local handle = Handles[key]
-        if handle.isValid and handle.hasScript then
-            handle.onUpdate(deltaTime)
+    if IsEditor and TickGameScripts then
+        for key,value in pairs(Handles) do
+            local handle = Handles[key]
+            if handle.isValid and handle.hasScript then
+                handle.onUpdate(deltaTime)
+            end
         end
     end
 

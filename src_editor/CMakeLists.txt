@@ -26,8 +26,8 @@ set(editor_sources
 
     ${SOURCES_PATH_PREFIX}/toolbars/SEFileToolbar.h
     ${SOURCES_PATH_PREFIX}/toolbars/SEFileToolbar.cpp
-    ${SOURCES_PATH_PREFIX}/toolbars/SFEditToolbar.cpp
-    ${SOURCES_PATH_PREFIX}/toolbars/SFEditToolbar.h
+    ${SOURCES_PATH_PREFIX}/toolbars/SEToolsToolbar.cpp
+    ${SOURCES_PATH_PREFIX}/toolbars/SEToolsToolbar.h
     ${SOURCES_PATH_PREFIX}/toolbars/SEToolbar.cpp
     ${SOURCES_PATH_PREFIX}/toolbars/SEToolbar.h
     ${SOURCES_PATH_PREFIX}/docks/main_editor/SEMainEditorDock.cpp
@@ -56,6 +56,8 @@ set(editor_sources
     ${SOURCES_PATH_PREFIX}/docks/debug_settings/SEDockDebugSettings.h
     ${SOURCES_PATH_PREFIX}/StormEngineEditing.cpp
     ${SOURCES_PATH_PREFIX}/StormEngineEditing.h
+    ${SOURCES_PATH_PREFIX}/toolbars/SEOptionsToolbar.cpp
+    ${SOURCES_PATH_PREFIX}/toolbars/SEOptionsToolbar.h
 )
 
 qt5_add_resources(UI_RESOURCES ${SOURCES_PATH_PREFIX}/resources.qrc)

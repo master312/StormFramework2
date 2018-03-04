@@ -1,7 +1,8 @@
 #include "MainWindow.h"
 #include "StormEngineEditing.h"
 #include "toolbars/SEFileToolbar.h"
-#include "toolbars/SFEditToolbar.h"
+#include "toolbars/SEToolsToolbar.h"
+#include "toolbars/SEOptionsToolbar.h"
 #include "docks/main_editor/SEMainEditorDock.h"
 #include "docks/main_editor/SEStormMainWidget.h"
 #include "docks/object_hierarchy/SEDockObjectHierarchy.h"
@@ -93,8 +94,11 @@ void MainWindow::setupToolbars() {
     SEFileToolbar* fileToolbar = new SEFileToolbar(this);
     addToolBar(fileToolbar);
 
-    SFEditToolbar* toolsToolbar = new SFEditToolbar(this);
+    SEToolsToolbar* toolsToolbar = new SEToolsToolbar(this);
     addToolBar(toolsToolbar);
+
+    SEOptionsToolbar* optionsToolbar = new SEOptionsToolbar(this);
+    addToolBar(optionsToolbar);
 }
 
 void MainWindow::setWindowDockingOptions() {
