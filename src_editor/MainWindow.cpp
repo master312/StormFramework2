@@ -85,7 +85,7 @@ void MainWindow::setupDockedWidgets() {
 
     SEDockDebugSettings* debugSettingsDock = new SEDockDebugSettings(this);
     addDockWidget(Qt::LeftDockWidgetArea, debugSettingsDock);
-    
+
     // StormEngineEditing::instanceEditing()->activateTool("position");
 }
 
