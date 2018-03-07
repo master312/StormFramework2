@@ -26,6 +26,12 @@ enum SNotificationType {
     /* Fired when new scene object prefab has been instantiated */
     SCENE_PREFAB_INSTANTIATED,
 
+    /* Fired when scene manager is about to change scene */
+    SCENE_MANAGER_SCENE_ABOUT_TO_CHANGE,
+
+    /* Fired when scene manager has finished switching to new scene */
+    SCENE_MANAGER_SCENE_CHANGED,
+
 #ifdef STORM_EDITOR
     /* Fired when scene object gets selected in hierarchy QT widget */
     EDITOR_SCENE_OBJECT_SELECTED,

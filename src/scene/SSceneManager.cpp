@@ -28,7 +28,7 @@ SScene* SSceneManager::loadScene(const std::string& filename, bool reloadActive 
     auto iter = _LoadedScenes.find(sceneName);
     if (iter != _LoadedScenes.end()) {
         /* Scene with same name already exists in loaded scenes map */
-        LOG(WARNING) << "Scene '" << sceneName << "' already loaded. Reloading...";
+        LOG(WARNING) << "Scene '" << sceneName << "' already loaded. Reloading... (TODO: NOT TESTED PROBABLY BROKEN)";
         if (_ActiveScene == iter->second && !reloadActive) {
             /* Scene is active. Can not reload scene while active */
             LOG(ERROR) << "Could not reload scene '" << sceneName << "'. Scene is currently active";
@@ -36,10 +36,11 @@ SScene* SSceneManager::loadScene(const std::string& filename, bool reloadActive 
             return nullptr;
         } else if (reloadActive) {
             _ActiveScene = nullptr;
-            LOG(DEBUG) << "Reloading active scene";
+            LOG(ERROR) << "TODO: Reloading of active scene. Not implemented yet...";
         }
-        delete iter->second;
-        iter->second = nullptr;
+
+        unloadScene(sceneName);
+
         _LoadedScenes[sceneName] = scene;
         return scene;
     }
@@ -57,11 +58,16 @@ void SSceneManager::switchScene(const std::string& sceneName) {
     auto iter = _LoadedScenes.find(sceneName);
     if (iter == _LoadedScenes.end()) {
         /* Scene not found */
-        LOG(ERROR) << "Tryed to switch to non existing scene '" << sceneName << "'";
+        LOG(ERROR) << "Tried to switch to non existing scene '" << sceneName << "'";
+        return;
+    } else if (!iter->second) {
+        LOG(ERROR) << "Could not switch scene '" << sceneName << "' pointer is nullptr!";
+        _LoadedScenes.erase(sceneName);
         return;
     }
+
     if (_ActiveScene == iter->second) {
-        LOG(WARNING) << "Tryed to switch to scene '" << sceneName << "' but scene is already active";
+        LOG(WARNING) << "Tried to switch to scene '" << sceneName << "' but scene is already active";
         return;
     }
 
@@ -70,9 +76,54 @@ void SSceneManager::switchScene(const std::string& sceneName) {
         _ActiveScene->pause();
     */
 
+    S_FIRE_GLOBAL_NOTIFICATION(SNotificationType::SCENE_MANAGER_SCENE_ABOUT_TO_CHANGE, iter->second);
+
+    if (_ActiveScene) {
+        /* TODO: Temporary fix...
+         * Maybe dont unload active scene ? */
+        const std::string& sceneName = _ActiveScene->getName();
+        _ActiveScene = nullptr;
+        unloadScene(sceneName);
+    }
+
     _ActiveScene = iter->second;
     if (!_ActiveScene->isInitialized()) {
         _ActiveScene->initialize();
+    }
+
+    S_FIRE_GLOBAL_NOTIFICATION(SNotificationType::SCENE_MANAGER_SCENE_CHANGED, iter->second);
+}
+
+void SSceneManager::switchScene(const SScene* scene) {
+    if (!scene) {
+        return;
+    }
+    switchScene(scene->getName());
+}
+
+void SSceneManager::unloadScene(const std::string& name) {
+    auto iter = _LoadedScenes.find(name);
+    if (iter == _LoadedScenes.end()) {
+        LOG(INFO) << "Tried to unload scene '" << name << "' but scene was not loaded";
+        return;
+    }
+
+    if (iter->second) {
+        delete iter->second;
+    }
+
+    if (iter->second == _ActiveScene) {
+        LOG(ERROR) << "Tried to unload active scene '" << name << "'. This is not possible yet";
+        return;
+    }
+
+    _LoadedScenes.erase(iter);
+    LOG(DEBUG) << "Scene '" << name << "' unloaded";
+}
+
+void SSceneManager::unloadScene(const SScene* scene) {
+    if (scene) {
+        unloadScene(scene->getName());
     }
 }
 

@@ -19,6 +19,10 @@ public:
 
     SSceneObject* getSelectedObject();
 
+    /* Callback for global notification 'SCENE_MANAGER_SCENE_ABOUT_TO_CHANGE'.
+     * Called when scene manager is about to change active scene.*/
+    void cbSceneAboutToChange(void* scene);
+
 protected:
     /* Called from tree widget every time object is clicked in hierarchy */
     void cbObjectSelected(SSceneObject* selectedObject);

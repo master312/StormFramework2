@@ -15,7 +15,7 @@ public:
 
     /* callback for "SNotificationType::SCENE_OBJECT_ADDED" notification.
      * Executed every time object is selected in hierarchy */
-    void sceneObjectSelected(void* data);
+    void sceneObjectSelected(void* sceneObject);
 
 private:
     QWidget* _ScrollArea;

@@ -22,6 +22,7 @@ SSceneComponent::~SSceneComponent() {
         system->removeComponent(this);
     }
     _Owner = nullptr;
+    _IsInitialized = false;
 }
 
 SSceneComponentType SSceneComponent::getType() const {

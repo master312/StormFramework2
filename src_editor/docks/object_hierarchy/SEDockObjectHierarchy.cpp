@@ -14,6 +14,8 @@ SEDockObjectHierarchy::SEDockObjectHierarchy(QMainWindow* parent) : SEDockWidget
     layout->addWidget(_ObjectsTree);
 
     _SelectedObject = nullptr;
+
+    S_ADD_GLOBAL_NOTIFICATION_LISTENER(SNotificationType::SCENE_MANAGER_SCENE_ABOUT_TO_CHANGE, this, SEDockObjectHierarchy::cbSceneAboutToChange);
 }
 
 SEDockObjectHierarchy::~SEDockObjectHierarchy() {
@@ -39,4 +41,22 @@ SScene* SEDockObjectHierarchy::getScene() {
 
 SSceneObject* SEDockObjectHierarchy::getSelectedObject() {
     return _SelectedObject;
+}
+
+void SEDockObjectHierarchy::cbSceneAboutToChange(void* scene) {
+    if (static_cast<void*>(_Scene) == scene) {
+        return;
+    }
+    /* Deselect object */
+    cbObjectSelected(nullptr);
+
+    /* Destroy scene and hierarchy tree items */
+    _Scene = nullptr;
+    _ObjectsTree->clearList();
+    if (!scene) {
+        LOG(WARNING) << "Scene is about to change, but next scene is nullptr";
+        return;
+    }
+    SScene* sScene = static_cast<SScene*>(scene);
+    setScene(sScene);
 }

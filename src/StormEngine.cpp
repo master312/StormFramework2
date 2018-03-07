@@ -166,6 +166,14 @@ StormInputManager* StormEngine::getInputManager() {
     return instance()->_ModPlatform->getInputManager();
 }
 
+SSceneManager* StormEngine::getSceneManager() {
+    if (!instance()->_ModSceneManager) {
+        LOG(FATAL) << "Scene manager is nullptr!";
+        return nullptr;
+    }
+    return instance()->_ModSceneManager;
+}
+
 SGlobalNotifier* StormEngine::getGlobalNotifier() {
     if (!instance()->_ModGlobalNotifier) {
         LOG(FATAL) << "Global notifier is nullptr!";

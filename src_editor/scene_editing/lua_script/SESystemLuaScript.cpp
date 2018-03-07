@@ -41,14 +41,20 @@ void SESystemLuaScript::initialize() {
 }
 
 void SESystemLuaScript::sceneObjectSelected(void *data) {
-    SSceneObject* object = static_cast<SSceneObject*>(data);
     sol::function objectSelectedFun = getGlobalFunction("sceneObjectSelected");
     if (!objectSelectedFun.valid()) {
         LOG(ERROR) << "Could not find lua function 'sceneObjectSelected'";
         return;
     }
 
-    objectSelectedFun(object->getLuaHandle());
+    SSceneObject* object = static_cast<SSceneObject*>(data);
+    if (object) {
+        /* Object selected */
+        objectSelectedFun(object->getLuaHandle());
+    } else {
+        /* Object deselected */
+        objectSelectedFun(nullptr);
+    }
 }
 
 void SESystemLuaScript::setTickGameScripts(bool value) {

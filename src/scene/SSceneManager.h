@@ -21,6 +21,19 @@ public:
      * (not the name of scene file it self) */
     void switchScene(const std::string& sceneName);
 
+    /* Switches to specified scene.
+     * @scene is pointer to scene object.
+     * @scene must already be loaded in scene manager, using @loadScene method. */
+    void switchScene(const SScene* scene);
+
+    /* Unloads scene.
+     * INFO: This method will safely remove scene from @_LoadedScenes map */
+    void unloadScene(const std::string& name);
+
+    /* Unloads scene.
+     * INFO: This method will safely remove scene from @_LoadedScenes map */
+    void unloadScene(const SScene* scene);
+
     /* Returns currently active scene, or nullptr if no scene is active */
     SScene* getActiveScene();
 

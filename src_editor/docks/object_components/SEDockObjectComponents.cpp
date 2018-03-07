@@ -36,10 +36,14 @@ SEDockObjectComponents::~SEDockObjectComponents() {
     S_REMOVE_GLOBAL_NOTIFICATION_LISTENER(this);
 }
 
-void SEDockObjectComponents::sceneObjectSelected(void* data) {
-    SSceneObject* object = static_cast<SSceneObject*>(data);
+void SEDockObjectComponents::sceneObjectSelected(void* sceneObject) {
     clearGeneratedWidgets();
 
+    SSceneObject* object = static_cast<SSceneObject*>(sceneObject);
+    if (!object) {
+        /* Object deselected */
+        return;
+    }
     for (SSceneComponent* component : object->getComponents()) {
         SERootComponentWidget* componentWidget = new SERootComponentWidget(this);
 

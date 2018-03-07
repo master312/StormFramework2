@@ -47,6 +47,15 @@ void SEObjectsTreeWidget::populateList(SScene* scene) {
     }
 }
 
+void SEObjectsTreeWidget::clearList() {
+    QTreeWidgetItem* item = takeTopLevelItem(0);
+    while(item) {
+        delete item;
+        item = takeTopLevelItem(0);
+    }
+    _TreeItems.clear();
+}
+
 SESceneObjectTreeItem* SEObjectsTreeWidget::generateSceneObjectItem(SSceneObject* object) {
     SESceneObjectTreeItem* item = new SESceneObjectTreeItem(object->getParent() ? nullptr : this, object);
     _TreeItems.push_back(item);

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<scene name="the_scene3">
+	<object id="1" name="TestNameOne">
+		<component type="1" pos_x="4.73999977" pos_y="3.20000005" pos_z="0" scale_x="1" scale_y="1" angle="0" inherit_scale="true" parent_as_pivot="false" />
+		<component type="2" color_mult_r="255" color_mult_g="253" color_mult_b="255" color_mult_a="255" color_add_r="0" color_add_g="0" color_add_b="0" color_add_a="0" width="1.5" height="1.5" animation_speed="2.5" sprite_sheet="test_lion_sheet.xml" />
+		<component type="5" geometry="plane" size_x="1.5" size_y="1.5" body_type="dynamic" />
+		<component type="4" filename="the_script.lua" />
+	</object>
+	<object id="2" parent="1">
+		<component type="1" pos_x="1.5" pos_y="1.5" pos_z="25" scale_x="1.29999995" scale_y="1" angle="0.340000004" inherit_scale="true" parent_as_pivot="true" />
+		<component type="2" texture="icon.png" color_mult_r="195" color_mult_g="183" color_mult_b="255" color_mult_a="225" color_add_r="0" color_add_g="0" color_add_b="0" color_add_a="0" width="1" height="1" />
+		<component type="5" geometry="plane" size_x="1" size_y="1" is_trigger="true" body_type="dynamic" />
+		<component type="4" filename="the_script2.lua" />
+	</object>
+	<object id="3">
+		<component type="1" pos_x="5" pos_y="6" pos_z="0" scale_x="10" scale_y="1" angle="0" inherit_scale="true" parent_as_pivot="false" />
+		<component type="2" texture="souya_tex_01.jpg" color_mult_r="255" color_mult_g="255" color_mult_b="255" color_mult_a="255" color_add_r="0" color_add_g="0" color_add_b="0" color_add_a="0" width="1" height="1" />
+		<component type="5" geometry="plane" size_x="1" size_y="1" body_type="static" />
+	</object>
+	<object id="4">
+		<component type="1" pos_x="4.30000019" pos_y="4.30000019" pos_z="0" scale_x="1.29999995" scale_y="1" angle="0" inherit_scale="true" parent_as_pivot="false" />
+		<component type="2" texture="icon.png" color_mult_r="165" color_mult_g="213" color_mult_b="105" color_mult_a="225" color_add_r="0" color_add_g="0" color_add_b="0" color_add_a="0" width="0.5" height="0.5" />
+		<component type="5" geometry="plane" size_x="0.5" size_y="0.5" body_type="dynamic" />
+	</object>
+</scene>
+<prefabs>
+	<prefab name="TestPrefabOne">
+		<component type="1" pos_x="1.3" pos_y="2.3" scale_x="0.8" scale_y="0.8" angle="0.0" />
+		<component type="2" texture="icon.png" color_mult_r="165" color_mult_g="213" color_mult_b="105" color_mult_a="225" width="1.0" height="1.0" />
+		<component type="5" size_x="1" size_y="1" geometry="plane" body_type="dynamic" />
+		<component type="4" filename="the_script3.lua" />
+	</prefab>
+</prefabs>

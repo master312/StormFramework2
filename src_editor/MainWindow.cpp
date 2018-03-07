@@ -1,6 +1,6 @@
 #include "MainWindow.h"
 #include "StormEngineEditing.h"
-#include "scene/SScene.h"
+#include "scene/SSceneManager.h"
 #include "toolbars/SEFileToolbar.h"
 #include "toolbars/SEToolsToolbar.h"
 #include "toolbars/SEOptionsToolbar.h"
@@ -14,6 +14,7 @@
 #include <QTextEdit>
 #include <QMessageBox>
 #include <QCoreApplication>
+#include <QInputDialog>
 
 /* 'fake singleton' holder for easy access to main window */
 static MainWindow* mainWindow = nullptr;
@@ -56,7 +57,6 @@ QMenu* MainWindow::getMenu(const std::string& name) {
 SEDockObjectHierarchy* MainWindow::getHierarchyDock() {
     return MainWindow::get()->_ObjectHierarchyDock;
 }
-
 
 QString MainWindow::getExecutableName() {
     return QFileInfo(QCoreApplication::applicationFilePath()).fileName();
@@ -119,7 +119,17 @@ void MainWindow::setWindowDockingOptions() {
 }
 
 void MainWindow::cbMenuOpenScene() {
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Load layout"));
+    if (fileName.isEmpty()) {
+        return;
+    }
 
+    StormFileSystem* fileSystem = StormEngine::getModule<StormFileSystem>();
+    QDir dir = QDir(QDir::currentPath() + "/" + QString(fileSystem->getRootPath().c_str()));
+    std::string relativePath = dir.relativeFilePath(fileName).toStdString();
+
+    SScene* loadedScene = StormEngine::getSceneManager()->loadScene(relativePath);
+    StormEngine::getSceneManager()->switchScene(loadedScene);
 }
 
 void MainWindow::cbMenuSaveSceneAs() {
@@ -141,8 +151,15 @@ void MainWindow::cbMenuSaveSceneAs() {
     QDir dir = QDir(QDir::currentPath() + "/" + QString(fileSystem->getRootPath().c_str()));
     std::string saveFilePath = dir.relativeFilePath(fileName).toStdString();
 
-    StormEngineEditing::instanceEditing()->saveActiveScene(saveFilePath);
+    bool ok = false;
+    QString newSceneName = QInputDialog::getText(0, "Rename scene",
+                                                 "New name:", QLineEdit::Normal,
+                                                 sceneName.c_str(), &ok);
+    if (ok && !newSceneName.isEmpty()) {
+        activeScene->setName(newSceneName.toStdString());
+    }
 
+    StormEngineEditing::instanceEditing()->saveActiveScene(saveFilePath);
 }
 
 void MainWindow::cbMenuSaveLayout() {

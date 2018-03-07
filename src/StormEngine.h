@@ -47,6 +47,9 @@ public:
     /* Returns pointer input manager module */
     static StormInputManager* getInputManager();
 
+    /* Returns pointer to scene manager module */
+    static SSceneManager* getSceneManager();
+
     /* Returns pointer to engine's global notifier module */
     static SGlobalNotifier* getGlobalNotifier();
 

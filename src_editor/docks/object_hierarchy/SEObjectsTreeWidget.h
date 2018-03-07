@@ -17,6 +17,9 @@ public:
     /* Populate list with scene objects hierarchy from @scene */
     void populateList(SScene* scene);
 
+    /* Removes all script objects from hierarchy list */
+    void clearList();
+
     /* Called when new prefab gets instantiated. @object is pointer to newly instaniated SSceneObject */
     void newSceneObjectAdded(void *object);
 
