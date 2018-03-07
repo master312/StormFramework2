@@ -209,7 +209,7 @@ void SScene::destroyObject(uint32_t objectId) {
 }
 
 SSceneObject* SScene::instantiatePrefab(const std::string& prefabName,
-                                                const std::string& objectName /* = "" */) {
+                                        const std::string& objectName /* = "" */) {
     if (prefabName == "") {
         return nullptr;
     }

@@ -2,6 +2,9 @@
 #include <math.h>
 #include <stdlib.h>
 
+/* File originated from:
+ * https://github.com/oxygine/oxygine-framework/blob/master/oxygine/src/math/ScalarMath.h */
+
 template<class T>
 inline T lerp(T a, T b, float v)
 {

@@ -1,6 +1,9 @@
 #pragma once
 #include "Vector3.h"
 
+/* File originated from:
+ * https://github.com/oxygine/oxygine-framework/blob/master/oxygine/src/math/Vector4.h */
+
 template <class T>
 class VectorT4
 {

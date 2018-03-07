@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <algorithm>
 
+/* File originated from:
+ * https://github.com/oxygine/oxygine-framework/blob/master/oxygine/src/math/Matrix.h */
+
 template <class T>
 class MatrixT
 {

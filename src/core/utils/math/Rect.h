@@ -4,6 +4,9 @@
 #include <algorithm>
 #include <limits>
 
+/* File originated from:
+ * https://github.com/oxygine/oxygine-framework/blob/master/oxygine/src/math/Rect.h */
+
 template<typename point2>
 class RectT
 {

@@ -2,6 +2,9 @@
 #include "ScalarMath.h"
 #include "Vector2.h"
 
+/* File originated from:
+ * https://github.com/oxygine/oxygine-framework/blob/master/oxygine/src/math/Vector3.h */
+
 template <class T>
 class VectorT3
 {
