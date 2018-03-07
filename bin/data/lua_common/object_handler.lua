@@ -113,22 +113,31 @@ function destroyObjectHandle(cppRef)
     debug.log("Object handle destroyed. " .. cppRef.id)
 end
 
--- Execute this.onUpdate methods for all objects
+-- Called from engine to tick all script stuff
 function tickObjects(deltaTime) 
-    if IsEditor and TickGameScripts then
-        for key,value in pairs(Handles) do
-            local handle = Handles[key]
-            if handle.isValid and handle.hasScript then
-                handle.onUpdate(deltaTime)
-            end
-        end
+    if not IsEditor then 
+        -- Not editor build. Just update scene objects and continue
+        updateSceneObjects(deltaTime)
+        return
     end
 
-    if IsEditor then
-        -- If build contains editor scripts
-        if tickEditor ~= nil then
-            -- Execute editor tick method
-            tickEditor(deltaTime)
+    if TickGameScripts then
+        updateSceneObjects(deltaTime)
+    end
+
+    -- If build contains editor scripts
+    if tickEditor ~= nil then
+        -- Execute editor tick method
+        tickEditor(deltaTime)
+    end
+end
+
+-- Executes .onUpdate function for all scene objects
+function updateSceneObjects(deltaTime)
+    for key,value in pairs(Handles) do
+        local handle = Handles[key]
+        if handle.isValid and handle.hasScript then
+            handle.onUpdate(deltaTime)
         end
     end
 end

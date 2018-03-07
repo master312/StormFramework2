@@ -19,7 +19,7 @@ StormEngine::StormEngine() {
     _ModSceneManager = nullptr;
     _ModGlobalNotifier = nullptr;
 
-    _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.17", true);
+    _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.18", true);
 }
 
 StormEngine::~StormEngine() {
