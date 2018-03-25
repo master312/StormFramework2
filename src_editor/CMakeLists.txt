@@ -6,7 +6,7 @@ set(CMAKE_AUTOMOC ON)
 
 #find_package(Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt5Widgets CONFIG
-        PATHS /home/master312/Documents/Qt-Suite/5.9/gcc_64/lib/cmake/Qt5Widgets
+        PATHS /home/master312/Software/Qt5/5.7/gcc_64/lib/cmake/Qt5Widgets
         NO_DEFAULT_PATH)
 
 list(APPEND THIRD_PARTY_LIBS Qt5::Widgets Qt5::Core)
