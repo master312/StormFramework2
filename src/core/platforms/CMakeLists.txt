@@ -1,4 +1,4 @@
-set(PATH_PREFIX src/core/platforms)
+set(PATH_PREFIX ${STORM_SRC_DIR}/core/platforms)
 
 set(STORM_CORE_PLATFORM_FILES
     ${PATH_PREFIX}/StormPlatform.h

@@ -1,4 +1,4 @@
-set(LIBS_PATH libs)
+set(LIBS_PATH ${STORM_ROOT_DIR}/libs)
 unset(STORM_LIBS)
 unset(STORM_LIBS_SOURCE_FILES)
 

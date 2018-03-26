@@ -1,4 +1,4 @@
-set(PATH_PREFIX src/core/graphics)
+set(PATH_PREFIX ${STORM_SRC_DIR}/core/graphics)
 
 
 set(STORM_CORE_GRAPHICS_FILES

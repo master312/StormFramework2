@@ -1,4 +1,4 @@
-set(PATH_PREFIX src/core/resources)
+set(PATH_PREFIX ${STORM_SRC_DIR}/core/resources)
 
 
 set(STORM_CORE_RESOURCE_FILES

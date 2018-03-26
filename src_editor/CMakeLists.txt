@@ -1,5 +1,5 @@
 project(StormEngine2_Editor)
-set(SOURCES_PATH_PREFIX src_editor)
+set(SOURCES_PATH_PREFIX ${STORM_ROOT_DIR}/src_editor)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
@@ -12,7 +12,7 @@ find_package(Qt5Widgets CONFIG
 list(APPEND THIRD_PARTY_LIBS Qt5::Widgets Qt5::Core)
 
 # Create sources list
-set(editor_sources
+set(EDITOR_SOURCE_FILES
     ${SOURCES_PATH_PREFIX}/main.cpp
     ${SOURCES_PATH_PREFIX}/MainWindow.h
     ${SOURCES_PATH_PREFIX}/MainWindow.cpp
@@ -62,7 +62,7 @@ set(editor_sources
 
 qt5_add_resources(UI_RESOURCES ${SOURCES_PATH_PREFIX}/resources.qrc)
 
-add_executable(${PROJECT_NAME} ${engine_sources} ${editor_sources} ${UI_RESOURCES} )
+add_executable(${PROJECT_NAME} ${STORM_SOURCE_FILES} ${EDITOR_SOURCE_FILES} ${UI_RESOURCES} )
 
 # include /src_editor directory
 target_include_directories(${PROJECT_NAME} PUBLIC ${SOURCES_PATH_PREFIX})

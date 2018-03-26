@@ -1,4 +1,4 @@
-set(CORE_PATH_PREFIX src/core)
+set(CORE_PATH_PREFIX ${STORM_SRC_DIR}/core)
 
 include(${CORE_PATH_PREFIX}/platforms/CMakeLists.txt)
 include(${CORE_PATH_PREFIX}/resources/CMakeLists.txt)

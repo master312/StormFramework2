@@ -1,4 +1,4 @@
-set(PATH_PREFIX src/core/utils)
+set(PATH_PREFIX ${STORM_SRC_DIR}/core/utils)
 
 
 set(STORM_CORE_UTILS_FILES

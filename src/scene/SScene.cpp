@@ -12,7 +12,7 @@
 
 #ifdef STORM_EDITOR
 #include "scene_editing/transform/SESystemTransform.h"
-#include "src_editor/scene_editing/lua_script/SESystemLuaScript.h"
+#include "scene_editing/lua_script/SESystemLuaScript.h"
 #endif
 
 SScene::SScene() {

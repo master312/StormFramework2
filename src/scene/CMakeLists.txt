@@ -1,4 +1,4 @@
-set(PATH_PREFIX src/scene)
+set(PATH_PREFIX ${STORM_SRC_DIR}/scene)
 
 set(STORM_ENGINE_SCENE_FILES
         ${PATH_PREFIX}/SScene.h

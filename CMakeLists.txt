@@ -1,10 +1,11 @@
-project(StormEngine2)
 cmake_minimum_required(VERSION 3.2)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/modules")
+# Variable ${STORM_ROOT_DIR} is root path of storm engine directory (the one containing /src /bin etc...)
+# Variable ${STORM_SRC_DIR} is path to storm engine's source directory
+# Variable ${STORM_PREPROCESSOR_FLAGS} contains all preprocessor flags to be given to compiler
 
-# Set default configuration variables
-set(BUILD_SDL2_SUPPORT true CACHE BOOL "")
+set(STORM_ADITIONAL_CMAKE_DIR ${CMAKE_MODULE_PATH} ${STORM_ROOT_DIR}/cmake/)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${STORM_ADITIONAL_CMAKE_DIR}modules)
 
 
 # Sets build type if one is not set
@@ -14,42 +15,27 @@ endif()
 
 message(STATUS "Build type configuration set to ${CMAKE_BUILD_TYPE}")
 
-# Enable C++14 standard
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# Include LIBS cmake file
+include(${STORM_ADITIONAL_CMAKE_DIR}/CMakeLibsSettings.cmake)
 
-# Sets binary output directory
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin")
 
-# Include libs
-include(cmake/CMakeLibsSettings.cmake)
-
-# Include sources
-include(src/CMakeLists.txt)
+# Include engine sources
+include(${STORM_SRC_DIR}/CMakeLists.txt)
 
 # Create sources list
-set(engine_sources
+set(STORM_SOURCE_FILES
     ${STORM_ENGINE_SOURCE_FILES} # Defined in src/CMakeList.txt
     ${STORM_LIBS_SOURCE_FILES}   # Defined in CMakeLibsSettings.txt
     )
 
+# Set include dirs
+include_directories(${STORM_ROOT_DIR} ${STORM_SRC_DIR} ${STORM_SRC_DIR}/core)
 
-
-add_executable(${PROJECT_NAME} ${engine_sources} main.cpp)
-
-# Set libraries
-target_link_libraries(${PROJECT_NAME} ${STORM_LIBS})
-
-# Set compiler parameters
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall")
 
 #set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")   TODO: Debug and release configs
 #set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_DEBUG} -Wall") TODO: Debug and release configs
 
-if (BUILD_SDL2_SUPPORT)
-    set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-DSTORM_BUILD_PLATFORM_SDL2")
-endif()
-
+# Set compiler flags
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
     # Release configuration
     add_definitions("-DPRODUCTION")
@@ -58,34 +44,6 @@ else()
     add_definitions("-D_DEBUG")
 endif()
 
-
-# Include editor configuration
-include(src_editor/CMakeLists.txt)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Check for standard to use
-#check_cxx_compiler_flag(-std=c++17 HAVE_FLAG_STD_CXX17)
-#if(HAVE_FLAG_STD_CXX17)
-#    # Have -std=c++17, use it
-#else()
-#    check_cxx_compiler_flag(-std=c++1z HAVE_FLAG_STD_CXX1Z)
-#    if(HAVE_FLAG_STD_CXX1Z)
-#        # Have -std=c++1z, use it
-#    else()
-#        # And so on and on...
-#    endif()
-#endif()
+if (STORM_BUILD_SDL2_SUPPORT)
+	set(STORM_PREPROCESSOR_FLAGS "${STORM_PREPROCESSOR_FLAGS} -DSTORM_BUILD_PLATFORM_SDL2")
+endif()

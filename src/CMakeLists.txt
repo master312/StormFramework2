@@ -1,4 +1,4 @@
-set(SOURCES_PATH_PREFIX src)
+set(SOURCES_PATH_PREFIX ${STORM_SRC_DIR})
 
 include(${SOURCES_PATH_PREFIX}/core/CMakeLists.txt)
 include(${SOURCES_PATH_PREFIX}/scene/CMakeLists.txt)
