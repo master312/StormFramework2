@@ -149,7 +149,7 @@ void SSceneComPhysics::syncTransformAndPhysics() {
         return;
     }
 
-    switch (_BodyType) {
+        switch (_BodyType) {
         case b2_staticBody: {
             if (!_IsTransformChanged) {
                 break;
@@ -221,6 +221,7 @@ bool SSceneComPhysics::generateBox2DBody(b2World* world) {
     b2BodyDef bodyDeff;
     bodyDeff.type = (b2BodyType)_BodyType;
     bodyDeff.position.Set(transform->getAbsX(), transform->getAbsY());
+    bodyDeff.angle = (transform->getAngleAbs() * b2_pi) / 180.0f;
     
     /* Generate actial body */
     _Box2DBody = world->CreateBody(&bodyDeff);
@@ -232,8 +233,7 @@ bool SSceneComPhysics::generateBox2DBody(b2World* world) {
             b2Vec2 size(_GeometrySize.x, _GeometrySize.y);
             /* Divide by 2 becouse Box2D expects half size */
             size /= 2.0f;
-            float angle = (transform->getAngleAbs() * b2_pi) / 180.0f;
-            shapePolygon.SetAsBox(size, shapeCenter, angle);
+            shapePolygon.SetAsBox(size, shapeCenter, 0.0f);
             break; }
         default:
             LOG(ERROR) << "SSceneComPhysics::generateBox2DBody invalid geometry type";
