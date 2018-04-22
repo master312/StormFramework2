@@ -16,7 +16,7 @@ SSceneComponent::SSceneComponent(SSceneObject* owner) {
 }
 
 SSceneComponent::~SSceneComponent() {
-    S_OBSERVER_REMOVE_ALL(_Owner, this);
+    _Owner->removeObservers(this);
     SSceneComponentSystem* system = _Owner->getScene()->getSystemByType(_Type);
     if (system) {
         system->removeComponent(this);

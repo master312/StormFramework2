@@ -58,8 +58,10 @@ int SSceneComTransform::initialize(SSceneComponentSystem* system) {
     pullParentTransform();
     transform();
     
-    S_OBSERVER_ADD(_Owner, this, S_EVENT_PARENT_CHANGED, SSceneComTransform::observeParentChanged);
-    S_OBSERVER_ADD(_Owner, this, S_EVENT_PARENT_TRANSFORM_UPDATED, SSceneComTransform::observeParentTransformChanged);
+    _Owner->registerObserver<SSceneComTransform>(
+            S_EVENT_PARENT_CHANGED, &SSceneComTransform::observeParentChanged, this);
+    _Owner->registerObserver<SSceneComTransform>(
+            S_EVENT_PARENT_TRANSFORM_UPDATED, &SSceneComTransform::observeParentTransformChanged, this);
 
     return 1;
 }

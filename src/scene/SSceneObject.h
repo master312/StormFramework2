@@ -4,13 +4,13 @@
 #include <functional>
 #include "SSceneComponent.h"
 #include "SSceneObjectEventTypes.h"
-#include "utils/SObservable.h"
+#include "utils/SNotificationCenter.h"
 
 class SSceneComTransform;
 class SSceneComLuaScript;
 class SScene;
 
-class SSceneObject : public SObservable<SSceneObjectEventType, SSceneComponent> {
+class SSceneObject : public SNotificationCenter<SSceneObjectEventType> {
 public:
     SSceneObject(SScene* scene, uint32_t id = 0);
     SSceneObject(SScene* scene, uint32_t id, const std::string& name);

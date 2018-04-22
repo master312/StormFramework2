@@ -6,7 +6,8 @@ set(STORM_CORE_UTILS_FILES
     ${PATH_PREFIX}/Geometry.cpp
     ${PATH_PREFIX}/Plane.h
     ${PATH_PREFIX}/Plane.cpp
-    ${PATH_PREFIX}/SObservable.h
+    ${PATH_PREFIX}/SEventListener.h
+    ${PATH_PREFIX}/SNotificationCenter.h
     ${PATH_PREFIX}/StormIntrusivePtr.h
     ${PATH_PREFIX}/StormMiscTools.h
     ${PATH_PREFIX}/StormMiscTools.cpp
