@@ -17,3 +17,5 @@
 #else
     #define S_ASSERT_WARNING(condition) { if(!(condition)) { LOG(WARNING) << "Assertion warning at " << __FILE__ << ":" << __LINE__ << " inside " << __FUNCTION__ << " Condition: " << condition; } }
 #endif
+
+#define makefourcc(a,b,c,d) ( ((unsigned int)a) | (((unsigned int)b)<< 8) | (((unsigned int)c)<<16) | (((unsigned int)d)<<24))

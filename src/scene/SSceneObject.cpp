@@ -116,7 +116,7 @@ void SSceneObject::setParent(SSceneObject* parent) {
         _Parent->_Children.push_back(this);
     }
     
-    notifyObservers(S_OBSERVER_EVENT_PARENT_CHANGED);
+    notifyObservers(S_EVENT_PARENT_CHANGED);
 }
 
 SSceneObject* SSceneObject::getParent() {
@@ -216,7 +216,7 @@ void SSceneObject::clearParent(bool dontNotifyObervers /* = false */) {
     }
 
     if (!dontNotifyObervers) {
-        notifyObservers(S_OBSERVER_EVENT_PARENT_CHANGED);
+        notifyObservers(S_EVENT_PARENT_CHANGED);
     }
     _Parent = nullptr;
 }

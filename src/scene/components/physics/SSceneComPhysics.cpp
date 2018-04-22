@@ -114,7 +114,7 @@ int SSceneComPhysics::initialize(SSceneComponentSystem* system) {
         _GeometrySize.y *= scale.y;
     }
 
-    S_OBSERVER_ADD(_Owner, this, S_OBSERVER_EVENT_TRANSFORM_UPDATED, SSceneComPhysics::observeTransformChanged);
+    S_OBSERVER_ADD(_Owner, this, S_EVENT_TRANSFORM_UPDATED, SSceneComPhysics::observeTransformChanged);
     
     if (!generateBox2DBody(physicsSystem->getBox2DWorld())) {
         LOG(ERROR) << "Physics component could not generate box2d body!";

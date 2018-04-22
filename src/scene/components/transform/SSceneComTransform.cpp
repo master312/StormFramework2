@@ -58,8 +58,8 @@ int SSceneComTransform::initialize(SSceneComponentSystem* system) {
     pullParentTransform();
     transform();
     
-    S_OBSERVER_ADD(_Owner, this, S_OBSERVER_EVENT_PARENT_CHANGED, SSceneComTransform::observeParentChanged);
-    S_OBSERVER_ADD(_Owner, this, S_OBSERVER_EVENT_PARENT_TRANSFORM_UPDATED, SSceneComTransform::observeParentTransformChanged);
+    S_OBSERVER_ADD(_Owner, this, S_EVENT_PARENT_CHANGED, SSceneComTransform::observeParentChanged);
+    S_OBSERVER_ADD(_Owner, this, S_EVENT_PARENT_TRANSFORM_UPDATED, SSceneComTransform::observeParentTransformChanged);
 
     return 1;
 }
@@ -95,11 +95,11 @@ void SSceneComTransform::transform() {
     }
     
     /* Notify other components that transformation has been updated */
-    _Owner->notifyObservers(S_OBSERVER_EVENT_TRANSFORM_UPDATED);
+    _Owner->notifyObservers(S_EVENT_TRANSFORM_UPDATED);
     
     for (auto* child : _Owner->getChildren()) {
         /* Notify all children that parent's transformation has been updated */
-        child->notifyObservers(S_OBSERVER_EVENT_PARENT_TRANSFORM_UPDATED);
+        child->notifyObservers(S_EVENT_PARENT_TRANSFORM_UPDATED);
     }
     
     _IsChanged = false;
