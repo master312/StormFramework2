@@ -49,6 +49,9 @@ public:
      * Otherwise returns false and logs error. */
     static bool validateComponent(SSceneComponent* com, SSceneComponentType type);
 
+    /* Creates new system object of @type */
+    static SSceneComponentSystem* createSystem(SSceneComponentType type, SScene* scene);
+
 #ifndef PRODUCTION
     /* If this method returns true, system's ticking will not be disable using debug system.*/
     virtual bool ignoreDebugDisabling();

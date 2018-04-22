@@ -1,6 +1,15 @@
 #include "SSceneComponentSystem.h"
 #include "graphics/StormRenderer.h"
 
+#include "components/physics/SSceneSystemPhysics.h"
+#include "components/sprite/SSceneSystemSprite.h"
+#include "components/transform/SSceneSystemTransform.h"
+#include "components/luaScript/SSceneSystemLuaScript.h"
+#ifdef STORM_EDITOR
+#include "scene_editing/transform/SESystemTransform.h"
+#include "scene_editing/lua_script/SESystemLuaScript.h"
+#endif
+
 SSceneComponentSystem::SSceneComponentSystem(SScene* scene) {
     _Type = S_SCENE_OBJECT_COM_UNDEFINED;
     _IsInitialized = false;
@@ -78,4 +87,31 @@ bool SSceneComponentSystem::validateComponent(SSceneComponent* com, SSceneCompon
         return false;
     }
     return true;
+}
+
+SSceneComponentSystem* SSceneComponentSystem::createSystem(SSceneComponentType type,
+                                                           SScene* scene) {
+    switch (type) {
+        case S_SCENE_OBJECT_COM_TRANSFORM:
+#ifdef STORM_EDITOR
+            return new SESystemTransform(scene);
+#else
+            return new SSceneSystemTransform(scene);
+#endif
+        case S_SCENE_OBJECT_COM_SPRITE:
+            return new SSceneSystemSprite(scene);
+        case S_SCENE_OBJECT_COM_SCRIPT:
+#ifdef STORM_EDITOR
+            return new SESystemLuaScript(scene);
+#else
+            return new SSceneSystemLuaScript(scene);
+#endif
+        case S_SCENE_OBJECT_COM_PHYSICS:
+            return new SSceneSystemPhysics(scene);
+        default:
+            LOG(ERROR) << "Could not create system of type " << SSceneComponentTypeString[type];
+            break;
+    }
+
+    return nullptr;
 }

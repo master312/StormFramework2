@@ -1,19 +1,11 @@
 #include "SScene.h"
 #include "SSceneObject.h"
 
-#include "components/physics/SSceneSystemPhysics.h"
-#include "components/sprite/SSceneSystemSprite.h"
-#include "components/transform/SSceneSystemTransform.h"
 #include "components/luaScript/SSceneSystemLuaScript.h"
 
 #include "StormEngine.h"
 #include "StormDebug.h"
 #include "graphics/StormRenderer.h"
-
-#ifdef STORM_EDITOR
-#include "scene_editing/transform/SESystemTransform.h"
-#include "scene_editing/lua_script/SESystemLuaScript.h"
-#endif
 
 SScene::SScene() {
     _LastObjectIndex = 1;
@@ -324,25 +316,16 @@ void SScene::tick(float deltaTime) {
 }
 
 void SScene::initializeDefaultSystems() {
-    SSceneSystemTransform* sysTransform =
-#ifdef STORM_EDITOR
-        new SESystemTransform(this);
-#else
-        new SSceneSystemTransform(this);
-#endif
-    _ComponentSystemsByType[S_SCENE_OBJECT_COM_TRANSFORM] = sysTransform;
+    /* TODO: Load these types form config file */
+    _ComponentSystemsByType[S_SCENE_OBJECT_COM_TRANSFORM] =
+            SSceneComponentSystem::createSystem(S_SCENE_OBJECT_COM_TRANSFORM, this);
 
-    SSceneSystemSprite* sysSprite = new SSceneSystemSprite(this);
-    _ComponentSystemsByType[S_SCENE_OBJECT_COM_SPRITE] = sysSprite;
+    _ComponentSystemsByType[S_SCENE_OBJECT_COM_SPRITE] =
+            SSceneComponentSystem::createSystem(S_SCENE_OBJECT_COM_SPRITE, this);
 
-    SSceneSystemPhysics* sysCollider = new SSceneSystemPhysics(this);
-    _ComponentSystemsByType[S_SCENE_OBJECT_COM_PHYSICS] = sysCollider;
+    _ComponentSystemsByType[S_SCENE_OBJECT_COM_PHYSICS] =
+            SSceneComponentSystem::createSystem(S_SCENE_OBJECT_COM_PHYSICS, this);
 
-    SSceneSystemLuaScript* sysLuaScript =
-#ifdef STORM_EDITOR
-        new SESystemLuaScript(this);
-#else
-        new SSceneSystemLuaScript(this);
-#endif
-    _ComponentSystemsByType[S_SCENE_OBJECT_COM_SCRIPT] = sysLuaScript;
+    _ComponentSystemsByType[S_SCENE_OBJECT_COM_SCRIPT] =
+            SSceneComponentSystem::createSystem(S_SCENE_OBJECT_COM_SCRIPT, this);
 }
