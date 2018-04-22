@@ -37,6 +37,7 @@ void SSystemPhysics::initialize() {
 }
 
 void SSystemPhysics::render(StormRenderer* renderer) {
+#ifndef PRODUCTION
     for (SComPhysics* com : _PhysicsComponents) {
     /* TODO: Rewrite this after primitive rendering system has been implemented */
         uint32_t indices[4] = {0, 1, 2, 3};
@@ -70,32 +71,23 @@ void SSystemPhysics::render(StormRenderer* renderer) {
         renderer->bindIndexData(indices, 4);
         renderer->setLineWidth(1);
         renderer->draw();
-    
+
+
         
         /* Draw rect center */
-        StormVertex vertices[4];
         SComTransform* comTransform = com->getOwner()->getTransform();
         if (!comTransform) {
             return;
         }
-        for (int i = 0; i < 4; i++) {
-            vertices[i].position.x = com->getBox2DBody()->GetPosition().x;
-            vertices[i].position.y = com->getBox2DBody()->GetPosition().y;
-        }
-        vertices[0].position.x -= 0.05f;
-        vertices[0].position.y -= 0.05f;
-        vertices[1].position.x += 0.05f;
-        vertices[1].position.y -= 0.05f;
-        vertices[2].position.x += 0.05f;
-        vertices[2].position.y += 0.05f;
-        vertices[3].position.x -= 0.05f;
-        vertices[3].position.y += 0.05f;
-    
-        renderer->bindVertexData(vertices, 4);
-        renderer->setColorAdd(Color(225, 25, 25));
-        renderer->setLineWidth(3);
-        renderer->draw();
-    } 
+
+        RectF rect;
+        rect.pos.x = com->getBox2DBody()->GetPosition().x - 0.05f;
+        rect.pos.y = com->getBox2DBody()->GetPosition().y - 0.05f;
+        rect.size.setXY(0.1f, 0.1f);
+
+        renderer->drawRect(rect, 2.0f, Color(255, 0, 0, 0));
+    }
+#endif
 }
 
 void SSystemPhysics::tick(float deltaTime) {

@@ -2,6 +2,7 @@
 #include "../utils/StormObjectPool.h"
 #include "../utils/StormVertex.h"
 #include "../utils/math/Matrix.h"
+#include "../utils/Geometry.h"
 #include "../StormModuleBase.h"
 #include "StormShader.h"
 #include "StormTexture.h"
@@ -70,12 +71,6 @@ public:
     /* Binds index data to buffer */
     void bindIndexData(uint32_t* indices, uint32_t count);
 
-#ifdef STORM_EDITOR
-    /* TODO: IFDEFFED for editor because this function is shit */
-    /* Draws line from start to end position */
-    void prepareLineVertices(const Vector2& start, const Vector2& end);
-#endif
-
     /* Binds multiply color overlay to shader */
     void setColorMultiply(Color color);
 
@@ -92,6 +87,14 @@ public:
      * REMAINDER: Delete this methid after primitive rendering 
      * system has been implemented */
     void setLineWidth(float width);
+
+
+#ifndef PRODUCTION
+    /* TODO: IFDEFFED for non-production because these function are shit */
+    /* Draws line from start to end position */
+    void drawLine(const Vector2& start, const Vector2& end, float width = 5.0f, Color color = Color());
+    void drawRect(RectF rectangle, float width = 5.0f, Color color = Color ());
+#endif
 
 private:
     static const int VERTICES_BUFFER_SIZE = 1000;

@@ -19,7 +19,7 @@ StormEngine::StormEngine() {
     _ModSceneManager = nullptr;
     _EventDispatcher = new SEventDispatcher::Dispatcher();
 
-    _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.18", true);
+    _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.19", true);
 }
 
 StormEngine::~StormEngine() {

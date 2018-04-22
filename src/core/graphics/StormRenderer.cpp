@@ -231,19 +231,6 @@ void StormRenderer::bindIndexData(uint32_t* indices, uint32_t count) {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_DYNAMIC_DRAW);
 }
 
-#ifdef STORM_EDITOR
-void StormRenderer::prepareLineVertices(const Vector2& start, const Vector2& end) {
-    _VerticesBuffer[0].position.x = start.x;
-    _VerticesBuffer[0].position.y = start.y;
-    _VerticesBuffer[1].position.x = end.x;
-    _VerticesBuffer[1].position.y = end.y;
-    _IndicesBuffer[0] = 0;
-    _IndicesBuffer[1] = 1;
-    bindVertexData((StormVertex*)_VerticesBuffer, 2);
-    bindIndexData(_IndicesBuffer, 2);
-}
-#endif
-
 void StormRenderer::setColorMultiply(Color color) {
     if (_MultiplyColorOverlay == color) {
         return;
@@ -269,3 +256,47 @@ void StormRenderer::resetColorsOverlay() {
 void StormRenderer::setLineWidth(float width) {
     glLineWidth(width);
 }
+
+
+#ifndef PRODUCTION
+void StormRenderer::drawLine(const Vector2& start, const Vector2& end,
+                             float width /* = 5.0f */, Color color /*= Color()*/) {
+    begin(S_RENDER_LINES_LOOP, true);
+    setLineWidth(width);
+    setColorMultiply(Color(255, 255, 255, 255));
+    setColorAdd(color);
+    _VerticesBuffer[0].position.x = start.x;
+    _VerticesBuffer[0].position.y = start.y;
+    _VerticesBuffer[1].position.x = end.x;
+    _VerticesBuffer[1].position.y = end.y;
+    _IndicesBuffer[0] = 0;
+    _IndicesBuffer[1] = 1;
+    bindVertexData((StormVertex*)_VerticesBuffer, 2);
+    bindIndexData(_IndicesBuffer, 2);
+
+    draw();
+}
+
+void StormRenderer::drawRect(RectF rectangle,
+                             float width /* = 5.0f */, Color color /*= Color()*/) {
+    begin(S_RENDER_LINES_LOOP, true);
+    setLineWidth(width);
+    setColorMultiply(Color(255, 255, 255, 255));
+    setColorAdd(color);
+    _VerticesBuffer[0].position = rectangle.pos;;
+    _VerticesBuffer[1].position = rectangle.pos;
+    _VerticesBuffer[1].position.y += rectangle.size.y;
+    _VerticesBuffer[2].position = rectangle.pos + rectangle.size;
+    _VerticesBuffer[3].position = rectangle.pos;
+    _VerticesBuffer[3].position.x += rectangle.size.x;
+    _IndicesBuffer[0] = 0;
+    _IndicesBuffer[1] = 1;
+    _IndicesBuffer[2] = 2;
+    _IndicesBuffer[3] = 3;
+
+    bindVertexData((StormVertex*)_VerticesBuffer, 4);
+    bindIndexData(_IndicesBuffer, 4);
+
+    draw();
+}
+#endif
