@@ -1,10 +1,10 @@
 #include "SSceneComponentSystem.h"
 #include "graphics/StormRenderer.h"
 
-#include "components/physics/SSceneSystemPhysics.h"
-#include "components/sprite/SSceneSystemSprite.h"
-#include "components/transform/SSceneSystemTransform.h"
-#include "components/luaScript/SSceneSystemLuaScript.h"
+#include "scene/components/physics/SSystemPhysics.h"
+#include "scene/components/sprite/SSystemSprite.h"
+#include "scene/components/transform/SSystemTransform.h"
+#include "scene/components/luaScript/SSystemLuaScript.h"
 #ifdef STORM_EDITOR
 #include "scene_editing/transform/SESystemTransform.h"
 #include "scene_editing/lua_script/SESystemLuaScript.h"
@@ -60,7 +60,7 @@ void SSceneComponentSystem::onComponentAdded(SSceneComponent* component) {
 void SSceneComponentSystem::initializeLua(sol::state& luaState) {
 }
 
-void SSceneComponentSystem::bindComponentsToLua(SSceneSystemLuaScript* luaSystem) {
+void SSceneComponentSystem::bindComponentsToLua(SSystemLuaScript* luaSystem) {
 }
 
 SSceneComponentType SSceneComponentSystem::getType() const {
@@ -96,18 +96,18 @@ SSceneComponentSystem* SSceneComponentSystem::createSystem(SSceneComponentType t
 #ifdef STORM_EDITOR
             return new SESystemTransform(scene);
 #else
-            return new SSceneSystemTransform(scene);
+            return new SSystemTransform(scene);
 #endif
         case S_SCENE_OBJECT_COM_SPRITE:
-            return new SSceneSystemSprite(scene);
+            return new SSystemSprite(scene);
         case S_SCENE_OBJECT_COM_SCRIPT:
 #ifdef STORM_EDITOR
             return new SESystemLuaScript(scene);
 #else
-            return new SSceneSystemLuaScript(scene);
+            return new SSystemLuaScript(scene);
 #endif
         case S_SCENE_OBJECT_COM_PHYSICS:
-            return new SSceneSystemPhysics(scene);
+            return new SSystemPhysics(scene);
         default:
             LOG(ERROR) << "Could not create system of type " << SSceneComponentTypeString[type];
             break;

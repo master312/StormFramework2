@@ -6,7 +6,7 @@
 #include "resources/StormResourceFile.h"
 
 class StormRenderer;
-class SSceneSystemLuaScript;
+class SSystemLuaScript;
 
 /* TODO - OPTIMIZATION: Split components into 2 vectors. Tickable and untickable, so we dont 
  * have to iterate trought all components on render if some of them are unrenerable. */
@@ -61,7 +61,7 @@ public:
     SSceneComponentSystem* getSystemByType(SSceneComponentType type);
 
     /* Returns pointer to Script system. Used for easier access */
-    SSceneSystemLuaScript* getScriptSystem();
+    SSystemLuaScript* getScriptSystem();
 
     /* Returns reference to map containing all prefabs. */
     std::map<std::string, pugi::xml_node>& getPrefabs();

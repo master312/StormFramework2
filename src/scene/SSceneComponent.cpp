@@ -1,9 +1,9 @@
 #include "SSceneComponent.h"
 #include "SSceneObject.h"
-#include "components/sprite/SSceneComSprite.h"
-#include "components/transform/SSceneComTransform.h"
-#include "components/luaScript/SSceneComLuaScript.h"
-#include "components/physics/SSceneComPhysics.h"
+#include "scene/components/sprite/SComSprite.h"
+#include "scene/components/transform/SComTransform.h"
+#include "scene/components/luaScript/SComLuaScript.h"
+#include "scene/components/physics/SComPhysics.h"
 #include "scene/SScene.h"
 #include "SSceneComponentSystem.h"
 
@@ -77,16 +77,16 @@ SSceneComponent* SSceneComponent::newComponent(SSceneComponentType type, SSceneO
     SSceneComponent* component = nullptr;
     switch(type) {
         case S_SCENE_OBJECT_COM_TRANSFORM:
-            component = new SSceneComTransform(owner);
+            component = new SComTransform(owner);
             break;
         case S_SCENE_OBJECT_COM_PHYSICS:
-            component = new SSceneComPhysics(owner);
+            component = new SComPhysics(owner);
             break;
         case S_SCENE_OBJECT_COM_SPRITE:
-            component = new SSceneComSprite(owner);
+            component = new SComSprite(owner);
             break;
         case S_SCENE_OBJECT_COM_SCRIPT:
-            component = new SSceneComLuaScript(owner);
+            component = new SComLuaScript(owner);
             break;
         default:
             LOG(ERROR) << "Tryed to create new component of invalid type " << type;

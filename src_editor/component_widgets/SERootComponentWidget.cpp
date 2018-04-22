@@ -2,8 +2,8 @@
 #include "MainWindow.h"
 #include "docks/object_hierarchy/SEDockObjectHierarchy.h"
 #include "scene/SScene.h"
-#include "scene/components/transform/SSceneComTransform.h"
-#include "scene/components/physics/SSceneComPhysics.h"
+#include "scene/components/transform/SComTransform.h"
+#include "scene/components/physics/SComPhysics.h"
 #include "scene_editing/lua_script/SESystemLuaScript.h"
 
 SERootComponentWidget::SERootComponentWidget(QWidget* parent) : QWidget(parent) {
@@ -131,10 +131,10 @@ void SERootComponentWidget::setSceneObjectComponentLuaRef() {
     sol::table scriptTable = _LuaHandle["script"];
     switch(_Component->getType()) {
         case S_SCENE_OBJECT_COM_TRANSFORM:
-            scriptTable["component"] = dynamic_cast<SSceneComTransform*>(_Component);
+            scriptTable["component"] = dynamic_cast<SComTransform*>(_Component);
             break;
         case S_SCENE_OBJECT_COM_PHYSICS:
-            scriptTable["component"] = dynamic_cast<SSceneComPhysics*>(_Component);
+            scriptTable["component"] = dynamic_cast<SComPhysics*>(_Component);
             break;
         default:
             LOG(ERROR) << "Tried to bind sceneObjectComponentLuaRef to Editor widget, but component of type " << _Component->getType() << " is not supported yet";

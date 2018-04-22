@@ -6,8 +6,8 @@
 #include "SSComponentEvents.h"
 #include "utils/SNotificationCenter.h"
 
-class SSceneComTransform;
-class SSceneComLuaScript;
+class SComTransform;
+class SComLuaScript;
 class SScene;
 
 /* Define scene object events structure */
@@ -78,11 +78,11 @@ public:
 
     /* Returns pointer to transform component, or nullptr if none exists
      * Used for easy access to transform component, since its used offen */
-    SSceneComTransform* getTransform() const;
+    SComTransform* getTransform() const;
 
     /* Returns pointer to lua component. Used for faster access.
      * Retunrs nullptr if there is no lua component. */
-    SSceneComLuaScript* getLuaScript() const;
+    SComLuaScript* getLuaScript() const;
 
     /* Returns lua handle for this scene object */
     sol::table getLuaHandle();
@@ -121,10 +121,10 @@ private:
     std::vector<SSceneComponent*> _Components;
 
     /* Pointer to transform component */
-    SSceneComTransform* _ComponentTransform;
+    SComTransform* _ComponentTransform;
 
     /* Pointer to lua script component */
-    SSceneComLuaScript* _ComponentLuaScript;
+    SComLuaScript* _ComponentLuaScript;
  
     /* Set to true if this object is created at runtime,
      * and not loaded from scene file */

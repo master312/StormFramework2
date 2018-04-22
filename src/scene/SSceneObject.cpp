@@ -1,9 +1,9 @@
 #include "SSceneObject.h"
 #include "StormCommon.h"
 #include "SScene.h"
-#include "components/transform/SSceneComTransform.h"
-#include "components/luaScript/SSceneSystemLuaScript.h"
-#include "components/luaScript/SSceneComLuaScript.h"
+#include "scene/components/transform/SComTransform.h"
+#include "scene/components/luaScript/SSystemLuaScript.h"
+#include "scene/components/luaScript/SComLuaScript.h"
 #ifdef STORM_EDITOR
 #include "scene_editing/lua_script/SESystemLuaScript.h"
 #endif
@@ -140,10 +140,10 @@ void SSceneObject::addComponent(SSceneComponent* component) {
             if (_ComponentTransform) {
                 LOG(ERROR) << "Adding multiple transform components to same scene object";
             }
-            _ComponentTransform = dynamic_cast<SSceneComTransform*>(component);
+            _ComponentTransform = dynamic_cast<SComTransform*>(component);
             break;
         case S_SCENE_OBJECT_COM_SCRIPT:
-            _ComponentLuaScript = dynamic_cast<SSceneComLuaScript*>(component);
+            _ComponentLuaScript = dynamic_cast<SComLuaScript*>(component);
             break;
         default:
             break;
@@ -163,7 +163,7 @@ std::vector<SSceneComponent*>& SSceneObject::getComponents() {
     return _Components;
 }
 
-SSceneComTransform* SSceneObject::getTransform() const {
+SComTransform* SSceneObject::getTransform() const {
 #ifndef PRODUCTION
     if (!_ComponentTransform) {
         LOG(WARNING) << "Tryed to get transfrom from scene object that dose not have transform component";
@@ -173,12 +173,12 @@ SSceneComTransform* SSceneObject::getTransform() const {
     return _ComponentTransform;
 }
 
-SSceneComLuaScript* SSceneObject::getLuaScript() const {
+SComLuaScript* SSceneObject::getLuaScript() const {
     return _ComponentLuaScript;
 }
 
 sol::table SSceneObject::getLuaHandle() {
-    SSceneSystemLuaScript* luaSystem = _Scene->getScriptSystem();
+    SSystemLuaScript* luaSystem = _Scene->getScriptSystem();
     return luaSystem->getObjectHandle(_Id);
 }
 

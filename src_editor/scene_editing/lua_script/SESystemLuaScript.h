@@ -1,12 +1,12 @@
 #pragma once
 #include "utils/SEventDispatcher.h"
-#include "scene/components/luaScript/SSceneSystemLuaScript.h"
+#include "scene/components/luaScript/SSystemLuaScript.h"
 
-class SSceneComLuaScript;
+class SComLuaScript;
 class SSceneObject;
 
-class SESystemLuaScript : public SSceneSystemLuaScript {
-    friend class SSceneSystemLuaScript;
+class SESystemLuaScript : public SSystemLuaScript {
+    friend class SSystemLuaScript;
 
 public:
     SESystemLuaScript(SScene* scene);

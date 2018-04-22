@@ -3,25 +3,25 @@ set(PATH_PREFIX ${STORM_SRC_DIR}/scene/components)
 set(STORM_ENGINE_SCENE_COMPONENTS_FILES
     ${PATH_PREFIX}/luaScript/SLuaBindings.h
     ${PATH_PREFIX}/luaScript/SLuaBindings.cpp
-    ${PATH_PREFIX}/luaScript/SSceneComLuaScript.h
-    ${PATH_PREFIX}/luaScript/SSceneComLuaScript.cpp
-    ${PATH_PREFIX}/luaScript/SSceneSystemLuaScript.h
-    ${PATH_PREFIX}/luaScript/SSceneSystemLuaScript.cpp
+    ${PATH_PREFIX}/luaScript/SComLuaScript.h
+    ${PATH_PREFIX}/luaScript/SComLuaScript.cpp
+    ${PATH_PREFIX}/luaScript/SSystemLuaScript.h
+    ${PATH_PREFIX}/luaScript/SSystemLuaScript.cpp
 
-    ${PATH_PREFIX}/physics/SSceneComPhysics.h
-    ${PATH_PREFIX}/physics/SSceneComPhysics.cpp
-    ${PATH_PREFIX}/physics/SSceneSystemPhysics.h
-    ${PATH_PREFIX}/physics/SSceneSystemPhysics.cpp
+    ${PATH_PREFIX}/physics/SComPhysics.h
+    ${PATH_PREFIX}/physics/SComPhysics.cpp
+    ${PATH_PREFIX}/physics/SSystemPhysics.h
+    ${PATH_PREFIX}/physics/SSystemPhysics.cpp
 
-    ${PATH_PREFIX}/sprite/SSceneComSprite.h
-    ${PATH_PREFIX}/sprite/SSceneComSprite.cpp
-    ${PATH_PREFIX}/sprite/SSceneSystemSprite.h
-    ${PATH_PREFIX}/sprite/SSceneSystemSprite.cpp
+    ${PATH_PREFIX}/sprite/SComSprite.h
+    ${PATH_PREFIX}/sprite/SComSprite.cpp
+    ${PATH_PREFIX}/sprite/SSystemSprite.h
+    ${PATH_PREFIX}/sprite/SSystemSprite.cpp
 
-    ${PATH_PREFIX}/transform/SSceneComTransform.h
-    ${PATH_PREFIX}/transform/SSceneComTransform.cpp
-    ${PATH_PREFIX}/transform/SSceneSystemTransform.h
-    ${PATH_PREFIX}/transform/SSceneSystemTransform.cpp
+    ${PATH_PREFIX}/transform/SComTransform.h
+    ${PATH_PREFIX}/transform/SComTransform.cpp
+    ${PATH_PREFIX}/transform/SSystemTransform.h
+    ${PATH_PREFIX}/transform/SSystemTransform.cpp
     )
 
 source_group(StormEngineSceneComponents FILES ${STORM_ENGINE_SCENE_COMPONENTS_FILES})

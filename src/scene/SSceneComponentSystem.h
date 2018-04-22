@@ -9,7 +9,7 @@
  *     : In SSceneComponentSystem::initialize method, handle errors returned by components. */
 class StormRenderer;
 class SScene;
-class SSceneSystemLuaScript;
+class SSystemLuaScript;
 
 class SSceneComponentSystem {
 public:
@@ -41,7 +41,7 @@ public:
 
     /* Binds all components to owner's LUA object (if any).
      * Must be overriden to work. */
-    virtual void bindComponentsToLua(SSceneSystemLuaScript* luaSystem);
+    virtual void bindComponentsToLua(SSystemLuaScript* luaSystem);
 
     bool getIsInitialized();
 

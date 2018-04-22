@@ -1,11 +1,11 @@
 #include "SESystemTransform.h"
 #include "MainWindow.h"
 #include "scene/SSceneObject.h"
-#include "scene/components/transform/SSceneComTransform.h"
+#include "scene/components/transform/SComTransform.h"
 #include "docks/object_hierarchy/SEDockObjectHierarchy.h"
 #include "graphics/StormRenderer.h"
 
-SESystemTransform::SESystemTransform(SScene* scene) : SSceneSystemTransform(scene) {
+SESystemTransform::SESystemTransform(SScene* scene) : SSystemTransform(scene) {
 }
 
 SESystemTransform::~SESystemTransform() {
@@ -16,7 +16,7 @@ void SESystemTransform::render(StormRenderer* renderer) {
     if (!selectedObj) {
         return;
     }
-    SSceneComTransform* transform = selectedObj->getTransform();
+    SComTransform* transform = selectedObj->getTransform();
     if (!transform) {
         return;
     }
@@ -47,5 +47,5 @@ void SESystemTransform::render(StormRenderer* renderer) {
 }
 
 void SESystemTransform::tick(float deltaTime) {
-    SSceneSystemTransform::tick(deltaTime);
+    SSystemTransform::tick(deltaTime);
 }

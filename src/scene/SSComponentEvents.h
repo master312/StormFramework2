@@ -5,7 +5,7 @@
 typedef enum {
     S_EVENT_UNDEFINED = 0,
 
-    /* Fired from SSceneComTransform when transformation has been updated */
+    /* Fired from SComTransform when transformation has been updated */
     S_EVENT_TRANSFORM_UPDATED = S_GENERATE_EVENT_ID('C', 'T', 'U'),
 
     /* Fired from parent's transform component to notify children that 

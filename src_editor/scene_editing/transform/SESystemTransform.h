@@ -1,12 +1,12 @@
 #pragma once
-#include "scene/components/transform/SSceneSystemTransform.h"
+#include "scene/components/transform/SSystemTransform.h"
 
-/* Class that extends Storm Scene Transform system (SSceneSystemTransform)
+/* Class that extends Storm Scene Transform system (SSystemTransform)
  * Used in editor */
 
-class SSceneComTransform;
+class SComTransform;
 
-class SESystemTransform : public SSceneSystemTransform  {
+class SESystemTransform : public SSystemTransform  {
     friend class SSceneComponentSystem;
 
 public:

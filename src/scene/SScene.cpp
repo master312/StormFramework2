@@ -1,7 +1,7 @@
 #include "SScene.h"
 #include "SSceneObject.h"
 
-#include "components/luaScript/SSceneSystemLuaScript.h"
+#include "scene/components/luaScript/SSystemLuaScript.h"
 
 #include "StormEngine.h"
 #include "StormDebug.h"
@@ -241,7 +241,7 @@ void SScene::initializeNewObject(SSceneObject* object) {
     /* Loop initializes all components */
     static std::vector<SSceneComponentSystem*> addedSystems;
     addedSystems.clear();
-    SSceneSystemLuaScript* luaSystem = nullptr;
+    SSystemLuaScript* luaSystem = nullptr;
     for (int i = 0; i < S_SCENE_OBJECT_COM_TYPES_COUNT; i++) {
         int nextToInit = SSceneComponentInitializationOrder[i];
         SSceneComponent* component = object->getComponent((SSceneComponentType)nextToInit);
@@ -250,7 +250,7 @@ void SScene::initializeNewObject(SSceneObject* object) {
             component->initialize(comSystem);
             addedSystems.push_back(comSystem);
             if (comSystem->getType() == S_SCENE_OBJECT_COM_SCRIPT) {
-                luaSystem = static_cast<SSceneSystemLuaScript*>(comSystem);
+                luaSystem = static_cast<SSystemLuaScript*>(comSystem);
             }
         }
     }
@@ -284,8 +284,8 @@ SSceneComponentSystem* SScene::getSystemByType(SSceneComponentType type) {
     return _ComponentSystemsByType[(int)type];
 }
 
-SSceneSystemLuaScript* SScene::getScriptSystem() {
-    return dynamic_cast<SSceneSystemLuaScript*>(getSystemByType(S_SCENE_OBJECT_COM_SCRIPT));
+SSystemLuaScript* SScene::getScriptSystem() {
+    return dynamic_cast<SSystemLuaScript*>(getSystemByType(S_SCENE_OBJECT_COM_SCRIPT));
 }
 
 std::map<std::string, pugi::xml_node>& SScene::getPrefabs() {

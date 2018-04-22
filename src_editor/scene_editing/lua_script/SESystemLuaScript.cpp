@@ -1,13 +1,13 @@
 #include "SESystemLuaScript.h"
 #include "StormEngine.h"
 #include "scene/SSceneObject.h"
-#include "scene/components/luaScript/SSceneComLuaScript.h"
+#include "scene/components/luaScript/SComLuaScript.h"
 #include "property_widgets/SEPropertyVector2.h"
 #include "property_widgets/SEPropertyNumber.h"
 #include "component_widgets/SERootComponentWidget.h"
 #include <QApplication>
 
-SESystemLuaScript::SESystemLuaScript(SScene* scene) : SSceneSystemLuaScript(scene) {
+SESystemLuaScript::SESystemLuaScript(SScene* scene) : SSystemLuaScript(scene) {
     _GameScriptsTicking = false;
 }
 
@@ -31,7 +31,7 @@ void SESystemLuaScript::initialize() {
 
     initializeScene();
 
-    for (SSceneComLuaScript* component : _ScriptComponents) {
+    for (SComLuaScript* component : _ScriptComponents) {
         component->executeOnLoad();
     }
 

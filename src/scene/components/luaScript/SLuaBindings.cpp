@@ -1,7 +1,7 @@
 #include "SLuaBindings.h"
 #include "StormEngine.h"
 #include "scene/SScene.h"
-#include "../transform/SSceneComTransform.h"
+#include "scene/components/transform/SComTransform.h"
 #include "../../SSceneComponent.h"
 
 SLuaBindings::SLuaBindings() {
