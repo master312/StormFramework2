@@ -57,9 +57,6 @@ public:
     /* Returns pointer to object with ID */
     SSceneObject* getObjectById(uint32_t id);
 
-    /* Returns reference to rector containing all component systems */
-    std::vector<SSceneComponentSystem*>& getSystems();
-
     /* Returns component system object by type */
     SSceneComponentSystem* getSystemByType(SSceneComponentType type);
 
@@ -83,11 +80,8 @@ private:
     /* Vector containing all scene objects */
     std::vector<SSceneObject*> _Objects;
     
-    /* Vector contains various systems for managing scene object component logic */
-    std::vector<SSceneComponentSystem*> _ComponentSystems;
-    
-    /* All component systems indexed by their component types.
-    * Used for faster access to systems. */
+    /* All component systems.
+     * Indexed by their component types. */
     SSceneComponentSystem* _ComponentSystemsByType[S_SCENE_OBJECT_COM_TYPES_COUNT];
     
     /* Document from which this scene has been loaded */

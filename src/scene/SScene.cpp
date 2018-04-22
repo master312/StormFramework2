@@ -33,11 +33,12 @@ SScene::~SScene() {
     }
     _Objects.clear();
 
-    for (size_t i = 0; i < _ComponentSystems.size(); i++) {
-        delete _ComponentSystems[i];
+    for (size_t i = 0; i < S_SCENE_OBJECT_COM_TYPES_COUNT; i++) {
+        if (_ComponentSystemsByType[i]) {
+            delete _ComponentSystemsByType[i];
+            _ComponentSystemsByType[i] = nullptr;
+        }
     }
-    _ComponentSystems.clear();
-    memset(_ComponentSystemsByType, 0, S_SCENE_OBJECT_COM_TYPES_COUNT * sizeof(SSceneComponentSystem*));
 }
 
 int SScene::loadXml(spStormResourceFile xmlFile) {
@@ -285,10 +286,6 @@ SSceneObject* SScene::getObjectById(uint32_t id) {
     return nullptr;
 }
 
-std::vector<SSceneComponentSystem*>& SScene::getSystems() {
-    return _ComponentSystems;
-}
-
 SSceneComponentSystem* SScene::getSystemByType(SSceneComponentType type) {
     return _ComponentSystemsByType[(int)type];
 }
@@ -302,8 +299,10 @@ std::map<std::string, pugi::xml_node>& SScene::getPrefabs() {
 }
 
 void SScene::render(StormRenderer* renderer) {
-    for (unsigned int i = 0; i < _ComponentSystems.size(); i++) {
-        _ComponentSystems[i]->render(renderer);
+    for (unsigned int i = 0; i < S_SCENE_OBJECT_COM_TYPES_COUNT; i++) {
+        if (_ComponentSystemsByType[i]) {
+            _ComponentSystemsByType[i]->render(renderer);
+        }
     }
 }
 
@@ -331,24 +330,19 @@ void SScene::initializeDefaultSystems() {
 #else
         new SSceneSystemTransform(this);
 #endif
-    _ComponentSystems.push_back(sysTransform);
     _ComponentSystemsByType[S_SCENE_OBJECT_COM_TRANSFORM] = sysTransform;
 
     SSceneSystemSprite* sysSprite = new SSceneSystemSprite(this);
-    _ComponentSystems.push_back(sysSprite);
     _ComponentSystemsByType[S_SCENE_OBJECT_COM_SPRITE] = sysSprite;
 
     SSceneSystemPhysics* sysCollider = new SSceneSystemPhysics(this);
-    _ComponentSystems.push_back(sysCollider);
     _ComponentSystemsByType[S_SCENE_OBJECT_COM_PHYSICS] = sysCollider;
-
 
     SSceneSystemLuaScript* sysLuaScript =
 #ifdef STORM_EDITOR
-            new SESystemLuaScript(this);
+        new SESystemLuaScript(this);
 #else
-            new SSceneSystemLuaScript(this);
+        new SSceneSystemLuaScript(this);
 #endif
-    _ComponentSystems.push_back(sysLuaScript);
     _ComponentSystemsByType[S_SCENE_OBJECT_COM_SCRIPT] = sysLuaScript;
 }

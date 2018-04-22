@@ -69,8 +69,9 @@ void SSceneSystemLuaScript::initializeScene() {
 
     SSceneComponentSystem::initialize();
 
-    for (SSceneComponentSystem* system : _OwnerScene->getSystems()) {
-        if (system == this) {
+    for (size_t i = 0; i < S_SCENE_OBJECT_COM_TYPES_COUNT; i++) {
+        SSceneComponentSystem* system = _OwnerScene->getSystemByType((SSceneComponentType)i);
+        if (!system || system == this) {
             continue;
         }
 
