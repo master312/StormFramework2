@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<scene name="the_scene">
+<scene>
 	<object id="1" name="TestNameOne">
 		<component type="1" pos_x="4.74" pos_y="3.2" scale_x="1.0" scale_y="1.0" angle="0.0" />
 		<component type="2" sprite_sheet="test_lion_sheet.xml" width="1.5" height="1.5" animation_speed="2.5" color_mult_r="255" color_mult_g="253" color_mult_b="255" color_mult_a="255" />

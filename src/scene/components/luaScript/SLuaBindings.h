@@ -23,4 +23,6 @@ private:
      * REMAINDER: Should be binded after standard types */
     static void bindSceneObject(sol::state& state);
     static void bindSceneObjectComponentBase(sol::state& state);
+
+    static void bindRenderer(sol::state& state);
 };

@@ -3,6 +3,7 @@
 #include "scene/SScene.h"
 #include "scene/components/transform/SComTransform.h"
 #include "../../SSceneComponent.h"
+#include "graphics/StormRenderer.h"
 
 SLuaBindings::SLuaBindings() {
 }
@@ -19,6 +20,7 @@ int SLuaBindings::bindUserTypes(sol::state &state) {
     bindInputManager(state);
     bindSceneObjectComponentBase(state);
     bindSceneObject(state);
+    bindRenderer(state);
 
     return 0;
 }
@@ -94,4 +96,22 @@ void SLuaBindings::bindInputManager(sol::state& state) {
 
     
     state["InputManager"] = StormEngine::getInputManager();
+}
+
+void SLuaBindings::bindRenderer(sol::state& state) {
+    state.new_usertype<Color>("Color",
+        "set", &Color::set,
+        "setFloat", &Color::setFloat
+    );
+    state.new_usertype<RectF>("Rect",
+        "position", &RectF::pos,
+        "size", &RectF::size
+    );
+
+//    state.new_usertype<StormRenderer>("ModRenderer",
+//        "drawLine", &StormRenderer::drawLine,
+//        "drawRect", &StormRenderer::drawRect
+//    );
+//
+//    state["Renderer"] = StormEngine::getModule<StormRenderer>();
 }

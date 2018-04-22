@@ -45,7 +45,8 @@ int SScene::loadXml(spStormResourceFile xmlFile) {
         LOG(ERROR) << "Scene XML " << xmlFile->getFilename() << " error. Missing root tag.";
         return -2;
     }
-    _Name = sceneRootNode.attribute("name").as_string("");
+
+    _Name = xmlFile->getFilename();
 
     /* Map used loading linked objects
      * <objectId, parentId> */
@@ -114,8 +115,6 @@ void SScene::saveXml(std::string path /* = "" */) {
     
     pugi::xml_document doc;
     pugi::xml_node sceneRootNode = doc.append_child("scene");
-
-    sceneRootNode.append_attribute("name").set_value(_Name.c_str());
 
     for (SSceneObject* object : _Objects) {
         pugi::xml_node objectNode = sceneRootNode.append_child("object");

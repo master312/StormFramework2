@@ -151,14 +151,6 @@ void MainWindow::cbMenuSaveSceneAs() {
     QDir dir = QDir(QDir::currentPath() + "/" + QString(fileSystem->getRootPath().c_str()));
     std::string saveFilePath = dir.relativeFilePath(fileName).toStdString();
 
-    bool ok = false;
-    QString newSceneName = QInputDialog::getText(0, "Rename scene",
-                                                 "New name:", QLineEdit::Normal,
-                                                 sceneName.c_str(), &ok);
-    if (ok && !newSceneName.isEmpty()) {
-        activeScene->setName(newSceneName.toStdString());
-    }
-
     StormEngineEditing::instanceEditing()->saveActiveScene(saveFilePath);
 }
 
