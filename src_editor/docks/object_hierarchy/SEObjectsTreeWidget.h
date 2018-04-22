@@ -1,5 +1,6 @@
 #pragma once
 #include <QTreeWidget>
+#include "utils/SEventDispatcher.h"
 
 class SScene;
 class SSceneObject;
@@ -21,7 +22,7 @@ public:
     void clearList();
 
     /* Called when new prefab gets instantiated. @object is pointer to newly instaniated SSceneObject */
-    void newSceneObjectAdded(void *object);
+    void newSceneObjectAdded(const SEventDispatcher::Event* event);
 
 public slots:
     void objectSelected(QTreeWidgetItem *item, int column);

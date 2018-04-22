@@ -11,7 +11,6 @@ set(STORM_ENGINE_SCENE_FILES
         ${PATH_PREFIX}/SSceneComponent.cpp
         ${PATH_PREFIX}/SSceneComponentSystem.h
         ${PATH_PREFIX}/SSceneComponentSystem.cpp
-        ${PATH_PREFIX}/SSceneObjectEventTypes.h
     )
 
 source_group(StormEngineScene FILES ${STORM_ENGINE_SCENE_FILES})

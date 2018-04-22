@@ -12,7 +12,7 @@ SESystemLuaScript::SESystemLuaScript(SScene* scene) : SSceneSystemLuaScript(scen
 }
 
 SESystemLuaScript::~SESystemLuaScript() {
-    S_REMOVE_GLOBAL_NOTIFICATION_LISTENER(this);
+    StormEngine::getEventDispatcher()->removeListeners<SESystemLuaScript>(this);
 }
 
 void SESystemLuaScript::initialize() {
@@ -37,20 +37,22 @@ void SESystemLuaScript::initialize() {
 
     loadToolScripts();
 
-    S_ADD_GLOBAL_NOTIFICATION_LISTENER(SNotificationType::EDITOR_SCENE_OBJECT_SELECTED, this, SESystemLuaScript::sceneObjectSelected);
+    StormEngine::getEventDispatcher()->registerEventListener<SESystemLuaScript>(
+            SEventDispatcher::SSceneObjectEvent::EDIT_OBJECT_SELECTED,
+            &SESystemLuaScript::sceneObjectSelected, this);
 }
 
-void SESystemLuaScript::sceneObjectSelected(void *data) {
+void SESystemLuaScript::sceneObjectSelected(const SEventDispatcher::Event* event) {
     sol::function objectSelectedFun = getGlobalFunction("sceneObjectSelected");
     if (!objectSelectedFun.valid()) {
         LOG(ERROR) << "Could not find lua function 'sceneObjectSelected'";
         return;
     }
+    const SEventDispatcher::SSceneObjectEvent* soEvent = static_cast<const SEventDispatcher::SSceneObjectEvent*>(event);
 
-    SSceneObject* object = static_cast<SSceneObject*>(data);
-    if (object) {
+    if (soEvent && soEvent->object) {
         /* Object selected */
-        objectSelectedFun(object->getLuaHandle());
+        objectSelectedFun(soEvent->object->getLuaHandle());
     } else {
         /* Object deselected */
         objectSelectedFun(nullptr);

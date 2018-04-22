@@ -181,7 +181,8 @@ void SScene::addObject(SSceneObject* object) {
     }
     _Objects.push_back(object);
 
-    S_FIRE_GLOBAL_NOTIFICATION(SNotificationType::SCENE_OBJECT_ADDED, object);
+    SEventDispatcher::SSceneObjectEvent event(object, SEventDispatcher::SSceneObjectEvent::ADDED);
+    StormEngine::fireEvent(&event);
 }
 
 void SScene::destroyObject(uint32_t objectId) {
@@ -230,7 +231,8 @@ SSceneObject* SScene::instantiatePrefab(const std::string& prefabName,
 
     LOG(DEBUG) << "Instantiated new object from prefab '" << prefabName << "'. ID: " << _MaxObjectId;
 
-    S_FIRE_GLOBAL_NOTIFICATION(SNotificationType::SCENE_PREFAB_INSTANTIATED, object);
+    SEventDispatcher::SSceneObjectEvent event(object, SEventDispatcher::SSceneObjectEvent::PREFAB_INSTANTIATED);
+    StormEngine::fireEvent(&event);
 
     return object;
 }

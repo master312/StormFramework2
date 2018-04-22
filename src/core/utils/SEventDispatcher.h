@@ -6,16 +6,22 @@
 
 /* Event notification system. Uses observer pattern */
 
-namespace SEventListener {
+/* Macro used to generate event type IDs */
+#define S_GENERATE_EVENT_ID(b,c,d) makefourcc(0xA,b,c,d)
+#ifdef STORM_EDITOR
+#define SE_GENERATE_EVENT_ID(b,c,d) makefourcc(0xB,b,c,d)
+#endif
 
-    class Event {
-    public:
+namespace SEventDispatcher {
+
+    struct Event {
         int32_t typeId;
 
         Event() : typeId(0) { }
+        Event(int32_t _typeId) : typeId(_typeId) { }
     };
 
-    typedef std::function<void(const Event&)> CallbackFunction;
+    typedef std::function<void(const Event*)> CallbackFunction;
 
     struct CallbackInfo {
         CallbackFunction function;
@@ -25,13 +31,13 @@ namespace SEventListener {
         CallbackInfo(CallbackFunction fun, void* obj) : function(fun), object(obj) { }
     };
 
-    class Listener {
+    class Dispatcher {
     public:
-        Listener() { }
-        ~Listener() { }
+        Dispatcher() { }
+        ~Dispatcher() { }
 
-        void fireEvent(Event event) {
-            auto iter = _Callbacks.find(event.typeId);
+        void fireEvent(Event* event) {
+            auto iter = _Callbacks.find(event->typeId);
             if (iter == _Callbacks.end()) {
                 return;
             }
@@ -41,7 +47,7 @@ namespace SEventListener {
         }
 
         template <class T>
-        void removeListener(T* object) {
+        void removeListeners(T* object) {
             void* castedObject = static_cast<void*>(object);
 
             for (auto& iter : _Callbacks) {
@@ -56,12 +62,12 @@ namespace SEventListener {
         }
 
         template <class T>
-        void registerEventListener(int32_t eventTypeId, void (T::*fun)(const Event&), T* obj) {
+        void registerEventListener(int32_t eventTypeId, void (T::*fun)(const Event*), T* obj) {
             if (eventTypeId == 0) {
                 LOG(ERROR) << "Tried to register event listener for event type '0'";
                 return;
             }
-            std::function<void(const Event&)> function = std::bind(fun, obj, std::placeholders::_1);
+            CallbackFunction function = std::bind(fun, obj, std::placeholders::_1);
             CallbackInfo info(function, obj);
 
             _Callbacks[eventTypeId].push_back(info);
@@ -72,6 +78,4 @@ namespace SEventListener {
         std::map<int32_t, std::vector<CallbackInfo> > _Callbacks;
     };
 
-
-
-} /* namespace SEventListener */
+} /* namespace SEventDispatcher */

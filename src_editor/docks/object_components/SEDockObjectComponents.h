@@ -1,5 +1,6 @@
 #pragma once
 #include "../SEDockWidget.h"
+#include "utils/SEventDispatcher.h"
 
 /* Dock used for managing selected object's components */
 
@@ -15,7 +16,7 @@ public:
 
     /* callback for "SNotificationType::SCENE_OBJECT_ADDED" notification.
      * Executed every time object is selected in hierarchy */
-    void sceneObjectSelected(void* sceneObject);
+    void sceneObjectSelected(const SEventDispatcher::Event* event);
 
 private:
     QWidget* _ScrollArea;

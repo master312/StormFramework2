@@ -1,6 +1,7 @@
 #pragma once
 #include "../SEDockWidget.h"
 #include "SEObjectsTreeWidget.h"
+#include "utils/SEventDispatcher.h"
 
 class SScene;
 
@@ -19,9 +20,8 @@ public:
 
     SSceneObject* getSelectedObject();
 
-    /* Callback for global notification 'SCENE_MANAGER_SCENE_ABOUT_TO_CHANGE'.
-     * Called when scene manager is about to change active scene.*/
-    void cbSceneAboutToChange(void* scene);
+    /* Callback for 'scene about to change' event fired from event manager */
+    void cbSceneAboutToChange(const SEventDispatcher::Event* event);
 
 protected:
     /* Called from tree widget every time object is clicked in hierarchy */

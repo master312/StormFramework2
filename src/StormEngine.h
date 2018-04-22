@@ -1,9 +1,9 @@
 #pragma once
 #include <typeindex>
-#include "core/platforms/StormPlatform.h"
-#include "core/resources/StormFileSystem.h"
+#include "utils/SEventDispatcher.h"
+#include "platforms/StormPlatform.h"
+#include "resources/StormFileSystem.h"
 #include "STextureManager.h"
-#include "SGlobalNotifier.h"
 
 /* Singleton class responsible for initialization and deinitialization of all engine modules */
 
@@ -12,7 +12,6 @@ class StormRenderer;
 class SSceneManager;
 class SScene;
 class StormInputManager;
-class SGlobalNotifier;
 
 class StormEngine {
     friend class SEngineModuleFactory;
@@ -50,8 +49,11 @@ public:
     /* Returns pointer to scene manager module */
     static SSceneManager* getSceneManager();
 
-    /* Returns pointer to engine's global notifier module */
-    static SGlobalNotifier* getGlobalNotifier();
+    /* Fires event to global event dispatcher */
+    static void fireEvent(SEventDispatcher::Event* event);
+
+    /* Returns pointer to engine's event dispatcher */
+    static SEventDispatcher::Dispatcher* getEventDispatcher();
 
     /* Returns texture named @filename, or nullptr if not found. */
     static spStormTexture getTexture(const std::string& filename);
@@ -73,7 +75,10 @@ private:
     /* Structure that holds information about game window,
      * window size, type, title etc...*/
     StormWindowSettings _WindowInfo;
-    
+
+    /* SEventDispatcher Used for sending notifications between different engine components */
+    SEventDispatcher::Dispatcher* _EventDispatcher;
+
     /***** ENGINE MODULES *****/
     
     /* StormPlatform module, used for handling events, calling main tick method
@@ -96,9 +101,6 @@ private:
 
     /* SSceneManager module, used for loading/unloading/switching scenes. */
     SSceneManager* _ModSceneManager;
-
-    /* SGlobalNotifier module. Used for sending notifications between different engine components */
-    SGlobalNotifier* _ModGlobalNotifier;
 
     /* Map of all engine modules mapped by their type id */
     std::map<std::type_index, StormModuleBase*> _ModulesByType;

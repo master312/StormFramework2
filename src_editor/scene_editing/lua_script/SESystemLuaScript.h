@@ -1,4 +1,5 @@
 #pragma once
+#include "utils/SEventDispatcher.h"
 #include "scene/components/luaScript/SSceneSystemLuaScript.h"
 
 class SSceneComLuaScript;
@@ -17,7 +18,7 @@ public:
     /* Listens for 'SNotificationType::EDITOR_SCENE_OBJECT_SELECTED' notification.
      * Handles lua side of object selection changes.
      * Called when scene object gets selected in hierarchy dock*/
-    void sceneObjectSelected(void* data);
+    void sceneObjectSelected(const SEventDispatcher::Event* event);
 
     /* Sets whether game scripts should be ticked or not.
      * Dose not effect editor scripts. */

@@ -2,8 +2,23 @@
 #include <map>
 #include "SScene.h"
 #include "core/StormModuleBase.h"
+#include "utils/SEventDispatcher.h"
 
 class StormRenderer;
+
+
+/* Define scene manager event structure */
+namespace SEventDispatcher {
+    struct SceneChangeEvent : public Event {
+        enum Types {
+            ABOUT_TO_CHANGE = S_GENERATE_EVENT_ID('s', 'a', 'c'),
+            CHANGED = S_GENERATE_EVENT_ID('s', 'c', 'c'),
+        };
+
+        SScene* scene;
+        SceneChangeEvent(int32_t type) : Event(type), scene(nullptr) { }
+    };
+};
 
 class SSceneManager : public StormModuleBase {
 public:

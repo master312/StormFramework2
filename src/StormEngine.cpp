@@ -17,7 +17,7 @@ StormEngine::StormEngine() {
     _ModTextureManager = nullptr;
     _ModResources = nullptr;
     _ModSceneManager = nullptr;
-    _ModGlobalNotifier = nullptr;
+    _EventDispatcher = new SEventDispatcher::Dispatcher();
 
     _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.18", true);
 }
@@ -57,10 +57,6 @@ void StormEngine::initialize(StormPlatformType platformType) {
     /* Initialize texture manager module */
     _ModTextureManager = new STextureManager();
     _ModulesByType[typeid(STextureManager)] = _ModTextureManager->getModuleBase();
-
-    /* Initialize global notifier module */
-    _ModGlobalNotifier = new SGlobalNotifier();
-    _ModulesByType[typeid(SGlobalNotifier)] = _ModGlobalNotifier->getModuleBase();
 
     /* Initialize scene manager, and load test scene */
     _ModSceneManager = new SSceneManager();
@@ -174,12 +170,16 @@ SSceneManager* StormEngine::getSceneManager() {
     return instance()->_ModSceneManager;
 }
 
-SGlobalNotifier* StormEngine::getGlobalNotifier() {
-    if (!instance()->_ModGlobalNotifier) {
-        LOG(FATAL) << "Global notifier is nullptr!";
+void StormEngine::fireEvent(SEventDispatcher::Event* event) {
+    getEventDispatcher()->fireEvent(event);
+}
+
+SEventDispatcher::Dispatcher* StormEngine::getEventDispatcher() {
+    if (!instance()->_EventDispatcher) {
+        LOG(FATAL) << "Global event dispatcher is nullptr!";
         return nullptr;
     }
-    return instance()->_ModGlobalNotifier;
+    return instance()->_EventDispatcher;
 }
 
 spStormTexture StormEngine::getTexture(const std::string& filename) {

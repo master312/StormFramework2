@@ -18,21 +18,23 @@ SEObjectsTreeWidget::SEObjectsTreeWidget(SEDockObjectHierarchy* parent) : QTreeW
     setDragDropMode(QAbstractItemView::InternalMove);
 
     connect(this, &SEObjectsTreeWidget::itemClicked, this, &SEObjectsTreeWidget::objectSelected);
-    S_ADD_GLOBAL_NOTIFICATION_LISTENER(SNotificationType::SCENE_OBJECT_ADDED, this, SEObjectsTreeWidget::newSceneObjectAdded);
+
+    StormEngine::getEventDispatcher()->registerEventListener<SEObjectsTreeWidget>(
+            SEventDispatcher::SSceneObjectEvent::ADDED,
+            &SEObjectsTreeWidget::newSceneObjectAdded, this);
 }
 
 SEObjectsTreeWidget::~SEObjectsTreeWidget() {
-    S_REMOVE_GLOBAL_NOTIFICATION_LISTENER(this);
+    StormEngine::getEventDispatcher()->removeListeners<SEObjectsTreeWidget>(this);
 }
 
-void SEObjectsTreeWidget::newSceneObjectAdded(void* object) {
-    SSceneObject* sceneObject = static_cast<SSceneObject*>(object);
-    if (!sceneObject) {
-        LOG(WARNING) << "Could not cast void* ptr to SSceneObject";
+void SEObjectsTreeWidget::newSceneObjectAdded(const SEventDispatcher::Event* event) {
+    const SEventDispatcher::SSceneObjectEvent* soEvent = static_cast<const SEventDispatcher::SSceneObjectEvent*>(event);
+    if (!soEvent || !soEvent->object) {
+        LOG(WARNING) << "Invalid newSceneObjectAdded event !";
         return;
     }
-
-    generateSceneObjectItem(sceneObject);
+    generateSceneObjectItem(soEvent->object);
 }
 
 void SEObjectsTreeWidget::populateList(SScene* scene) {

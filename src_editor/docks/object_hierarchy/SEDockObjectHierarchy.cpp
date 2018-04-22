@@ -1,7 +1,6 @@
 #include "SEDockObjectHierarchy.h"
 #include <QVBoxLayout>
-#include "scene/SScene.h"
-#include "scene/SSceneObject.h"
+#include "scene/SSceneManager.h"
 #include "scene_editing/lua_script/SESystemLuaScript.h"
 #include "StormEngine.h"
 
@@ -15,10 +14,13 @@ SEDockObjectHierarchy::SEDockObjectHierarchy(QMainWindow* parent) : SEDockWidget
 
     _SelectedObject = nullptr;
 
-    S_ADD_GLOBAL_NOTIFICATION_LISTENER(SNotificationType::SCENE_MANAGER_SCENE_ABOUT_TO_CHANGE, this, SEDockObjectHierarchy::cbSceneAboutToChange);
+    StormEngine::getEventDispatcher()->registerEventListener<SEDockObjectHierarchy>(
+            SEventDispatcher::SceneChangeEvent::ABOUT_TO_CHANGE,
+            &SEDockObjectHierarchy::cbSceneAboutToChange, this);
 }
 
 SEDockObjectHierarchy::~SEDockObjectHierarchy() {
+    StormEngine::getEventDispatcher()->removeListeners<SEDockObjectHierarchy>(this);
 }
 
 void SEDockObjectHierarchy::cbObjectSelected(SSceneObject* selectedObject) {
@@ -27,7 +29,8 @@ void SEDockObjectHierarchy::cbObjectSelected(SSceneObject* selectedObject) {
     }
     _SelectedObject = selectedObject;
 
-    S_FIRE_GLOBAL_NOTIFICATION(SNotificationType::EDITOR_SCENE_OBJECT_SELECTED, _SelectedObject);
+    SEventDispatcher::SSceneObjectEvent event(_SelectedObject, SEventDispatcher::SSceneObjectEvent::EDIT_OBJECT_SELECTED);
+    StormEngine::fireEvent(&event);
 }
 
 void SEDockObjectHierarchy::setScene(SScene* scene) {
@@ -43,8 +46,9 @@ SSceneObject* SEDockObjectHierarchy::getSelectedObject() {
     return _SelectedObject;
 }
 
-void SEDockObjectHierarchy::cbSceneAboutToChange(void* scene) {
-    if (static_cast<void*>(_Scene) == scene) {
+void SEDockObjectHierarchy::cbSceneAboutToChange(const SEventDispatcher::Event* event) {
+    const SEventDispatcher::SceneChangeEvent* scEvent = static_cast<const SEventDispatcher::SceneChangeEvent*>(event);
+    if (!scEvent || _Scene == scEvent->scene) {
         return;
     }
     /* Deselect object */
@@ -53,10 +57,9 @@ void SEDockObjectHierarchy::cbSceneAboutToChange(void* scene) {
     /* Destroy scene and hierarchy tree items */
     _Scene = nullptr;
     _ObjectsTree->clearList();
-    if (!scene) {
+    if (!scEvent->scene) {
         LOG(WARNING) << "Scene is about to change, but next scene is nullptr";
         return;
     }
-    SScene* sScene = static_cast<SScene*>(scene);
-    setScene(sScene);
+    setScene(scEvent->scene);
 }

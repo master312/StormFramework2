@@ -29,22 +29,24 @@ SEDockObjectComponents::SEDockObjectComponents(QMainWindow* parent) : SEDockWidg
 
     vLayout->addWidget(scrollArea);
 
-    S_ADD_GLOBAL_NOTIFICATION_LISTENER(SNotificationType::EDITOR_SCENE_OBJECT_SELECTED, this, SEDockObjectComponents::sceneObjectSelected);
+    StormEngine::getEventDispatcher()->registerEventListener<SEDockObjectComponents>(
+            SEventDispatcher::SSceneObjectEvent::EDIT_OBJECT_SELECTED,
+            &SEDockObjectComponents::sceneObjectSelected, this);
 }
 
 SEDockObjectComponents::~SEDockObjectComponents() {
-    S_REMOVE_GLOBAL_NOTIFICATION_LISTENER(this);
+    StormEngine::getEventDispatcher()->removeListeners<SEDockObjectComponents>(this);
 }
 
-void SEDockObjectComponents::sceneObjectSelected(void* sceneObject) {
+void SEDockObjectComponents::sceneObjectSelected(const SEventDispatcher::Event* event) {
     clearGeneratedWidgets();
 
-    SSceneObject* object = static_cast<SSceneObject*>(sceneObject);
-    if (!object) {
+    const SEventDispatcher::SSceneObjectEvent* soEvent = static_cast<const SEventDispatcher::SSceneObjectEvent*>(event);
+    if (!soEvent || !soEvent->object) {
         /* Object deselected */
         return;
     }
-    for (SSceneComponent* component : object->getComponents()) {
+    for (SSceneComponent* component : soEvent->object->getComponents()) {
         SERootComponentWidget* componentWidget = new SERootComponentWidget(this);
 
         if (componentWidget->loadComponent(component) < 0) {

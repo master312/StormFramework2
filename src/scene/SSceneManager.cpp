@@ -76,7 +76,9 @@ void SSceneManager::switchScene(const std::string& sceneName) {
         _ActiveScene->pause();
     */
 
-    S_FIRE_GLOBAL_NOTIFICATION(SNotificationType::SCENE_MANAGER_SCENE_ABOUT_TO_CHANGE, iter->second);
+    SEventDispatcher::SceneChangeEvent event(SEventDispatcher::SceneChangeEvent::ABOUT_TO_CHANGE);
+    event.scene = iter->second;
+    StormEngine::fireEvent(&event);
 
     if (_ActiveScene) {
         /* TODO: Temporary fix...
@@ -91,7 +93,9 @@ void SSceneManager::switchScene(const std::string& sceneName) {
         _ActiveScene->initialize();
     }
 
-    S_FIRE_GLOBAL_NOTIFICATION(SNotificationType::SCENE_MANAGER_SCENE_CHANGED, iter->second);
+    event.typeId = SEventDispatcher::SceneChangeEvent::CHANGED;
+    event.scene = iter->second;
+    StormEngine::fireEvent(&event);
 }
 
 void SSceneManager::switchScene(const SScene* scene) {

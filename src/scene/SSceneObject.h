@@ -3,14 +3,30 @@
 #include <map>
 #include <functional>
 #include "SSceneComponent.h"
-#include "SSceneObjectEventTypes.h"
+#include "SSComponentEvents.h"
 #include "utils/SNotificationCenter.h"
 
 class SSceneComTransform;
 class SSceneComLuaScript;
 class SScene;
 
-class SSceneObject : public SNotificationCenter<SSceneObjectEventType> {
+/* Define scene object events structure */
+namespace SEventDispatcher {
+    struct SSceneObjectEvent : public Event {
+        enum Types {
+            ADDED = S_GENERATE_EVENT_ID('s', 'o', 'a'),
+            PREFAB_INSTANTIATED = S_GENERATE_EVENT_ID('o', 'p', 'i'),
+#ifdef STORM_EDITOR
+            EDIT_OBJECT_SELECTED = SE_GENERATE_EVENT_ID('o', 'e', 's'),
+#endif
+        };
+        SSceneObject* object;
+        SSceneObjectEvent(SSceneObject* obj, int32_t type = ADDED)
+                : Event(type), object(obj) { }
+    };
+};
+
+class SSceneObject : public SNotificationCenter<SSComponentEvents> {
 public:
     SSceneObject(SScene* scene, uint32_t id = 0);
     SSceneObject(SScene* scene, uint32_t id, const std::string& name);
@@ -114,3 +130,4 @@ private:
      * and not loaded from scene file */
     bool _IsCreatedAtRuntime;
 };
+
