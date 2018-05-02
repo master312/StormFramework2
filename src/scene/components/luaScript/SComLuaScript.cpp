@@ -2,6 +2,7 @@
 #include "SSystemLuaScript.h"
 #include "StormEngine.h"
 #include "scene/SSceneObject.h"
+#include "lua/SLuaSystem.h"
 
 SComLuaScript::SComLuaScript(SSceneObject* owner) : SSceneComponent(owner) {
     _Type = S_SCENE_OBJECT_COM_SCRIPT;
@@ -38,7 +39,7 @@ int SComLuaScript::initialize(SSceneComponentSystem* system) {
         return -9;
     }
 
-    sol::state& luaState = luaSystem->getLua();
+    sol::state& luaState = StormEngine::getLua()->getState();
 
     if (_Filename.size() <= 2) {
         LOG(ERROR) << "Could not initialize lua script. Filename not specified";
@@ -46,7 +47,8 @@ int SComLuaScript::initialize(SSceneComponentSystem* system) {
     }
 
     /* Creates temporary table 'this' */
-    sol::table scriptContent = luaSystem->loadScriptFile(_Filename);
+    sol::table scriptContent = StormEngine::getLua()->loadToTable(
+            StormEngine::getResource(_Filename));
     if (!scriptContent.valid()) {
         LOG(ERROR) << "Invalid lua script table content for entity ID: " << _Owner->getId();
         return -4;

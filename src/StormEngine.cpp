@@ -2,6 +2,7 @@
 #include "scene/SSceneManager.h"
 #include "SEngineModuleFactory.h"
 #include "StormDebug.h"
+#include "lua/SLuaSystem.h"
 
 #ifdef STORM_EDITOR
 #include "StormEngineEditing.h"
@@ -17,6 +18,7 @@ StormEngine::StormEngine() {
     _ModTextureManager = nullptr;
     _ModResources = nullptr;
     _ModSceneManager = nullptr;
+    _ModLuaSystem = nullptr;
     _EventDispatcher = new SEventDispatcher::Dispatcher();
 
     _WindowInfo = StormWindowSettings(1280, 768, false, "The Storm Engine v 0.19", true);
@@ -57,6 +59,10 @@ void StormEngine::initialize(StormPlatformType platformType) {
     /* Initialize texture manager module */
     _ModTextureManager = new STextureManager();
     _ModulesByType[typeid(STextureManager)] = _ModTextureManager->getModuleBase();
+
+    _ModLuaSystem = new SLuaSystem();
+    _ModLuaSystem->initialize(_ModResources->getRootPath());
+    _ModulesByType[typeid(_ModLuaSystem)] = _ModLuaSystem->getModuleBase();
 
     /* Initialize scene manager, and load test scene */
     _ModSceneManager = new SSceneManager();
@@ -168,6 +174,14 @@ SSceneManager* StormEngine::getSceneManager() {
         return nullptr;
     }
     return instance()->_ModSceneManager;
+}
+
+SLuaSystem* StormEngine::getLua() {
+    if (!instance()->_ModSceneManager) {
+        LOG(FATAL) << "Lua system is nullptr!";
+        return nullptr;
+    }
+    return instance()->_ModLuaSystem;
 }
 
 void StormEngine::fireEvent(SEventDispatcher::Event* event) {

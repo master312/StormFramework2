@@ -16,6 +16,12 @@ set(STORM_ENGINE_SOURCE_FILES
     ${SOURCES_PATH_PREFIX}/STextureManager.h
     ${SOURCES_PATH_PREFIX}/STextureManager.cpp
 
+    ${SOURCES_PATH_PREFIX}/lua/SLuaSystem.h
+    ${SOURCES_PATH_PREFIX}/lua/SLuaSystem.cpp
+
+    ${SOURCES_PATH_PREFIX}/lua/SLuaBindings.h
+    ${SOURCES_PATH_PREFIX}/lua/SLuaBindings.cpp
+
     # Scene and component files
     ${STORM_ENGINE_SCENE_FILES}
     ${STORM_ENGINE_SCENE_COMPONENTS_FILES}

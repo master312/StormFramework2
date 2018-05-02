@@ -5,6 +5,7 @@
 #include "property_widgets/SEPropertyVector2.h"
 #include "property_widgets/SEPropertyNumber.h"
 #include "component_widgets/SERootComponentWidget.h"
+#include "lua/SLuaSystem.h"
 #include <QApplication>
 
 SESystemLuaScript::SESystemLuaScript(SScene* scene) : SSystemLuaScript(scene) {
@@ -16,7 +17,6 @@ SESystemLuaScript::~SESystemLuaScript() {
 }
 
 void SESystemLuaScript::initialize() {
-    initializeLua();
     bindEditorTypes();
 
     /* Sets lua "IsEditor" variable, so that script can know its being run from editor */
@@ -127,7 +127,7 @@ void SESystemLuaScript::loadToolScripts() {
     }
 
     for (const std::string& filename : files) {
-        sol::table table = loadScriptFile(filename);
+        sol::table table = StormEngine::getLua()->loadToTable(StormEngine::getResource(filename));
         if (!table.valid()) {
             LOG(ERROR) << "Could not load tool script " << filename;
             continue;

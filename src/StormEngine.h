@@ -12,6 +12,7 @@ class StormRenderer;
 class SSceneManager;
 class SScene;
 class StormInputManager;
+class SLuaSystem;
 
 class StormEngine {
     friend class SEngineModuleFactory;
@@ -48,6 +49,9 @@ public:
 
     /* Returns pointer to scene manager module */
     static SSceneManager* getSceneManager();
+
+    /* Returns pointer to lua system module*/
+    static SLuaSystem* getLua();
 
     /* Fires event to global event dispatcher */
     static void fireEvent(SEventDispatcher::Event* event);
@@ -98,6 +102,9 @@ private:
 
     /* StormFileSystem module, used for handling game resource files (textures/scenes/etc..) */
     StormFileSystem* _ModResources;
+
+    /* Module used for handling LUA script */
+    SLuaSystem* _ModLuaSystem;
 
     /* SSceneManager module, used for loading/unloading/switching scenes. */
     SSceneManager* _ModSceneManager;

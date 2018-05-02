@@ -1,6 +1,6 @@
 #include "SSystemLuaScript.h"
 #include "SComLuaScript.h"
-#include "SLuaBindings.h"
+#include "lua/SLuaSystem.h"
 #include "StormEngine.h"
 #include "scene/SSceneObject.h"
 #include "scene/SScene.h"
@@ -8,7 +8,10 @@
     Component load script and holds pointer to table
 */
 
-SSystemLuaScript::SSystemLuaScript(SScene* scene) : SSceneComponentSystem(scene) {
+SSystemLuaScript::SSystemLuaScript(SScene* scene) :
+        SSceneComponentSystem(scene),
+        _LuaState(StormEngine::getLua()->getState()) {
+
     _Type = S_SCENE_OBJECT_COM_SCRIPT;
     _IsFirstTick = true;
 }
@@ -17,8 +20,6 @@ SSystemLuaScript::~SSystemLuaScript() {
 }
 
 void SSystemLuaScript::initialize() {
-    initializeLua();
-
     /* TODO: Read common files path from some config file */
     StormFileSystem* fileSystem = StormEngine::getModule<StormFileSystem>();
     loadCommonScripts(fileSystem->getFilesList("lua_common/", "lua"));
@@ -27,24 +28,6 @@ void SSystemLuaScript::initialize() {
 
     for (SComLuaScript* component : _ScriptComponents) {
         component->executeOnLoad();
-    }
-}
-
-void SSystemLuaScript::initializeLua() {
-    _LuaState.open_libraries(sol::lib::base, sol::lib::os,
-                             sol::lib::math, sol::lib::io,
-                             sol::lib::count, sol::lib::package,
-                             sol::lib::string, sol::lib::table,
-                             sol::lib::debug);
-
-    /* Sets root path for lua require() function */
-    StormFileSystem* fileSystem = StormEngine::getModule<StormFileSystem>();
-    std::string path = _LuaState["package"]["path"];
-    _LuaState["package"]["path"] = path + ";" + fileSystem->getRootPath() + "/?.lua";
-
-    /* Binds user types and functions to lua(like the one for SSceneObject) */
-    if (SLuaBindings::bindUserTypes(_LuaState) < 0) {
-        LOG(ERROR) << "Could not bind lua user types";
     }
 }
 
@@ -94,10 +77,6 @@ void SSystemLuaScript::tick(float deltaTime) {
     _LuaState["tickObjects"](deltaTime);
 }
 
-sol::state& SSystemLuaScript::getLua() {
-    return _LuaState;
-}
-
 sol::table SSystemLuaScript::getObjectHandle(uint32_t id) {
 #ifndef PRODUCTION
     sol::table handle = _LuaState["Handles"][id];
@@ -108,21 +87,6 @@ sol::table SSystemLuaScript::getObjectHandle(uint32_t id) {
 #else
     return _LuaState["Handles"][id];
 #endif
-}
-
-sol::table SSystemLuaScript::loadScriptFile(const std::string& filename) {
-    spStormResourceFile scriptFile = StormEngine::getResource(filename);
-    if (!scriptFile) {
-        LOG(ERROR) << "Lua script can not be initialized. File not found.";
-        return sol::table();
-    }
-    if (scriptFile->getBufferSize() <= 4) {
-        /* Script to short */
-        LOG(ERROR) << "Invalid script file " << filename;
-        return sol::table();
-    }
-
-    return _LuaState.script(scriptFile->getBuffer());
 }
 
 void SSystemLuaScript::registerSceneObjectHandle(SSceneObject* object) {

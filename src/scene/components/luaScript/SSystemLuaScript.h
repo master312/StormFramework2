@@ -21,15 +21,8 @@ public:
     
     virtual void tick(float deltaTime);
 
-    /* Returns reference to lua state */
-    sol::state& getLua();
-
     /* Gets lua handle for scene object */
     sol::table getObjectHandle(uint32_t id);
-
-    /* Loads lua script file @filename and returns table
-     * pointing to the return value of the script. */
-    sol::table loadScriptFile(const std::string& filename);
 
     /* Creates script handle for scene object @object. */
     void registerSceneObjectHandle(SSceneObject* object);
@@ -42,16 +35,12 @@ private:
     /* Vector containing all components. Used for faster component access. */
     std::vector<SComLuaScript*> _ScriptComponents;
 
-    /* Main lua state */
-    sol::state _LuaState;
+    /* Main lua state reference */
+    sol::state& _LuaState;
 
     /* Set to false when this system ticks first time
      * Used for handling @onScriptStart(...) method */
     bool _IsFirstTick;
-
-
-    /* Initialize lua library and bind user types */
-    virtual void initializeLua();
 
     /* Load common scripts.
      * @fileList are script paths from the root of the filesystem. */

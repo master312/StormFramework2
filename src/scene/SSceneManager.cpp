@@ -1,8 +1,10 @@
 #include "SSceneManager.h"
 #include "StormEngine.h"
 #include "graphics/StormRenderer.h"
+#include "lua/SLuaSystem.h"
 
 SSceneManager::SSceneManager() : StormModuleBase("StormSceneManager") {
+    _ActiveScene = nullptr;
 }
 
 SSceneManager::~SSceneManager() {
@@ -35,7 +37,7 @@ SScene* SSceneManager::loadScene(const std::string& filename, bool reloadActive 
             delete scene;
             return nullptr;
         } else if (reloadActive) {
-            _ActiveScene = nullptr;
+            setActiveSceneInternal(nullptr);
             LOG(ERROR) << "TODO: Reloading of active scene. Not implemented yet...";
         }
 
@@ -84,11 +86,11 @@ void SSceneManager::switchScene(const std::string& sceneName) {
         /* TODO: Temporary fix...
          * Maybe dont unload active scene ? */
         const std::string& sceneName = _ActiveScene->getName();
-        _ActiveScene = nullptr;
+        setActiveSceneInternal(nullptr);
         unloadScene(sceneName);
     }
 
-    _ActiveScene = iter->second;
+    setActiveSceneInternal(iter->second);
     if (!_ActiveScene->isInitialized()) {
         _ActiveScene->initialize();
     }
@@ -147,4 +149,9 @@ void SSceneManager::tick(float deltaTime) {
     }
     _ActiveScene->tick(deltaTime);
 
+}
+
+void SSceneManager::setActiveSceneInternal(SScene* activeScene) {
+    _ActiveScene = activeScene;
+    StormEngine::getLua()->getState()["ActiveScene"] = _ActiveScene;
 }

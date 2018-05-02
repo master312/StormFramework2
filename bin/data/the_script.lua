@@ -24,7 +24,7 @@ this.onUpdate = function(deltaTime)
 
     if InputManager:isKeyPressed(Keyboard.I) then
 
-        local newObject = ActiveScene:instantiatePrefab("TestPrefabOne", "NigaOVJ")
+        local newObject = ActiveScene:instantiatePrefab("TestPrefabOne", "GaniOVJ")
         newObject.transform:setPosition(mousePosition)
         lastId = newObject.id
     elseif InputManager:isKeyDown(Keyboard.R) then

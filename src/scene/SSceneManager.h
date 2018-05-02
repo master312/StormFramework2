@@ -62,6 +62,10 @@ private:
     /* Map of all loaded scenes, indexed by their names */
     std::map<std::string, SScene*> _LoadedScenes;
     
-    /* Currently active scene */
+    /* Currently active scene.
+     * WARNING: Never change manually! Use @setActiveSceneInternal */
     SScene* _ActiveScene;
+
+
+    void setActiveSceneInternal(SScene* activeScene);
 };

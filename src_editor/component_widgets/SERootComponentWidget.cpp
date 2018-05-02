@@ -5,6 +5,8 @@
 #include "scene/components/transform/SComTransform.h"
 #include "scene/components/physics/SComPhysics.h"
 #include "scene_editing/lua_script/SESystemLuaScript.h"
+#include "StormEngine.h"
+#include "lua/SLuaSystem.h"
 
 SERootComponentWidget::SERootComponentWidget(QWidget* parent) : QWidget(parent) {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -43,8 +45,7 @@ SERootComponentWidget::~SERootComponentWidget() {
     }
 
     /* Remove widget reference from LUA */
-    SESystemLuaScript* scriptSystem = static_cast<SESystemLuaScript*>(scene->getScriptSystem());
-    sol::function destroyHandle = scriptSystem->getLua()["destroyComponentWidgetHandle"];
+    sol::function destroyHandle = StormEngine::getLua()->getState()["destroyComponentWidgetHandle"];
     if (destroyHandle.valid()) {
         destroyHandle(_LuaHandle["index"]);
     }
@@ -64,14 +65,13 @@ int SERootComponentWidget::loadComponent(SSceneComponent* component) {
     filename += ".lua";
     std::transform(filename.begin(), filename.end(), filename.begin(), ::tolower);
 
-    SESystemLuaScript* scriptSystem = static_cast<SESystemLuaScript*>(scene->getScriptSystem());
-    sol::table table = scriptSystem->loadScriptFile(filename);
+    sol::table table = StormEngine::getLua()->loadToTable(StormEngine::getResource(filename));
     if (!table.valid()) {
         return -2;
     }
 
     /* Create lua handle by calling 'createComponentWidgetHandle' lua function */
-    sol::function createHandle = scriptSystem->getLua()["createComponentWidgetHandle"];
+    sol::function createHandle = StormEngine::getLua()->getState()["createComponentWidgetHandle"];
     if (createHandle && createHandle.valid()) {
         _LuaHandle = createHandle(this, table);
         LOG(INFO) << (int)_LuaHandle["index"];

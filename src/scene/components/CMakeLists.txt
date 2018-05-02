@@ -1,8 +1,6 @@
 set(PATH_PREFIX ${STORM_SRC_DIR}/scene/components)
 
 set(STORM_ENGINE_SCENE_COMPONENTS_FILES
-    ${PATH_PREFIX}/luaScript/SLuaBindings.h
-    ${PATH_PREFIX}/luaScript/SLuaBindings.cpp
     ${PATH_PREFIX}/luaScript/SComLuaScript.h
     ${PATH_PREFIX}/luaScript/SComLuaScript.cpp
     ${PATH_PREFIX}/luaScript/SSystemLuaScript.h
