@@ -240,7 +240,7 @@ void SScene::initializeNewObject(SSceneObject* object) {
     /* Loop initializes all components */
     static std::vector<SSceneComponentSystem*> addedSystems;
     addedSystems.clear();
-    SSystemLuaScript* luaSystem = nullptr;
+    bool hasLuaComponent = false;
     for (int i = 0; i < S_SCENE_OBJECT_COM_TYPES_COUNT; i++) {
         int nextToInit = SSceneComponentInitializationOrder[i];
         SSceneComponent* component = object->getComponent((SSceneComponentType)nextToInit);
@@ -249,12 +249,12 @@ void SScene::initializeNewObject(SSceneObject* object) {
             component->initialize(comSystem);
             addedSystems.push_back(comSystem);
             if (comSystem->getType() == S_SCENE_OBJECT_COM_SCRIPT) {
-                luaSystem = static_cast<SSystemLuaScript*>(comSystem);
+                hasLuaComponent = true;
             }
         }
     }
 
-    if (!luaSystem) {
+    if (!hasLuaComponent) {
         /* There is no script component attached to this object, which mean
          * that object's lua handle has not been created, so we create it here */
         getScriptSystem()->registerSceneObjectHandle(object);
