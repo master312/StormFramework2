@@ -25,3 +25,5 @@ REMAINDER:
    * Re-think and Re-Implement scripting (lua again?)
    * Implement GUI
    * Create basic editor gui
+   
+   * --Maybe? Add LUA source to 'libs'?

@@ -27,7 +27,3 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall")
 
 # Set preprocessor definitions
 set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS ${STORM_PREPROCESSOR_FLAGS})
-
-# Include editor configuration
-# REMAINDER: Comment-out this to prevent editor from building
-# include(${STORM_ROOT_DIR}/src_editor/CMakeLists.txt)

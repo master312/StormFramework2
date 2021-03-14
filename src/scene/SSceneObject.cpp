@@ -4,9 +4,6 @@
 #include "scene/components/transform/SComTransform.h"
 #include "scene/components/luaScript/SSystemLuaScript.h"
 #include "scene/components/luaScript/SComLuaScript.h"
-#ifdef STORM_EDITOR
-#include "scene_editing/lua_script/SESystemLuaScript.h"
-#endif
 
 SSceneObject::SSceneObject(SScene* scene, uint32_t id /* = 0 */) {
     _Scene = scene;
@@ -183,14 +180,6 @@ sol::table SSceneObject::getLuaHandle() {
 }
 
 sol::function SSceneObject::getLuaFunction(const std::string& functionName) {
-#ifdef STORM_EDITOR
-    SESystemLuaScript* scriptSystem = dynamic_cast<SESystemLuaScript*>(_Scene->getScriptSystem());
-    if (scriptSystem && !scriptSystem->getTickGameScripts()) {
-        /* Game script ticking disabled */
-        return sol::function();
-    }
-#endif
-
     sol::function function = getLuaHandle()[functionName];
     if (!function.valid()) {
         LOG(WARNING) << "SSceneObject::getLuaFunction could not find function '" << functionName << "'";

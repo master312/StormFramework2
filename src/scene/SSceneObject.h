@@ -16,10 +16,8 @@ namespace SEventDispatcher {
         enum Types {
             ADDED = S_GENERATE_EVENT_ID('s', 'o', 'a'),
             PREFAB_INSTANTIATED = S_GENERATE_EVENT_ID('o', 'p', 'i'),
-#ifdef STORM_EDITOR
-            EDIT_OBJECT_SELECTED = SE_GENERATE_EVENT_ID('o', 'e', 's'),
-#endif
         };
+        
         SSceneObject* object;
         SSceneObjectEvent(SSceneObject* obj, int32_t type = ADDED)
                 : Event(type), object(obj) { }

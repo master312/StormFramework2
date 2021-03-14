@@ -5,10 +5,6 @@
 #include "scene/components/sprite/SSystemSprite.h"
 #include "scene/components/transform/SSystemTransform.h"
 #include "scene/components/luaScript/SSystemLuaScript.h"
-#ifdef STORM_EDITOR
-#include "scene_editing/transform/SESystemTransform.h"
-#include "scene_editing/lua_script/SESystemLuaScript.h"
-#endif
 
 SSceneComponentSystem::SSceneComponentSystem(SScene* scene) {
     _Type = S_SCENE_OBJECT_COM_UNDEFINED;
@@ -93,19 +89,11 @@ SSceneComponentSystem* SSceneComponentSystem::createSystem(SSceneComponentType t
                                                            SScene* scene) {
     switch (type) {
         case S_SCENE_OBJECT_COM_TRANSFORM:
-#ifdef STORM_EDITOR
-            return new SESystemTransform(scene);
-#else
             return new SSystemTransform(scene);
-#endif
         case S_SCENE_OBJECT_COM_SPRITE:
             return new SSystemSprite(scene);
         case S_SCENE_OBJECT_COM_SCRIPT:
-#ifdef STORM_EDITOR
-            return new SESystemLuaScript(scene);
-#else
             return new SSystemLuaScript(scene);
-#endif
         case S_SCENE_OBJECT_COM_PHYSICS:
             return new SSystemPhysics(scene);
         default:

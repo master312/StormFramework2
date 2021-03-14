@@ -8,9 +8,6 @@
 
 /* Macro used to generate event type IDs */
 #define S_GENERATE_EVENT_ID(b,c,d) makefourcc(0xA,b,c,d)
-#ifdef STORM_EDITOR
-#define SE_GENERATE_EVENT_ID(b,c,d) makefourcc(0xB,b,c,d)
-#endif
 
 namespace SEventDispatcher {
 

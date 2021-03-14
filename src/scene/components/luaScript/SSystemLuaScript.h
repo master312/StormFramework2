@@ -6,10 +6,6 @@ class SComLuaScript;
 class SSceneObject;
 
 class SSystemLuaScript : public SSceneComponentSystem {
-#ifdef STORM_EDITOR
-    friend class SESystemLuaScript;
-#endif
-
 public:
     SSystemLuaScript(SScene* scene);
     virtual ~SSystemLuaScript();

@@ -4,10 +4,6 @@
 class SComTransform;
 
 class SSystemTransform : public SSceneComponentSystem {
-#ifdef STORM_EDITOR
-    friend class SESystemTransform;
-#endif
-
 public:
     SSystemTransform(SScene* scene);
     virtual ~SSystemTransform();

@@ -4,10 +4,6 @@
 #include "StormDebug.h"
 #include "lua/SLuaSystem.h"
 
-#ifdef STORM_EDITOR
-#include "StormEngineEditing.h"
-#endif
-
 
 const std::string StormEngine::DEFAULT_SHADER_NAME = "color";
 
@@ -28,11 +24,7 @@ StormEngine::~StormEngine() {
 }
 
 StormEngine* StormEngine::instance() {
-#ifdef STORM_EDITOR
-    static StormEngineEditing shared;
-#else
     static StormEngine shared;
-#endif
     return &shared;
 }
 
